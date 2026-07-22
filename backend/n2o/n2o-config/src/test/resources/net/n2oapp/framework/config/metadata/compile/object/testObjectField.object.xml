@@ -6,9 +6,6 @@
         <list id="list" required="true" mapping="test3">
             <field id="id" mapping="pk" required="true"/>
         </list>
-        <set id="set" required="false" mapping="test4" object-id="set">
-            <field id="name" mapping="name2"/>
-        </set>
     </fields>
 
     <operations>
@@ -24,9 +21,6 @@
                 <list id="list" required="false" mapping="list">
                     <field id="id" mapping="id2" required="false"/>
                 </list>
-                <set id="set" required="true" mapping="set">
-                    <field id="name" mapping="title" domain="string"/>
-                </set>
             </in>
         </operation>
         <operation id="op2">
@@ -34,7 +28,6 @@
             <in>
                 <reference id="entity"/>
                 <list id="list"/>
-                <set id="set"/>
             </in>
         </operation>
     </operations>

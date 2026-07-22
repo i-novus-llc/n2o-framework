@@ -15,9 +15,6 @@
                 <list id="deps" sec:roles="hr,admin">
                     <field id="name" />
                 </list>
-                <set id="users" sec:roles="hr,admin">
-                    <field id="name" />
-                </set>
             </in>
             <out>
                 <field id="id"/>

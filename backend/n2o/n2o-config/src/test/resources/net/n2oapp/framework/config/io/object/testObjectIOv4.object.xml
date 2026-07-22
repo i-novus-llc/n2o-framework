@@ -11,25 +11,15 @@
             <field id="id"/>
             <field id="name"/>
             <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
             <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
         </reference>
         <field id="test" domain="string" mapping="birth_date" required="true" default-value="test"
                normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
-        <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
-             required="true">
-            <field id="id" mapping="id"/>
-            <field id="name" mapping="name"/>
-            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
-            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
-        </set>
         <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
               required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
             <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3" normalize="norm"/>
-            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone" normalize="norm"/>
             <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address" normalize="norm"/>
         </list>
     </fields>
@@ -46,21 +36,12 @@
                            entity-class="ref" required="true" enabled="type=='type1'" ext:extAttr="extAttr">
                     <field id="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
                     <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address" ext:extAttr="extAttr"/>
                 </reference>
-                <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
-                     required="true" normalize="norm">
-                    <field id="id" mapping="id"/>
-                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
-                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
-                </set>
                 <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
                       required="true" normalize="norm">
                     <field id="id" mapping="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
                     <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
                 </list>
             </in>

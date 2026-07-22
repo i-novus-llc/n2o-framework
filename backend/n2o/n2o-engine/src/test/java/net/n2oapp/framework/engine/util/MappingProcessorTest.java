@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.junit.jupiter.api.Test;
@@ -113,7 +112,7 @@ class MappingProcessorTest {
         innerDataSet2.put("id", 777);
         innerDataSet2.put("name", "testStr2");
 
-        List list = new ArrayList();
+        List<DataSet> list = new ArrayList<>();
         list.add(innerDataSet1);
         list.add(innerDataSet2);
 
@@ -128,39 +127,6 @@ class MappingProcessorTest {
         assertEquals("testStr1", entities.get(0).getValueStr());
         assertEquals(777, entities.get(1).getValueInt());
         assertEquals("testStr2", entities.get(1).getValueStr());
-
-
-        //Set
-        ObjectSetField setParam = new ObjectSetField();
-        setParam.setId("entities");
-        setParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
-        childParam1 = new ObjectSimpleField();
-        childParam1.setId("id");
-        childParam1.setMapping("valueInt");
-        childParam2 = new ObjectSimpleField();
-        childParam2.setId("name");
-        childParam2.setMapping("valueStr");
-        setParam.setFields(new AbstractParameter[]{childParam1, childParam2});
-
-        innerDataSet1 = new DataSet();
-        innerDataSet1.put("id", 123);
-        innerDataSet1.put("name", "testStr1");
-
-        innerDataSet2 = new DataSet();
-        innerDataSet2.put("id", 777);
-        innerDataSet2.put("name", "testStr2");
-
-        Set set = new HashSet();
-        set.add(innerDataSet1);
-        set.add(innerDataSet2);
-
-        DataSet outerDataSetWithSet = new DataSet();
-        outerDataSetWithSet.put("entities", set);
-
-        MappingProcessor.mapParameter(setParam, outerDataSetWithSet);
-
-        assertTrue(outerDataSetWithSet.get("entities") instanceof Set);
-        assertTrue(((Set) outerDataSetWithSet.get("entities")).containsAll((List) outerDataSetWithList.get("entities")));
     }
 
     @Test

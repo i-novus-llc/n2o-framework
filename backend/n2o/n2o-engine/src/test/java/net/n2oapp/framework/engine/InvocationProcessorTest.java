@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -618,33 +617,18 @@ class InvocationProcessorTest {
         ObjectSimpleField childParam2 = new ObjectSimpleField();
         childParam2.setId("name");
         childParam2.setMapping("['valueStr']");
-        //List Set
-        ObjectSetField setParam = new ObjectSetField();
-        setParam.setId("set");
-        setParam.setMapping("['innerInnerObjSet']");
-        ObjectSimpleField setChildParam = new ObjectSimpleField();
-        setChildParam.setId("name");
-        setChildParam.setMapping("['innerName']");
-        setParam.setFields(new AbstractParameter[]{setChildParam});
 
-        listParam.setFields(new AbstractParameter[]{childParam1, childParam2, setParam});
+        listParam.setFields(new AbstractParameter[]{childParam1, childParam2});
         refParam.setFields(new AbstractParameter[]{simpleParam, listParam});
 
         // DATASET
         DataSet innerDataSet1 = new DataSet();
         innerDataSet1.put("id", 666);
         innerDataSet1.put("name", "testStr1");
-        HashSet innerInnerDataSet = new HashSet();
-        innerDataSet1.put("set", innerInnerDataSet);
-        innerInnerDataSet.add(new DataSet("name", "code1"));
-        innerInnerDataSet.add(new DataSet("name", "code2"));
 
         DataSet innerDataSet2 = new DataSet();
         innerDataSet2.put("id", 777);
         innerDataSet2.put("name", "testStr2");
-        innerInnerDataSet = new HashSet();
-        innerDataSet2.put("set", innerInnerDataSet);
-        innerInnerDataSet.add(new DataSet("name", "code3"));
 
         List list = Arrays.asList(innerDataSet1, innerDataSet2);
 
@@ -654,7 +638,6 @@ class InvocationProcessorTest {
 
         DataSet dataSet = new DataSet();
         dataSet.put("entity", refParamFields);
-
 
         List<AbstractParameter> inParameters = List.of(refParam);
 
@@ -674,16 +657,9 @@ class InvocationProcessorTest {
         assertThat(innerObjList.size(), is(2));
         assertThat(((DataSet) innerObjList.get(0)).get("valueInt"), is(666));
         assertThat(((DataSet) innerObjList.get(0)).get("valueStr"), is("testStr1"));
-        DataList innerInnerObjSet = (DataList) ((DataSet) innerObjList.get(0)).get("innerInnerObjSet");
-        assertThat(innerInnerObjSet.size(), is(2));
-        assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code2")), is(true));
-        assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code1")), is(true));
 
         assertThat(((DataSet) innerObjList.get(1)).get("valueInt"), is(777));
         assertThat(((DataSet) innerObjList.get(1)).get("valueStr"), is("testStr2"));
-        innerInnerObjSet = (DataList) ((DataSet) innerObjList.get(1)).get("innerInnerObjSet");
-        assertThat(innerInnerObjSet.size(), is(1));
-        assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code3")), is(true));
     }
 
     @Test
@@ -805,17 +781,18 @@ class InvocationProcessorTest {
         ObjectSimpleField childParam2 = new ObjectSimpleField();
         childParam2.setId("name");
         childParam2.setMapping("valueStr");
-        //List Set
-        ObjectSetField setParam = new ObjectSetField();
-        setParam.setId("set");
-        setParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity$InnerInnerEntity");
-        setParam.setMapping("innerInnerObjSet");
+
+        //List List
+        ObjectListField innerListParam = new ObjectListField();
+        innerListParam.setId("set");
+        innerListParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity$InnerInnerEntity");
+        innerListParam.setMapping("innerInnerObjSet");
         ObjectSimpleField setChildParam = new ObjectSimpleField();
         setChildParam.setId("name");
         setChildParam.setMapping("innerName");
-        setParam.setFields(new AbstractParameter[]{setChildParam});
+        innerListParam.setFields(new AbstractParameter[]{setChildParam});
 
-        listParam.setFields(new AbstractParameter[]{setParam, childParam2, childParam1});
+        listParam.setFields(new AbstractParameter[]{innerListParam, childParam2, childParam1});
 
         // DATASET
         DataSet innerDataSet1 = new DataSet();

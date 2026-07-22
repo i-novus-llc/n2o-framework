@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -115,7 +114,7 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/object/rating.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/object/set.object.xml")
                 .get(new ObjectContext("testObjectField"));
-        assertThat(object.getObjectFields().size(), is(4));
+        assertThat(object.getObjectFields().size(), is(3));
 
         // 1. object fields
         checkObjectFields(object);
@@ -129,7 +128,7 @@ class ObjectCompileTest extends SourceCompileTestBase {
 
     private static void checkOperation2Fields(CompiledObject object) {
         Map<String, AbstractParameter> op2InFields = object.getOperations().get("op2").getInParametersMap();
-        assertThat(op2InFields.size(), is(3));
+        assertThat(op2InFields.size(), is(2));
 
         ObjectReferenceField refField = (ObjectReferenceField) op2InFields.get("entity");
         assertThat(refField, allOf(
@@ -183,27 +182,12 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 hasProperty("mapping", is("pk")),
                 hasProperty("required", is(true))
         ));
-
-        ObjectSetField setField = (ObjectSetField) op2InFields.get("set");
-        assertThat(setField, allOf(
-                hasProperty("id", is("set")),
-                hasProperty("mapping", is("test4")),
-                hasProperty("required", is(false)),
-                hasProperty("fields", arrayWithSize(1))
-        ));
-        child = (ObjectSimpleField) setField.getFields()[0];
-        assertThat(child, allOf(
-                hasProperty("id", is("name")),
-                hasProperty("mapping", is("name2")),
-                hasProperty("required", is(true)),
-                hasProperty("domain", is("string"))
-        ));
     }
 
     private static void checkOperation1Fields(CompiledObject object) {
 
         Map<String, AbstractParameter> op1InFields = object.getOperations().get("op1").getInParametersMap();
-        assertThat(op1InFields.size(), is(5));
+        assertThat(op1InFields.size(), is(4));
 
         ObjectSimpleField field = (ObjectSimpleField) op1InFields.get("f1");
         assertThat(field, allOf(
@@ -266,20 +250,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 hasProperty("id", is("id")),
                 hasProperty("mapping", is("id2")),
                 hasProperty("required", is(false))
-        ));
-
-        ObjectSetField setField = (ObjectSetField) op1InFields.get("set");
-        assertThat(setField, allOf(
-                hasProperty("id", is("set")),
-                hasProperty("mapping", is("set")),
-                hasProperty("required", is(true)),
-                hasProperty("fields", arrayWithSize(1))
-        ));
-        child = (ObjectSimpleField) setField.getFields()[0];
-        assertThat(child, allOf(
-                hasProperty("id", is("name")),
-                hasProperty("mapping", is("title")),
-                hasProperty("domain", is("string"))
         ));
     }
 
@@ -344,21 +314,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 hasProperty("id", is("id")),
                 hasProperty("mapping", is("pk")),
                 hasProperty("required", is(true))
-        ));
-
-        ObjectSetField setField = (ObjectSetField) object.getObjectFieldsMap().get("set");
-        assertThat(setField, allOf(
-                hasProperty("id", is("set")),
-                hasProperty("mapping", is("test4")),
-                hasProperty("required", is(false)),
-                hasProperty("fields", arrayWithSize(1))
-        ));
-        child = (ObjectSimpleField) setField.getFields()[0];
-        assertThat(child, allOf(
-                hasProperty("id", is("name")),
-                hasProperty("mapping", is("name2")),  // current object field attribute has higher priority than in reference object
-                hasProperty("required", is(true)),    // merged attributes
-                hasProperty("domain", is("string"))   // merged attributes
         ));
     }
 }

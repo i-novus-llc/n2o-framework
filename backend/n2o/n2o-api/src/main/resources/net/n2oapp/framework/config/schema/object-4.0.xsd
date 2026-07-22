@@ -72,11 +72,6 @@
                     <xs:documentation>Поле - список объектов.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="set" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Поле - множество объектов.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -130,7 +125,6 @@
             <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="reference" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="list" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="set" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" use="required">
             <xs:annotation>
@@ -309,7 +303,6 @@
             <xs:element name="field" type="operationInParameterField" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 

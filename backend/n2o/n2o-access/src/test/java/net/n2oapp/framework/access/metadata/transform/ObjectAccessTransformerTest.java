@@ -20,7 +20,6 @@ import java.util.Map;
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.is;
 
 class ObjectAccessTransformerTest extends SourceCompileTestBase {
 
@@ -149,9 +148,6 @@ class ObjectAccessTransformerTest extends SourceCompileTestBase {
 
         SecurityObject deps = inSec.get("deps").getFirst().get("custom");
         assertThat(deps.getRoles(), containsInAnyOrder("hr", "admin"));
-
-        SecurityObject users = inSec.get("users").getFirst().get("custom");
-        assertThat(users.getRoles(), containsInAnyOrder("hr", "admin"));
 
         Map<String, Security> outSec =
                 (Map<String, Security>) update.getProperties().get(Security.OUT_FIELD_SECURITY_PROP_NAME);
