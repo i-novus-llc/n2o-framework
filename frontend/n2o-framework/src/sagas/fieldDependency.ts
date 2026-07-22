@@ -187,7 +187,18 @@ export function* resolveDependency(
 
     if (!checkCondition(condition, model, field.ctx)) { return }
 
-    const evalResult = expression && executeExpression<boolean | string>(expression, model, field.ctx)
+    let evalResult = expression && executeExpression<boolean | string>(expression, model, field.ctx)
+
+    // @ts-ignore HACK! проблема в неполном отказе от moment.js
+    // на данный момент можно из xml в set-value прислать выражение
+    // которое установит MomentObject в модель данных
+    // компонеты использующие dayjs начинают падать
+    // eslint-disable-next-line no-underscore-dangle
+    if (evalResult?._isAMomentObject) {
+        // @ts-ignore принудительное форматирование MomentObject к строке
+        // для дальнейшей обработки в dayjs
+        evalResult = evalResult.format()
+    }
 
     switch (type) {
         case 'enabled': {
