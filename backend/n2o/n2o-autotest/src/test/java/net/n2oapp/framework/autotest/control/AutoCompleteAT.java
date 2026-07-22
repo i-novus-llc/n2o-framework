@@ -114,8 +114,8 @@ class AutoCompleteAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        AutoComplete autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete2")
-                .control(AutoComplete.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        AutoComplete autoComplete = fields.field("AutoComplete2").control(AutoComplete.class);
         autoComplete.shouldExists();
 
         autoComplete.click();
@@ -140,8 +140,7 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.removeTag("abc");
         autoComplete.shouldBeEmpty();
 
-        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete3")
-                .control(AutoComplete.class);
+        autoComplete = fields.field("AutoComplete3").control(AutoComplete.class);
         autoComplete.click();
         autoComplete.setValue("Ив");
         autoComplete.chooseDropdownOption("Иванов П.И.");
@@ -158,6 +157,20 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.click();
         autoComplete.enter();
         autoComplete.shouldHaveTags(new String[]{"Иванов П.И...", "Иванченко ...", "Селиванов ..."});
+
+        autoComplete = fields.field("autoComplete5").control(AutoComplete.class);
+        autoComplete.click();
+        autoComplete.setValue("12");
+        autoComplete.enter();
+        autoComplete.shouldHaveTags(new String[]{"12"});
+        autoComplete.click();
+        autoComplete.setValue("1234");
+        autoComplete.enter();
+        autoComplete.shouldHaveTags(new String[]{"12", "1234"});
+        autoComplete.click();
+        autoComplete.setValue("123");
+        autoComplete.enter();
+        autoComplete.shouldHaveTags(new String[]{"12", "1234"});
     }
 
     @Test
