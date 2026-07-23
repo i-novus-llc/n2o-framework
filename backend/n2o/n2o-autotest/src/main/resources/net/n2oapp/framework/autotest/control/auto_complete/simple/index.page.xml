@@ -21,6 +21,13 @@
             <auto-complete id="autoComplete4" query-id="test"
                            value-field-id="id" label-field-id="fio" search-filter-id="fio"
                            placeholder="Введите имена" input-label-field-id="id"/>
+            <auto-complete id="autoComplete5" query-id="test" value-field-id="fio">
+                <dependencies>
+                    <set-value on="autoComplete5">
+                        autoComplete5?.filter(({fio}) => (fio !== '123'))
+                    </set-value>
+                </dependencies>
+            </auto-complete>
         </fields>
     </form>
 </simple-page>
