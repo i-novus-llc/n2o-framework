@@ -30,7 +30,7 @@ class AnchorActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/anchor/testHref.page.xml"));
-        assertEquals("Для действия <a> не задан `href`", exception.getMessage());
+        assertEquals("Для действия \"<a>\" не задан 'href'", exception.getMessage());
     }
 
     @Test
@@ -38,6 +38,6 @@ class AnchorActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/anchor/testTarget.page.xml"));
-        assertEquals("Для действия <a> при абсолютном пути (http\\https) не может быть задан target=\"application\"", exception.getMessage());
+        assertEquals("Для действия \"<a>\" при абсолютном пути (http\\https) не может быть задан 'target=\"application\"'", exception.getMessage());
     }
 }

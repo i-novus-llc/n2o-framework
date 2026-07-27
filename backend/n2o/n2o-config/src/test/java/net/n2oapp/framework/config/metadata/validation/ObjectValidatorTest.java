@@ -74,11 +74,11 @@ class ObjectValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSide.object.xml"));
-        assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSide' не может иметь значение client", exception.getMessage());
+        assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSide' не может иметь значение 'client'", exception.getMessage());
         exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSideForWhiteList.object.xml"));
-        assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSideForWhiteList' не может иметь значение client", exception.getMessage());
+        assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSideForWhiteList' не может иметь значение 'client'", exception.getMessage());
     }
 
     @Test
@@ -160,7 +160,7 @@ class ObjectValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/checkMandatoryValidationFieldIdExistence.page.xml"));
-        assertEquals("В <mandatory> валидации 'test' объекта 'checkMandatoryValidationFieldIdExistence' необходимо указать атрибут 'field-id'", exception.getMessage());
+        assertEquals("В \"<mandatory>\" валидации 'test' объекта 'checkMandatoryValidationFieldIdExistence' необходимо указать атрибут 'field-id'", exception.getMessage());
     }
 
     @Test
@@ -176,7 +176,7 @@ class ObjectValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithoutCases.object.xml"));
-        assertEquals("В элементе '<switch>' поля 'name' отсутствует '<case>'", exception.getMessage());
+        assertEquals("В элементе \"<switch>\" поля 'name' отсутствует \"<case>\"", exception.getMessage());
     }
 
     @Test
@@ -184,7 +184,7 @@ class ObjectValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyValueInCases.object.xml"));
-        assertEquals("В '<case>' элемента '<switch>' поля 'name' атрибут 'value' пустой", exception.getMessage());
+        assertEquals("В \"<case>\" элемента \"<switch>\" поля 'name' атрибут 'value' пустой", exception.getMessage());
     }
 
     @Test
@@ -192,6 +192,6 @@ class ObjectValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyCase.object.xml"));
-        assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
+        assertEquals("В \"<case>\" элемента \"<switch>\" поля 'name' отсутствует тело", exception.getMessage());
     }
 }

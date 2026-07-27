@@ -77,7 +77,7 @@ public class PersistOperation<S extends SourceMetadata> implements PipelineOpera
         try {
             xmlOutput.output(doc, outputStream);
         } catch (IOException e) {
-            throw new N2oException("Error during reading metadata " + source.getId(), e);
+            throw new N2oException(String.format("Ошибка при чтении метаданных с идентификатором '%s'", source.getId()), e);
         }
         return outputStream;
     }

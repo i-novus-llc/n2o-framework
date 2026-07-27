@@ -57,7 +57,7 @@ public class LinkMenuItemCompiler extends AbstractMenuItemCompiler<N2oLinkMenuIt
         compiled.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
             if (compiled.getDatasource() == null) {
-                throw new N2oException("Источник данных не найден для пункта меню \"<link>\" со связанным 'href' " + source.getHref());
+                throw new N2oException(String.format("Источник данных не найден для пункта меню \"<link>\" со связанным 'href' '%s'", source.getHref()));
             }
         } else {
             compileParams(compiled, source.getPathParams(), source.getQueryParams(), p, routeScope);

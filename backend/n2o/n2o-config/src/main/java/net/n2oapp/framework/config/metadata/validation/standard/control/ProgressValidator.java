@@ -22,7 +22,7 @@ public class ProgressValidator implements SourceValidator<N2oProgress>, SourceCl
     public void validate(N2oProgress source, SourceProcessor p) {
         if (isInvalidColor(source.getColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("В поле <progress> указано недопустимое значение атрибута color=\"%s\"",
+                    String.format("В поле \"<progress>\" указано недопустимое значение атрибута 'color=\"%s\"'",
                             source.getColor()));
         }
     }

@@ -80,7 +80,7 @@ class FieldSetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testSetFieldSetBadgeColor.widget.xml"));
-        assertEquals("Филдсет <set> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Филдсет \"<set>\" использует недопустимое значение атрибута 'badge-color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -88,7 +88,7 @@ class FieldSetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testLineFieldSetBadgeColor.widget.xml"));
-        assertEquals("Филдсет <line> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Филдсет \"<line>\" использует недопустимое значение атрибута 'badge-color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -96,7 +96,7 @@ class FieldSetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testMultiFieldSetBadgeColor.widget.xml"));
-        assertEquals("Филдсет <multi-set> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Филдсет \"<multi-set>\" использует недопустимое значение атрибута 'badge-color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -120,7 +120,7 @@ class FieldSetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyCol.widget.xml"));
-        assertEquals("Для <сol> виджета 'testEmptyCol' необходимо задать поля, либо же атрибут 'size'", exception.getMessage());
+        assertEquals("Для \"<сol>\" виджета 'testEmptyCol' необходимо задать поля, либо же атрибут 'size'", exception.getMessage());
     }
 
     @Test
@@ -133,6 +133,6 @@ class FieldSetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyRow.widget.xml"));
-        assertEquals("Для <row> виджета 'testEmptyRow' необходимо задать поля", exception.getMessage());
+        assertEquals("Для \"<row>\" виджета 'testEmptyRow' необходимо задать поля", exception.getMessage());
     }
 }

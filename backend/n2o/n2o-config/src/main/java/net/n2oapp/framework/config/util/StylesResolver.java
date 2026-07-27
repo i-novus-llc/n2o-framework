@@ -28,7 +28,7 @@ public class StylesResolver {
         for (String line : lines) {
             String[] lineArr = line.split(":");
             if (lineArr.length != 2)
-                throw new IllegalArgumentException("Invalid string of styles");
+                throw new IllegalArgumentException(String.format("Некорректный формат строки стилей: '%s'", line));
             String key = kebabToCamelCase(lineArr[0].replaceAll("[\\t ]", ""));
             String value = lineArr[1];
             while (value.startsWith(" "))

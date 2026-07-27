@@ -30,7 +30,7 @@ class IconCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/icon/testIconSwitch.page.xml"));
-        assertEquals("Для конструкции <switch> ячейки <icon> виджета  не указано значение 'value-field-id'", exception.getMessage());
+        assertEquals("Для конструкции \"<switch>\" ячейки \"<icon>\" виджета  не указано значение 'value-field-id'", exception.getMessage());
     }
 
     @Test
@@ -38,6 +38,6 @@ class IconCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/icon/testIconCase.page.xml"));
-        assertEquals("Для <case> конструкции <switch> ячейки <icon> виджета  не указано значение 'value'", exception.getMessage());
+        assertEquals("Для \"<case>\" конструкции \"<switch>\" ячейки \"<icon>\" виджета  не указано значение 'value'", exception.getMessage());
     }
 }

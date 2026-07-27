@@ -39,7 +39,8 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
             MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));
             S source = read(info.getId(), inputStream);
             if (!sourceClass.isAssignableFrom(source.getClass()))
-                throw new MetadataReaderException("read class [" + source.getClass() + "], but expected [" + sourceClass + "]");
+                throw new MetadataReaderException(String.format("Прочитан класс '%s', но ожидался '%s'",
+                        source.getClass().getSimpleName(), sourceClass.getSimpleName()));
             return source;
         } catch (N2oException e) {
             throw e;
@@ -65,18 +66,17 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
         Element root = doc.getRootElement();
         T n2o = (T) elementReaderFactory.produce(root).read(root);
         if (n2o == null)
-            throw new MetadataReaderException("Xml Element Reader must return not null object");
+            throw new MetadataReaderException("Xml Element Reader должен возвращать не null объект");
         n2o.setId(id);
         return n2o;
     }
 
     private String getErrorMessage(String id, Exception e) {
         StringBuilder message = new StringBuilder();
-        message.append("Error reading metadata \"").append(id).append("\".\n");
+        message.append(String.format("Ошибка чтения метаданных '%s'.\n", id));
         if (e.getCause() instanceof SAXParseException exception) {
-            message
-                    .append("Error on line ").append(exception.getLineNumber())
-                    .append(", column ").append(exception.getColumnNumber()).append(": ");
+            message.append(String.format("Ошибка в строке %d, колонке %d: ",
+                    exception.getLineNumber(), exception.getColumnNumber()));
         }
         message.append(e.getCause().getLocalizedMessage());
         return message.toString();
@@ -85,7 +85,8 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
     public <T extends SourceMetadata> T read(String id, InputStream xml, Class<T> metadataClass) {
         T n2o = read(id, xml);
         if (!metadataClass.isAssignableFrom(n2o.getClass()))
-            throw new MetadataReaderException("read class [" + n2o.getClass() + "], but expected [" + metadataClass + "]");
+            throw new MetadataReaderException(String.format("Прочитан класс '%s', но ожидался '%s'",
+                    n2o.getClass().getSimpleName(), metadataClass.getSimpleName()));
         return n2o;
     }
 }

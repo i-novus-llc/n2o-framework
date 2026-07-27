@@ -41,6 +41,6 @@ class StompEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/stomp/testStompEventActionValidation.application.xml"));
-        assertEquals("Действие <alert> использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("Действие \"<alert>\" использует недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

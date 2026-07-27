@@ -79,7 +79,7 @@ class PageValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testOnFailAction.page.xml")
         );
-        assertEquals("Не может быть более одного элемента <on-fail>", exception.getMessage());
+        assertEquals("Не может быть более одного элемента \"<on-fail>\"", exception.getMessage());
     }
 
     @Test
@@ -87,7 +87,7 @@ class PageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"", exception.getMessage());
     }
 
     @Test

@@ -19,7 +19,7 @@ public class IntervalFieldValidator implements SourceValidator<N2oIntervalField>
     @Override
     public void validate(N2oIntervalField source, SourceProcessor p) {
         if (source.getBegin() == null || source.getEnd() == null)
-            throw new N2oMetadataValidationException("Не заданы элементы <begin> или <end> в <interval-field>");
+            throw new N2oMetadataValidationException("Не заданы элементы \"<begin>\" или \"<end>\" в \"<interval-field>\"");
         p.validate(source.getBegin());
         p.validate(source.getEnd());
     }

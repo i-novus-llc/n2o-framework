@@ -48,7 +48,7 @@ class MultiFormValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/multi_form/testEmptyCol.widget.xml"));
-        assertEquals("Для <сol> виджета 'testEmptyCol' необходимо задать поля, либо же атрибут 'size'", exception.getMessage());
+        assertEquals("Для \"<сol>\" виджета 'testEmptyCol' необходимо задать поля, либо же атрибут 'size'", exception.getMessage());
     }
 
     @Test
@@ -61,7 +61,7 @@ class MultiFormValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/multi_form/testEmptyRow.widget.xml"));
-        assertEquals("Для <row> виджета 'testEmptyRow' необходимо задать поля", exception.getMessage());
+        assertEquals("Для \"<row>\" виджета 'testEmptyRow' необходимо задать поля", exception.getMessage());
     }
 
 }

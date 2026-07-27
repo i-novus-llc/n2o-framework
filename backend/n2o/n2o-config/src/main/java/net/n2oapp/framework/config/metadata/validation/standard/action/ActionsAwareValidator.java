@@ -41,14 +41,14 @@ public class ActionsAwareValidator extends TypedMetadataValidator<ActionsAware> 
         if (actionId != null) {
             if (metaActions.isEmpty())
                 throw new N2oMetadataValidationException(
-                        String.format("Для компонента с action-id=\"%s\" не найдены действия <actions>",
+                        String.format("Для компонента с 'action-id=\"%s\"' не найдены действия \"<actions>\"",
                                 actionId)
                 );
             checkActionExistence(source.getActionId(), metaActions,
-                    String.format("Компонент с action-id=\"%s\" ссылается на несуществующее действие %s", actionId, source.getActionId()));
+                    String.format("Компонент с 'action-id=\"%s\"' ссылается на несуществующее действие '%s'", actionId, source.getActionId()));
             if (isNotEmpty(actions))
                 throw new N2oMetadataValidationException(
-                        String.format("Компонент с action-id=\"%s\" содержит действия и использует ссылку action-id одновременно",
+                        String.format("Компонент с 'action-id=\"%s\"' содержит действия и использует ссылку 'action-id' одновременно",
                                 actionId)
                 );
         }

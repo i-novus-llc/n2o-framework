@@ -53,7 +53,7 @@ public class SimplePropertyResolver implements PropertyResolver {
             } else if (Long.class.equals(targetType)) {
                 return (T) Long.valueOf(strValue);
             } else
-                throw new UnsupportedOperationException("targetType " + targetType + " is not supported");
+                throw new UnsupportedOperationException(String.format("Тип '%s' не поддерживается", targetType.getSimpleName()));
         } else
             return (T) value;
     }
@@ -68,7 +68,7 @@ public class SimplePropertyResolver implements PropertyResolver {
     public String getRequiredProperty(String key) throws IllegalStateException {
         String value = properties.getProperty(key);
         if (value == null)
-            throw new IllegalStateException("Property " + key + " not found");
+            throw new IllegalStateException(String.format("Свойство '%s' не найдено", key));
         return value;
     }
 
@@ -76,7 +76,7 @@ public class SimplePropertyResolver implements PropertyResolver {
     public <T> T getRequiredProperty(String key, Class<T> targetType) throws IllegalStateException {
         Object value = properties.get(key);
         if (value == null)
-            throw new IllegalStateException("Property " + key + " not found");
+            throw new IllegalStateException(String.format("Свойство '%s' не найдено", key));
         return (T) value;
     }
 

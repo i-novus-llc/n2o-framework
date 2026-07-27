@@ -38,7 +38,7 @@ public class DeserializeOperation<D extends SourceMetadata> implements PipelineO
         try (InputStream value = supplier.get()) {
             return (D) mapper.readValue(value, context.getSourceClass());
         } catch (IOException e) {
-            throw new N2oException("Error during deserialize json to " + context.getSourceClass(), e);
+            throw new N2oException(String.format("Ошибка десериализации JSON в класс '%s'", context.getSourceClass().getSimpleName()), e);
         }
     }
 

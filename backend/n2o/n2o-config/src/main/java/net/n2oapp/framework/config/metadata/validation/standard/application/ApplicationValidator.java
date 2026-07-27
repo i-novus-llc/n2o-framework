@@ -45,10 +45,10 @@ public class ApplicationValidator implements SourceValidator<N2oApplication>, So
 
         if (source.getHeader() != null) {
             if (hasLink(source.getHeader().getTitle()) && source.getHeader().getDatasourceId() == null)
-                throw new N2oMetadataValidationException("Заголовок компонента <header> имеет плейсхолдер, но при этом не указан источник данных");
+                throw new N2oMetadataValidationException("Заголовок компонента \"<header>\" имеет плейсхолдер, но при этом не указан источник данных");
 
             if (source.getHeader().getDatasourceId() != null && !dataSourcesScope.containsKey(source.getHeader().getDatasourceId()))
-                throw new N2oMetadataValidationException(String.format("<header> ссылается на несуществующий источник данных %s",
+                throw new N2oMetadataValidationException(String.format("\"<header>\" ссылается на несуществующий источник данных %s",
                         ValidationUtils.getIdOrEmptyString(source.getHeader().getDatasourceId())));
 
             if (source.getHeader().getExtraMenu() != null)

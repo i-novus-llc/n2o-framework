@@ -377,7 +377,7 @@ public abstract class RouteUtil {
         String[] split = url.split("/");
         for (String points : split) {
             if (!"..".equals(points))
-                throw new N2oException("Url: \"" + url + "\" has wrong relative format");
+                throw new N2oException(String.format("Некорректный относительный формат URL: '%s'", url));
         }
 
         return split.length;

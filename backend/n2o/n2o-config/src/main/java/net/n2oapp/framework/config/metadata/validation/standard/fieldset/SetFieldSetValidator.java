@@ -22,7 +22,7 @@ public class SetFieldSetValidator implements SourceValidator<N2oSetFieldSet>, So
 
         if (isInvalidColor(source.getBadgeColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("Филдсет <set> использует недопустимое значение атрибута badge-color=\"%s\"",
+                    String.format("Филдсет \"<set>\" использует недопустимое значение атрибута 'badge-color=\"%s\"'",
                             source.getBadgeColor()));
         }
     }

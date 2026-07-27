@@ -29,7 +29,7 @@ public class ApplicationDatasourceValidator extends AbstractDatasourceValidator<
         if (isNull(n2oApplication.getDatasources()) ||
                 Arrays.stream(n2oApplication.getDatasources()).noneMatch(ds -> ds.getId()
                         .equals(getDatasourceId(datasource))))
-            throw new N2oMetadataValidationException(String.format("Источник данных <app-datasource> ссылается на несуществующий в %s.application.xml источник данных '%s'",
+            throw new N2oMetadataValidationException(String.format("Источник данных \"<app-datasource>\" ссылается на несуществующий в '%s.application.xml' источник данных '%s'",
                     n2oApplication.getId(), getDatasourceId(datasource)));
     }
 

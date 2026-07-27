@@ -35,6 +35,6 @@ class StatusValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/status/testStatusColor.widget.xml"));
-        assertEquals("В поле <status> указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("В поле \"<status>\" указано недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

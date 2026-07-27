@@ -39,12 +39,12 @@ public class FileSystemUtil {
             if (!file.exists())
                 file.createNewFile();
         } catch (IOException e) {
-            throw new IllegalStateException("Can not touch file " + file.getAbsolutePath(), e);
+            throw new IllegalStateException(String.format("Не удалось создать файл '%s'", file.getAbsolutePath()));
         }
         try (InputStream io = content) {
             FileUtils.copyInputStreamToFile(io, file);
         } catch (IOException e) {
-            throw new IllegalStateException("Can not save content into file " + file.getAbsolutePath(), e);
+            throw new IllegalStateException(String.format("Не удалось сохранить содержимое в файл '%s'", file.getAbsolutePath()));
         }
     }
 
@@ -66,7 +66,7 @@ public class FileSystemUtil {
             target = resource.getFile();
             isDeleted = target.delete();
         } catch (IOException e) {
-            throw new IllegalStateException("Can not delete file " + uri, e);
+            throw new IllegalStateException(String.format("Не удалось удалить файл '%s'", uri));
         }
         return isDeleted;
     }
@@ -138,7 +138,7 @@ public class FileSystemUtil {
         Resource resource = DEFAULT_RESOURCE_LOADER.getResource(path);
         if (!resource.exists()) {
             if (isExistRequired)
-                throw new IllegalArgumentException("File '" + path + "' not found");
+                throw new IllegalArgumentException(String.format("Файл '%s' не найден", path));
             else
                 return null;
         }
@@ -172,13 +172,13 @@ public class FileSystemUtil {
         if (uri.startsWith("jar:") || uri.startsWith("classpath:")) {
             Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
             if (!resource.exists()) {
-                throw new IllegalStateException("File Not Found:" + uri);
+                throw new IllegalStateException(String.format("Файл '%s' не найден", uri));
             }
             return resource.contentLength();
         } else if (uri.startsWith("file:")) {
             File file = new File(PathUtil.convertUrlToAbsolutePath(uri));
             if (!file.exists()) {
-                throw new IllegalStateException("File Not Found:" + uri);
+                throw new IllegalStateException(String.format("Файл '%s' не найден", uri));
             }
             return file.length();
         }
@@ -204,12 +204,12 @@ public class FileSystemUtil {
                 }
             }
             if ((dir.listFiles() == null || dir.listFiles().length == 0) && !dir.delete()) {
-                throw new IOException("Unable to delete directory: " + dir);
+                throw new IOException(String.format("Не удалось удалить директорию '%s'", dir));
             }
 
         } else {
             if (!dir.delete()) {
-                throw new IOException("Unable to delete file: " + dir);
+                throw new IOException(String.format("Не удалось удалить файл '%s'", dir));
             }
         }
     }

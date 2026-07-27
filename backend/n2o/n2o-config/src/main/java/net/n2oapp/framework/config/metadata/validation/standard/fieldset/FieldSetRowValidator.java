@@ -17,7 +17,7 @@ public class FieldSetRowValidator implements SourceValidator<N2oFieldsetRow>, So
     @Override
     public void validate(N2oFieldsetRow source, SourceProcessor p) {
         if (ArrayUtils.isEmpty(source.getItems()))
-            throw new N2oMetadataValidationException(String.format("Для <row> виджета %s необходимо задать поля",
+            throw new N2oMetadataValidationException(String.format("Для \"<row>\" виджета %s необходимо задать поля",
                     ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
         p.safeStreamOf(source.getItems()).forEach(p::validate);
     }

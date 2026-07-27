@@ -27,12 +27,12 @@ public class ListCellValidator implements SourceValidator<N2oListCell>, SourceCl
         if (source.getCell() != null) {
             p.validate(source.getCell(), widgetScope);
             if (source.getLabelFieldId() == null)
-                throw new N2oMetadataValidationException("При наличии внутренней ячейки должен быть задан label-field-id в ячейке <list>");
+                throw new N2oMetadataValidationException("При наличии внутренней ячейки должен быть задан 'label-field-id' в ячейке \"<list>\"");
         }
         String color = source.getColor();
         if (isInvalidColor(color)) {
             throw new N2oMetadataValidationException(
-                    String.format("В ячейке <list> виджета %s указано недопустимое значение атрибута color=\"%s\"",
+                    String.format("В ячейке \"<list>\" виджета %s указано недопустимое значение атрибута 'color=\"%s\"'",
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()), color));
         }
     }

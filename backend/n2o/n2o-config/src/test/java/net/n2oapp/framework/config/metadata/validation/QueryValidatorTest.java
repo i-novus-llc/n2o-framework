@@ -57,7 +57,7 @@ class QueryValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml"));
-        assertEquals( "<unique> ссылается на несуществующий фильтр 'codeEq2' в выборке 'checkForExistsFiltersInSelections'", exception.getMessage());
+        assertEquals( "\"<unique>\" ссылается на несуществующий фильтр 'codeEq2' в выборке 'checkForExistsFiltersInSelections'", exception.getMessage());
     }
 
     @Test
@@ -78,7 +78,7 @@ class QueryValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithoutCases.query.xml"));
-        assertEquals("В элементе '<switch>' поля 'name' отсутствует '<case>'", exception.getMessage());
+        assertEquals("В элементе \"<switch>\" поля 'name' отсутствует \"<case>\"", exception.getMessage());
     }
 
     @Test
@@ -86,7 +86,7 @@ class QueryValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyValueInCases.query.xml"));
-        assertEquals("В '<case>' элемента '<switch>' поля 'name' атрибут 'value' пустой", exception.getMessage());
+        assertEquals("В \"<case>\" элемента \"<switch>\" поля 'name' атрибут 'value' пустой", exception.getMessage());
     }
 
     @Test
@@ -94,6 +94,6 @@ class QueryValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyCase.query.xml"));
-        assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
+        assertEquals("В \"<case>\" элемента \"<switch>\" поля 'name' отсутствует тело", exception.getMessage());
     }
 }

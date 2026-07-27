@@ -40,8 +40,9 @@ public class RegisterUtil {
         String filename = crossOsPath.substring(idx);
         String[] parts = filename.split("\\.");
         if (parts.length != 3) {
-            throw new IllegalStateException(
-                    "Metadata filename '" + absolutePath + "' should canResolved identifier, type of n2oMetadata, xml extension. For example: ResourceGroup.object.xml");
+            throw new IllegalStateException(String.format(
+                    "Имя файла метаданных '%s' должно содержать идентификатор, тип метаданных 'n2oMetadata' и расширение '.xml'. Например: 'ResourceGroup.object.xml'",
+                    absolutePath));
         }
         return parts;
     }

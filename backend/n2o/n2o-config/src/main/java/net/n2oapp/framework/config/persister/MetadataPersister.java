@@ -138,7 +138,7 @@ public class MetadataPersister {
             SourceInfo info = metadataRegister.get(n2o.getId(), n2o.getClass());
             if (info instanceof XmlInfo xmlInfo) {
                 if (directory != null && !normalize(xmlInfo.getDirectory()).equalsIgnoreCase(normalize(directory))) {
-                    throw new IllegalArgumentException("Attempt to make a duplicate file.");
+                    throw new IllegalArgumentException("Попытка создать дублирующийся файл");
                 }
                 if (!xmlInfo.isOverride()) {
                     //create server file from system file
@@ -173,7 +173,7 @@ public class MetadataPersister {
                     metadataRegister.remove(configId.getId(), configId.getBaseSourceClass());
                     eventBus.publish(new MetadataRemovedEvent(this, info));
                 } else {
-                    throw new N2oException("n2o.couldNotDeleteFile").addData(info.getLocalPath());
+                    throw new N2oException(String.format("Не удалось удалить файл '%s'", info.getLocalPath()));
                 }
             } finally {
                 watchDir.takeOn(path);

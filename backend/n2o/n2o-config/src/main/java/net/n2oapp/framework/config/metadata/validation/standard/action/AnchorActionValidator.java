@@ -21,17 +21,17 @@ public class AnchorActionValidator implements SourceValidator<N2oAnchor>, Source
     @Override
     public void validate(N2oAnchor source, SourceProcessor p) {
         if (source.getHref() == null)
-            throw new N2oMetadataValidationException("Для действия <a> не задан `href`");
+            throw new N2oMetadataValidationException("Для действия \"<a>\" не задан 'href'");
 
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Действие <a> ссылается на несуществующий источник данных %s в атрибуте 'datasource'",
+                    String.format("Действие \"<a>\" ссылается на несуществующий источник данных %s в атрибуте 'datasource'",
                             ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));
 
         if (source.getTarget() != null && source.getTarget().equals(TargetEnum.APPLICATION)
                 && source.getHref().startsWith("http")) {
             throw new N2oMetadataValidationException(
-                    "Для действия <a> при абсолютном пути (http\\https) не может быть задан target=\"application\"");
+                    "Для действия \"<a>\" при абсолютном пути (http\\https) не может быть задан 'target=\"application\"'");
         }
     }
 }

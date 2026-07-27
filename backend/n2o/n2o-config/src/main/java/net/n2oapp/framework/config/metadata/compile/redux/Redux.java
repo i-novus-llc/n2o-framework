@@ -89,7 +89,7 @@ public abstract class Redux {
                 UpdateModelPayload payload = (UpdateModelPayload) reduxAction.getPayload();
                 return createBindLink(payload.getKey(), ReduxModelEnum.valueOf(payload.getPrefix().toUpperCase()), payload.getField());
             } else {
-                throw new UnsupportedOperationException("Redux action type " + reduxAction.getType() + " unsupported");
+                throw new UnsupportedOperationException(String.format("Тип действия Redux '%s' не поддерживается", reduxAction.getType()));
             }
         }
     }

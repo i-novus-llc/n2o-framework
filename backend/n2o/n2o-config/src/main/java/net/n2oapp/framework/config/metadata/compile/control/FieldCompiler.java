@@ -139,8 +139,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             return ScriptProcessor.extractVars(expression);
         } catch (ScriptParserException e) {
             throw new N2oException(
-                    String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
-                                  "с явным указанием переменных в атрибуте 'on'",
+                    String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей с явным указанием переменных в атрибуте 'on'",
                             StringUtils.unwrapLink(expression)));
         }
     }

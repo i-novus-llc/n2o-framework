@@ -28,19 +28,19 @@ public class SwitchActionValidator extends TypedMetadataValidator<N2oSwitchActio
     @Override
     public void validate(N2oSwitchAction source, SourceProcessor p) {
         if (source.getValueFieldId() == null)
-            throw new N2oMetadataValidationException("В действии <switch> не указан 'value-field-id'");
-        ValidationUtils.checkDatasourceExistenceInTag(source.getDatasourceId(), p, "<switch>");
+            throw new N2oMetadataValidationException("В действии \"<switch>\" не указан 'value-field-id'");
+        ValidationUtils.checkDatasourceExistenceInTag(source.getDatasourceId(), p, "\"<switch>\"");
         N2oSwitchAction.AbstractCase[] cases = source.getCases();
         if (isEmpty(cases))
             return;
 
         if (source.getDefaultCase() != null && !(cases[cases.length - 1] instanceof N2oSwitchAction.DefaultCase)) {
-            throw new N2oMetadataValidationException("В действии <switch> после <default> указан <case>");
+            throw new N2oMetadataValidationException("В действии \"<switch>\" после \"<default>\" указан \"<case>\"");
         }
 
         source.getValueCases().forEach(this::checkValue);
         Arrays.stream(cases).forEach(c -> {
-            checkOnFailActionNotExist(c.getActions(), "<switch>");
+            checkOnFailActionNotExist(c.getActions(), "\"<switch>\"");
             checkCloseInMultiAction(c.getActions());
             p.validate(c);
         });
@@ -48,6 +48,6 @@ public class SwitchActionValidator extends TypedMetadataValidator<N2oSwitchActio
 
     private void checkValue(N2oSwitchAction.Case valueCase) {
         if (valueCase.getValue() == null)
-            throw new N2oMetadataValidationException("В <case> действия <switch> не указан атрибут 'value'");
+            throw new N2oMetadataValidationException("В \"<case>\" действия \"<switch>\" не указан атрибут 'value'");
     }
 }

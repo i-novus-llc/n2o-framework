@@ -32,12 +32,12 @@ public class CompileUtil {
                     nested.put(keyChain[i], new HashMap<>());
                 }
                 if (!HashMap.class.equals(nested.get(keyChain[i]).getClass())) {
-                    throw new IllegalArgumentException("The result already contains an element with key " + keyChain[i]);
+                    throw new IllegalArgumentException(String.format("Результат уже содержит элемент с ключом '%s'", keyChain[i]));
                 }
                 nested = (Map<String, Object>) nested.get(keyChain[i]);
             }
             if (nested.containsKey(keyChain[keyChain.length - 1])) {
-                throw new IllegalArgumentException("The result already contains an element with key " + keyChain[keyChain.length - 1]);
+                throw new IllegalArgumentException(String.format("Результат уже содержит элемент с ключом '%s'", keyChain[keyChain.length - 1]));
             }
             nested.put(keyChain[keyChain.length - 1], transformer.apply(entry.getValue()));
         }

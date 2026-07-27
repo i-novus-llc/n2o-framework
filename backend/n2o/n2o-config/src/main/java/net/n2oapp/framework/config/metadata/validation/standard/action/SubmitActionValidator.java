@@ -41,7 +41,7 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
             if (datasource != null)
                 checkDatasourceByInstance(datasource);
             else
-                throw new N2oMetadataValidationException("Для действия <submit> не задан 'datasource'");
+                throw new N2oMetadataValidationException("Для действия \"<submit>\" не задан 'datasource'");
         }
     }
 
@@ -54,7 +54,7 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
 
     private void checkDatasourceById(String datasourceId, SourceProcessor p) {
         ValidationUtils.checkDatasourceExistence(datasourceId, p,
-                "Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных");
+                "Атрибут 'datasource' действия \"<submit>\" ссылается на несуществующий источник данных");
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
         if (dataSourcesScope != null)
             checkDatasourceByInstance(dataSourcesScope.get(datasourceId));
@@ -66,11 +66,11 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
         if (datasource instanceof Submittable submittable) {
             if (submittable.getSubmit() == null)
                 throw new N2oMetadataValidationException(String.format(
-                        "Действие <submit> использует источник данных%s, в котором не определен submit",
+                        "Действие \"<submit>\" использует источник данных%s, в котором не определен 'submit'",
                         getSpaceWithIdOrEmptyString(datasource.getId())));
         } else
             throw new N2oMetadataValidationException(String.format(
-                    "Действие <submit> использует источник данных%s, который не поддерживает submit",
+                    "Действие \"<submit>\" использует источник данных%s, который не поддерживает 'submit'",
                     getSpaceWithIdOrEmptyString(datasource.getId())));
     }
 

@@ -67,7 +67,7 @@ class CompileUtilTest extends N2oTestBase {
             processor.mapAttributes(extAttributes);
         } catch (IllegalArgumentException e) {
             //N2oCompileProcessor:365
-            assertThat(e.getMessage(), is("The result already contains an element with key a"));
+            assertThat(e.getMessage(), is("Результат уже содержит элемент с ключом 'a'"));
         }
 
         map.clear();
@@ -77,7 +77,7 @@ class CompileUtilTest extends N2oTestBase {
             processor.mapAttributes(extAttributes);
         } catch (IllegalArgumentException e) {
             //N2oCompileProcessor:370
-            assertThat(e.getMessage(), is("The result already contains an element with key x"));
+            assertThat(e.getMessage(), is("Результат уже содержит элемент с ключом 'x'"));
         }
     }
 }

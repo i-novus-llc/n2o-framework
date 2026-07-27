@@ -32,7 +32,7 @@ public class ToolbarCellValidator implements SourceValidator<N2oToolbarCell>, So
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getGenerate() == null && source.getItems() == null)
             throw new N2oMetadataValidationException(
-                    String.format("Не заданы элементы или атрибут 'generate' в <toolbar> ячейке виджета %s",
+                    String.format("Не заданы элементы или атрибут 'generate' в \"<toolbar>\"-ячейке виджета %s",
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
     }
 }

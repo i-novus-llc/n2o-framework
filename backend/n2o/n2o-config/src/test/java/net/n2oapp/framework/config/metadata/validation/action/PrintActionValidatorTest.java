@@ -35,6 +35,6 @@ class PrintActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/print/testEmptyUrl.page.xml"));
-        assertEquals("В действии <print> не задан адрес документа для печати 'url'", exception.getMessage());
+        assertEquals("В действии \"<print>\" не задан адрес документа для печати 'url'", exception.getMessage());
     }
 }

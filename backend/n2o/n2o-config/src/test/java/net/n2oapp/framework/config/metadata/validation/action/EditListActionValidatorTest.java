@@ -36,7 +36,7 @@ class EditListActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/edit_list/testOperationProvided.page.xml"));
-        assertEquals("Для действия <edit-list> не указан тип операции", exception.getMessage());
+        assertEquals("Для действия \"<edit-list>\" не указан тип операции", exception.getMessage());
     }
 
     /**
@@ -47,7 +47,7 @@ class EditListActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/edit_list/testDatasourceExistence.page.xml"));
-        assertEquals("Действие <edit-list> ссылается на несуществующий источник данных 'ds1' в атрибуте 'datasource'", exception.getMessage());
+        assertEquals("Действие \"<edit-list>\" ссылается на несуществующий источник данных 'ds1' в атрибуте 'datasource'", exception.getMessage());
     }
 
     /**
@@ -58,7 +58,7 @@ class EditListActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/edit_list/testItemDatasourceExistence.page.xml"));
-        assertEquals("Действие <edit-list> ссылается на несуществующий источник данных 'ds1' в атрибуте 'item-datasource'", exception.getMessage());
+        assertEquals("Действие \"<edit-list>\" ссылается на несуществующий источник данных 'ds1' в атрибуте 'item-datasource'", exception.getMessage());
     }
 
 }

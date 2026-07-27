@@ -67,7 +67,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                                 getIdOrEmptyString(object.getId())));
                 if (validation instanceof N2oMandatoryValidation && validation.getFieldId() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("В <mandatory> валидации %s объекта %s необходимо указать атрибут 'field-id'",
+                            String.format("В \"<mandatory>\" валидации %s объекта %s необходимо указать атрибут 'field-id'",
                                     getIdOrEmptyString(validation.getId()),
                                     getIdOrEmptyString(object.getId())));
                 if (validation instanceof N2oInvocationValidation invocationValidation) {
@@ -151,13 +151,13 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 N2oSwitch n2oSwitch = objectSimpleField.getN2oSwitch();
                 if (n2oSwitch.getCases().isEmpty())
                     throw new N2oMetadataValidationException(
-                            String.format("В элементе '<switch>' поля '%s' отсутствует '<case>'", field.getId()));
+                            String.format("В элементе \"<switch>\" поля '%s' отсутствует \"<case>\"", field.getId()));
                 if (n2oSwitch.getCases().containsKey(""))
                     throw new N2oMetadataValidationException(
-                            String.format("В '<case>' элемента '<switch>' поля '%s' атрибут 'value' пустой", field.getId()));
+                            String.format("В \"<case>\" элемента \"<switch>\" поля '%s' атрибут 'value' пустой", field.getId()));
                 if (n2oSwitch.getCases().containsValue(""))
                     throw new N2oMetadataValidationException(
-                            String.format("В '<case>' элемента '<switch>' поля '%s' отсутствует тело", field.getId()));
+                            String.format("В \"<case>\" элемента \"<switch>\" поля '%s' отсутствует тело", field.getId()));
             }
         }
     }
@@ -177,7 +177,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
     private void validationSideIsNotClient(String objectId, N2oObject.Operation operation, N2oValidation validation) {
         if (validation.getSide() != null && validation.getSide().contains("client"))
             throw new N2oMetadataValidationException(
-                    String.format("Атрибут 'side' валидации %s операции %s объекта %s не может иметь значение client",
+                    String.format("Атрибут 'side' валидации %s операции %s объекта %s не может иметь значение 'client'",
                             getIdOrEmptyString(validation.getId()),
                             getIdOrEmptyString(operation.getId()),
                             getIdOrEmptyString(objectId)));

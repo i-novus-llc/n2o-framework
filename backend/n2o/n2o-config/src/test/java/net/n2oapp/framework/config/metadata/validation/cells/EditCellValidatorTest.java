@@ -31,7 +31,7 @@ class EditCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/edit/testNoneField.page.xml"));
-        assertEquals("У ячейки <edit> виджета  не задано поле ввода", exception.getMessage());
+        assertEquals("У ячейки \"<edit>\" виджета  не задано поле ввода", exception.getMessage());
     }
 
     @Test
@@ -39,6 +39,6 @@ class EditCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/edit/testOnFailAction.page.xml"));
-        assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
+        assertEquals("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"", exception.getMessage());
     }
 }

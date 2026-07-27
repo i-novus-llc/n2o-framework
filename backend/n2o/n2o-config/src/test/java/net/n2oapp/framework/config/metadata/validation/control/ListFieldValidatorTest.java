@@ -57,7 +57,7 @@ class ListFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingQueryAndOptionsAtTheSameTime.widget.xml"));
-        assertEquals("Поле 'select' использует выборку и элемент '<options>' одновременно", exception.getMessage());
+        assertEquals("Поле 'select' использует выборку и элемент \"<options>\" одновременно", exception.getMessage());
     }
 
     @Test
@@ -65,7 +65,7 @@ class ListFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDatasourceAndOptionsAtTheSameTime.widget.xml"));
-        assertEquals("Поле 'select' использует ссылку на источник данных и элемент '<options>' одновременно", exception.getMessage());
+        assertEquals("Поле 'select' использует ссылку на источник данных и элемент \"<options>\" одновременно", exception.getMessage());
     }
 
     @Test
@@ -81,7 +81,7 @@ class ListFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDefaultValueAndDefaultValuesAtTheSameTime.widget.xml"));
-        assertEquals("Поле 'select' использует элемент '<default-value>' и '<default-values>' одновременно", exception.getMessage());
+        assertEquals("Поле 'select' использует элемент \"<default-value>\" и \"<default-values>\" одновременно", exception.getMessage());
     }
 
     @Test
@@ -89,6 +89,6 @@ class ListFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDefaultValuesForSingleSelect.widget.xml"));
-        assertEquals("Поле 'select' должно использовать в single режиме элемент '<default-value>' вместо '<default-values>'", exception.getMessage());
+        assertEquals("Поле 'select' должно использовать в 'single' режиме элемент \"<default-value>\" вместо \"<default-values>\"", exception.getMessage());
     }
 }

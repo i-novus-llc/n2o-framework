@@ -30,7 +30,7 @@ class MultiActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/alert/testAlertActionDatasourceExistence.page.xml"));
-        assertEquals("Действие <alert> ссылается на несуществующий источник данных 'ds'", exception.getMessage());
+        assertEquals("Действие \"<alert>\" ссылается на несуществующий источник данных 'ds'", exception.getMessage());
     }
 
     @Test
@@ -38,6 +38,6 @@ class MultiActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/alert/testAlertActionColor.page.xml"));
-        assertEquals("Действие <alert> использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("Действие \"<alert>\" использует недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

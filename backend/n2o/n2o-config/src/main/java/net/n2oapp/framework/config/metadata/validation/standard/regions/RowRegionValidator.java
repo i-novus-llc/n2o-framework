@@ -31,7 +31,7 @@ public class RowRegionValidator extends AbstractRegionValidator<N2oRowRegion> {
             int totalSize = getTotalSize(source, columns);
             if (totalSize > columns) {
                 throw new N2oMetadataValidationException(
-                        String.format("Сумма размеров колонок (%d) превышает количество колонок (%d) в <row>",
+                        String.format("Сумма размеров колонок (%d) превышает количество колонок (%d) в \"<row>\"",
                                 totalSize, columns));
             }
         }
@@ -44,7 +44,7 @@ public class RowRegionValidator extends AbstractRegionValidator<N2oRowRegion> {
             int colSize = (component instanceof N2oColRegion col && col.getSize() != null) ? col.getSize() : 1;
             if (colSize > columns) {
                 throw new N2oMetadataValidationException(
-                        String.format("Размер колонки size=\"%d\" превышает количество колонок (%d) в <row>",
+                        String.format("Размер колонки 'size=\"%d\"' превышает количество колонок (%d) в \"<row>\"",
                                 colSize, columns));
             }
             totalSize += colSize;

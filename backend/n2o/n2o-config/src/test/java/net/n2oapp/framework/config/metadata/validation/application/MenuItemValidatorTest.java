@@ -35,7 +35,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testDatasourceExistenceFail.page.xml"));
-        assertEquals("<menu-item label='test'> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+        assertEquals("\"<menu-item label='test'>\" ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 
     @Test
@@ -43,7 +43,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testMenuItemBadgeColor.page.xml"));
-        assertEquals("<menu-item label='test'> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("\"<menu-item label='test'>\" использует недопустимое значение атрибута 'badge-color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testMissedPageActions.page.xml"));
-        assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
+        assertEquals("Для компонента с 'action-id=\"test\"' не найдены действия \"<actions>\"", exception.getMessage());
     }
 
     @Test
@@ -59,7 +59,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testActionExistenceByActionId.page.xml"));
-        assertEquals("Компонент с action-id=\"test\" ссылается на несуществующее действие test", exception.getMessage());
+        assertEquals("Компонент с 'action-id=\"test\"' ссылается на несуществующее действие 'test'", exception.getMessage());
     }
 
     @Test
@@ -67,7 +67,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testUsingActionIdAndActionAtTheSameTime.page.xml"));
-        assertEquals("Компонент с action-id=\"test\" содержит действия и использует ссылку action-id одновременно", exception.getMessage());
+        assertEquals("Компонент с 'action-id=\"test\"' содержит действия и использует ссылку 'action-id' одновременно", exception.getMessage());
     }
 
     @Test
@@ -75,7 +75,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testMissedHref.page.xml"));
-        assertEquals("Для элемента меню <link> не задан `href`", exception.getMessage());
+        assertEquals("Для элемента меню \"<link>\" не задан 'href'", exception.getMessage());
     }
 
     @Test
@@ -83,7 +83,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testWrongTarget.page.xml"));
-        assertEquals("В элементе меню <link> при абсолютном пути (http\\https) не может быть задан target=\"application\"", exception.getMessage());
+        assertEquals("В элементе меню \"<link>\" при абсолютном пути (http\\https) не может быть задан 'target=\"application\"'", exception.getMessage());
     }
 
     @Test
@@ -91,7 +91,7 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"", exception.getMessage());
     }
 
     @Test

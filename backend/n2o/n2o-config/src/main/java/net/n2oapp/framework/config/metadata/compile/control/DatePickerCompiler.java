@@ -29,7 +29,7 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
         source.setDomain(p.resolve(property("n2o.api.control.date_time.domain"), String.class));
         DomainEnum domain = DomainEnum.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
-            throw new N2oException("Несуществующее значение атрибута 'domain' для поля '" + source.getId() + "'");
+            throw new N2oException(String.format("Несуществующее значение атрибута 'domain' для поля '%s'", source.getId()));
         datePicker.setOutputFormat(domain.getJsFormat());
         datePicker.setDateFormat(castDefault(source.getDateFormat(), () -> p.resolve(property("n2o.api.control.date_time.date_format"), String.class)));
         datePicker.setTimeFormat(source.getTimeFormat());

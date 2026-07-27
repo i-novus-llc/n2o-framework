@@ -40,10 +40,14 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                         " ссылается на несуществующую страницу " + source.getPageId());
         if (source.getSubmitOperationId() != null && source.getObjectId() != null) {
             N2oObject object = p.getOrThrow(source.getObjectId(), N2oObject.class);
-            p.safeStreamOf(object.getOperations()).
-                    filter(operation -> source.getSubmitOperationId().equals(operation.getId())).
-                    findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
-                            " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
+            p.safeStreamOf(object.getOperations())
+                    .filter(operation -> source.getSubmitOperationId().equals(operation.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new N2oMetadataValidationException(
+                            String.format("Действие открытия страницы %s ссылается на несуществующую в объекте '%s' операцию '%s'",
+                                    getIdOrEmptyString(source.getId()),
+                                    source.getSubmitOperationId(),
+                                    source.getObjectId())));
         }
         PageScope pageScope = p.getScope(PageScope.class);
         checkRouteUniqueness(source, p);
@@ -96,7 +100,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         } else if (datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
                 ValidationUtils.checkDatasourceExistence(datasourceId, p,
-                        String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных %s",
+                        String.format("Атрибут 'refresh-datasources' ссылается на несуществующий источник данных %s",
                                 ValidationUtils.getIdOrEmptyString(datasourceId)));
             }
         }

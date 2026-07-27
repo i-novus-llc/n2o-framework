@@ -35,6 +35,6 @@ class AlertFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/alert/testAlertColor.widget.xml"));
-        assertEquals("В поле <alert> указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("В поле \"<alert>\" указано недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

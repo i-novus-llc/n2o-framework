@@ -26,7 +26,7 @@ public class ConditionBranchActionValidator extends TypedMetadataValidator<N2oCo
     public void validate(N2oConditionBranch source, SourceProcessor p) {
         if (source.getActions() == null) return;
         Arrays.stream(source.getActions()).forEach(p::validate);
-        checkOnFailActionNotExist(source.getActions(), "операторе if-else");
+        checkOnFailActionNotExist(source.getActions(), "операторе 'if-else'");
         checkCloseInMultiAction(source.getActions());
     }
 }

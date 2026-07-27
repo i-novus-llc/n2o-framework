@@ -28,13 +28,13 @@ public class MarkdownValidator extends TypedMetadataValidator<N2oMarkdown> {
             MetaActions metaActions = getMetaActions(p);
 
             if (CollectionUtils.isEmpty(metaActions))
-                throw new N2oMetadataValidationException(String.format("Для компонента с actions=\"%s\" не найдены действия <actions>",
+                throw new N2oMetadataValidationException(String.format("Для компонента с 'actions=\"%s\"' не найдены действия \"<actions>\"",
                         String.join(",", source.getActionIds())));
 
             for (String actionId : source.getActionIds())
                 if (!metaActions.containsKey(actionId))
                     throw new N2oMetadataValidationException(
-                            String.format("Компонент с actions \"%s\" ссылается на несуществующее действие", actionId));
+                            String.format("Компонент с 'actions' \"%s\" ссылается на несуществующее действие", actionId));
         }
     }
 

@@ -73,7 +73,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         if (StringUtils.isJs(resolvedPath)) {
             String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
             if (datasourceId == null) {
-                throw new N2oException("Источник данных не найден для действия \"<a>\" со связанным 'href' " + source.getHref());
+                throw new N2oException(String.format("Источник данных не найден для действия \"<a>\" со связанным 'href' '%s'", source.getHref()));
             }
             linkAction.getPayload().setModelLink(ModelLinkUtil.createModelLink(p, source.getModel(), getClientDatasourceId(datasourceId, p), getLocalModel(p)).getLink());
         } else

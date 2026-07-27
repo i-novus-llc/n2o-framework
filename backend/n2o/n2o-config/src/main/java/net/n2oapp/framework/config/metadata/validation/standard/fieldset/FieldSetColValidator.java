@@ -20,7 +20,7 @@ public class FieldSetColValidator implements SourceValidator<N2oFieldsetCol>, So
             throw new N2oMetadataValidationException(String.format("Размер колонки филдсета виджета %s должен иметь значение от 1 до 12",
                     ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
         if (ArrayUtils.isEmpty(source.getItems()) && source.getSize() == null)
-            throw new N2oMetadataValidationException(String.format("Для <сol> виджета %s необходимо задать поля, либо же атрибут 'size'",
+            throw new N2oMetadataValidationException(String.format("Для \"<сol>\" виджета %s необходимо задать поля, либо же атрибут 'size'",
                     ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
         p.safeStreamOf(source.getItems()).forEach(p::validate);
     }

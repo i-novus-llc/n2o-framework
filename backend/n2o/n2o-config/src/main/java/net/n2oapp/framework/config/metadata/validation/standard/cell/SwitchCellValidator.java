@@ -25,12 +25,12 @@ public class SwitchCellValidator implements SourceValidator<N2oSwitchCell>, Sour
     public void validate(N2oSwitchCell source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (StringUtils.isBlank(source.getValueFieldId()))
-            throw new N2oMetadataValidationException(String.format("Для ячейки <switch> виджета %s не указано значение 'value-field-id'",
+            throw new N2oMetadataValidationException(String.format("Для ячейки \"<switch>\" виджета %s не указано значение 'value-field-id'",
                     ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
 
         Arrays.stream(source.getCases()).forEach(c -> {
             if (StringUtils.isBlank(c.getValue()))
-                throw new N2oMetadataValidationException(String.format("Для <case> ячейки <switch> виджета %s не указано значение 'value'",
+                throw new N2oMetadataValidationException(String.format("Для \"<case>\" ячейки \"<switch>\" виджета %s не указано значение 'value'",
                         ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
 
             if (c.getItem() != null)

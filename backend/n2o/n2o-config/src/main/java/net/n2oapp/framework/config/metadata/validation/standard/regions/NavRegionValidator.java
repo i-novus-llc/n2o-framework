@@ -21,7 +21,7 @@ public class NavRegionValidator extends AbstractRegionValidator<N2oNavRegion> {
     public void validate(N2oNavRegion source, SourceProcessor p) {
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Регион <nav> ссылается на несуществующий источник данных %s",
+                    String.format("Регион \"<nav>\" ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));
         p.safeStreamOf(source.getMenuItems()).forEach(p::validate);
     }

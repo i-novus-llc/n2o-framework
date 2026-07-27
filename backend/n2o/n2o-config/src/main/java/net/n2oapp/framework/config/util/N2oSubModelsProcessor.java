@@ -78,7 +78,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
                               List<Map<String, Object>> subModels, String labelFieldId, String valueFieldId) {
         QuerySimpleField field = subQuery.getSimpleFieldsMap().get(valueFieldId);
         if (field == null)
-            throw new N2oException(String.format("field [%s] not found in query [%s]", valueFieldId, subModelQuery.getQueryId()));
+            throw new N2oException(String.format("Поле '%s' не найдено в запросе '%s'", valueFieldId, subModelQuery.getQueryId()));
 
         for (Map<String, Object> subModel : subModels) {
             if (subModel.get(labelFieldId) != null || subModel.get(valueFieldId) == null)

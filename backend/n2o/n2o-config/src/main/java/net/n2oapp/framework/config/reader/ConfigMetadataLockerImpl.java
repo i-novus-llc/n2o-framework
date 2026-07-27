@@ -37,13 +37,13 @@ public class ConfigMetadataLockerImpl implements ConfigMetadataLocker {
      */
     public void lock() {
         if (isLocked()) {
-            throw new N2oException("Error in locking config metadata! One instance try to lock, when it has locked already by " + lockFileName + "!");
+            throw new N2oException(String.format("Ошибка блокировки метаданных! Экземпляр пытается установить блокировку, хотя она уже установлена файлом '%s'", lockFileName));
         }
         try {
             File lockFile = new File(lockFileName);
             lockFile.createNewFile();
         } catch (IOException e) {
-            throw new N2oException("Error with lock config metadata! lockFileName = " + lockFileName, e);
+            throw new N2oException(String.format("Ошибка при блокировке метаданных! Не удалось создать файл блокировки '%s'", lockFileName), e);
         }
     }
 

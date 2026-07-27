@@ -22,7 +22,7 @@ public class LineFieldSetValidator implements SourceValidator<N2oLineFieldSet>, 
 
         if (isInvalidColor(source.getBadgeColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("Филдсет <line> использует недопустимое значение атрибута badge-color=\"%s\"",
+                    String.format("Филдсет \"<line>\" использует недопустимое значение атрибута 'badge-color=\"%s\"'",
                             source.getBadgeColor()));
         }
     }

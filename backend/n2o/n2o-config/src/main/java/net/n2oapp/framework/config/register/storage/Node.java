@@ -90,7 +90,7 @@ public class Node {
             res = uri.split(directoryPath)[1];
             res = trimLocalPath(res);
         } catch (Exception e) {
-            throw new IllegalArgumentException(String.format("Error while calculating localPath by directoryPath [%s] and uri [%s]", directoryPath, uri), e);
+            throw new IllegalArgumentException(String.format("Ошибка при вычислении локального пути по директории '%s' и URI '%s'", directoryPath, uri), e);
         }
         return res;
     }

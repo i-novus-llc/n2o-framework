@@ -77,7 +77,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     private void initDefaultsParam(N2oParam param, CompileProcessor p, S source) {
         param.setDatasourceId(castDefault(param.getDatasourceId(), () -> getLocalDatasourceId(p)));
         if (param.getDatasourceId() == null && param.getValue() == null) {
-            throw new N2oException(String.format("Источник данных не определен для параметра %s действия %s", param.getName(), source.getId()));
+            throw new N2oException(String.format("Источник данных не определен для параметра '%s' действия '%s'", param.getName(), source.getId()));
         }
         param.setRefPageId(castDefault(param.getRefPageId(), () -> {
             PageScope pageScope = p.getScope(PageScope.class);

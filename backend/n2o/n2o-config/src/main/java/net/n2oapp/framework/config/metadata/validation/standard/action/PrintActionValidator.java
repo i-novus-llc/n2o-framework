@@ -19,6 +19,6 @@ public class PrintActionValidator implements SourceValidator<N2oPrintAction>, So
     @Override
     public void validate(N2oPrintAction source, SourceProcessor p) {
         if (StringUtils.isBlank(source.getUrl()))
-            throw new N2oMetadataValidationException("В действии <print> не задан адрес документа для печати 'url'");
+            throw new N2oMetadataValidationException("В действии \"<print>\" не задан адрес документа для печати 'url'");
     }
 }

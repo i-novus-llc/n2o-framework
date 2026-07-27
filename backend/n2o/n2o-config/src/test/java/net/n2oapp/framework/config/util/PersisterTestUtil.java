@@ -67,7 +67,7 @@ public class PersisterTestUtil {
     public static void assertCanonicalXml(String expectedXmlFile, Element actualRoot) {
         InputStream input = PersisterTestUtil.class.getClassLoader().getResourceAsStream(expectedXmlFile);
         if (input == null)
-            throw new IllegalArgumentException("xml file [" + expectedXmlFile + "] not found");
+            throw new IllegalArgumentException(String.format("XML-файл '%s' не найден", expectedXmlFile));
         Element expectedRoot = getRootElement(input);
         assertCanonicalElement(expectedRoot, actualRoot);
     }

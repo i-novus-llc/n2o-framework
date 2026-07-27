@@ -36,7 +36,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testValueFieldIdExistence.page.xml"));
-        assertEquals("В действии <switch> не указан 'value-field-id'", exception.getMessage());
+        assertEquals("В действии \"<switch>\" не указан 'value-field-id'", exception.getMessage());
     }
 
     /**
@@ -47,7 +47,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testDatasourceExistence.page.xml"));
-        assertEquals("Тег <switch> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1", exception.getMessage());
+        assertEquals("Тег \"<switch>\" в атрибуте 'datasource' ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
     }
 
     /**
@@ -60,7 +60,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testCasesSequence.page.xml"),
                 "В действии <switch> после <default> указан <case>"
         );
-        assertEquals("В действии <switch> после <default> указан <case>", exception.getMessage());
+        assertEquals("В действии \"<switch>\" после \"<default>\" указан \"<case>\"", exception.getMessage());
     }
 
     /**
@@ -71,7 +71,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testCaseValueExistence.page.xml"));
-        assertEquals("В <case> действия <switch> не указан атрибут 'value'", exception.getMessage());
+        assertEquals("В \"<case>\" действия \"<switch>\" не указан атрибут 'value'", exception.getMessage());
     }
 
     @Test
@@ -79,7 +79,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testOnFailActionNotExist.page.xml"));
-        assertEquals("Действие <on-fail> нельзя использовать в <switch>", exception.getMessage());
+        assertEquals("Действие \"<on-fail>\" нельзя использовать в \"<switch>\"", exception.getMessage());
     }
 
     @Test
@@ -87,7 +87,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"", exception.getMessage());
     }
 
     @Test
@@ -100,7 +100,7 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testBadgeColor.page.xml"));
-        assertEquals("В ячейке <badge> виджета  указано недопустимое значение атрибута color=\"wrong\"", exception.getMessage());
+        assertEquals("В ячейке \"<badge>\" виджета  указано недопустимое значение атрибута 'color=\"wrong\"'", exception.getMessage());
     }
 
     @Test
@@ -108,6 +108,6 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testSwitchDefaultActionBadgeColor.page.xml"));
-        assertEquals("В ячейке <badge> виджета  указано недопустимое значение атрибута color=\"wrong\"", exception.getMessage());
+        assertEquals("В ячейке \"<badge>\" виджета  указано недопустимое значение атрибута 'color=\"wrong\"'", exception.getMessage());
     }
 }

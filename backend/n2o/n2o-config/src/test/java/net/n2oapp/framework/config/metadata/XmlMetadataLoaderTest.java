@@ -45,6 +45,6 @@ class XmlMetadataLoaderTest {
                 new ReaderFactoryByMap(null).register(new SimplePageElementIOv4()).register(new FormElementIOV5()).register(new TextFieldIOv3()));
         N2oException exception = assertThrows(
                 N2oException.class, () -> xmlMetadataLoader.load(info, null));
-        assertEquals("Error reading metadata \"testException\".\nError on line 7, column 11: The element type \"text\" must be terminated by the matching end-tag \"</text>\".", exception.getMessage());
+        assertEquals("Ошибка чтения метаданных 'testException'.\nОшибка в строке 7, колонке 11: The element type \"text\" must be terminated by the matching end-tag \"</text>\".", exception.getMessage());
     }
 }

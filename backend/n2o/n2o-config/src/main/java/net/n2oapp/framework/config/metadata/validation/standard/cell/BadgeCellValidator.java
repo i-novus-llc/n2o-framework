@@ -26,19 +26,19 @@ public class BadgeCellValidator implements SourceValidator<N2oBadgeCell>, Source
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getN2oSwitch() != null) {
             if (isBlank(source.getN2oSwitch().getValueFieldId()))
-                throw new N2oMetadataValidationException(String.format("Для конструкции <switch> ячейки <badge> виджета %s не указано значение 'value-field-id'",
+                throw new N2oMetadataValidationException(String.format("Для конструкции \"<switch>\" ячейки \"<badge>\" виджета %s не указано значение 'value-field-id'",
                         ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
 
             if (source.getN2oSwitch().getCases() != null)
                 p.safeStreamOf(source.getN2oSwitch().getCases().keySet()).forEach(c -> {
                     if (c == null)
-                        throw new N2oMetadataValidationException(String.format("Для <case> конструкции <switch> ячейки <badge> виджета %s не указано значение 'value'",
+                        throw new N2oMetadataValidationException(String.format("Для \"<case>\" конструкции \"<switch>\" ячейки \"<badge>\" виджета %s не указано значение 'value'",
                                 ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
                 });
         }
         if (isInvalidColor(source.getColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("В ячейке <badge> виджета %s указано недопустимое значение атрибута color=\"%s\"",
+                    String.format("В ячейке \"<badge>\" виджета %s указано недопустимое значение атрибута 'color=\"%s\"'",
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()), source.getColor()));
         }
     }

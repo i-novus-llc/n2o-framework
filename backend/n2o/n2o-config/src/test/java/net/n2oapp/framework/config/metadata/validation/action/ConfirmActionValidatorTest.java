@@ -35,7 +35,7 @@ class ConfirmActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/confirm/testOneButtonOk.page.xml"));
-        assertEquals("В действии <confirm> указана кнопка <ok>, но не указана кнопка <cancel>", exception.getMessage());
+        assertEquals("В действии \"<confirm>\" указана кнопка \"<ok>\", но не указана кнопка \"<cancel>\"", exception.getMessage());
     }
 
     @Test
@@ -43,7 +43,7 @@ class ConfirmActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/confirm/testOneButtonCancel.page.xml"));
-        assertEquals("В действии <confirm> указана кнопка <cancel>, но не указана кнопка <ok>", exception.getMessage());
+        assertEquals("В действии \"<confirm>\" указана кнопка \"<cancel>\", но не указана кнопка \"<ok>\"", exception.getMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ class ConfirmActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/confirm/testTwoOkButtons.page.xml"));
-        assertEquals("В действии <confirm> указаны две кнопки <ok>", exception.getMessage());
+        assertEquals("В действии \"<confirm>\" указаны две кнопки \"<ok>\"", exception.getMessage());
     }
 
     @Test
@@ -59,14 +59,14 @@ class ConfirmActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/confirm/testTwoCancelButtons.page.xml"));
-        assertEquals("В действии <confirm> указаны две кнопки <cancel>", exception.getMessage());
+        assertEquals("В действии \"<confirm>\" указаны две кнопки \"<cancel>\"", exception.getMessage());
     }
     @Test
     void testColorButtons() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/confirm/testColorButton.page.xml"));
-        assertEquals("Одна из кнопок действия <confirm> использует недопустимое значение атрибута color='test'", exception.getMessage());
+        assertEquals("Одна из кнопок действия \"<confirm>\" использует недопустимое значение атрибута 'color='test''", exception.getMessage());
     }
 
 }

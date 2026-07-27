@@ -38,7 +38,7 @@ class JavaDataProviderValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 ()-> validate("net/n2oapp/framework/config/metadata/validation/provider/java/testNonMethodQuery.query.xml"));
-        assertEquals("В <java> провайдере выборки 'testNonMethodQuery' не указан атрибут 'method'", exception.getMessage());
+        assertEquals("В \"<java>\" провайдере выборки 'testNonMethodQuery' не указан атрибут 'method'", exception.getMessage());
     }
 
     @Test
@@ -46,7 +46,7 @@ class JavaDataProviderValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 ()-> validate("net/n2oapp/framework/config/metadata/validation/provider/java/testNonMethodObjectOperation.object.xml"));
-        assertEquals("В <java> провайдере операции 'test' объекта 'testNonMethodObjectOperation' не указан атрибут 'method'", exception.getMessage());
+        assertEquals("В \"<java>\" провайдере операции 'test' объекта 'testNonMethodObjectOperation' не указан атрибут 'method'", exception.getMessage());
     }
 
     @Test
@@ -54,7 +54,7 @@ class JavaDataProviderValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 ()-> validate("net/n2oapp/framework/config/metadata/validation/provider/java/testNonMethodObjectOperationValidation.object.xml"));
-        assertEquals("В <java> провайдере валидации 'test' операции 'op1' объекта 'testNonMethodObjectOperationValidation' не указан атрибут 'method'", exception.getMessage());
+        assertEquals("В \"<java>\" провайдере валидации 'test' операции 'op1' объекта 'testNonMethodObjectOperationValidation' не указан атрибут 'method'", exception.getMessage());
     }
 
     @Test
@@ -62,6 +62,6 @@ class JavaDataProviderValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 ()-> validate("net/n2oapp/framework/config/metadata/validation/provider/java/testNonMethodObjectValidation.object.xml"));
-        assertEquals("В <java> провайдере валидации 'test' объекта 'testNonMethodObjectValidation' не указан атрибут 'method'", exception.getMessage());
+        assertEquals("В \"<java>\" провайдере валидации 'test' объекта 'testNonMethodObjectValidation' не указан атрибут 'method'", exception.getMessage());
     }
 }

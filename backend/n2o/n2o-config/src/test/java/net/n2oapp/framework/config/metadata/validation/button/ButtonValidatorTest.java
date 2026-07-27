@@ -55,7 +55,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonColor.page.xml"));
-        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -63,7 +63,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldColor.page.xml"));
-        assertEquals("Кнопка 'button' использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'button' использует недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -71,7 +71,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonBadgeColor.page.xml"));
-        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута 'badge-color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -79,7 +79,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldBadgeColor.page.xml"));
-        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута 'badge-color=\"red\"'", exception.getMessage());
     }
 
     @Test
@@ -111,7 +111,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testOnFailAction.page.xml"));
-        assertEquals("Действие <on-fail> должно быть последним в списке действий", exception.getMessage());
+        assertEquals("Действие \"<on-fail>\" должно быть последним в списке действий", exception.getMessage());
     }
 
     @Test
@@ -119,7 +119,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testManyOnFailAction.page.xml"));
-        assertEquals("Не может быть более одного элемента <on-fail>", exception.getMessage());
+        assertEquals("Не может быть более одного элемента \"<on-fail>\"", exception.getMessage());
     }
 
     @Test
@@ -127,7 +127,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testOnFailActionWithoutInvoke.page.xml"));
-        assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
+        assertEquals("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"", exception.getMessage());
     }
 
     @Test
@@ -135,7 +135,7 @@ class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"", exception.getMessage());
     }
 
     @Test

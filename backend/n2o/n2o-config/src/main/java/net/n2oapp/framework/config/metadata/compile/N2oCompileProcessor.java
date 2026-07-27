@@ -451,7 +451,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (link.getValue() == null) return link;
         if (link.getValue() instanceof Collection) {
             if (!link.getSubModelQuery().isMulti())
-                throw new N2oException("Sub model [" + link.getSubModelQuery().getFullName() + "] must be multi for value " + link.getValue());
+                throw new N2oException(String.format("Вложенная модель '%s' должна поддерживать множественные значения для значения '%s'", link.getSubModelQuery().getFullName(), link.getValue()));
             List<DataSet> dataList = new ArrayList<>();
             for (Object o : (List<?>) link.getValue()) {
                 if (o instanceof DefaultValues defaultValues) {
@@ -469,7 +469,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             return resolvedLink;
         } else if (link.getValue() instanceof DefaultValues defaultValues) {
             if (link.getSubModelQuery().isMulti())
-                throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must not be multi for value " + link.getValue());
+                throw new N2oException(String.format("Вложенная модель '%s' не должна поддерживать множественные значения для значения '%s'", link.getSubModelQuery().getSubModel(), link.getValue()));
             DataSet dataSet = new DataSet();
             dataSet.put(link.getSubModelQuery().getSubModel(), defaultValues.getValues());
             if (subModelsProcessor != null)

@@ -17,7 +17,7 @@ public class MultivaluedPropertyResolver implements PropertyResolver {
 
     public MultivaluedPropertyResolver(PropertyResolver... properties) {
         if (properties == null || properties.length == 0)
-            throw new IllegalArgumentException("Must be property resolver");
+            throw new IllegalArgumentException("Должен быть указан хотя бы один PropertyResolver");
         this.stack = Arrays.asList(properties);
     }
 

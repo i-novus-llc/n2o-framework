@@ -37,7 +37,7 @@ class ActionsAwareValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedPageActions.page.xml"));
-        assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
+        assertEquals("Для компонента с 'action-id=\"test\"' не найдены действия \"<actions>\"", exception.getMessage());
     }
 
     /**
@@ -48,7 +48,7 @@ class ActionsAwareValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedWidgetActions.page.xml"));
-        assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
+        assertEquals("Для компонента с 'action-id=\"test\"' не найдены действия \"<actions>\"", exception.getMessage());
     }
 
     /**
@@ -59,7 +59,7 @@ class ActionsAwareValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testActionExistenceByActionId.page.xml"));
-        assertEquals("Компонент с action-id=\"test\" ссылается на несуществующее действие test", exception.getMessage());
+        assertEquals("Компонент с 'action-id=\"test\"' ссылается на несуществующее действие 'test'", exception.getMessage());
     }
 
     /**
@@ -70,6 +70,6 @@ class ActionsAwareValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testUsingActionIdAndActionAtTheSameTime.page.xml"));
-        assertEquals("Компонент с action-id=\"test\" содержит действия и использует ссылку action-id одновременно", exception.getMessage());
+        assertEquals("Компонент с 'action-id=\"test\"' содержит действия и использует ссылку 'action-id' одновременно", exception.getMessage());
     }
 }

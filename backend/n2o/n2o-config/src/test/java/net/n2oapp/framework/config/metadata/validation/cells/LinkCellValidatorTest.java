@@ -30,6 +30,6 @@ class LinkCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/link/testLinkCell.page.xml"));
-        assertEquals("В ячейке <link> виджета  одновременно указаны 'url', 'action-id' либо действие", exception.getMessage());
+        assertEquals("В ячейке \"<link>\" виджета  одновременно указаны 'url', 'action-id' либо действие", exception.getMessage());
     }
 }
