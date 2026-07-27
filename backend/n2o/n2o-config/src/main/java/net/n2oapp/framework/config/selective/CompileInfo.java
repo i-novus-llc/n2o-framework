@@ -81,7 +81,7 @@ public class CompileInfo extends SourceInfo {
         else if (path != null)
             return RegisterUtil.getIdAndPostfix(path)[0];
         else
-            throw new IllegalStateException("Required id or path");
+            throw new IllegalStateException("Необходимо указать 'id' или 'path'");
     }
 
     public String getPostfix() {

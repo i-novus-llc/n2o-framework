@@ -24,7 +24,7 @@ public class LinkCellValidator implements SourceValidator<N2oLinkCell>, SourceCl
     public void validate(N2oLinkCell source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getUrl() != null && (source.getActionId() != null || source.getActions() != null))
-            throw new N2oMetadataValidationException(String.format("В ячейке <link> виджета %s одновременно указаны 'url', 'action-id' либо действие",
+            throw new N2oMetadataValidationException(String.format("В ячейке \"<link>\" виджета %s одновременно указаны 'url', 'action-id' либо действие",
                     ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
 
         if (source.getActions() !=  null)

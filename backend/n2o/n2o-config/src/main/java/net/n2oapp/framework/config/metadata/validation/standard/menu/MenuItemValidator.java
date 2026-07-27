@@ -50,26 +50,26 @@ public class MenuItemValidator implements SourceValidator<N2oAbstractMenuItem>, 
         if (item.getBadgeColor() != null && !StringUtils.isLink(item.getBadgeColor()) &&
                 !EnumUtils.isValidEnum(ColorEnum.class, item.getBadgeColor()))
             throw new N2oMetadataValidationException(
-                    String.format("<menu-item label=%s> использует недопустимое значение атрибута badge-color=\"%s\"",
+                    String.format("\"<menu-item label=%s>\" использует недопустимое значение атрибута 'badge-color=\"%s\"'",
                             ValidationUtils.getIdOrEmptyString(item.getLabel()),
                             item.getBadgeColor()));
     }
 
     private void checkLinkMenuItem(N2oLinkMenuItem item) {
         if (item.getHref() == null)
-            throw new N2oMetadataValidationException("Для элемента меню <link> не задан `href`");
+            throw new N2oMetadataValidationException("Для элемента меню \"<link>\" не задан 'href'");
 
         if (item.getTarget() != null && item.getTarget().equals(TargetEnum.APPLICATION)
                 && item.getHref().startsWith("http")) {
             throw new N2oMetadataValidationException(
-                    "В элементе меню <link> при абсолютном пути (http\\https) не может быть задан target=\"application\"");
+                    "В элементе меню \"<link>\" при абсолютном пути (http\\https) не может быть задан 'target=\"application\"'");
         }
     }
 
     private static void checkDatasource(N2oAbstractMenuItem source, SourceProcessor p, String element) {
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("<%s label=%s> ссылается на несуществующий источник данных %s",
+                    String.format("\"<%s label=%s>\" ссылается на несуществующий источник данных %s",
                             element,
                             ValidationUtils.getIdOrEmptyString(source.getLabel()),
                             ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));

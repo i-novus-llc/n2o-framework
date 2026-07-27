@@ -51,7 +51,7 @@ class FieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNull.widget.xml"));
-        assertEquals("У поля 'field1' атрибут default-value не является ссылкой или не задан: 'null'", exception.getMessage());
+        assertEquals("У поля 'field1' атрибут 'default-value' не является ссылкой или не задан: 'null'", exception.getMessage());
     }
 
     @Test
@@ -59,7 +59,7 @@ class FieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForInterval.widget.xml"));
-        assertEquals("У поля 'field1' default-value не задан", exception.getMessage());
+        assertEquals("У поля 'field1' 'default-value' не задан", exception.getMessage());
     }
 
     @Test
@@ -67,7 +67,7 @@ class FieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForList.widget.xml"));
-        assertEquals("У поля 'field1' default-value не является ссылкой", exception.getMessage());
+        assertEquals("У поля 'field1' 'default-value' не является ссылкой", exception.getMessage());
     }
 
     @Test
@@ -75,7 +75,7 @@ class FieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForInterval.widget.xml"));
-        assertEquals("У поля 'field1' default-value не является ссылкой", exception.getMessage());
+        assertEquals("У поля 'field1' 'default-value' не является ссылкой", exception.getMessage());
     }
 
     @Test

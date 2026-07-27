@@ -25,9 +25,9 @@ public class InvokeActionValidator extends AbstractMetaActionValidator<N2oInvoke
     public void validate(N2oInvokeAction source, SourceProcessor p) {
         super.validate(source, p);
         if (isBlank(source.getOperationId()))
-            throw new N2oMetadataValidationException("В действии <invoke> не указан идентификатор операции 'operation-id'");
+            throw new N2oMetadataValidationException("В действии \"<invoke>\" не указан идентификатор операции 'operation-id'");
 
         ValidationUtils.checkForExistsObject(source.getObjectId(),
-                String.format("Действие <invoke operation-id=%s>", getIdOrEmptyString(source.getOperationId())), p);
+                String.format("Действие \"<invoke operation-id=%s>\"", getIdOrEmptyString(source.getOperationId())), p);
     }
 }

@@ -10,20 +10,19 @@ import org.jdom2.Element;
  */
 public class MetadataReaderException extends N2oException {
     public static void throwMoreThanOneChildElement(Element element) {
-        throw new MetadataReaderException("More than one element in " + element);
+        throw new MetadataReaderException(String.format("В элементе '%s' содержится более одного дочернего элемента", element.getName()));
     }
 
     public static void throwMissingAtLeastOneElement(Element element) {
-        throw new MetadataReaderException("Missing at least one element in " + element);
+        throw new MetadataReaderException(String.format("В элементе '%s' отсутствует хотя бы один дочерний элемент", element.getName()));
     }
 
     public static void throwMissingAtLeastOneChildElement(Element element, String childName) {
-        throw new MetadataReaderException("Missing at least one " + childName + " element in " + element);
+        throw new MetadataReaderException(String.format("В элементе '%s' отсутствует хотя бы один дочерний элемент '%s'", element.getName(), childName));
     }
 
     public static void throwExpectedElement(Element element, String expected) {
-        throw new MetadataReaderException(
-                "Expected element '" + expected + "', but actual '" + element.getName() + "'");
+        throw new MetadataReaderException(String.format("Ожидался элемент '%s', но получен '%s'", expected, element.getName()));
     }
 
     public MetadataReaderException(String message) {

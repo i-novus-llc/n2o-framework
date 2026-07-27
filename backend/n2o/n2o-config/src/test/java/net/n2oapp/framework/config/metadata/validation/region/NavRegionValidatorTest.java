@@ -34,6 +34,6 @@ class NavRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/testNavDatasourceExistence.page.xml"));
-        assertEquals("Регион <nav> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+        assertEquals("Регион \"<nav>\" ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 }

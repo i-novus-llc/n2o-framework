@@ -34,6 +34,6 @@ class PanelRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/testPanelRegionColor.page.xml"));
-        assertEquals("В регионе <panel> 'p1' указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("В регионе \"<panel>\" 'p1' указано недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

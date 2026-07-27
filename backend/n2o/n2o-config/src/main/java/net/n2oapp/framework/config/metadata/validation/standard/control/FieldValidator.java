@@ -73,13 +73,13 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             } else if (source instanceof N2oSimpleIntervalField interval) {
                 if (interval.getBegin() == null && interval.getEnd() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("У поля %s default-value не задан", ValidationUtils.getIdOrEmptyString(source.getId())));
+                            String.format("У поля %s 'default-value' не задан", ValidationUtils.getIdOrEmptyString(source.getId())));
                 if (!StringUtils.isLink(interval.getBegin()) && !StringUtils.isLink(interval.getEnd()))
                     throw new N2oMetadataValidationException(
-                            String.format("У поля %s default-value не является ссылкой", ValidationUtils.getIdOrEmptyString(source.getId())));
+                            String.format("У поля %s 'default-value' не является ссылкой", ValidationUtils.getIdOrEmptyString(source.getId())));
             } else if (!StringUtils.isLink(source.getDefaultValue())) {
                 throw new N2oMetadataValidationException(
-                        String.format("У поля %s атрибут default-value не является ссылкой или не задан: '%s'",
+                        String.format("У поля %s атрибут 'default-value' не является ссылкой или не задан: '%s'",
                                 ValidationUtils.getIdOrEmptyString(source.getId()), source.getDefaultValue()));
             }
     }
@@ -92,7 +92,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     private void checkListFieldDefaultValues(N2oListField list) {
         if (list.getDefValue() != null && list.getDefValue().values().stream().filter(StringUtils::isLink).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
-                    String.format("У поля %s default-value не является ссылкой", ValidationUtils.getIdOrEmptyString(list.getId())));
+                    String.format("У поля %s 'default-value' не является ссылкой", ValidationUtils.getIdOrEmptyString(list.getId())));
     }
 
     /**

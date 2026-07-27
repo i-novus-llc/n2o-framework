@@ -35,6 +35,6 @@ class ProgressValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/progress/testProgressColor.widget.xml"));
-        assertEquals("В поле <progress> указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("В поле \"<progress>\" указано недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

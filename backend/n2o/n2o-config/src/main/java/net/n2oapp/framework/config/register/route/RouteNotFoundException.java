@@ -8,9 +8,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 public class RouteNotFoundException extends N2oException {
 
     public RouteNotFoundException(String url) {
-        super(String.format("Metadata by url '%s' not found!", url));
+        super(String.format("Метаданная по URL '%s' не найдена", url));
         setHttpStatus(404);
     }
-
-
 }

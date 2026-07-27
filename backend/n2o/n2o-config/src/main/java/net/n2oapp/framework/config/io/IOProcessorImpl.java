@@ -1120,7 +1120,7 @@ public class IOProcessorImpl implements IOProcessor {
         resolved = systemProperties == null ? resolved : StringUtils.resolveProperties(resolved, systemProperties::getProperty);
         resolved = messageSourceAccessor == null ? resolved : StringUtils.resolveProperties(resolved, msg -> messageSourceAccessor.getMessage(msg, msg));
         if (failFast && StringUtils.hasProperty(resolved))
-            throw new N2oException("Cannot resolve property in '" + text + "'");
+            throw new N2oException(String.format("Не удалось разрешить свойство в '%s'", text));
         return resolved;
     }
 

@@ -84,7 +84,7 @@ public final class ValidationUtils {
     public static void checkDatasourceExistenceInTag(String dsId, SourceProcessor p, @Nonnull String tag) {
         if (dsId != null) {
             checkDatasourceExistence(dsId, p,
-                    String.format("Тег %s в атрибуте 'datasource' ссылается на несуществующий источник данных %s",
+                    String.format("Тег %s в атрибуте 'datasource' ссылается на несуществующий источник данных '%s'",
                             tag, dsId));
         }
     }
@@ -142,16 +142,16 @@ public final class ValidationUtils {
      */
     public static void validateIfElse(Queue<N2oConditionBranch> branches, SourceProcessor p) {
         if (!(branches.element() instanceof N2oIfBranchAction))
-            throw new N2oMetadataValidationException("Условный оператор if-else начинается не с тега <if>");
+            throw new N2oMetadataValidationException("Условный оператор 'if-else' начинается не с тега \"<if>\"");
 
         LinkedList<N2oConditionBranch> operator = constructOperator(branches);
-        checkDatasourceExistenceInTag(operator.getFirst().getDatasourceId(), p, "<if>");
+        checkDatasourceExistenceInTag(operator.getFirst().getDatasourceId(), p, "\"<if>\"");
         Optional<N2oElseIfBranchAction> elseIfBranch = findFirstByInstance(operator, N2oElseIfBranchAction.class);
         Optional<N2oElseBranchAction> elseBranch = findFirstByInstance(operator, N2oElseBranchAction.class);
 
         if (elseIfBranch.isPresent() && elseBranch.isPresent() &&
                 (operator.indexOf(elseIfBranch.get()) > operator.indexOf(elseBranch.get())))
-            throw new N2oMetadataValidationException("Неверный порядок тегов <else-if> и <else> в условном операторе if-else");
+            throw new N2oMetadataValidationException("Неверный порядок тегов \"<else-if>\" и \"<else>\" в условном операторе 'if-else'");
 
         for (N2oConditionBranch operatorBranch : operator) {
             if (operatorBranch instanceof N2oIfBranchAction)
@@ -238,7 +238,7 @@ public final class ValidationUtils {
 
     public static void checkOnFailActionNotExist(N2oAction[] actions, String componentName) {
         if (actions != null && Stream.of(actions).anyMatch(N2oOnFailAction.class::isInstance))
-            throw new N2oMetadataValidationException(String.format("Действие <on-fail> нельзя использовать в %s", componentName));
+            throw new N2oMetadataValidationException(String.format("Действие \"<on-fail>\" нельзя использовать в %s", componentName));
     }
 
     public static void checkOnFailAction(N2oAction[] actions) {
@@ -246,13 +246,13 @@ public final class ValidationUtils {
         List<N2oAction> onFailActions = Stream.of(actions).filter(N2oOnFailAction.class::isInstance).toList();
         if (CollectionUtils.isNotEmpty(onFailActions)) {
             if (onFailActions.size() > 1) {
-                throw new N2oMetadataValidationException("Не может быть более одного элемента <on-fail>");
+                throw new N2oMetadataValidationException("Не может быть более одного элемента \"<on-fail>\"");
             } else if (onFailActions.size() == 1) {
                 if (!(actions[actions.length - 1] instanceof N2oOnFailAction)) {
-                    throw new N2oMetadataValidationException("Действие <on-fail> должно быть последним в списке действий");
+                    throw new N2oMetadataValidationException("Действие \"<on-fail>\" должно быть последним в списке действий");
                 }
                 if (Stream.of(actions).noneMatch(N2oInvokeAction.class::isInstance)) {
-                    throw new N2oMetadataValidationException("Задано действие <on-fail> при отсутствующем действии <invoke>");
+                    throw new N2oMetadataValidationException("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"");
                 }
             }
         }
@@ -269,10 +269,10 @@ public final class ValidationUtils {
                 String message;
                 if (closeAction.getTarget() == CloseTargetEnum.TAB) {
                     predicate = N2oOnFailAction.class::isInstance;
-                    message = "После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>";
+                    message = "После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"";
                 } else {
                     predicate = a -> a instanceof N2oCloseAction || a instanceof N2oOnFailAction;
-                    message = "После действия <close> не должно быть других действий кроме <close> или <on-fail>";
+                    message = "После действия \"<close>\" не должно быть других действий кроме \"<close>\" или \"<on-fail>\"";
                 }
                 Arrays.stream(actions, i + 1, actionsSize)
                         .filter(a -> !predicate.test(a))
@@ -301,7 +301,7 @@ public final class ValidationUtils {
 
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {
         p.checkNotNull(branch.getTest(),
-                String.format("В теге %s условного операторе if-else не задано условие 'test'", tag));
+                String.format("В теге \"%s\" условного оператора 'if-else' не задано условие 'test'", tag));
     }
 
     private static <T> Optional<T> findFirstByInstance(List<? super T> list, Class<T> clazz) {

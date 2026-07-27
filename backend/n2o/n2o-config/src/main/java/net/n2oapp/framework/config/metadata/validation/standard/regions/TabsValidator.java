@@ -22,11 +22,11 @@ public class TabsValidator extends AbstractRegionValidator<N2oTabsRegion> {
     @Override
     public void validate(N2oTabsRegion source, SourceProcessor p) {
         if (source.getTabs() == null)
-            throw new N2oMetadataValidationException("В регионе <tabs> отсутствуют вкладки <tab>");
+            throw new N2oMetadataValidationException("В регионе \"<tabs>\" отсутствуют вкладки \"<tab>\"");
 
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Регион <tabs> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
+                    String.format("Регион \"<tabs>\" ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
 
         Arrays.stream(source.getTabs()).forEach(tab -> this.validateTab(tab, p));
     }

@@ -34,7 +34,7 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
         for (N2oSubPageRegion.Page page : source.getPages()) {
             if (routes.contains(page.getRoute()))
                 throw new N2oMetadataValidationException(
-                        String.format("В элементах <sub-page> указаны повторяющиеся маршруты \"%s\"", page.getRoute()));
+                        String.format("В элементах \"<sub-page>\" указаны повторяющиеся маршруты \"%s\"", page.getRoute()));
             routes.add(page.getRoute());
         }
 
@@ -43,9 +43,9 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
 
     private void validatePage(N2oSubPageRegion.Page page, SourceProcessor p) {
         if (page.getPageId() == null)
-            throw new N2oMetadataValidationException("В одном из элементов <sub-page> не указан обязательный атрибут 'page-id'");
+            throw new N2oMetadataValidationException("В одном из элементов \"<sub-page>\" не указан обязательный атрибут 'page-id'");
         if (page.getRoute() == null)
-            throw new N2oMetadataValidationException("В одном из элементов <sub-page> не указан обязательный атрибут 'route'");
+            throw new N2oMetadataValidationException("В одном из элементов \"<sub-page>\" не указан обязательный атрибут 'route'");
 
         p.checkForExists(page.getPageId(), N2oPage.class,
                 String.format("Один из элементов <sub-page> ссылается на несуществующую страницу %s",
@@ -60,7 +60,7 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
                 return;
 
         throw new N2oMetadataValidationException(
-                "В атрибуте 'default-page-id' элемента <sub-page> указана страница, которая не используется ни в одном из внутренних элементов <page>");
+                "В атрибуте 'default-page-id' элемента \"<sub-page>\" указана страница, которая не используется ни в одном из внутренних элементов \"<page>\"");
     }
 
     private static void checkEmptyToolbar(N2oSubPageRegion.Page source) {
@@ -69,7 +69,7 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
             for (N2oToolbar toolbar : toolbars)
                 if (toolbar.getItems() == null && toolbar.getGenerate() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре элемента <sub-page> %s",
+                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре элемента \"<sub-page>\" %s",
                                     getIdOrEmptyString(source.getPageId())));
     }
 }

@@ -25,7 +25,7 @@ public class StatusValidator implements SourceValidator<N2oStatus>, SourceClassA
         if (source.getColor() != null &&
                 !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(source.getColor()))) {
             throw new N2oMetadataValidationException(
-                    String.format("В поле <status> указано недопустимое значение атрибута color=\"%s\"",
+                    String.format("В поле \"<status>\" указано недопустимое значение атрибута 'color=\"%s\"'",
                             source.getColor()));
         }
     }

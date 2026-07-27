@@ -45,7 +45,7 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 public class ActionCompileStaticProcessor {
 
     private ActionCompileStaticProcessor() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**

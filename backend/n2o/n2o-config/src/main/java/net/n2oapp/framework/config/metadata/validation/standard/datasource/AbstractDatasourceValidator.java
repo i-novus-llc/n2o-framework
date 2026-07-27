@@ -37,7 +37,7 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
         if (submit != null && submit.getRefreshDatasourceIds() != null) {
             for (String refreshDs : submit.getRefreshDatasourceIds()) {
                 ValidationUtils.checkDatasourceExistence(refreshDs, p,
-                        String.format("Тег <submit> источника данных %s содержит несуществующий источник данных '%s' в атрибуте 'refresh-datasources'",
+                        String.format("Тег \"<submit>\" источника данных %s содержит несуществующий источник данных '%s' в атрибуте 'refresh-datasources'",
                                 getIdOrEmptyString(datasourceId), refreshDs));
             }
         }
@@ -58,14 +58,14 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
                                 getIdOrEmptyString(datasourceId)));
             if (query.getFilters() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но в выборке %s нет filters!",
+                        String.format("Источник данных %s имеет префильтры, но в выборке %s нет \"<filters>\"!",
                                 getIdOrEmptyString(datasourceId),
                                 getIdOrEmptyString(query.getId())));
 
             for (N2oPreFilter preFilter : preFilters) {
                 if (preFilter.getFieldId() == null) {
                     throw new N2oMetadataValidationException(
-                            String.format("Источник данных %s содержит префильтр без указанного field-id!",
+                            String.format("Источник данных %s содержит префильтр без указанного 'field-id'!",
                                     getIdOrEmptyString(datasourceId)));
                 }
 

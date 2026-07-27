@@ -87,9 +87,9 @@ public class N2oMetadataRegister implements MetadataRegister {
 
         MetaKey(String id, Class<? extends Source> sourceClass) {
             if (id == null)
-                throw new IllegalArgumentException("Id must not be null");
+                throw new IllegalArgumentException("Идентификатор не может быть null");
             if (sourceClass == null)
-                throw new IllegalArgumentException("SourceClass must not be null");
+                throw new IllegalArgumentException("Класс источника не может быть null");
             this.id = id;
             this.sourceClass = sourceClass;
         }

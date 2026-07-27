@@ -30,7 +30,7 @@ class ToolbarCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/toolbar/testToolbarCell.page.xml"));
-        assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
+        assertEquals("Для компонента с 'action-id=\"test\"' не найдены действия \"<actions>\"", exception.getMessage());
     }
 
     @Test
@@ -39,6 +39,6 @@ class ToolbarCellValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/toolbar/testEmptyToolbarCell.page.xml")
         );
-        assertEquals("Не заданы элементы или атрибут 'generate' в <toolbar> ячейке виджета 'table'", exception.getMessage());
+        assertEquals("Не заданы элементы или атрибут 'generate' в \"<toolbar>\"-ячейке виджета 'table'", exception.getMessage());
     }
 }

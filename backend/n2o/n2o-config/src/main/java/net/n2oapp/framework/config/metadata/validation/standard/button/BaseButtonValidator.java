@@ -75,7 +75,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
                 && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color));
         if (isIncorrectColor && !StringUtils.isLink(color)) {
             throw new N2oMetadataValidationException(
-                    String.format("Кнопка %s использует недопустимое значение атрибута color=\"%s\"", getLabelOrId(source), color)
+                    String.format("Кнопка %s использует недопустимое значение атрибута 'color=\"%s\"'", getLabelOrId(source), color)
             );
         }
     }
@@ -87,7 +87,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
         String badgeColor = ((BadgeAware) source).getBadgeColor();
         if (isInvalidColor(badgeColor)) {
             throw new N2oMetadataValidationException(
-                    String.format("Кнопка %s использует недопустимое значение атрибута badge-color=\"%s\"", getLabelOrId(source), badgeColor)
+                    String.format("Кнопка %s использует недопустимое значение атрибута 'badge-color=\"%s\"'", getLabelOrId(source), badgeColor)
             );
         }
     }

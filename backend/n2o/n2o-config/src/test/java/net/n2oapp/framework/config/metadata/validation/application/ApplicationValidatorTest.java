@@ -45,7 +45,7 @@ class ApplicationValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderTitleValidate.application.xml"));
-        assertEquals("Заголовок компонента <header> имеет плейсхолдер, но при этом не указан источник данных", exception.getMessage());
+        assertEquals("Заголовок компонента \"<header>\" имеет плейсхолдер, но при этом не указан источник данных", exception.getMessage());
     }
 
     @Test
@@ -53,6 +53,6 @@ class ApplicationValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderDatasourceExistentValidate.application.xml"));
-        assertEquals("<header> ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
+        assertEquals("\"<header>\" ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
     }
 }

@@ -21,7 +21,7 @@ public class EditCellValidator  implements SourceValidator<N2oEditCell>, SourceC
     @Override
     public void validate(N2oEditCell source, SourceProcessor p) {
         if (source.getN2oField() == null)
-            throw new N2oMetadataValidationException(String.format("У ячейки <edit> виджета %s не задано поле ввода",
+            throw new N2oMetadataValidationException(String.format("У ячейки \"<edit>\" виджета %s не задано поле ввода",
                     ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
     }
 }

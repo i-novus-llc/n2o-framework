@@ -67,7 +67,7 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testSubmitWithNonExistentRefreshDatasource.page.xml"));
-        assertEquals("Тег <submit> источника данных 'ds1' содержит несуществующий источник данных 'ds2' в атрибуте 'refresh-datasources'", exception.getMessage());
+        assertEquals("Тег \"<submit>\" источника данных 'ds1' содержит несуществующий источник данных 'ds2' в атрибуте 'refresh-datasources'", exception.getMessage());
     }
 
     /**
@@ -89,7 +89,7 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testReferenceQueryFieldExistence.page.xml"));
-        assertEquals("Источник данных 'ds1' имеет префильтры, но в выборке 'utDsBlank' нет filters!", exception.getMessage());
+        assertEquals("Источник данных 'ds1' имеет префильтры, но в выборке 'utDsBlank' нет \"<filters>\"!", exception.getMessage());
     }
 
     /**
@@ -133,7 +133,7 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testRequiredPrefilterFieldId.page.xml"));
-        assertEquals("Источник данных 'ds1' содержит префильтр без указанного field-id!", exception.getMessage());
+        assertEquals("Источник данных 'ds1' содержит префильтр без указанного 'field-id'!", exception.getMessage());
     }
 
     /**

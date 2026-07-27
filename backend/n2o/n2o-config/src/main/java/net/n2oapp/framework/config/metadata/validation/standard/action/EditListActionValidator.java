@@ -21,15 +21,15 @@ public class EditListActionValidator extends TypedMetadataValidator<N2oEditListA
     @Override
     public void validate(N2oEditListAction source, SourceProcessor p) {
         if (source.getOperation() == null)
-            throw new N2oMetadataValidationException("Для действия <edit-list> не указан тип операции");
+            throw new N2oMetadataValidationException("Для действия \"<edit-list>\" не указан тип операции");
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Действие <edit-list> ссылается на несуществующий источник данных %s в атрибуте 'datasource'",
+                    String.format("Действие \"<edit-list>\" ссылается на несуществующий источник данных %s в атрибуте 'datasource'",
                             ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));
 
         if (source.getItemDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getItemDatasourceId(), p,
-                    String.format("Действие <edit-list> ссылается на несуществующий источник данных %s в атрибуте 'item-datasource'",
+                    String.format("Действие \"<edit-list>\" ссылается на несуществующий источник данных %s в атрибуте 'item-datasource'",
                             ValidationUtils.getIdOrEmptyString(source.getItemDatasourceId())));
     }
 }

@@ -33,7 +33,7 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
 
         if (isInvalidColor(source.getBadgeColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("Филдсет <multi-set> использует недопустимое значение атрибута badge-color=\"%s\"",
+                    String.format("Филдсет \"<multi-set>\" использует недопустимое значение атрибута 'badge-color=\"%s\"'",
                             source.getBadgeColor()));
         }
     }

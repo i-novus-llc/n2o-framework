@@ -34,7 +34,7 @@ public class N2oButtonGeneratorFactory extends BaseMetadataFactory<ButtonGenerat
             if (TABLE_SETTINGS_BUTTONS.contains(code)) {
                 throw new N2oException(String.format("Генерация кнопки '%s' с помощью атрибута 'generate' больше не поддерживается. Добавьте кнопку '%s' в таблице отдельным тегом, используя xsd схему 'http://n2oapp.net/framework/config/schema/table-settings-1.0'", code, code));
             }
-            throw new N2oException(String.format("Генерации кнопок по слову %s не существует.", code));
+            throw new N2oException(String.format("Генерации кнопок по слову `%s` не существует.", code));
         }
     }
 }

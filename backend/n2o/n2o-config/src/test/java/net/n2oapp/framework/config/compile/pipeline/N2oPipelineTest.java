@@ -329,7 +329,7 @@ class N2oPipelineTest {
         @Override
         public <S> void validate(S source, SourceProcessor p) throws N2oMetadataValidationException {
             if ("test".equals(((N2oSimplePage)source).getSrc()))
-                throw new N2oMetadataValidationException("validated " + ((N2oSimplePage)source).getName());
+                throw new N2oMetadataValidationException(String.format("Ошибка валидации страницы '%s'", ((N2oSimplePage)source).getName()));
         }
     }
 

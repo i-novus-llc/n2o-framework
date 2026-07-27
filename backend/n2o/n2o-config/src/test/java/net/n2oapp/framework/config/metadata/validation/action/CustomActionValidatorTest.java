@@ -37,6 +37,6 @@ class CustomActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/custom/testRefreshNonExistentDatasource.page.xml"));
-        assertEquals("Атрибут \"refresh-datasources\" действия  ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
+        assertEquals("Атрибут 'refresh-datasources' действия  ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
     }
 }

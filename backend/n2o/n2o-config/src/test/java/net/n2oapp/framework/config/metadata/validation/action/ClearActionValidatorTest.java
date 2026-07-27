@@ -30,6 +30,6 @@ class ClearActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/clear/testDatasourceExistence.page.xml"));
-        assertEquals("Действие <clear> ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
+        assertEquals("Действие \"<clear>\" ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
     }
 }

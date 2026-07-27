@@ -31,10 +31,10 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
                     String.format("Поле '%s' использует выборку и ссылку на источник данных одновременно", field.getId()));
         else if (field.getQueryId() != null && field.getOptions() != null)
             throw new N2oMetadataValidationException(
-                    String.format("Поле '%s' использует выборку и элемент '<options>' одновременно", field.getId()));
+                    String.format("Поле '%s' использует выборку и элемент \"<options>\" одновременно", field.getId()));
         else if (field.getDatasourceId() != null && field.getOptions() != null)
             throw new N2oMetadataValidationException(
-                    String.format("Поле '%s' использует ссылку на источник данных и элемент '<options>' одновременно", field.getId()));
+                    String.format("Поле '%s' использует ссылку на источник данных и элемент \"<options>\" одновременно", field.getId()));
 
         if (field.getDatasourceId() != null) {
             checkDatasource(field, widgetScope, p);
@@ -59,13 +59,13 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
 
         if (hasDefaultValue && hasDefaultValues) {
             throw new N2oMetadataValidationException(
-                    String.format("Поле %s использует элемент '<default-value>' и '<default-values>' одновременно",
+                    String.format("Поле %s использует элемент \"<default-value>\" и \"<default-values>\" одновременно",
                             getIdOrEmptyString(field.getId())));
         }
 
         if (field.isSingle() && hasDefaultValues) {
             throw new N2oMetadataValidationException(
-                    String.format("Поле %s должно использовать в single режиме элемент '<default-value>' вместо '<default-values>'",
+                    String.format("Поле %s должно использовать в 'single' режиме элемент \"<default-value>\" вместо \"<default-values>\"",
                             getIdOrEmptyString(field.getId())));
         }
     }

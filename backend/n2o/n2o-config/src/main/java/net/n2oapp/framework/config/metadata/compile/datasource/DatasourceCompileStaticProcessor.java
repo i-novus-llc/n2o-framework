@@ -61,7 +61,7 @@ public class DatasourceCompileStaticProcessor {
     public static final String SORTING = "sorting.";
 
     private DatasourceCompileStaticProcessor() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**
@@ -103,7 +103,7 @@ public class DatasourceCompileStaticProcessor {
      */
     public static N2oClientDataProvider initSubmit(Submit submit, String datasourceId, CompiledObject object, CompileProcessor p) {
         if (object == null) {
-            throw new N2oException(String.format("For compilation submit for datasource [%s] is necessary object!", datasourceId));
+            throw new N2oException(String.format("Для компиляции 'submit' для источника данных '%s' необходим объект!", datasourceId));
         }
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();

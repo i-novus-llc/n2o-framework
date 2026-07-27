@@ -24,13 +24,13 @@ public class IconCellValidator implements SourceValidator<N2oIconCell>, SourceCl
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getIconSwitch() != null) {
             if (StringUtils.isBlank(source.getIconSwitch().getValueFieldId()))
-                throw new N2oMetadataValidationException(String.format("Для конструкции <switch> ячейки <icon> виджета %s не указано значение 'value-field-id'",
+                throw new N2oMetadataValidationException(String.format("Для конструкции \"<switch>\" ячейки \"<icon>\" виджета %s не указано значение 'value-field-id'",
                         ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
 
             if (source.getIconSwitch().getCases() != null)
                 p.safeStreamOf(source.getIconSwitch().getCases().keySet()).forEach(c -> {
                     if (c == null)
-                        throw new N2oMetadataValidationException(String.format("Для <case> конструкции <switch> ячейки <icon> виджета %s не указано значение 'value'",
+                        throw new N2oMetadataValidationException(String.format("Для \"<case>\" конструкции \"<switch>\" ячейки \"<icon>\" виджета %s не указано значение 'value'",
                                 ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
                 });
         }

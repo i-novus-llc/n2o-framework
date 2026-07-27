@@ -19,12 +19,12 @@ public class SetValueValidator implements SourceValidator<N2oSetValueAction>, So
     public void validate(N2oSetValueAction source, SourceProcessor p) {
         if (source.getSourceDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getSourceDatasourceId(), p,
-                    String.format("Атрибут 'source-datasource' действия '<set-value>' ссылается на несуществующий источник данных %s",
+                    String.format("Атрибут 'source-datasource' действия \"<set-value>\" ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(source.getSourceDatasourceId())));
 
         if (source.getTargetDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getTargetDatasourceId(), p,
-                    String.format("Атрибут 'target-datasource' действия '<set-value>' ссылается на несуществующий источник данных %s",
+                    String.format("Атрибут 'target-datasource' действия \"<set-value>\" ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(source.getTargetDatasourceId())));
     }
 }

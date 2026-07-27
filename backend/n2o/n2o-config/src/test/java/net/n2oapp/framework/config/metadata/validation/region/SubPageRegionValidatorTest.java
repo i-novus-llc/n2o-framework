@@ -36,7 +36,7 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testPageId.page.xml"));
-        assertEquals("В одном из элементов <sub-page> не указан обязательный атрибут 'page-id'", exception.getMessage());
+        assertEquals("В одном из элементов \"<sub-page>\" не указан обязательный атрибут 'page-id'", exception.getMessage());
     }
 
     @Test
@@ -44,7 +44,7 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testRoute.page.xml"));
-        assertEquals("В одном из элементов <sub-page> не указан обязательный атрибут 'route'", exception.getMessage());
+        assertEquals("В одном из элементов \"<sub-page>\" не указан обязательный атрибут 'route'", exception.getMessage());
     }
 
     @Test
@@ -60,7 +60,7 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testDefaultPageId.page.xml"));
-        assertEquals("В атрибуте 'default-page-id' элемента <sub-page> указана страница, которая не используется ни в одном из внутренних элементов <page>", exception.getMessage());
+        assertEquals("В атрибуте 'default-page-id' элемента \"<sub-page>\" указана страница, которая не используется ни в одном из внутренних элементов \"<page>\"", exception.getMessage());
     }
 
     @Test
@@ -68,7 +68,7 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testNonUniqueRoutes.page.xml"));
-        assertEquals("В элементах <sub-page> указаны повторяющиеся маршруты \"/route\"", exception.getMessage());
+        assertEquals("В элементах \"<sub-page>\" указаны повторяющиеся маршруты \"/route\"", exception.getMessage());
     }
 
     @Test
@@ -77,6 +77,6 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testEmptyToolbar.page.xml")
         );
-        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре элемента <sub-page> 'page1'", exception.getMessage());
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре элемента \"<sub-page>\" 'page1'", exception.getMessage());
     }
 }

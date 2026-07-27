@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.exception.N2oException;
  */
 public class MetadataPersisterException extends N2oException {
     public static void throwPersisterLock() {
-        throw new MetadataPersisterException("Persist metadata is locked");
+        throw new MetadataPersisterException("Метаданная заблокирована для изменений");
     }
 
     public MetadataPersisterException(String message) {

@@ -42,7 +42,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml"));
-        assertEquals("В событии <on-change> не задан атрибут 'datasource'", exception.getMessage());
+        assertEquals("В событии \"<on-change>\" не задан атрибут 'datasource'", exception.getMessage());
     }
 
     @Test
@@ -50,7 +50,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.application.xml"));
-        assertEquals("В событии <on-change> не задан атрибут 'datasource'", exception.getMessage());
+        assertEquals("В событии \"<on-change>\" не задан атрибут 'datasource'", exception.getMessage());
     }
 
     /**
@@ -61,7 +61,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceExistence.page.xml"));
-        assertEquals("Событие <on-change> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+        assertEquals("Событие \"<on-change>\" ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 
     @Test
@@ -69,7 +69,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceExistence.application.xml"));
-        assertEquals("Событие <on-change> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+        assertEquals("Событие \"<on-change>\" ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 
     @Test
@@ -77,7 +77,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/actionsAreNotExist.page.xml"));
-        assertEquals("В событии <on-change> 'withOutActions' не заданы действия", exception.getMessage());
+        assertEquals("В событии \"<on-change>\" 'withOutActions' не заданы действия", exception.getMessage());
     }
 
     @Test
@@ -85,7 +85,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/actionsAreNotExist.application.xml"));
-        assertEquals("В событии <on-change> 'withOutActions' не заданы действия", exception.getMessage());
+        assertEquals("В событии \"<on-change>\" 'withOutActions' не заданы действия", exception.getMessage());
     }
 
     @Test
@@ -93,7 +93,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/checkOnFailAction.page.xml"));
-        assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
+        assertEquals("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"", exception.getMessage());
     }
 
     @Test
@@ -101,7 +101,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/checkOnFailAction.application.xml"));
-        assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
+        assertEquals("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"", exception.getMessage());
     }
 
     @Test
@@ -109,7 +109,7 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"", exception.getMessage());
     }
 
     @Test
@@ -122,6 +122,6 @@ class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testMultiActionWithClose.application.xml"));
-        assertEquals("После действия <close> не должно быть других действий кроме <close> или <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close>\" не должно быть других действий кроме \"<close>\" или \"<on-fail>\"", exception.getMessage());
     }
 }

@@ -30,6 +30,6 @@ class ProgressBarCellValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/progress/testProgressBarColor.page.xml"));
-        assertEquals("В ячейке <progress> виджета  указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("В ячейке \"<progress>\" виджета  указано недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
 }

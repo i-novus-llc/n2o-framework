@@ -25,7 +25,7 @@ public class ProgressBarCellValidator implements SourceValidator<N2oProgressBarC
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (isInvalidColor(source.getColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("В ячейке <progress> виджета %s указано недопустимое значение атрибута color=\"%s\"",
+                    String.format("В ячейке \"<progress>\" виджета %s указано недопустимое значение атрибута 'color=\"%s\"'",
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()), source.getColor()));
         }
     }

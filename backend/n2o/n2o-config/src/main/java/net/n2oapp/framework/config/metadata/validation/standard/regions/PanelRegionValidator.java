@@ -24,7 +24,7 @@ public class PanelRegionValidator extends AbstractRegionValidator<N2oPanelRegion
                 !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(source.getColor()))) {
             throw new N2oMetadataValidationException(
                     String.format(
-                            "В регионе <panel> '%s' указано недопустимое значение атрибута color=\"%s\"",
+                            "В регионе \"<panel>\" '%s' указано недопустимое значение атрибута 'color=\"%s\"'",
                             source.getId(),
                             source.getColor()
                     )

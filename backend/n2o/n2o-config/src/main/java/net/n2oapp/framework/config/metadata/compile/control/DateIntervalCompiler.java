@@ -35,7 +35,7 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
         source.setDomain(p.resolve(property("n2o.api.control.date_interval.domain"), String.class));
         DomainEnum domain = DomainEnum.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
-            throw new N2oException("Несуществующее значение атрибута 'domain' для поля '" + source.getId() + "'");
+            throw new N2oException(String.format("Несуществующее значение атрибута 'domain' для поля '%s'", source.getId()));
         dateInterval.setOutputFormat(domain.getJsFormat());
         dateInterval.setDateFormat(castDefault(source.getDateFormat(),
                 () -> p.resolve(property("n2o.api.control.date_interval.date_format"), String.class)));

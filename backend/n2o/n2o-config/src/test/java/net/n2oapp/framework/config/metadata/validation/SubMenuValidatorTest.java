@@ -82,6 +82,6 @@ class SubMenuValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/testOnFailAction.page.xml"));
-        assertEquals("Не может быть более одного элемента <on-fail>", exception.getMessage());
+        assertEquals("Не может быть более одного элемента \"<on-fail>\"", exception.getMessage());
     }
 }

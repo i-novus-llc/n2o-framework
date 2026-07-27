@@ -66,7 +66,7 @@ class N2oMetadataRegisterTest {
         try {
             register.get("test2", N2oWidget.class);
         } catch (MetadataNotFoundException e) {
-            assertThat(e.getMessage(), is("Не найден файл test2.widget.xml или не зарегистрирована соответствующая ему метаданная N2oWidget"));
+            assertThat(e.getMessage(), is("Не найден файл 'test2.widget.xml' или не зарегистрирована соответствующая ему метаданная 'N2oWidget'"));
         }
     }
 

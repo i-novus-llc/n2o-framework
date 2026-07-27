@@ -43,7 +43,7 @@ public class SerializeOperation<S extends SourceMetadata> implements PipelineOpe
         try {
             buf = mapper.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
-            throw new N2oException("Error during serialize metadata " + value.getId(), e);
+            throw new N2oException(String.format("Ошибка при сериализации метаданных с идентификатором '%s'", value.getId()), e);
         }
         return new ByteArrayInputStream(buf);
     }

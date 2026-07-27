@@ -30,7 +30,7 @@ class SetValueValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/set_value/testSourceDatasourceExistence.page.xml"));
-        assertEquals("Атрибут 'source-datasource' действия '<set-value>' ссылается на несуществующий источник данных 'test'", exception.getMessage());
+        assertEquals("Атрибут 'source-datasource' действия \"<set-value>\" ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 
     @Test
@@ -38,6 +38,6 @@ class SetValueValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/set_value/testTargetDatasourceExistence.page.xml"));
-        assertEquals("Атрибут 'target-datasource' действия '<set-value>' ссылается на несуществующий источник данных 'ds'", exception.getMessage());
+        assertEquals("Атрибут 'target-datasource' действия \"<set-value>\" ссылается на несуществующий источник данных 'ds'", exception.getMessage());
     }
 }

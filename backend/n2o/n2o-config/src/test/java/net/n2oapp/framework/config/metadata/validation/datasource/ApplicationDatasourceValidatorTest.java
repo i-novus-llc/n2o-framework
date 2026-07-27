@@ -58,7 +58,7 @@ class ApplicationDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testApplicationDatasourceNonExistentId.page.xml"));
-        assertEquals("Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'", exception.getMessage());
+        assertEquals("Источник данных \"<app-datasource>\" ссылается на несуществующий в 'empty.application.xml' источник данных 'nonEXIST'", exception.getMessage());
     }
 
     /**
@@ -69,6 +69,6 @@ class ApplicationDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testSourceAppDatasourceNonExistentId.page.xml"));
-        assertEquals("Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'", exception.getMessage());
+        assertEquals("Источник данных \"<app-datasource>\" ссылается на несуществующий в 'empty.application.xml' источник данных 'nonEXIST'", exception.getMessage());
     }
 }

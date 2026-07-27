@@ -20,7 +20,7 @@ public class ClearActionValidator implements SourceValidator<N2oClearAction>, So
     public void validate(N2oClearAction source, SourceProcessor p) {
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Действие <clear> ссылается на несуществующий источник данных %s",
+                    String.format("Действие \"<clear>\" ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));
     }
 }

@@ -33,7 +33,7 @@ import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryCont
 public class N2oClientDataProviderUtil {
 
     private N2oClientDataProviderUtil() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**
@@ -96,7 +96,7 @@ public class N2oClientDataProviderUtil {
     public static N2oClientDataProvider initFromSubmit(Submit submit, String fieldId,
                                                        CompiledObject compiledObject, CompileProcessor p) {
         if (compiledObject == null)
-            throw new N2oException(String.format("For compilation submit for field [%s] is necessary object!", fieldId));
+            throw new N2oException(String.format("Для компиляции 'submit' для поля '%s' необходим объект!", fieldId));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethodEnum.POST);

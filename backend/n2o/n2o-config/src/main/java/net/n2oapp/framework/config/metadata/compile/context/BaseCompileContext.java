@@ -48,9 +48,9 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
 
     protected BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         if (sourceId == null)
-            throw new IllegalArgumentException("SourceId must not be null");
+            throw new IllegalArgumentException("Идентификатор исходной метаданной должен быть задан");
         if (sourceClass == null && compiledClass == null)
-            throw new IllegalArgumentException("SourceClass or CompiledClass must not be null");
+            throw new IllegalArgumentException("Класс исходной модели или класс клиентской модели должны быть заданы");
         this.sourceId = sourceId;
         this.sourceClass = sourceClass;
         this.compiledClass = compiledClass;
@@ -59,7 +59,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     protected BaseCompileContext(String route, String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         this(sourceId, sourceClass, compiledClass);
         if (route == null)
-            throw new IllegalArgumentException("Route must not be null");
+            throw new IllegalArgumentException("Значение 'route' должно быть задано");
         this.route = route;
     }
 
@@ -163,7 +163,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
 
     private void checkProcessor(BindProcessor p) {
         if (p == null) {
-            throw new IllegalArgumentException("You try to get CompiledId for dynamic metadata without CompileProcessor!");
+            throw new IllegalArgumentException("Невозможно получить 'CompiledId' для динамических метаданных без 'CompileProcessor'");
         }
     }
 

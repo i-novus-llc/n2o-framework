@@ -124,7 +124,7 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
 
         Arrays.stream(widgetActions).forEach(action -> {
             if (action.getId() == null) {
-                throw new N2oMetadataValidationException(String.format("Не задан 'id' у <action> виджета '%s'", source.getId()));
+                throw new N2oMetadataValidationException(String.format("Не задан 'id' у \"<action>\" виджета '%s'", source.getId()));
             }
         });
 

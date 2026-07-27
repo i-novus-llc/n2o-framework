@@ -171,7 +171,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
             if (toolbar != null) {
                 if (toolbar.getGenerate() == null && toolbar.getItems() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы %s",
+                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре в \"<overlay>\" таблицы %s",
                                     getIdOrEmptyString(source.getId())));
                 if (toolbar.getItems() != null)
                     p.safeStreamOf(toolbar.getItems()).forEach(p::validate);
@@ -193,7 +193,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
 
         if (counter[0] > 1) {
             throw new N2oMetadataValidationException(
-                    String.format("В таблице %s найдено несколько элементов <%s/>. Допускается только один элемент.",
+                    String.format("В таблице %s найдено несколько элементов \"<%s>\". Допускается только один элемент.",
                             getIdOrEmptyString(source.getId()), elementName));
         }
     }
@@ -234,7 +234,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                     if (id != null) {
                         if (uniques.contains(id))
                             throw new N2oMetadataValidationException(
-                                    String.format("Таблица %s содержит повторяющиеся значения %s=\"%s\" в <column>",
+                                    String.format("Таблица %s содержит повторяющиеся значения '%s=\"%s\"' в \"<column>\"",
                                             getIdOrEmptyString(sourceId), attributeName, id));
                         uniques.add(id);
                     }
@@ -248,7 +248,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                     String visibilityDatasourceId = visibility.getDatasourceId();
                     if (visibilityDatasourceId != null) {
                         checkDatasourceExistence(visibilityDatasourceId, p,
-                                String.format("В таблице %s в колонке %s зависимость <visibility> ссылается на несуществующий источник данных %s",
+                                String.format("В таблице %s в колонке %s зависимость \"<visibility>\" ссылается на несуществующий источник данных %s",
                                         getIdOrEmptyString(source.getId()),
                                         getIdOrEmptyString(getLabel(column)),
                                         getIdOrEmptyString(visibilityDatasourceId)));
@@ -263,7 +263,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                     String dependencyDatasource = dependency.getDatasource();
                     if (dependencyDatasource != null) {
                         checkDatasourceExistence(dependencyDatasource, p,
-                                String.format("В таблице %s зависимость %s ссылается на несуществующий источник данных %s",
+                                String.format("В таблице %s зависимость \"%s\" ссылается на несуществующий источник данных %s",
                                         getIdOrEmptyString(source.getId()),
                                         (dependency instanceof N2oVisibilityDependency) ? "<visibility>" : "<enabling>",
                                         getIdOrEmptyString(dependencyDatasource)));
@@ -292,7 +292,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
 
         if (!found) {
             throw new N2oMetadataValidationException(
-                    String.format("В таблице %s в элементе <ts:export/> значение default-format=\"%s\" не содержится в списке format",
+                    String.format("В таблице %s в элементе \"<ts:export/>\" значение 'default-format=\"%s\"' не содержится в списке 'format'",
                             getIdOrEmptyString(source.getId()),
                             defaultFormat.getId()));
         }

@@ -29,7 +29,7 @@ public class SubmitGenerator implements ButtonGenerator {
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
         if (!(context instanceof PageContext))
-            throw new IllegalStateException("Need PageContext");
+            throw new IllegalStateException("Требуется контекст страницы (PageContext)");
         String datasource = toolbar.getDatasourceId();
         N2oButton saveButton = new N2oButton();
         saveButton.setId(GenerateTypeEnum.SUBMIT.getId());

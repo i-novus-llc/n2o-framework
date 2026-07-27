@@ -28,7 +28,7 @@ public class N2oExternalFilesLoader implements ExternalFilesLoader {
             return null;
         Resource resource = resourceLoader.getResource(path);
         if (!resource.exists())
-            throw new IllegalArgumentException("File '" + path + "' not found");
+            throw new IllegalArgumentException(String.format("Файл '%s' не найден", path));
         return resource.getInputStream();
     }
 }

@@ -23,12 +23,12 @@ public class AlertActionValidator implements SourceValidator<N2oAlertAction>, So
     public void validate(N2oAlertAction source, SourceProcessor p) {
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Действие <alert> ссылается на несуществующий источник данных %s",
+                    String.format("Действие \"<alert>\" ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));
 
         if (isInvalidColor(source.getColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("Действие <alert> использует недопустимое значение атрибута color=\"%s\"",
+                    String.format("Действие \"<alert>\" использует недопустимое значение атрибута 'color=\"%s\"'",
                             source.getColor()));
         }
     }

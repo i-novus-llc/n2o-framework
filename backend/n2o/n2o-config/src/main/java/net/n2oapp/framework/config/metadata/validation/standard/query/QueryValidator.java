@@ -107,7 +107,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
                 if (nonNull(s.getFilters())) {
                     for (String filter : s.getFilters()) {
                         if (!filterFields.contains(filter))
-                            throw new N2oMetadataValidationException(String.format("<%s> ссылается на несуществующий фильтр %s в выборке %s",
+                            throw new N2oMetadataValidationException(String.format("\"<%s>\" ссылается на несуществующий фильтр %s в выборке %s",
                                     selectionType,
                                     ValidationUtils.getIdOrEmptyString(filter),
                                     ValidationUtils.getIdOrEmptyString(queryId)));
@@ -156,11 +156,11 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
             if (field instanceof QuerySimpleField querySimpleField && nonNull(querySimpleField.getN2oSwitch())) {
                 N2oSwitch n2oSwitch = querySimpleField.getN2oSwitch();
                 if (n2oSwitch.getCases().isEmpty())
-                    throw new N2oMetadataValidationException(String.format("В элементе '<switch>' поля '%s' отсутствует '<case>'", field.getId()));
+                    throw new N2oMetadataValidationException(String.format("В элементе \"<switch>\" поля '%s' отсутствует \"<case>\"", field.getId()));
                 if (n2oSwitch.getCases().containsKey(""))
-                    throw new N2oMetadataValidationException(String.format("В '<case>' элемента '<switch>' поля '%s' атрибут 'value' пустой", field.getId()));
+                    throw new N2oMetadataValidationException(String.format("В \"<case>\" элемента \"<switch>\" поля '%s' атрибут 'value' пустой", field.getId()));
                 if (n2oSwitch.getCases().containsValue(""))
-                    throw new N2oMetadataValidationException(String.format("В '<case>' элемента '<switch>' поля '%s' отсутствует тело", field.getId()));
+                    throw new N2oMetadataValidationException(String.format("В \"<case>\" элемента \"<switch>\" поля '%s' отсутствует тело", field.getId()));
             }
         }
     }

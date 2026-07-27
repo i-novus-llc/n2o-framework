@@ -29,20 +29,20 @@ public class ConfirmActionValidator implements SourceValidator<N2oConfirmAction>
         if (source.getConfirmButtons() != null && source.getConfirmButtons().length > 0) {
             if (source.getConfirmButtons().length == 1)
                 if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton)
-                    throw new N2oMetadataValidationException("В действии <confirm> указана кнопка <ok>, но не указана кнопка <cancel>");
+                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указана кнопка \"<ok>\", но не указана кнопка \"<cancel>\"");
                 else
-                    throw new N2oMetadataValidationException("В действии <confirm> указана кнопка <cancel>, но не указана кнопка <ok>");
+                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указана кнопка \"<cancel>\", но не указана кнопка \"<ok>\"");
 
             else if (source.getConfirmButtons().length == 2) {
                 if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton && source.getConfirmButtons()[1] instanceof N2oConfirmAction.OkButton) {
-                    throw new N2oMetadataValidationException("В действии <confirm> указаны две кнопки <ok>");
+                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указаны две кнопки \"<ok>\"");
                 } else if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.CancelButton && source.getConfirmButtons()[1] instanceof N2oConfirmAction.CancelButton) {
-                    throw new N2oMetadataValidationException("В действии <confirm> указаны две кнопки <cancel>");
+                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указаны две кнопки \"<cancel>\"");
                 } else
                     Arrays.stream(source.getConfirmButtons()).forEach(b -> checkColor(b.getColor()));
 
             } else
-                throw new N2oMetadataValidationException("В действии <confirm> указано более двух кнопок");
+                throw new N2oMetadataValidationException("В действии \"<confirm>\" указано более двух кнопок");
         }
     }
 
@@ -56,7 +56,7 @@ public class ConfirmActionValidator implements SourceValidator<N2oConfirmAction>
                 && !color.startsWith("outline")
                 && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color))) {
             throw new N2oMetadataValidationException(
-                    String.format("Одна из кнопок действия <confirm> использует недопустимое значение атрибута color=%s",
+                    String.format("Одна из кнопок действия \"<confirm>\" использует недопустимое значение атрибута 'color=%s'",
                             ValidationUtils.getIdOrEmptyString(color))
             );
         }

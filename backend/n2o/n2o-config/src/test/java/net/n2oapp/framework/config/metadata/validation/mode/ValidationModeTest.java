@@ -36,7 +36,7 @@ class ValidationModeTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/mode/testValidationMode.page.xml")
         );
-        assertEquals("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных 'ds3'", exception.getMessage());
+        assertEquals("Атрибут 'refresh-datasources' ссылается на несуществующий источник данных 'ds3'", exception.getMessage());
     }
 
     @Test
@@ -46,7 +46,7 @@ class ValidationModeTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/mode/testValidationMode.page.xml")
         );
-        assertEquals("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных 'ds4'", exception.getMessage());
+        assertEquals("Атрибут 'refresh-datasources' ссылается на несуществующий источник данных 'ds4'", exception.getMessage());
     }
 
     @Test

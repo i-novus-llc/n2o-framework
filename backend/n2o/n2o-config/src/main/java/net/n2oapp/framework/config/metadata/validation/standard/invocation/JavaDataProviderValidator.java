@@ -26,22 +26,22 @@ public class JavaDataProviderValidator extends TypedMetadataValidator<N2oJavaDat
 
         if (provider.getMethod() == null) {
             if (invocationScope.getQueryId() != null) {
-                throw new N2oMetadataValidationException(String.format("В <java> провайдере выборки %s не указан атрибут 'method'",
+                throw new N2oMetadataValidationException(String.format("В \"<java>\" провайдере выборки %s не указан атрибут 'method'",
                         ValidationUtils.getIdOrEmptyString(invocationScope.getQueryId())));
             } else {
                 if (invocationScope.getOperationId() != null) {
                     if (invocationScope.getValidationId() == null) {
-                        throw new N2oMetadataValidationException(String.format("В <java> провайдере операции %s объекта %s не указан атрибут 'method'",
+                        throw new N2oMetadataValidationException(String.format("В \"<java>\" провайдере операции %s объекта %s не указан атрибут 'method'",
                                 ValidationUtils.getIdOrEmptyString(invocationScope.getOperationId()),
                                 ValidationUtils.getIdOrEmptyString(invocationScope.getObjectId())));
                     } else {
-                        throw new N2oMetadataValidationException(String.format("В <java> провайдере валидации %s операции %s объекта %s не указан атрибут 'method'",
+                        throw new N2oMetadataValidationException(String.format("В \"<java>\" провайдере валидации %s операции %s объекта %s не указан атрибут 'method'",
                                 ValidationUtils.getIdOrEmptyString(invocationScope.getValidationId()),
                                 ValidationUtils.getIdOrEmptyString(invocationScope.getOperationId()),
                                 ValidationUtils.getIdOrEmptyString(invocationScope.getObjectId())));
                     }
                 } else if (invocationScope.getOperationId() == null && invocationScope.getValidationId() != null) {
-                    throw new N2oMetadataValidationException(String.format("В <java> провайдере валидации %s объекта %s не указан атрибут 'method'",
+                    throw new N2oMetadataValidationException(String.format("В \"<java>\" провайдере валидации %s объекта %s не указан атрибут 'method'",
                             ValidationUtils.getIdOrEmptyString(invocationScope.getValidationId()),
                             ValidationUtils.getIdOrEmptyString(invocationScope.getObjectId())));
                 }

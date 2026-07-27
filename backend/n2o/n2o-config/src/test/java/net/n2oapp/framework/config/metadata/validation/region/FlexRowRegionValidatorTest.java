@@ -38,6 +38,6 @@ class FlexRowRegionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/flex_row/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close> не должно быть других действий кроме <close> или <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close>\" не должно быть других действий кроме \"<close>\" или \"<on-fail>\"", exception.getMessage());
     }
 }

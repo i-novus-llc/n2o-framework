@@ -54,7 +54,7 @@ class RouteRegisterTest {
             register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "2", null, Page.class));
             fail();
         } catch (RouteAlreadyExistsException e) {
-            assertThat(e.getMessage(), is("Page by url '/a/:1' is already exists!"));
+            assertThat(e.getMessage(), is("Маршрут '/a/:1' для класса 'Page' уже существует"));
         }
     }
 

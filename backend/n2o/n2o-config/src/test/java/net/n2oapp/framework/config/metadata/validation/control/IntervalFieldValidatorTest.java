@@ -33,7 +33,7 @@ class IntervalFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/intervalField/testIntervalFieldBeginEndExistence.widget.xml"));
-        assertEquals("Не заданы элементы <begin> или <end> в <interval-field>", exception.getMessage());
+        assertEquals("Не заданы элементы \"<begin>\" или \"<end>\" в \"<interval-field>\"", exception.getMessage());
     }
 
     @Test

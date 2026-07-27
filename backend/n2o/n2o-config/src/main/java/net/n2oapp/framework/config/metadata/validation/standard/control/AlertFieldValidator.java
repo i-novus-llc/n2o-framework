@@ -25,7 +25,7 @@ public class AlertFieldValidator implements SourceValidator<N2oAlertField>, Sour
         if (source.getColor() != null &&
                 !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(source.getColor()))) {
             throw new N2oMetadataValidationException(
-                    String.format("В поле <alert> указано недопустимое значение атрибута color=\"%s\"",
+                    String.format("В поле \"<alert>\" указано недопустимое значение атрибута 'color=\"%s\"'",
                             source.getColor()));
         }
     }

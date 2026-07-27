@@ -33,7 +33,7 @@ class ConditionBranchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testOnFailActionNotExist.page.xml"));
-        assertEquals("Действие <on-fail> нельзя использовать в операторе if-else", exception.getMessage());
+        assertEquals("Действие \"<on-fail>\" нельзя использовать в операторе 'if-else'", exception.getMessage());
     }
 
     @Test
@@ -41,7 +41,7 @@ class ConditionBranchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testMultiActionWithClose.page.xml"));
-        assertEquals("После действия <close> не должно быть других действий кроме <close> или <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close>\" не должно быть других действий кроме \"<close>\" или \"<on-fail>\"", exception.getMessage());
     }
 
     @Test
@@ -49,7 +49,7 @@ class ConditionBranchActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testMultiActionWithTabClose.page.xml"));
-        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+        assertEquals("После действия \"<close target='tab'>\" не должно быть других действий кроме \"<on-fail>\"", exception.getMessage());
     }
 
     @Test

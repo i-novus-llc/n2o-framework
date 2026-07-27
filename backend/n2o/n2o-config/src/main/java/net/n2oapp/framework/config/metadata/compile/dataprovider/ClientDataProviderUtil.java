@@ -38,7 +38,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
 public class ClientDataProviderUtil {
 
     private ClientDataProviderUtil() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     public static ClientDataProvider compile(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {

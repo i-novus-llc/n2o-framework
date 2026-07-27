@@ -36,7 +36,7 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testStartsWithIf.page.xml"));
-        assertEquals("Условный оператор if-else начинается не с тега <if>", exception.getMessage());
+        assertEquals("Условный оператор 'if-else' начинается не с тега \"<if>\"", exception.getMessage());
     }
 
     /**
@@ -47,7 +47,7 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testDatasourceExistence.page.xml"));
-        assertEquals("Тег <if> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1", exception.getMessage());
+        assertEquals("Тег \"<if>\" в атрибуте 'datasource' ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
     }
 
     /**
@@ -58,7 +58,7 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testWrongIfElseAndElseSequence.page.xml"));
-        assertEquals("Неверный порядок тегов <else-if> и <else> в условном операторе if-else", exception.getMessage());
+        assertEquals("Неверный порядок тегов \"<else-if>\" и \"<else>\" в условном операторе 'if-else'", exception.getMessage());
     }
 
     /**
@@ -69,7 +69,7 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testIfTestRequirement.page.xml"));
-        assertEquals("В теге <if> условного операторе if-else не задано условие 'test'", exception.getMessage());
+        assertEquals("В теге \"<if>\" условного оператора 'if-else' не задано условие 'test'", exception.getMessage());
     }
 
     /**
@@ -80,9 +80,9 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testElseIfTestRequirement.page.xml"),
-                "В теге <else-if> условного операторе if-else не задано условие 'test'"
+                "В теге \"<else-if>\" условного оператора 'if-else' не задано условие 'test'"
         );
-        assertEquals("В теге <else-if> условного операторе if-else не задано условие 'test'", exception.getMessage());
+        assertEquals("В теге \"<else-if>\" условного оператора 'if-else' не задано условие 'test'", exception.getMessage());
     }
 
     /**
