@@ -38,8 +38,10 @@ def validate_file(filepath):
 
     # 1. Parse XML
     try:
-        # Strip namespace for easier traversal
-        content_no_ns = re.sub(r'\sxmlns[^"]*"[^"]*"', '', content)
+        # Strip only the default namespace so element tags stay plain (page, field, ...).
+        # Prefixed declarations (xmlns:ts, xmlns:sec) must survive: dropping them while the
+        # prefixes remain on tags and attributes makes the parser fail with "unbound prefix".
+        content_no_ns = re.sub(r'\sxmlns\s*=\s*"[^"]*"|\sxmlns\s*=\s*\'[^\']*\'', '', content)
         root = ET.fromstring(content_no_ns)
     except ET.ParseError as e:
         issues.append(Issue("ERROR", f"XML parse error: {e}"))
