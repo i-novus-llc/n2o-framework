@@ -3,17 +3,17 @@
     <toolbar>
         <button id="update" label="Сохранить" model="resolve" datasource="person" visible="{typeof id != 'undefined' &amp;&amp; id != null}" validate="true">
             <invoke refresh-datasources="person" operation-id="update">
-                <form-param id="id" value="{id}" datasource="person" model="edit"/>
-                <form-param id="name" value="{name}" datasource="person" model="edit"/>
-                <form-param id="age" value="{age}" datasource="person" model="edit"/>
+                <form-param id="id" value="{id}" datasource="person"/>
+                <form-param id="name" value="{name}" datasource="person"/>
+                <form-param id="age" value="{age}" datasource="person"/>
             </invoke>
         </button>
-        <button id="close" label="Закрыть" model="edit" datasource="person">
+        <button id="close" label="Закрыть" datasource="person">
             <close/>
         </button>
     </toolbar>
     <regions>
-        <form id="person" mode="two-models">
+        <form id="person">
             <datasource query-id="person">
                 <filters>
                     <eq field-id="id" param="person_id"/>
@@ -29,7 +29,7 @@
                 <table id="address">
                     <toolbar>
                         <button id="create" label="Создать" model="filter">
-                            <show-modal page-id="address" submit-operation-id="create">
+                            <show-modal page-id="address" submit-operation-id="create" route="/addresses/create">
                                 <datasources>
                                     <datasource default-values-mode="defaults"/>
                                 </datasources>

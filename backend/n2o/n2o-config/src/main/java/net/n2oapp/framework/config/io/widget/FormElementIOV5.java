@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.widget;
 
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.global.view.widget.FormModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.ControlIOv3;
@@ -19,7 +18,6 @@ public class FormElementIOV5 extends WidgetElementIOv5<N2oForm> {
     public void io(Element e, N2oForm f, IOProcessor p) {
         super.io(e, f, p);
         p.attributeBoolean(e, "unsaved-data-prompt", f::getUnsavedDataPrompt, f::setUnsavedDataPrompt);
-        p.attributeEnum(e, "mode", f::getMode, f::setMode, FormModeEnum.class);
         p.anyChildren(e, "fields", f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
         p.merge(f,getElementName());
     }

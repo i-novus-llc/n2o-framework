@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelect;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
-import net.n2oapp.framework.api.metadata.global.view.widget.FormModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.FormElementIOV5;
@@ -64,7 +63,6 @@ class N2oFormMergerTest extends SourceMergerTestBase {
         N2oForm form = merge("net/n2oapp/framework/config/metadata/merge/widget/parentFormMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childFormMerger.widget.xml")
                 .get("parentFormMerger", N2oForm.class);
-        assertThat(form.getMode(), is(FormModeEnum.TWO_MODELS));
         assertThat(form.getUnsavedDataPrompt(), is(true));
         assertThat(form.getDatasource().getQueryId(), is("defQueryId"));
 

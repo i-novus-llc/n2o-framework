@@ -26,7 +26,6 @@ Setting: `n2o.api.widget.auto_focus=true`
 ## `<form>` — Form Widget
 | Attribute | Type | Description | Default |
 |---|---|---|---|
-| mode | one-model/two-models | Form mode (number of models on the client) | one-model |
 | unsaved-data-prompt | boolean | Show a warning about unsaved data | false |
 
 Settings: `n2o.api.widget.form.unsaved_data_prompt=false`, `n2o.api.widget.form.size=1`

@@ -15,6 +15,78 @@ description: ""
 - Удален атрибут `tags` из поля `<auto-complete>`. Отображение элементов в виде тегов становится базовым поведением.
 - Удален способ передачи в open-page `:key` прим. `<path-param name="id" value=":id"/>`
   Необходимо использовать стандартный формат `{key}` прим. `<path-param name="id" value="{id}" />`
+- Удален атрибут `mode` у виджета `<form>`.
+  Ранее данный атрибут позволял использовать две модели данных — `edit` и `resolve` — внутри одной формы при значении `two-models`,
+  либо использовать одну модель при значении `one-model`.
+  Начиная с версии 7.30 поддержка этого режима прекращена. Для всех форм используется единая модель `resolve`.
+
+    Для миграции старых форм необходимо удалить атрибут `mode` из формы.
+    1. Для форм с `mode="one-model"` достаточно просто удалить атрибут.
+    2. Для форм с `mode="two-models"` дополнительно заменить `model="edit"` на `model="resolve"` или
+    удалить `edit`, там, где `resolve` используется по умолчанию.
+
+```xml title="Пример, как работало в версии 7.29 и ниже"
+<form id="filters" mode="two-models">
+    <toolbar>
+        <button label="Найти" model="edit">
+            <copy source-model="edit" target-model="resolve"/>
+        </button>
+        <button id="clear" label="Очистить" model="edit">
+            <clear model="edit,resolve"/>
+        </button>
+    </toolbar>
+    <fields>
+        <row>
+            <input-text id="search" description="Это фильтр по name"/>
+        </row>
+    </fields>
+</form>
+<table fetch-on-init="true">
+    <datasource query-id="test" route="/w2">
+        <dependencies>
+            <fetch on="filters" model="resolve"/>
+        </dependencies>
+        <filters>
+            <like field-id="name" value="{search}" datasource="filters"/>
+        </filters>
+    </datasource>
+    <columns>
+        <column text-field-id="name"/>
+    </columns>
+</table>
+```
+
+```xml title="Пример, как работает в версии 7.30"
+<form id="filters">
+    <toolbar>
+        <button label="Найти">
+            <copy source-model="resolve" target-model="edit"/>
+        </button>
+        <button id="clear" label="Очистить">
+            <clear model="edit,resolve"/>
+        </button>
+    </toolbar>
+    <fields>
+        <row>
+            <input-text id="search" description="Это фильтр по name"/>
+        </row>
+    </fields>
+</form>
+<table fetch-on-init="true">
+    <datasource query-id="test" route="/w2">
+        <dependencies>
+            <fetch on="filters" model="edit"/>
+        </dependencies>
+        <filters>
+            <like field-id="name" value="{search}" datasource="filters"/>
+        </filters>
+    </datasource>
+    <columns>
+        <column text-field-id="name"/>
+    </columns>
+</table>
+```
+
 - Полностью прекращена поддержка старых схем: `query-4.0`, `application-2.0`, `page-3.0`, `n2o-widget-4.0`, `region-2.0`,
 `fieldset-4.0`, `toolbar-base-1.0`, `button-1.0`, `action-1.0`, `control-2.0`, `n2o-cell-2.0`, `properties-base-1.0`.
 - В связи с приведением атрибута `target` в разных компонентах к единому виду, были внесены следующие изменения:

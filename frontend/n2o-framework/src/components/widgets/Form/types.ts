@@ -2,8 +2,7 @@ import { ComponentType, CSSProperties } from 'react'
 import { ColumnProps } from 'reactstrap/es/Col'
 
 import { Mapping } from '../../../ducks/datasource/Provider'
-import { FormModelPrefix, ModelLink } from '../../../core/models/types'
-import { Model } from '../../../ducks/models/selectors'
+import type { FormModelPrefix, ModelLink, Model } from '../../../core/models/types'
 import { type Props as StandardWidgetProps } from '../StandardWidget'
 
 export type ActiveModel = Exclude<Model, null>

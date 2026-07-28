@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.FormModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -59,7 +58,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                 validationScope));
         addParamRoutes(paramScope, context, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationScope);
-        form.getComponent().setModelPrefix(FormModeEnum.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
+        form.getComponent().setModelPrefix("resolve");
         return form;
     }
 

@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Форма как фильтры таблицы">
     <regions>
         <region>
-            <form id="filters" mode="one-model">
+            <form id="filters">
                 <fields>
                     <select id="period" label="Period" param="period">
                         <options>

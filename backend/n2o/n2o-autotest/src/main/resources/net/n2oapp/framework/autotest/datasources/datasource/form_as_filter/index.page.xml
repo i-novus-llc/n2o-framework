@@ -4,7 +4,7 @@
     <datasources>
         <datasource id="data" query-id="test">
             <dependencies>
-                <fetch on="filter" model="resolve"/>
+                <fetch on="filter" model="edit"/>
             </dependencies>
             <filters>
                 <eq field-id="id" value="{id}" datasource="filter"/>
@@ -14,17 +14,17 @@
         <datasource id="filter"/>
     </datasources>
     <regions>
-        <form datasource="filter" mode="two-models" name="Фильтры">
+        <form datasource="filter" name="Фильтры">
             <fields>
                 <input-text id="id" label="Фильтр по id"/>
                 <input-text id="name" label="Фильтр по name"/>
             </fields>
             <toolbar>
-                <button label="Найти" color="primary" model="edit">
-                    <copy source-model="edit" target-model="resolve"/>
+                <button label="Найти" color="primary">
+                    <copy source-model="resolve" target-model="edit"/>
                 </button>
                 <button label="Очистить" id="clear">
-                    <clear model="resolve"/>
+                    <clear model="resolve,edit"/>
                 </button>
             </toolbar>
         </form>
