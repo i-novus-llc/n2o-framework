@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-                 name="Фильтрация по нажатию кнопки">
+      name="Фильтрация по нажатию кнопки">
     <datasources>
         <datasource id="filter1" />
         <datasource id="ds1" route="/ds1" query-id="test">
             <dependencies>
-                <fetch on="filter1" model="resolve"/>
+                <fetch on="filter1" model="edit"/>
             </dependencies>
             <filters>
                 <like field-id="name" value="{search}" datasource="filter1"/>
@@ -13,18 +13,18 @@
         </datasource>
     </datasources>
     <regions>
-        <form id="filters1" mode="two-models" datasource="filter1" name="Фильтры">
+        <form id="filters1" datasource="filter1" name="Фильтры">
             <fields>
                 <row>
                     <input-text id="search" label="Поиск"/>
                 </row>
             </fields>
             <toolbar>
-                <button label="Найти" color="primary" model="edit">
-                    <copy source-model="edit" target-model="resolve"/>
+                <button label="Найти" color="primary" >
+                    <copy source-model="resolve" target-model="edit"/>
                 </button>
                 <button label="Очистить" id="clear">
-                    <clear model="edit,resolve"/>
+                    <clear model="resolve,edit"/>
                 </button>
             </toolbar>
         </form>

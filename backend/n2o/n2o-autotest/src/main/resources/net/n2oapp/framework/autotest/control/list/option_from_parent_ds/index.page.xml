@@ -36,7 +36,7 @@
                 </hidden>
             </fields>
         </form>
-        <form mode="two-models">
+        <form>
             <toolbar place="bottomLeft">
                 <button class="ButtonAddDocuments btn-small" label="Добавить документ"
                         color="primary" icon="ps-icon-plus-circle" disable-on-empty-model="false">

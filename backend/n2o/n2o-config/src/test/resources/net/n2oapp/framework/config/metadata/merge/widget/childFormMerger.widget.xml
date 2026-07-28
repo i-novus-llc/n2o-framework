@@ -3,7 +3,9 @@
     <fields>
         <input-select id="test2"/>
     </fields>
-    <submit>
-        <invoke operation-id="submit"/>
-    </submit>
+    <toolbar>
+        <button id="create">
+            <invoke operation-id="create" route="/create"/>
+        </button>
+    </toolbar>
 </form>

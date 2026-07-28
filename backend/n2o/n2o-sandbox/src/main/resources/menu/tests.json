@@ -449,10 +449,6 @@
           "name": "FormAsFilterAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/form/mode",
-          "name": "FormAT. testMode"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/form/fetch",
           "name": "FormAT. testFetchOnInitWithSetVisibility"
         },

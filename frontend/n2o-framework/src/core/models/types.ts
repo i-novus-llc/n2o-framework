@@ -6,7 +6,7 @@ export enum ModelPrefix {
     edit = 'edit',
 }
 
-export type FormModelPrefix = ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
+export type FormModelPrefix = ModelPrefix.active | ModelPrefix.filter
 export type ListModelPrefix = ModelPrefix.source | ModelPrefix.selected
 
 export type ModelPrefixes = 'resolve' | 'multi' | 'datasource' | 'filter' | 'edit'

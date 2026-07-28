@@ -4,7 +4,7 @@
     <regions>
         <row>
             <col size="6">
-                <form id="filters" mode="one-model">
+                <form id="filters">
                     <fields>
                         <row>
                             <input-text id="search" description="Это фильтр по name"/>
@@ -28,12 +28,12 @@
                 </table>
             </col>
             <col size="6">
-                <form id="filters2" mode="two-models">
+                <form id="filters2">
                     <toolbar>
-                        <button label="Найти" color="primary" model="edit">
-                            <copy source-model="edit" target-model="resolve"/>
+                        <button label="Найти" color="primary">
+                            <copy source-model="resolve" target-model="edit"/>
                         </button>
-                        <button id="clear" label="Очистить" model="edit">
+                        <button id="clear" label="Очистить">
                             <clear model="edit,resolve"/>
                         </button>
                     </toolbar>
@@ -46,7 +46,7 @@
                 <table fetch-on-init="true">
                     <datasource query-id="test" route="/w2">
                         <dependencies>
-                            <fetch on="filters2" model="resolve"/>
+                            <fetch on="filters2" model="edit"/>
                         </dependencies>
                         <filters>
                             <like field-id="name" value="{search}" datasource="filters2"/>
@@ -60,5 +60,6 @@
                 </table>
             </col>
         </row>
+
     </regions>
 </page>

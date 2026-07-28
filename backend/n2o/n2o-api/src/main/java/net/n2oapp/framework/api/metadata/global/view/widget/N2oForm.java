@@ -11,6 +11,5 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 @Setter
 public class N2oForm extends N2oWidget {
     private SourceComponent[] items;
-    private FormModeEnum mode;
     private Boolean unsavedDataPrompt;
 }

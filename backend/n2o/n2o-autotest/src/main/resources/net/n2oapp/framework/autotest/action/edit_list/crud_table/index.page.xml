@@ -34,7 +34,7 @@
                 </column>
             </columns>
         </table>
-        <form mode="two-models">
+        <form>
             <toolbar>
                 <button label="Добавить документ"
                         color="primary" disable-on-empty-model="false">

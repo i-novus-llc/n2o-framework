@@ -281,22 +281,11 @@ export const formPluginSagas = [
 
         const datasourceModel = model?.[0] || {}
         const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, key)(state)
-        const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, key)(state)
-        const { modelLink: { prefix: formPrefix } } = form
 
-        // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
-        const activeModel = formPrefix === ModelPrefix.edit
-            ? (editModel || resolveModel)
-            : resolveModel
-
-        const initialValues = isEmpty(activeModel) && isEmpty(datasourceModel)
+        const initialValues = isEmpty(resolveModel) && isEmpty(datasourceModel)
             // Возвращение null необходимо, поскольку если вернуть undefined redux-toolkit не вызовет экшен
             ? null
-            : { ...activeModel, ...datasourceModel }
-
-        if (formPrefix === ModelPrefix.edit) {
-            yield put(setModel({ prefix: ModelPrefix.edit, id: key }, initialValues, true))
-        }
+            : { ...resolveModel, ...datasourceModel }
 
         yield put(setModel({ prefix: ModelPrefix.active, id: key }, initialValues, true))
     }),

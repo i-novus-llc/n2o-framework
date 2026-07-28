@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class N2oFormMerger extends N2oWidgetMerger<N2oForm> {
     @Override
     public N2oForm merge(N2oForm ref, N2oForm source) {
-        setIfNotNull(source::setMode, source::getMode, ref::getMode);
         setIfNotNull(source::setUnsavedDataPrompt, source::getUnsavedDataPrompt, ref::getUnsavedDataPrompt);
         addIfNotNull(ref, source, N2oForm::setItems, N2oForm::getItems);
         return source;

@@ -26,12 +26,8 @@ const Widget = ({
     const { resolveProps } = useContext(FactoryContext)
     const fieldsets = useMemo(() => (resolveProps<FieldSetsProps>(form.fieldsets, Fieldsets.StandardFieldset)), [form, resolveProps])
     const { modelPrefix, prompt } = form
-    const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
-    const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource))
-    // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
-    const activeModel = useMemo(() => (
-        modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
-    ), [editModel, modelPrefix, resolveModel])
+    const activeModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
+
     const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const dirty = useSelector(isDirtyForm(formName))
     const modelLink = useMemo(() => ({ id: datasource, prefix: modelPrefix }), [datasource, modelPrefix])
