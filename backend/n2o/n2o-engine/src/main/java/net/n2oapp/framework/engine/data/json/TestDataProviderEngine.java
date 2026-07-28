@@ -352,11 +352,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private void updateElement(Map element, Set<Map.Entry<String, Object>> fields) {
-        for (Map.Entry field : fields)
-            if (field.getValue() instanceof Date)
-                element.put(field.getKey(), new SimpleDateFormat("dd.MM.yyy HH:mm:ss").format(field.getValue()));
-            else
-                element.put(field.getKey(), field.getValue());
+        for (Map.Entry field : fields) {
+            Object value = field.getValue();
+            if (value instanceof Date) {
+                element.put(field.getKey(), new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(value));
+            } else {
+                element.put(field.getKey(), value);
+            }
+        }
     }
 
     private List<DataSet> paginate(Integer limit, Integer offset, Integer count, List<DataSet> data) {

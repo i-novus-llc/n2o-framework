@@ -818,7 +818,7 @@ class TestDataProviderEngineTest {
         assertTrue((Boolean) result.get("vip"));
         assertThat(((Map) result.get("gender")).get("id"), is(2));
         assertThat(((Map) result.get("gender")).get("name"), is("Женский"));
-        assertThat(result.get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
+        assertThat(result.get("birthday"), is(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(0))));
 
         //Проверка, что после создания элемент появился в хранилище
         provider.setOperation(FIND_ALL);
@@ -878,7 +878,7 @@ class TestDataProviderEngineTest {
         provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("test"));
-        assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
+        assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(0))));
         assertFalse((Boolean) result.get(0).get("vip"));
         assertThat(((Map) result.get(0).get("gender")).get("id"), is(1));
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Мужской"));
@@ -974,7 +974,7 @@ class TestDataProviderEngineTest {
         assertTrue((Boolean) result.get("vip"));
         assertThat(((Map) result.get("gender")).get("id"), is(2));
         assertThat(((Map) result.get("gender")).get("name"), is("Женский"));
-        assertThat(result.get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
+        assertThat(result.get("birthday"), is(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(0))));
 
         //Проверка, что после создания элемент появился в хранилище
         provider.setOperation(FIND_ALL);
@@ -1036,7 +1036,7 @@ class TestDataProviderEngineTest {
         provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("test"));
-        assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
+        assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(0))));
         assertFalse((Boolean) result.get(0).get("vip"));
         assertThat(((Map) result.get(0).get("gender")).get("id"), is(1));
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Мужской"));
