@@ -36,6 +36,6 @@ public class N2oStandardDatasource extends N2oDatasource implements Submittable 
         if (this.filters != null)
             list.addAll(Arrays.asList(this.filters));
         list.addAll(filters);
-        this.filters = list.toArray(new N2oPreFilter[0]);
+        this.filters = list.toArray(N2oPreFilter[]::new);
     }
 }

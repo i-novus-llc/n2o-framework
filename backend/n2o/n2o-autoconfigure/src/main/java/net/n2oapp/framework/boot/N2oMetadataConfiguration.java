@@ -98,7 +98,7 @@ public class N2oMetadataConfiguration {
                                                        Optional<Map<String, MetadataPack<? super N2oApplicationBuilder>>> beans) {
         N2oApplicationBuilder applicationBuilder = new N2oApplicationBuilder(n2oEnvironment);
         Map<String, MetadataPack<? super N2oApplicationBuilder>> packs = OverrideBean.removeOverriddenBeans(beans.orElse(Collections.emptyMap()));
-        applicationBuilder.packs(packs.values().toArray(new MetadataPack[packs.values().size()]));
+        applicationBuilder.packs(packs.values().toArray(MetadataPack[]::new));
         applicationBuilder.scanComponentTypes("net.n2oapp.framework");
         return applicationBuilder;
     }

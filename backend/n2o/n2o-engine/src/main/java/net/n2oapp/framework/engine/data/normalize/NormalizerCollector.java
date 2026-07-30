@@ -76,6 +76,6 @@ public class NormalizerCollector {
             if (hasText(p))
                 result.add(p);
         }
-        return result.toArray(new String[result.size()]);
+        return result.toArray(String[]::new);
     }
 }

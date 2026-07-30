@@ -297,8 +297,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     newFieldsetItems.add(fields[i]);
                     i++;
                 }
-                FieldsetItem[] items = new FieldsetItem[newFieldsetItems.size()];
-                newFieldset.setItems(newFieldsetItems.toArray(items));
+                newFieldset.setItems(newFieldsetItems.toArray(FieldsetItem[]::new));
                 n2oFieldSet = newFieldset;
             }
             fieldSets.add(p.compile(n2oFieldSet, context,

@@ -64,8 +64,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                             fieldSetItems.add(source.getItems()[i]);
                             i++;
                         }
-                        FieldsetItem[] items = new FieldsetItem[fieldSetItems.size()];
-                        newFieldSet.setItems(fieldSetItems.toArray(items));
+                        newFieldSet.setItems(fieldSetItems.toArray(FieldsetItem[]::new));
                         n2oFieldSet = newFieldSet;
                     }
                     fieldSets.add(p.compile(n2oFieldSet, context, scope));

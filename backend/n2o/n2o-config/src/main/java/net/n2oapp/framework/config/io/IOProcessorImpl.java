@@ -414,8 +414,7 @@ public class IOProcessorImpl implements IOProcessor {
                 result.add(value);
             }
             if (!result.isEmpty()) {
-                String[] res = new String[result.size()];
-                setter.accept(result.toArray(res));
+                setter.accept(result.toArray(String[]::new));
             }
         } else {
             String[] values = getter.get();

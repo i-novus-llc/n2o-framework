@@ -67,7 +67,7 @@ public class SimpleAccessSchemaCompiler extends  AccessSchemaCompiler<SimpleComp
     private <T> void reproduce(T[] val, Function<T, AccessPoint[]> getter, BiConsumer<T, AccessPoint[]> setter) {
         safeStreamOf(val).forEach(v -> {
                     List<AccessPoint> accessPoints = reproduceAccessPoints(getter.apply(v));
-                    setter.accept(v, accessPoints.toArray(new AccessPoint[accessPoints.size()]));
+                    setter.accept(v, accessPoints.toArray(AccessPoint[]::new));
                 });
     }
 
