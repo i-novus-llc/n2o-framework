@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Function;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceNullByEmpty;
@@ -28,7 +27,8 @@ public abstract class StringUtils {
     private static final PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
     private static final PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
     private static final PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
-    private static final String PATTERN = "^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$";
+    private static final Pattern HAS_LINK_PATTERN = Pattern.compile("[\\s\\S]*(?<![#$])\\{.+}[\\s\\S]*");
+    private static final Pattern FUNCTION_PATTERN = Pattern.compile("^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$");
 
     /**
      * Проверка, что строка - настройка
@@ -175,11 +175,11 @@ public abstract class StringUtils {
      * @return Содержит (true) или нет (false)
      */
     public static boolean hasLink(String text) {
-        return text != null && text.matches("[\\s\\S]*(?<![#$])\\{.+}[\\s\\S]*");
+        return text != null && HAS_LINK_PATTERN.matcher(text).matches();
     }
 
     /**
-     * Проверка, что строка - javaScript выражение
+     * Проверка, что строка - JavaScript выражение
      * Примеры:
      * {@code
      * isJs("`1 == 1`");       //true
@@ -199,7 +199,7 @@ public abstract class StringUtils {
     }
 
     /**
-     * Проверка, что строка - javaScript функция
+     * Проверка, что строка - JavaScript функция
      * Примеры:
      * {@code
      * isFunction("now()");    //true
@@ -212,9 +212,7 @@ public abstract class StringUtils {
     public static boolean isFunction(String s) {
         if (s == null)
             return false;
-        Pattern p = Pattern.compile(PATTERN);
-        Matcher m = p.matcher(s);
-        return m.matches();
+        return FUNCTION_PATTERN.matcher(s).matches();
     }
 
     /**
@@ -267,7 +265,7 @@ public abstract class StringUtils {
     }
 
     /**
-     * Заменить в тексте плейсхолдеры с ссылками
+     * Заменить в тексте плейсхолдеры со ссылками
      *
      * @param text Текст с плейсхолдерами {...}
      * @param data Значения ссылок
@@ -278,7 +276,7 @@ public abstract class StringUtils {
     }
 
     /**
-     * Заменить в тексте плейсхолдеры с ссылками
+     * Заменить в тексте плейсхолдеры со ссылками
      *
      * @param text Текст с плейсхолдерами {...}
      * @param data Функция для получения значений ссылок
@@ -289,7 +287,7 @@ public abstract class StringUtils {
     }
 
     /**
-     * Собрать в тексте плейсхолдеры с ссылками
+     * Собрать в тексте плейсхолдеры со ссылками
      *
      * @param text Текст с плейсхолдерами {...}
      * @return Список параметров из плейсхолдеров

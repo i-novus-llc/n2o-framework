@@ -19,6 +19,13 @@ import static org.apache.commons.lang3.StringUtils.startsWithAny;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class RouteUtil {
 
+    private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("(:\\w+)");
+    private static final Pattern DOUBLE_SLASH_PATTERN = Pattern.compile("/+");
+    private static final Pattern PARAM_MID = Pattern.compile("/:\\w+/");
+    private static final Pattern PARAM_END = Pattern.compile("/:\\w+$");
+    private static final Pattern NON_WORD_CHARACTERS = Pattern.compile("\\W");
+    private static final Pattern MULTIPLE_UNDERSCORES = Pattern.compile("_+");
+
     /**
      * Возврат на один уровень назад в маршруте
      *
@@ -40,7 +47,7 @@ public abstract class RouteUtil {
     public static String normalize(String url) {
         if (url == null || !isApplicationUrl(url))
             return url;
-        url = url.replaceAll("/+", "/");
+        url = DOUBLE_SLASH_PATTERN.matcher(url).replaceAll("/");
         url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
         url = !url.startsWith("/") && !url.startsWith("../") && !url.startsWith("./") ? "/" + url : url;
         return url;
@@ -54,7 +61,7 @@ public abstract class RouteUtil {
     public static String normalizeRoute(String url) {
         if (url == null || !isApplicationUrl(url))
             return url;
-        String normalized = url.replaceAll("/+", "/");
+        String normalized = DOUBLE_SLASH_PATTERN.matcher(url).replaceAll("/");
         normalized = !normalized.startsWith("/") && !normalized.startsWith("../") && !normalized.startsWith("./") ? "/" + normalized : normalized;
         return normalized.endsWith("/") || normalized.contains("?") ? normalized : normalized + "/";
     }
@@ -79,7 +86,8 @@ public abstract class RouteUtil {
      * @return Нормализованный параметр
      */
     public static String normalizeParam(String field) {
-        return field.replaceAll("\\W", "_").replaceAll("_+", "_");
+        field = NON_WORD_CHARACTERS.matcher(field).replaceAll("_");
+        return MULTIPLE_UNDERSCORES.matcher(field).replaceAll("_");
     }
 
     /**
@@ -148,7 +156,7 @@ public abstract class RouteUtil {
     public static List<String> getPathParams(String url) {
         List<String> pathParams = new ArrayList<>();
         String[] urlParts = url.split("\\?");
-        Matcher matcher = Pattern.compile("(:\\w+)").matcher(urlParts[0]);
+        Matcher matcher = PATH_PARAM_PATTERN.matcher(urlParts[0]);
         while (matcher.find())
             pathParams.add(matcher.group().substring(1));
         return pathParams;
@@ -195,10 +203,9 @@ public abstract class RouteUtil {
             url = url.substring(1);
         if (url.isEmpty())
             return "_";
-        return url.replaceAll("/:\\w+/", "/")
-                .replaceAll("/:\\w+$", "")
-                .replace("/", "_")
-                .replace(":", "");
+        url = PARAM_MID.matcher(url).replaceAll("/");
+        url = PARAM_END.matcher(url).replaceAll("");
+        return url.replace('/', '_').replace(":", "");
     }
 
     /**

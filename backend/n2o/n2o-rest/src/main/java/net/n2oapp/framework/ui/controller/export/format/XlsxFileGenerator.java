@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.ui.controller.export.FormatUtil.applyFormat;
 
@@ -24,6 +25,8 @@ public class XlsxFileGenerator implements FileGenerator {
 
     private static final String FILE_FORMAT = "xlsx";
     private static final int MIN_COLUMN_WIDTH = 20;
+    private static final Pattern NUMBER_CLEAN_PATTERN = Pattern.compile("[^\\d.,-]");
+    private static final Pattern OPTIONAL_ZEROS_PATTERN = Pattern.compile("\\[0+]");
 
     @Override
     public byte[] createFile(String fileName, String fileDir, String charset,
@@ -166,7 +169,7 @@ public class XlsxFileGenerator implements FileGenerator {
         result = result.replace("HH", "hh");
         result = result.replace("H", "h");
 
-        // Минуты и секунды: mm, ss - остаются без изменений в Excel
+        // Минуты и секунды: mm, ss - остаются без изменений в Excel,
         // но нужно убедиться, что mm для минут не конфликтует с месяцем
 
         // Возвращаем месяц из плейсхолдера
@@ -193,7 +196,7 @@ public class XlsxFileGenerator implements FileGenerator {
         // Конвертация numeral.js формата в Excel формат
         result = result.replace("0,0", "#,##0");
         // Убираем опциональные нули [0]
-        result = result.replaceAll("\\[0+]", "");
+        result = OPTIONAL_ZEROS_PATTERN.matcher(result).replaceAll("");
 
         return result;
     }
@@ -247,7 +250,7 @@ public class XlsxFileGenerator implements FileGenerator {
             case Number number -> number.doubleValue();
             case String str -> {
                 try {
-                    yield Double.parseDouble(str.replaceAll("[^\\d.,-]", "").replace(",", "."));
+                    yield Double.parseDouble(NUMBER_CLEAN_PATTERN.matcher(str).replaceAll("").replace(",", "."));
                 } catch (NumberFormatException e) {
                     yield null;
                 }
@@ -290,5 +293,6 @@ public class XlsxFileGenerator implements FileGenerator {
         NUMBER
     }
 
-    private record ColumnStyle(ColumnTypeEnum type, CellStyle style) {}
+    private record ColumnStyle(ColumnTypeEnum type, CellStyle style) {
+    }
 }

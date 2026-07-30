@@ -52,15 +52,20 @@ public class ScriptProcessor {
     private static final BlockingQueue<ScriptEngine> ENGINE_POOL = new ArrayBlockingQueue<>(POOL_SIZE);
     private static final AtomicBoolean POOL_INITIALIZED = new AtomicBoolean(false);
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+    private static final Pattern PROPERTY_PLACEHOLDER_PREFIX = Pattern.compile("\\$\\{");
+    private static final Pattern CONTEXT_PLACEHOLDER_PREFIX = Pattern.compile("#\\{");
+    private static final Pattern DIGITS_PATTERN = Pattern.compile("([\\d]+)");
     private static volatile String momentJs;
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*(?<!#)\\{(?!.*#\\{).*\\?.*:.*}.*");
-    private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const|let|for|while)\\b");
     private static final String EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
     private static final String ISO_DATE_TO_TIMESTAMP_TEMPLATE = "new Date('%s').getTime()";
     private static final String TIMESTAMP_FORMAT = "MM.dd.yyyy HH:mm:SS";
     private static final String N2O_SCRIPT_VAR = "__n2oScript";
+    private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const|let|for|while)\\b");
+    private static final Pattern QUOTE_PATTERN = Pattern.compile("'[^']*'");
+    private static final Pattern BRACE_PATTERN = Pattern.compile("\\{[^{}]*}");
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -74,7 +79,7 @@ public class ScriptProcessor {
                 while (expr.contains("${")) {
                     int idx = expr.indexOf("}", expr.indexOf("${"));
                     boolean notEnd = idx < expr.length() - 1;
-                    expr = expr.replaceFirst("\\$\\{", "\\$<");
+                    expr = PROPERTY_PLACEHOLDER_PREFIX.matcher(expr).replaceFirst("\\$<");
                     if (notEnd) {
                         expr = expr.substring(0, idx) + ">>" + expr.substring(idx + 1);
                     } else {
@@ -87,7 +92,7 @@ public class ScriptProcessor {
                 while (expr.contains("#{")) {
                     int idx = expr.indexOf("}", expr.indexOf("#{"));
                     boolean notEnd = idx < expr.length() - 1;
-                    expr = expr.replaceFirst("#\\{", "#<");
+                    expr = CONTEXT_PLACEHOLDER_PREFIX.matcher(expr).replaceFirst("#<");
                     if (notEnd) {
                         expr = expr.substring(0, idx) + ">>" + expr.substring(idx + 1);
                     } else {
@@ -112,14 +117,14 @@ public class ScriptProcessor {
     }
 
     /**
-     * Преобразование выражения в самовызывающуюся js функцию.
+     * Преобразование выражения в само-вызывающуюся js функцию.
      * Примеры.
      * "if (gender.id = 1) return 'М'; else return 'Ж';" -> "(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"
      * "gender.id == 1" -> "gender.id == 1"
      * "function(){if (gender.id = 1) return 'М'; else return 'Ж';}" -> "(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"
      * "(function(){ return '123'; })()" -> "(function(){ return '123'; })()"
      *
-     * @param text выражение сождержащее ссылки
+     * @param text выражение содержащее ссылки
      * @return js функция
      */
     public static String resolveFunction(String text) {
@@ -144,13 +149,11 @@ public class ScriptProcessor {
     private static boolean isFunction(String text) {
         if (text.startsWith("{") && text.endsWith("}"))
             text = text.substring(1, text.length() - 1);
-        if (text.contains("*."))
-            return false;
-        String wordReplaced = text.replaceAll("'[^']*'", "");
-        String bracesReplaced = wordReplaced.replaceAll("\\{[^{}]*}", "");
+        if (text.contains("*.")) return false;
+        String wordReplaced = QUOTE_PATTERN.matcher(text).replaceAll("");
+        String bracesReplaced = BRACE_PATTERN.matcher(wordReplaced).replaceAll("");
         return FUNCTION_CONTENT_PATTERN.matcher(bracesReplaced).find();
     }
-
 
     /**
      * Преобразование выражений с ссылками в js код.
@@ -171,10 +174,10 @@ public class ScriptProcessor {
             return null;
         if (expression.equals("true") || expression.equals("false"))
             return Boolean.valueOf(expression);
-        if (expression.matches("([\\d]+)")) {
+        if (DIGITS_PATTERN.matcher(expression).matches()) {
             try {
                 return Integer.parseInt(expression);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) {
             }
         }
         return expression;
@@ -213,11 +216,11 @@ public class ScriptProcessor {
      * @return js код
      */
     public static Object resolveArrayExpression(String... values) {
-        //todo реализовать варианты с плейсхлодарами(пока реализовано только для констант)
+        //todo реализовать варианты с плейсхолдерами (пока реализовано только для констант)
         if (values.length == 0) {
             return null;
         } else {
-            List result = new ArrayList();
+            List<Object> result = new ArrayList<>();
             for (String value : values) {
                 result.add(resolveExpression(value));
             }
@@ -283,7 +286,7 @@ public class ScriptProcessor {
             // Обрабатываем spread-оператор
             String inner = processSpreadOperatorInExpression(rawInner);
 
-            // Если это функция, оборачиваем в самовызывающуюся функцию
+            // Если это функция, оборачиваем в само-вызывающуюся функцию
             if (isFunction("{" + rawInner + "}")) {
                 inner = String.format("(function(){%s}).call(this)", inner);
             }
@@ -504,7 +507,7 @@ public class ScriptProcessor {
 
     public String buildOverlapListExpression(String variable, List<Object> values) {
         String res = "_.intersection(_.isArray(%s) ? %s : [%s], %s).length > 0";
-        return String.format(res, variable, variable, variable, values.stream().map(this::getString).toList().toString());
+        return String.format(res, variable, variable, variable, values.stream().map(this::getString).toList());
     }
 
     public String buildContainsListExpression(String variable, List<Object> values) {
@@ -517,7 +520,7 @@ public class ScriptProcessor {
         return "!(" + buildInListExpression(variable, values) + ")";
     }
 
-    public String buildLessExpression(String variable, Comparable comparable) {
+    public String buildLessExpression(String variable, Comparable<?> comparable) {
         if (comparable instanceof Date date) return buildLessExpressionForDate(variable, date);
         return variable + " < " + comparable;
     }
@@ -531,12 +534,11 @@ public class ScriptProcessor {
         String str = String.format(EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE, variable);
         exp.append(str);
         exp.append(" < ");
-        String s = ISO_DATE_TO_TIMESTAMP_TEMPLATE;
-        exp.append(String.format(s, new SimpleDateFormat(TIMESTAMP_FORMAT).format(date)));
+        exp.append(String.format(ISO_DATE_TO_TIMESTAMP_TEMPLATE, new SimpleDateFormat(TIMESTAMP_FORMAT).format(date)));
         return exp.toString();
     }
 
-    public String buildMoreExpression(String variable, Comparable comparable) {
+    public String buildMoreExpression(String variable, Comparable<?> comparable) {
         if (comparable instanceof Date date)
             return buildMoreExpressionForDate(variable, date);
         return variable + " > " + comparable;
@@ -547,8 +549,7 @@ public class ScriptProcessor {
         String str = String.format(EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE, variable);
         exp.append(str);
         exp.append(" > ");
-        String s = ISO_DATE_TO_TIMESTAMP_TEMPLATE;
-        exp.append(String.format(s, new SimpleDateFormat(TIMESTAMP_FORMAT).format(date)));
+        exp.append(String.format(ISO_DATE_TO_TIMESTAMP_TEMPLATE, new SimpleDateFormat(TIMESTAMP_FORMAT).format(date)));
         return exp.toString();
     }
 
@@ -694,8 +695,6 @@ public class ScriptProcessor {
         return sb.toString();
     }
 
-
-    @SuppressWarnings("unchecked")
     public static <T> T eval(String script, DataSet dataSet) throws ScriptException {
         ScriptEngine engine = getScriptEngine();
         try {
@@ -714,7 +713,7 @@ public class ScriptProcessor {
         Map<String, Object> nestedAccumulator = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : dataSet.entrySet()) {
             Object value = entry.getValue();
-            Object normalizedValue = value instanceof Collection collection ? collection.toArray() : value;
+            Object normalizedValue = value instanceof Collection<?> collection ? collection.toArray() : value;
             String key = entry.getKey();
             if (key.contains(".")) {
                 putNestedInto(nestedAccumulator, key, normalizedValue);
@@ -810,9 +809,9 @@ public class ScriptProcessor {
     private static String toString(String[] array) {
         StringBuilder res = new StringBuilder();
         boolean begin = true;
-        for (int i = 0; i < array.length; i++) {
+        for (String s : array) {
             if (!begin) res.append('.');
-            res.append(array[i]);
+            res.append(s);
             begin = false;
         }
         return res.toString();
