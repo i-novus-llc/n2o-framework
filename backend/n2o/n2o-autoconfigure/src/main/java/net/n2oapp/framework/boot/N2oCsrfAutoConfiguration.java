@@ -107,7 +107,7 @@ public class N2oCsrfAutoConfiguration {
 
                 List<String> ignoringPatterns = properties.getCsrf().getIgnoringRequestMatchers();
                 if (!ignoringPatterns.isEmpty())
-                    csrf.ignoringRequestMatchers(ignoringPatterns.toArray(new String[0]));
+                    csrf.ignoringRequestMatchers(ignoringPatterns.toArray(String[]::new));
 
                 csrf.sessionAuthenticationStrategy(new CsrfAuthenticationStrategy(csrfTokenRepository));
             };

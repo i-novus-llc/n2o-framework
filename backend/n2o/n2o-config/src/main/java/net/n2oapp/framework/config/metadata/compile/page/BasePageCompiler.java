@@ -307,7 +307,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (nonNull(source.getActions())) {
             Arrays.stream(source.getActions()).forEach(a -> actionBars.putIfAbsent(a.getId(), a));
         }
-        source.setActions(actionBars.values().toArray(new ActionBar[0]));
+        source.setActions(actionBars.values().toArray(ActionBar[]::new));
     }
 
     private void mergeToolbars(S source, PageContext context, N2oWidget resultWidget, CompileProcessor p) {
@@ -322,6 +322,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (nonNull(source.getToolbars())) {
             Arrays.stream(source.getToolbars()).forEach(t -> toolbars.putIfAbsent(t.getPlace(), t));
         }
-        source.setToolbars(toolbars.values().toArray(new N2oToolbar[0]));
+        source.setToolbars(toolbars.values().toArray(N2oToolbar[]::new));
     }
 }

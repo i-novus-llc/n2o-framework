@@ -51,7 +51,7 @@ public class ObjectAccessTransformer extends BaseAccessTransformer<CompiledObjec
                                   String propName, CompileProcessor p) {
         if (params == null) return;
         Map<String, Security> fieldSecurity = new LinkedHashMap<>();
-        collectFieldSecurity(params.values().toArray(new AbstractParameter[0]), "", fieldSecurity, p);
+        collectFieldSecurity(params.values().toArray(AbstractParameter[]::new), "", fieldSecurity, p);
         if (!fieldSecurity.isEmpty()) {
             if (operation.getProperties() == null) operation.setProperties(new HashMap<>());
             operation.getProperties().put(propName, fieldSecurity);

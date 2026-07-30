@@ -75,7 +75,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
             }
         }
 
-        return result.toArray(new N2oToolbar[0]);
+        return result.toArray(N2oToolbar[]::new);
     }
 
     private String getNormalizedPlace(String place) {

@@ -405,7 +405,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
                 invokeAction.setOperationId(source.getSubmitOperationId());
                 invokeAction.setModel(source.getSubmitModel());
-                actions = actionList.toArray(new N2oAction[0]);
+                actions = actionList.toArray(N2oAction[]::new);
             }
             saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);

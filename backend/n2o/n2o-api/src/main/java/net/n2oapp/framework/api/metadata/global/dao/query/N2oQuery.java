@@ -122,7 +122,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
                             .collect(
                                     Collectors.toMap(
                                             Function.identity(),
-                                            k -> filtersListMap.get(k).toArray(new Filter[0])
+                                            k -> filtersListMap.get(k).toArray(Filter[]::new)
                                     )
                             )
             );
