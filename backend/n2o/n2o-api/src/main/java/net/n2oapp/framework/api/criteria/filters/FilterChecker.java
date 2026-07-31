@@ -99,7 +99,7 @@ public class FilterChecker {
         if (value == null)
             return 0;
         if (value instanceof Number valueNumber && realValue instanceof Number realNumber) {
-            return (int) (valueNumber.longValue() - realNumber.longValue());
+            return Long.compare(valueNumber.longValue(), realNumber.longValue());
         }
         return ((Comparable) value).compareTo(realValue);
     }
