@@ -13,9 +13,7 @@ export function update<
     let found = false
     const newList = list.map((element) => {
         if (isEqual(element[primaryKey], item[primaryKey])) {
-            if (found) {
-                throw new Error(FOUND_MANY_MESSAGE)
-            }
+            if (found) { throw new Error(FOUND_MANY_MESSAGE) }
 
             found = true
 
@@ -25,9 +23,7 @@ export function update<
         return element
     })
 
-    if (!found) {
-        throw new Error(NOT_FOUND_MESSAGE)
-    }
+    if (!found) { throw new Error(NOT_FOUND_MESSAGE) }
 
     return newList
 }

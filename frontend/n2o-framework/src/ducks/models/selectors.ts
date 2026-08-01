@@ -32,12 +32,12 @@ function isFieldLink(link: ModelLink | FieldLink): link is FieldLink {
     return ('field' in link) && (typeof link.field === 'string')
 }
 
-export const getByLinkSelector = (link: ModelLink | FieldLink) => createSelector(
+export const getByLinkSelector = <T>(link: ModelLink | FieldLink, defaultValue: T | null = null) => createSelector(
     getModelSelector(link),
     model => (
         isFieldLink(link)
-            ? get(model, link.field, null)
-            : model
+            ? get(model, link.field, defaultValue)
+            : model ?? defaultValue
     ),
 )
 

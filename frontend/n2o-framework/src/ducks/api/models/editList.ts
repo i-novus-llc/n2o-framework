@@ -1,12 +1,9 @@
 import { createAction } from '@reduxjs/toolkit'
-import cloneDeep from 'lodash/cloneDeep'
-import get from 'lodash/get'
-import set from 'lodash/set'
 import { put, select } from 'redux-saga/effects'
 
-import { getModelByPrefixAndNameSelector } from '../../models/selectors'
-import { setModel } from '../../models/store'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getByLinkSelector, Model } from '../../models/selectors'
+import { setModel, updateModel } from '../../models/store'
+import { ModelPrefix, FieldLink, ModelLink } from '../../../core/models/types'
 import { MODELS_PREFIX } from '../constants'
 import { logger } from '../../../utils/logger'
 
@@ -16,7 +13,7 @@ import { update } from './editList/update'
 import { deleteItem } from './editList/delete'
 import { deleteMany } from './editList/deleteMany'
 
-type ModelLink = {
+type Link = {
     datasource: string
     model: ModelPrefix
     field?: string
@@ -25,8 +22,8 @@ type ModelLink = {
 export type Payload = {
     operation: Operations
     primaryKey: string
-    list: ModelLink
-    item: ModelLink
+    list: Link
+    item: Link
 }
 
 export const creator = createAction(
@@ -37,41 +34,26 @@ export const creator = createAction(
     }),
 )
 
+const mapLink = (link: Link): FieldLink | ModelLink => ({ prefix: link.model, id: link.datasource, field: link.field })
+
 export function* effect({ payload, type }: ReturnType<typeof creator>) {
     try {
         const { operation, item, list, primaryKey } = payload
-        const targetModel: object = yield select(getModelByPrefixAndNameSelector(list.model, list.datasource, []))
-        const sourceModel: object = yield select(getModelByPrefixAndNameSelector(item.model, item.datasource, []))
+        const listModelLink = mapLink(list)
+        const listModel: Model[] = yield select(getByLinkSelector(listModelLink, []))
+        const itemModel: Model | Model[] = yield select(getByLinkSelector(mapLink(item), []))
 
-        let targetList = list.field ? get(targetModel, list.field) : targetModel
+        if (!Array.isArray(listModel)) { throw new Error(NOT_ARRAY) }
 
-        if (!targetList && (operation === Operations.create || operation === Operations.createMany)) {
-            targetList = []
-        }
+        if (!itemModel) { throw new Error(EMPTY_ELEMENT) }
 
-        if (!Array.isArray(targetList)) {
-            throw new Error(NOT_ARRAY)
-        }
-
-        const element = item.field ? get(sourceModel, item.field) : sourceModel
-
-        if (!element) {
-            throw new Error(EMPTY_ELEMENT)
-        }
-
-        const newList = updateList(targetList, element, primaryKey, operation)
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let newModel: Record<string, any>
+        const newList = updateList(listModel, itemModel, primaryKey, operation)
 
         if (list.field) {
-            newModel = cloneDeep(targetModel)
-            set(newModel, list.field, newList)
+            yield put(updateModel(listModelLink, list.field, newList))
         } else {
-            newModel = newList
+            yield put(setModel(listModelLink, newList))
         }
-
-        yield put(setModel({ prefix: list.model, id: list.datasource }, newModel))
     } catch (error) {
         const message = error instanceof Error ? error.message : error
 
