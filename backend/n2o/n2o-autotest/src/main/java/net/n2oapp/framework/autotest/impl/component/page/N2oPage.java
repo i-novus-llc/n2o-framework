@@ -129,6 +129,9 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public void shouldHaveError(int statusCode) {
         switch (statusCode) {
+            case (403):
+                element().shouldHave(Condition.text("403\nДоступ запрещён"));
+                break;
             case (404):
                 element().shouldHave(Condition.text("404\nСтраница не найдена"));
                 break;
@@ -137,9 +140,6 @@ public class N2oPage extends N2oComponent implements Page {
                 break;
             case (502):
                 element().shouldHave(Condition.text("502\nНеверный ответ от восходящего сервера"));
-                break;
-            case (403):
-                element().shouldHave(Condition.text("403\nДоступ запрещён"));
                 break;
             default:
                 element().$(".n2o-alert-segment").shouldHave(Condition.text(String.valueOf(statusCode)));
