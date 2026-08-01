@@ -11,9 +11,7 @@ export function deleteItem<TItem extends object>(list: TItem[], item: TItem, pri
 
     const newList = list.filter((element) => {
         if (isEqual(element[primaryKey], item[primaryKey])) {
-            if (found) {
-                throw new Error(FOUND_MANY_MESSAGE)
-            }
+            if (found) { throw new Error(FOUND_MANY_MESSAGE) }
 
             found = true
 
@@ -23,9 +21,7 @@ export function deleteItem<TItem extends object>(list: TItem[], item: TItem, pri
         return true
     })
 
-    if (!found) {
-        throw new Error(NOT_FOUND_MESSAGE)
-    }
+    if (!found) { throw new Error(NOT_FOUND_MESSAGE) }
 
     return newList
 }
