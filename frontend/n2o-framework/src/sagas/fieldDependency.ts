@@ -19,7 +19,7 @@ import { Action } from 'redux-saga'
 
 import { executeExpression } from '../core/Expression/execute'
 import { parseExpression } from '../core/Expression/parse'
-import { makeFormByName, makeFormsByModel, makeFormsByModelLink } from '../ducks/form/selectors'
+import { makeFormByName, makeFormsByModelLink } from '../ducks/form/selectors'
 import {
     setFieldDisabled,
     setFieldVisible,
@@ -41,10 +41,10 @@ import {
     setModel,
     updateModel,
 } from '../ducks/models/store'
-import { getModelByPrefixAndNameSelector, getModelSelector, Model } from '../ducks/models/selectors'
+import { getModelSelector, Model } from '../ducks/models/selectors'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
-import { ModelPrefix } from '../core/models/types'
+import { ModelLink, ModelPrefix } from '../core/models/types'
 import { getFieldPath } from '../core/models/getModelPath'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
 import { State as GlobalState } from '../ducks/State'
@@ -367,13 +367,12 @@ export function* resolveOnInit({ payload }: RegisterFieldAction) {
 }
 
 function* compareAndResolve<T extends Model | Model[]>(
-    datasource: string,
-    prefix: ModelPrefix,
+    modelLink: ModelLink,
     model: T,
-    prevModel: T,
+    prevModel: T | undefined | null,
     isDefault: boolean,
 ) {
-    const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
+    const forms: Form[] = yield select(makeFormsByModelLink(modelLink))
 
     for (const form of forms) {
         for (const [fieldId, field] of Object.entries(form.fields)) {
@@ -402,7 +401,6 @@ function* compareAndResolve<T extends Model | Model[]>(
 
 function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
     const { modelLink, model, isDefault } = payload
-    const { prefix, id: datasource } = modelLink
 
     if (!model) { return }
 
@@ -413,10 +411,22 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
     yield delay(16)
 
     const { prevState } = meta
+    const selector = getModelSelector(modelLink)
     // @ts-ignore FIXME: Поправить типы
-    const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
+    const prevModel = selector(prevState || {})
 
-    yield compareAndResolve(datasource, prefix, model, prevModel, !!isDefault)
+    if (modelLink.prefix === ModelPrefix.source && Array.isArray(model) && typeof modelLink.index !== 'number') {
+        for (let index = 0; index < model.length; index++) {
+            yield compareAndResolve(
+                { ...modelLink, index },
+                model[index],
+                Array.isArray(prevModel) ? prevModel[index] : undefined,
+                !!isDefault,
+            )
+        }
+    } else {
+        yield compareAndResolve(modelLink, model, prevModel, !!isDefault)
+    }
 }
 
 function* resolveOnDefault({ payload, meta = {} }: MergeModelAction) {
@@ -425,13 +435,14 @@ function* resolveOnDefault({ payload, meta = {} }: MergeModelAction) {
 
     for (const [prefix, models] of Object.entries(combine)) {
         for (const id of Object.keys(models)) {
-            const model: Model | Model[] = yield select(getModelByPrefixAndNameSelector(prefix as ModelPrefix, id))
+            const modelLink: ModelLink = { prefix: prefix as ModelPrefix, id }
+            const modelSelector = getModelSelector(modelLink)
+            const model: Model | Model[] = yield select(modelSelector)
             // @ts-ignore FIXME: Поправить типы
-            const prevModel = getModelByPrefixAndNameSelector(prefix, id)(prevState)
+            const prevModel = modelSelector(prevState || {})
 
             yield compareAndResolve(
-                id,
-                prefix as ModelPrefix,
+                modelLink,
                 model as Model | Model[],
                 prevModel as Model | Model[],
                 true,
