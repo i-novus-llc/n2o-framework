@@ -140,7 +140,9 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
             return result.getBody();
         } catch (RestClientResponseException e) {
             loggingHandlers.forEach(handler -> handler.handleError(e, method, finalQuery.toString(), headers));
-            throw new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), finalQuery.toString(), e);
+            N2oQueryExecutionException n2oQueryExecutionException = new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), finalQuery.toString(), e);
+            n2oQueryExecutionException.setHttpStatus(e.getStatusCode().value());
+            throw n2oQueryExecutionException;
         }
     }
 
