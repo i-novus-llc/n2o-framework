@@ -17,7 +17,7 @@
         </fields>
         <toolbar place="bottomRight">
             <button label="Очистить" validate="false" disable-on-empty-model="false">
-                <clear model="resolve"/>
+                <clear models="resolve"/>
             </button>
             <button color="primary" disable-on-empty-model="false"
                     label="Отправить"

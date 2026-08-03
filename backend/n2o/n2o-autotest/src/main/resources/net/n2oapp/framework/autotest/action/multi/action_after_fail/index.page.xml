@@ -17,7 +17,7 @@
                             object-id="test"
                             refresh-on-success="false"
                     />
-                    <clear datasource="ds1" model="resolve"/>
+                    <clear datasource="ds1" models="resolve"/>
                 </button>
             </toolbar>
         </form>

@@ -6,7 +6,7 @@
             <datasource id="mainDs"/>
             <toolbar>
                 <button label="Clear" enabled="true">
-                    <clear model="resolve"/>
+                    <clear models="resolve"/>
                 </button>
             </toolbar>
 
@@ -70,7 +70,7 @@
             <datasource id="outputListDs" size="1" query-id="test"/>
             <toolbar>
                 <button label="Clear" enabled="true">
-                    <clear model="resolve"/>
+                    <clear models="resolve"/>
                 </button>
             </toolbar>
 

@@ -3,7 +3,7 @@
       name="Модальное окно" object-id="testShowModal">
     <actions>
         <action id="act1">
-            <clear model="resolve"/>
+            <clear models="resolve"/>
         </action>
         <action id="act2">
             <a href="yandex.ru" target="self"/>

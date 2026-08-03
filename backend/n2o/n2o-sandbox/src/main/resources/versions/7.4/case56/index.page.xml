@@ -26,7 +26,7 @@
                 </a>
             </button>
             <button label="Очистить">
-                <clear model="resolve"/>
+                <clear models="resolve"/>
             </button>
         </toolbar>
         <fields>

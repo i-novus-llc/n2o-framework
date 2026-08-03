@@ -16,7 +16,7 @@
 
     <toolbar place="bottomRight">
         <button label="Очистить" disable-on-empty-model="false">
-            <clear datasource="ds" model="datasource"/>
+            <clear datasource="ds" models="datasource"/>
         </button>
     </toolbar>
 </page>

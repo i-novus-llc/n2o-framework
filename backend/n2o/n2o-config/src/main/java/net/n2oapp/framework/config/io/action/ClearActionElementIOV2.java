@@ -15,7 +15,7 @@ public class ClearActionElementIOV2 extends AbstractActionElementIOV2<N2oClearAc
     public void io(Element e, N2oClearAction a, IOProcessor p) {
         super.io(e, a, p);
         p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
-        p.attributeArray(e, "model", ",", a::getModel, a::setModel);
+        p.attributeArray(e, "models", ",", a::getModels, a::setModels);
         p.attributeBoolean(e, "close-on-success", a::getCloseOnSuccess, a::setCloseOnSuccess);
     }
 

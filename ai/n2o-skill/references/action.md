@@ -154,10 +154,10 @@ Body: `<payload>` with any attributes (supports placeholders)
 ```
 
 ### `<clear>` — Clear datasource
-| Attribute | Type | Description | Default |
-|---|---|---|---|
-| datasource | Reference | Datasource to clear | parent's datasource |
-| model | String (comma-sep) | Models to clear | parent's model |
+| Attribute        | Type | Description | Default |
+|------------------|---|---|---|
+| datasource       | Reference | Datasource to clear | parent's datasource |
+| models           | String (comma-sep) | Models to clear | parent's model |
 | close-on-success | boolean | Close window after clear | false |
 
 ### `<copy>` — Copy data between datasources

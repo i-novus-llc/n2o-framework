@@ -34,7 +34,7 @@
                             <copy source-model="resolve" target-model="edit"/>
                         </button>
                         <button id="clear" label="Очистить">
-                            <clear model="edit,resolve"/>
+                            <clear models="edit,resolve"/>
                         </button>
                     </toolbar>
                     <fields>

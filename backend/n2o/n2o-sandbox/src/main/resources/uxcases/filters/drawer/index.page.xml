@@ -49,7 +49,7 @@
                             />
                         </button>
                         <button label="Сбросить">
-                            <clear model="filter"/>
+                            <clear models="filter"/>
                         </button>
                     </row>
                 </set>

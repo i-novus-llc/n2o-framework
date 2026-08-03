@@ -362,7 +362,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="xs:string">
+                <xs:attribute name="models" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Список моделей (через запятую), которые будут очищены.
