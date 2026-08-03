@@ -7,7 +7,7 @@
         </fields>
         <toolbar place="bottomLeft">
             <button label="Очистить">
-                <clear model="resolve"/>
+                <clear models="resolve"/>
             </button>
         </toolbar>
     </form>

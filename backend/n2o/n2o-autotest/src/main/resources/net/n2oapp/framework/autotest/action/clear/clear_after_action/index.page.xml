@@ -9,7 +9,7 @@
                         disable-on-empty-model="false"
                         validate="false"
                 >
-                    <clear />
+                    <clear/>
                 </button>
                 <button
                         label="copy"

@@ -24,7 +24,7 @@
                     <copy source-model="resolve" target-model="edit"/>
                 </button>
                 <button label="Очистить" id="clear">
-                    <clear model="resolve,edit"/>
+                    <clear models="resolve,edit"/>
                 </button>
             </toolbar>
         </form>

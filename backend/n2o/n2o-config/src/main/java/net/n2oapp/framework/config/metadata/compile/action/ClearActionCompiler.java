@@ -31,7 +31,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         ClearAction clearAction = new ClearAction();
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
-        clearAction.getPayload().setPrefixes(castDefault(source.getModel(),
+        clearAction.getPayload().setPrefixes(castDefault(source.getModels(),
                 () -> new String[]{getLocalModel(p).getId()}));
         String datasource = castDefault(source.getDatasourceId(),
                 () -> getLocalDatasourceId(p));

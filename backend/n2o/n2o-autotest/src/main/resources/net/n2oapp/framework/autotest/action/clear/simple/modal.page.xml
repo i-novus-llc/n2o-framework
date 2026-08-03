@@ -13,7 +13,7 @@
             </fields>
             <toolbar>
                 <button label="Очистить поля">
-                    <clear model="resolve"/>
+                    <clear models="resolve"/>
                 </button>
             </toolbar>
         </form>

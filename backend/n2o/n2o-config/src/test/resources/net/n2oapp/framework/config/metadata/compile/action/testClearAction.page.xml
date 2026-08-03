@@ -6,7 +6,7 @@
         </toolbar>
         <actions>
             <action id="test">
-                <clear model="edit,resolve" close-on-success="true"/>
+                <clear models="edit,resolve" close-on-success="true"/>
             </action>
         </actions>
     </form>
