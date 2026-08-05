@@ -7,12 +7,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.ExportRequest;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -27,26 +25,19 @@ public class CsvFileGenerator implements FileGenerator {
     private char csvSeparator = ';';
 
     @Override
-    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<ExportRequest.ExportField> headers) {
+    public byte[] createFile(String charset, List<DataSet> data, List<ExportRequest.ExportField> headers) {
         byte[] fileBytes = null;
         List<DataSet> formattedData = formatData(data, headers);
 
         try {
-            String fullFileName = fileDir + File.separator + fileName + "." + FILE_FORMAT;
-
-            FileWriter fileWriter = new FileWriter(fullFileName, Charset.forName(charset));
-            CSVWriter writer = new CSVWriter(
-                    fileWriter, csvSeparator,
-                    '\'',
-                    '\'',
-                    ICSVWriter.DEFAULT_LINE_END
-            );
-
             List<String[]> csvData = resolveToCsvFormat(formattedData, headers);
-            writer.writeAll(csvData, false);
-            writer.close();
-
-            fileBytes = Files.readAllBytes(Path.of(fullFileName));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try (CSVWriter writer = new CSVWriter(
+                    new OutputStreamWriter(baos, Charset.forName(charset)),
+                    csvSeparator, '\'', '\'', ICSVWriter.DEFAULT_LINE_END)) {
+                writer.writeAll(csvData, false);
+            }
+            fileBytes = baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
