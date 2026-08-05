@@ -6,11 +6,13 @@ import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.MultiFormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,6 +44,35 @@ class EditListAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+    }
+
+    @Test
+    void testCopyToEmptyModel() {
+        setResourcePath("net/n2oapp/framework/autotest/action/edit_list/copy_to_empty");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/copy_to_empty/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/copy_to_empty/data.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        MultiFormWidget multiForm = page.regions().region(0, SimpleRegion.class)
+                .content().widget(MultiFormWidget.class);
+        multiForm.shouldExists();
+        FormWidget helperForm = page.regions().region(0, SimpleRegion.class)
+                .content().widget(1, FormWidget.class);
+        helperForm.fields().shouldHaveSize(0);
+        ButtonField copy = multiForm.form(0).fields().field("COPY", ButtonField.class);
+        copy.shouldExists();
+        copy.click();
+        helperForm.fields().shouldHaveSize(2);
+        helperForm.fields().field(0).control(InputText.class).shouldHaveValue("Иванов");
+        helperForm.fields().field(1).control(InputText.class).shouldHaveValue("Иван");
+        multiForm.form(1).fields().field("COPY", ButtonField.class).click();
+        helperForm.fields().shouldHaveSize(4);
+        helperForm.fields().field(2).control(InputText.class).shouldHaveValue("Петров");
+        helperForm.fields().field(3).control(InputText.class).shouldHaveValue("Петр");
     }
 
     @Test
