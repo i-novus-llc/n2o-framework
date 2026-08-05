@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface FileGenerator {
 
-    byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<ExportRequest.ExportField> headers);
+    byte[] createFile(String charset, List<DataSet> data, List<ExportRequest.ExportField> headers);
 
     String getFormat();
 

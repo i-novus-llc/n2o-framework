@@ -6,11 +6,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.*;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +26,7 @@ public class XlsxFileGenerator implements FileGenerator {
     private static final Pattern OPTIONAL_ZEROS_PATTERN = Pattern.compile("\\[0+]");
 
     @Override
-    public byte[] createFile(String fileName, String fileDir, String charset,
+    public byte[] createFile(String charset,
                              List<DataSet> data,
                              List<ExportRequest.ExportField> headers) {
         byte[] fileBytes = null;
@@ -65,12 +62,11 @@ public class XlsxFileGenerator implements FileGenerator {
                 }
             }
 
-            String fullFileName = fileDir + File.separator + fileName + "." + FILE_FORMAT;
-            try (FileOutputStream fileOut = new FileOutputStream(fullFileName)) {
-                workbook.write(fileOut);
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                workbook.write(baos);
+                fileBytes = baos.toByteArray();
             }
 
-            fileBytes = Files.readAllBytes(Path.of(fullFileName));
         } catch (IOException e) {
             e.printStackTrace();
         }

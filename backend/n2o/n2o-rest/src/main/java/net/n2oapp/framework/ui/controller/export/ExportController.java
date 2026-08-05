@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 
 public class ExportController extends AbstractController {
 
-    private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
     private static final Pattern FIRST_WORD_PATTERN = Pattern.compile("^\\s*([\\w.]+)");
     private final DataController dataController;
     private final FileGeneratorFactory fileGeneratorFactory;
@@ -50,7 +49,7 @@ public class ExportController extends AbstractController {
         String lowerFileFormat = fileFormat.toLowerCase();
         FileGenerator generator = fileGeneratorFactory.getGenerator(lowerFileFormat);
         String fileName = getFileName(filename, lowerFileFormat);
-        byte[] fileBytes = generator.createFile(filename, FILES_DIRECTORY_NAME, charset, data, headers);
+        byte[] fileBytes = generator.createFile(charset, data, headers);
 
         if (fileBytes == null)
             response.setStatus(500);
