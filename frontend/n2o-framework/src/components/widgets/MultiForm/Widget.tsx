@@ -90,7 +90,13 @@ const Widget = ({
     const prevLengthRef = useRef<number>(0)
 
     useEffect(() => {
-        if (loading || !innerRef.current || length === 0) { return }
+        if (loading || !innerRef.current) { return }
+
+        if (length === 0) {
+            setMinHeight(0)
+
+            return
+        }
 
         const height = innerRef.current.scrollHeight
 
