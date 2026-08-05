@@ -1704,6 +1704,10 @@
           "name": "EditListAT. testCRUD"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/edit_list/copy_to_empty",
+          "name": "EditListAT. testCopyToEmptyModel"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/action/edit_list/delete_many",
           "name": "EditListAT. testCreateDeleteMany"
         },

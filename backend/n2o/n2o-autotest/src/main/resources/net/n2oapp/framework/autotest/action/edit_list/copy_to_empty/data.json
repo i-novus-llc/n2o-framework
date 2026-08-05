@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "firstname": "Иванов",
+    "lastname": "Иван"
+  },
+  {
+    "id": 2,
+    "firstname": "Петров",
+    "lastname": "Петр"
+  },
+  {
+    "id": 3,
+    "firstname": "Сидоров",
+    "lastname": "Алексей"
+  },
+  {
+    "id": 4,
+    "firstname": "Кузнецова",
+    "lastname": "Мария"
+  },
+  {
+    "id": 5,
+    "firstname": "Смирнов",
+    "lastname": "Дмитрий"
+  },
+  {
+    "id": 6,
+    "firstname": "Орлова",
+    "lastname": "Екатерина"
+  },
+  {
+    "id": 7,
+    "firstname": "Васильев",
+    "lastname": "Николай"
+  },
+  {
+    "id": 8,
+    "firstname": "Федорова",
+    "lastname": "Анна"
+  },
+  {
+    "id": 9,
+    "firstname": "Морозов",
+    "lastname": "Сергей"
+  },
+  {
+    "id": 10,
+    "firstname": "Зайцева",
+    "lastname": "Ольга"
+  }
+]
