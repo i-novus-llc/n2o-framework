@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка копирования в пустую модель">
+    <datasources>
+        <datasource id="ds" query-id="data" size="4"/>
+        <datasource id="helperDs"/>
+    </datasources>
+    <regions>
+        <multi-form datasource="ds">
+            <fields>
+                <row>
+                    <input-text id="firstname"/>
+                    <input-text id="lastname"/>
+                    <checkbox id="enabled"/>
+                    <button label="COPY" visible="{!enabled || enabled == false}">
+                        <!-- копируем в мультисет -->
+                        <edit-list item-datasource="ds"
+                                   item-model="datasource"
+                                   item-field-id="[index]"
+                                   datasource="helperDs"
+                                   model="resolve"
+                                   list-field-id="hospitalizations"
+                                   operation="create"/>
+                    </button>
+                </row>
+            </fields>
+        </multi-form>
+        <form datasource="helperDs">
+            <fields>
+                <multi-set id="hospitalizations" can-add="false" can-remove="false">
+                    <row>
+                        <input-text id="firstname"/>
+                        <input-text id="lastname"/>
+                    </row>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>
