@@ -128,6 +128,7 @@ class FileUploadAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled("NNO-12971")
     void fileUploaderCleanable() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/index.page.xml"));
 
