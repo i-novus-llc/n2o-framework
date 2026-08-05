@@ -13,4 +13,6 @@ public class N2oAutoComplete extends N2oSingleListFieldAbstract {
     private Boolean tags;
     private Integer maxTagTextLength;
     private String inputLabelFieldId;
+    private String mask;
+    private MaskPasteModeEnum maskPasteMode;
 }

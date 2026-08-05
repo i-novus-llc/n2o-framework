@@ -9,9 +9,10 @@ import isNil from 'lodash/isNil'
 import pick from 'lodash/pick'
 import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
-import { Manager, Reference, Popper } from 'react-popper'
+import { Manager, Popper, Reference } from 'react-popper'
 import { BadgeType, PopupList } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
 import { InputContent } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputContent'
+import { MaskedInputContent, extractRealData, MaskPasteMode } from '@i-novus/n2o-components/lib/inputs/InputSelect/MaskedInputContent'
 import { InputSelectGroup } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelectGroup'
 import { Alert } from '@i-novus/n2o-components/lib/display/Alerts/Alert'
 import { Filter, TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
@@ -165,7 +166,7 @@ class AutoComplete extends React.Component<Props, State> {
     }
 
     handleDataSearch: Props['onSearch'] = (input, delay, callback) => {
-        const { onSearch, filter, labelFieldId, options } = this.props
+        const { onSearch, filter, labelFieldId, options, mask } = this.props
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter as Filter)) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -181,23 +182,26 @@ class AutoComplete extends React.Component<Props, State> {
             if (labels.some(label => label === input)) {
                 onSearch('', delay || DEFAULT_DATA_SEARCH_DELAY, callback)
             } else {
-                onSearch(input, delay || DEFAULT_DATA_SEARCH_DELAY, callback)
+                onSearch(extractRealData(input as string, mask) || null, delay || DEFAULT_DATA_SEARCH_DELAY, callback)
             }
         }
     }
 
-    onChange = (userInput: State['input']) => {
-        const { onInput, tags, onChange } = this.props
+    onInputChange = (userInput: State['input'], fetch = true) => {
+        const { onInput, tags, onChange, mask } = this.props
         const { input } = this.state
 
-        const onSetNewInputValue = (input: State['input']) => {
+        const onSetNewInputValue = (input: State['input'], needToSearch: boolean) => {
             onInput(input)
             if (!tags && input === '') {
                 onChange([])
             } else if (!tags) {
                 onChange([input])
             }
-            this.handleDataSearch(input)
+
+            if (needToSearch) {
+                this.handleDataSearch(input)
+            }
         }
 
         if (!isEqual(input, userInput)) {
@@ -210,13 +214,20 @@ class AutoComplete extends React.Component<Props, State> {
                 return [userInput]
             }
 
+            // TODO не совпадает типизация input, заявлено string по факту может быть string[]
+            const extractedInput = Array.isArray(input) ? input[0] || '' : input
+
+            const needToSearch = !mask ? true : extractRealData(extractedInput, mask) !== extractRealData(userInput, mask) || Boolean(!extractedInput && userInput)
+
             this.setState(
                 prevState => ({
                     input: userInput,
                     value: getSelected(prevState),
                     isExpanded: true,
                 }),
-                () => onSetNewInputValue(userInput),
+                () => {
+                    onSetNewInputValue(userInput, needToSearch && fetch)
+                },
             )
         }
     }
@@ -230,10 +241,21 @@ class AutoComplete extends React.Component<Props, State> {
         }
     }
 
+    private blurTimer: ReturnType<typeof setTimeout> | null = null
+
+    handleBlur = () => {
+        this.blurTimer = setTimeout(() => {
+            this.setIsExpanded(false)
+            this.onBlur()
+        }, 150)
+    }
+
     onSelect = (item: TOption) => {
-        if (!item) {
-            return
+        if (this.blurTimer) {
+            clearTimeout(this.blurTimer)
+            this.blurTimer = null
         }
+        if (!item) { return }
 
         const { onChange, closePopupOnSelect, tags, labelFieldId, inputLabelFieldId = labelFieldId } = this.props
 
@@ -337,6 +359,8 @@ class AutoComplete extends React.Component<Props, State> {
             size,
             count,
             quickSearchParam,
+            mask,
+            maskPasteMode,
         } = this.props
         const needAddFilter = !find(value, item => item[labelFieldId] === input)
 
@@ -344,10 +368,43 @@ class AutoComplete extends React.Component<Props, State> {
             item => isEmpty(input) ||
                 (String(item[labelFieldId as keyof TOption])).toLowerCase()
                     // TODO не совпадает типизация input, заявлено string по факту может быть string[]
-                    .includes(Array.isArray(input) ? input[0].toLowerCase() : input.toLowerCase()),
+                    .includes(
+                        Array.isArray(input)
+                            ? extractRealData(input[0].toLowerCase(), mask)
+                            : extractRealData(input.toLowerCase(), mask),
+                    ),
         )
 
         const filterValue = isEmpty(input) ? {} : { [quickSearchParam || labelFieldId]: input }
+
+        const commonInputProps = {
+            tags: true,
+            mode: 'autocomplete' as const,
+            maxTagTextLength,
+            multiSelect: tags,
+            options: filteredOptions,
+            setRef: this.setInputRef,
+            onInputChange: this.onInputChange,
+            setActiveValueId: this.setActiveValueId,
+            closePopUp: () => this.setIsExpanded(false),
+            openPopUp: () => this.setIsExpanded(true),
+            selected: value,
+            value: input,
+            onFocus: this.onFocus,
+            onClick: this.onClick,
+            onRemoveItem: this.removeSelectedItem,
+            isExpanded,
+            valueFieldId,
+            activeValueId,
+            onSelect: this.onSelect,
+            disabled,
+            disabledValues: disabledValues as Array<string | number>,
+            placeholder,
+            labelFieldId,
+            inputLabelFieldId,
+            autoFocus,
+            onBlur: this.handleBlur,
+        }
 
         return (
             <div
@@ -373,33 +430,17 @@ class AutoComplete extends React.Component<Props, State> {
                                 input={input}
                                 onClearClick={this.handleElementClear}
                             >
-                                <InputContent
-                                    tags
-                                    mode="autocomplete"
-                                    maxTagTextLength={maxTagTextLength}
-                                    multiSelect={tags}
-                                    options={filteredOptions}
-                                    setRef={this.setInputRef}
-                                    onInputChange={this.onChange}
-                                    setActiveValueId={this.setActiveValueId}
-                                    closePopUp={() => this.setIsExpanded(false)}
-                                    openPopUp={() => this.setIsExpanded(true)}
-                                    selected={value}
-                                    value={input}
-                                    onFocus={this.onFocus}
-                                    onClick={this.onClick}
-                                    onRemoveItem={this.removeSelectedItem}
-                                    isExpanded={isExpanded}
-                                    valueFieldId={valueFieldId}
-                                    activeValueId={activeValueId}
-                                    onSelect={this.onSelect}
-                                    disabled={disabled}
-                                    disabledValues={disabledValues as Array<string | number>}
-                                    placeholder={placeholder}
-                                    labelFieldId={labelFieldId}
-                                    inputLabelFieldId={inputLabelFieldId}
-                                    autoFocus={autoFocus}
-                                />
+                                {mask
+                                    ? (
+                                        <MaskedInputContent
+                                            {...commonInputProps}
+                                            mask={mask}
+                                            maskPasteMode={maskPasteMode || MaskPasteMode.FREE}
+                                            clearOnBlur
+                                        />
+                                    )
+                                    : <InputContent {...commonInputProps} />
+                                }
                             </InputSelectGroup>
                         )}
                     </Reference>
@@ -607,7 +648,7 @@ type Props = {
      * Callback на поиск
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onSearch(input: State['input'], delay?: number, callback?: any): void,
+    onSearch(input: State['input'] | null, delay?: number, callback?: any): void,
     expandPopUp: boolean,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     alerts?: any[],
@@ -637,6 +678,8 @@ type Props = {
     size?: number,
     count?: number,
     quickSearchParam?: string,
+    mask?: string
+    maskPasteMode?: MaskPasteMode
 }
 
 export { AutoComplete }

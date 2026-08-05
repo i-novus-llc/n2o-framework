@@ -948,6 +948,10 @@
           "name": "AutoCompleteAT. testPrefilters"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/auto_complete/mask",
+          "name": "AutoCompleteAT. testMask"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/checkbox",
           "name": "CheckboxAT. testCheckbox"
         },

@@ -1,14 +1,74 @@
-import React, { ChangeEvent, KeyboardEvent, ReactNode } from 'react'
+import React, { KeyboardEvent, ReactNode, useCallback, useMemo, useState } from 'react'
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
 import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
+import { useMask } from '../helpers/input/useMask'
+import { useInputController } from '../helpers/input/useInputController'
 
 import { InputElements as SelectedItems } from './SelectedItems'
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils'
 import { TOption } from './types'
+
+export enum MaskPasteMode {
+    FREE = 'free',
+    STRICT = 'strict',
+}
+
+/**
+ * Извлекает реально введённые данные из строки с маской.
+ * @param maskedProps - строка, содержащая символы маски ('_') и введённые данные
+ * @param mask - маска
+ * @returns только реально введённые символы с сохранением разделителей между ними
+ */
+export function extractRealData(maskedProps: string, mask?: string): string {
+    if (!mask) { return maskedProps }
+
+    let masked = maskedProps
+
+    // TODO не совпадает типизация input, заявлено string по факту может быть string[]
+    if (Array.isArray(masked)) {
+        masked = maskedProps[0] || ''
+    }
+
+    // Проверка, является ли символ буквой или цифрой (реально введённым)
+    const isRealChar = (ch: string): boolean => /[\dA-Za-z]/.test(ch)
+
+    // Находим последний реальный символ в строке
+    let lastRealIndex = -1
+
+    for (let i = masked.length - 1; i >= 0; i--) {
+        if (isRealChar(masked[i])) {
+            lastRealIndex = i
+
+            break
+        }
+    }
+
+    // Если реальных символов нет – возвращаем пустую строку
+    if (lastRealIndex === -1) {
+        return ''
+    }
+
+    // Берём часть строки до последнего реального символа включительно
+    const relevant = masked.substring(0, lastRealIndex + 1)
+
+    // Удаляем все оставшиеся символы маски (подчёркивания)
+    return relevant.replace(/_/g, '')
+}
+
+const isMaskFilled = (mask: string, value?: string): boolean => {
+    if (!value) { return true }
+
+    // Количество цифровых символов в маске (количество '9')
+    const digitsCount = mask.split(/\d/g).length - 1
+    // Количество фактически введенных цифр
+    const enteredDigits = value.replace(/\D/g, '').length
+
+    return enteredDigits === digitsCount
+}
 
 /**
  * InputSelectGroup
@@ -50,7 +110,7 @@ export type Props = {
     maxTagTextLength?: number,
     mode?: 'autocomplete',
     multiSelect?: boolean,
-    onBlur?(e?: ChangeEvent): void,
+    onBlur?(): void,
     onClick?(): void,
     onFocus?(): void,
     onInputChange?(arg: string, fetch?: boolean): void,
@@ -69,13 +129,15 @@ export type Props = {
     valueFieldId: string
     className?: string
     readOnly?: boolean
-    clearOnBlur?: boolean
     elementAttributes?: {
         close?: ReactNode | string
-    }
+    },
+    mask?: string
+    maskPasteMode?: MaskPasteMode
+    clearOnBlur?: boolean
 }
 
-export function InputContent({
+export function MaskedInputContent({
     disabled = false,
     value,
     placeholder,
@@ -108,8 +170,57 @@ export function InputContent({
     className,
     readOnly = false,
     elementAttributes = {},
-    clearOnBlur = false,
+    mask = '',
+    maskPasteMode,
+    clearOnBlur,
 }: Props) {
+    const [freePasteMode, setFreePasteMode] = useState(false)
+
+    const config = useMemo(() => {
+        if (!mask) { return { mask: [], placeholder: '' } }
+
+        const maskArray = Array.from(mask)
+
+        return {
+            mask: maskArray.map(char => (char === '9' ? /\d/ : char)),
+            placeholder: maskArray.map(char => (char === '9' ? '_' : char)).join(('')),
+        }
+    }, [mask])
+
+    const { maskRef, maskedValue } = useMask({
+        mask: config.mask,
+        placeholder: config.placeholder,
+        defaultValue: value,
+    })
+
+    const handleInputChange = (value: string) => {
+        const input = value === null ? '' : value
+
+        onInputChange(input, value !== null)
+
+        if (tags) { setActiveValueId(null) }
+    }
+
+    const onBlurHandler = () => {
+        if (clearOnBlur && value && !isMaskFilled(mask, `${value}`)) {
+            onInputChange('', false)
+        }
+
+        onBlur?.()
+    }
+
+    const { stateValue, handleChange, handleBlur } = useInputController({
+        value: maskedValue,
+        onChange: handleInputChange,
+        onBlur: onBlurHandler,
+        onMessage: () => {},
+        invalidText: '',
+        clearOnBlur,
+        validate: () => true,
+        className,
+        placeholder: config.placeholder,
+    })
+
     const setOnlyElementFound = () => {
         if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
             const active: TOption = options[0]
@@ -133,11 +244,10 @@ export function InputContent({
         if (onKeyDown) {
             onKeyDown(e)
         }
-
         if (
             e.key === 'Backspace' &&
             selected.length &&
-            !(e.target as HTMLInputElement).value
+            !extractRealData((e.target as HTMLInputElement).value, mask)
         ) {
             if (!multiSelect) {
                 onRemoveItem(selected[0])
@@ -208,9 +318,12 @@ export function InputContent({
             if (findEquals && selected.find(entity => isEqual(entity, findEquals))) { findEquals = undefined }
 
             if (mode === 'autocomplete') {
-                const newSelected = findEquals || value
+                const newSelected = findEquals || (typeof value === 'string' && isMaskFilled(mask, value) && value)
 
-                onSelect(newSelected)
+                if (newSelected) {
+                    onSelect(newSelected)
+                }
+
                 setActiveValueId(null)
             } else if (!isEmpty(findEquals)) {
                 onSelect(findEquals)
@@ -224,44 +337,32 @@ export function InputContent({
     }
 
     const handleClick = () => {
-        if (onClick) {
-            onClick()
-        }
-    }
-
-    /**
-     * Обработчик изменения инпута
-     * @param e - событие изменения
-     * @private
-     */
-
-    const handleInputChange = (e: ChangeEvent) => {
-        onInputChange((e.target as HTMLInputElement).value)
-
-        if (tags) {
-            setActiveValueId(null)
-        }
+        onClick?.()
     }
 
     const getPlaceholder = selected.length > 0 ? '' : placeholder
 
-    const handleBlur = (e: ChangeEvent) => {
-        onBlur?.(e)
+    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (!mask || maskPasteMode === MaskPasteMode.STRICT) { return }
 
-        if (mode !== 'autocomplete') {
-            return
-        }
+        e.preventDefault()
+        const pastedText = e.clipboardData.getData('text/plain')
 
-        // @ts-ignore будет удалено
-        if (clearOnBlur && e?.relatedTarget?.role !== 'menuitem') {
-            // @ts-ignore будет удалено
-            if (value && !Array.isArray(value) && selected.includes(value)) {
-                return
-            }
+        if (!pastedText) { return }
 
-            onInputChange('', false)
-        }
+        setFreePasteMode(true)
+
+        const target = e.currentTarget
+
+        target.value = pastedText
+
+        onInputChange(pastedText)
     }
+
+    const mergedRef = useCallback((node) => {
+        if (typeof setRef === 'function') { setRef(node) }
+        if (typeof maskRef === 'function') { maskRef(node) }
+    }, [setRef, maskRef])
 
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -281,30 +382,36 @@ export function InputContent({
                     />
                     <textarea
                         onKeyDown={handleKeyDown}
-                        ref={setRef}
+                        ref={mask ? mergedRef : setRef}
                         placeholder={getPlaceholder}
                         disabled={disabled}
-                        value={value}
+                        value={freePasteMode ? value : stateValue}
                         title={value ? String(value) : ''}
-                        onChange={handleInputChange}
+                        // @ts-ignore будет удалено
+                        onChange={mask ? NOOP_FUNCTION : handleChange}
+                        // @ts-ignore будет удалено
+                        onInput={mask ? handleChange : NOOP_FUNCTION}
                         onClick={handleClick}
                         onFocus={onFocus}
+                        // @ts-ignore будет удалено
                         onBlur={handleBlur}
-                        className={classNames('form-control n2o-inp', {
-                            'n2o-inp--multi': multiSelect,
-                        })}
+                        className={classNames('form-control n2o-inp', { 'n2o-inp--multi': multiSelect })}
                         autoFocus={autoFocus}
+                        onPaste={handlePaste}
                     />
                 </>
             ) : (
                 <input
                     onKeyDown={handleKeyDown}
-                    ref={setRef}
+                    ref={mask ? mergedRef : setRef}
                     placeholder={getPlaceholder}
                     disabled={disabled}
                     title={value ? String(value) : ''}
-                    value={value}
-                    onChange={handleInputChange}
+                    value={freePasteMode ? value : stateValue}
+                    // @ts-ignore будет удалено
+                    onChange={mask ? NOOP_FUNCTION : handleChange}
+                    // @ts-ignore будет удалено
+                    onInput={mask ? handleChange : NOOP_FUNCTION}
                     onClick={handleClick}
                     onFocus={onFocus}
                     onBlur={handleBlur}

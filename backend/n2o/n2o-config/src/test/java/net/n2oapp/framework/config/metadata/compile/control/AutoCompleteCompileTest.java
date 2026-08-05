@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.control.plain.MaskPasteModeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
@@ -62,7 +63,9 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
                 hasProperty("valueFieldId", is("id")),
                 hasProperty("tags", is(true)),
                 hasProperty("labelFieldId", is("fullName")),
-                hasProperty("inputLabelFieldId", is("shortName"))
+                hasProperty("inputLabelFieldId", is("shortName")),
+                hasProperty("mask", is("99-999-99-99")),
+                hasProperty("maskPasteMode", is(MaskPasteModeEnum.FREE))
         ));
 
         Map<String, ModelLink> queryMapping = autoComplete.getDataProvider().getQueryMapping();
@@ -93,7 +96,9 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getMaxTagTextLength(), is(15));
         assertThat(autoComplete, allOf(
                 hasProperty("labelFieldId", is("name")),
-                hasProperty("inputLabelFieldId", is("name"))
+                hasProperty("inputLabelFieldId", is("name")),
+                hasProperty("mask", is("+7 (999) 999-99-99")),
+                hasProperty("maskPasteMode", is(MaskPasteModeEnum.STRICT))
         ));
 
         dependencies = field.getDependencies();
@@ -107,5 +112,7 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
                 .getCols().getFirst().getFields().getFirst()).getControl();
         assertThat(autoComplete.getDatasource(), is("testAutoComplete_test"));
         assertThat(autoComplete.getData(), nullValue());
+        assertThat(autoComplete.getMask(), nullValue());
+        assertThat(autoComplete.getMaskPasteMode(), is(MaskPasteModeEnum.STRICT));
     }
 }

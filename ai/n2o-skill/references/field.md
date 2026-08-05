@@ -336,16 +336,18 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 
 ### `<checkbox-group>` — Checkbox Group (`type="default/btn"`, `inline`)
 ### `<auto-complete>` — Autocomplete
-| Attribute | Type | Default |
-|---|---|---|
-| query-id | String | |
-| datasource | String | |
-| value-field-id | String | name |
-| label-field-id | String | name |
-| input-label-field-id | String | |
-| search-filter-id | String | |
-| tags | boolean | false |
-| max-tag-text-length | Number | 10 |
+| Attribute             | Type          | Default |
+|-----------------------|---------------|---|
+| query-id              | String        | |
+| datasource            | String        | |
+| value-field-id        | String        | name |
+| label-field-id        | String        | name |
+| input-label-field-id  | String        | |
+| search-filter-id      | String        | |
+| tags                  | boolean       | false |
+| max-tag-text-length   | Number        | 10 |
+| mask	                | String        |          |     
+| mask-paste-mode	    | strict / free |strict
 
 ### Inline `<options>` (instead of query-id)
 ```xml
