@@ -11,13 +11,32 @@ const BadGatewayPage = () => <ErrorPage status={502} error={translation.badGatew
 const ServiceUnavailablePage = () => <ErrorPage status={503} error={translation.serviceUnavailable} />
 const NetworkErrorPage = () => <ErrorPage status={null} error={translation.networkError} />
 
-type Error = { error?: Error & { status?: number, text?: string } }
+type Error = { error?: Error & { status?: number, text?: string, message?: string } }
 
 const InternalErrorPage = ({ error }: Error) => {
-    const { text, status } = error || {}
+    const getErrorText = (err: Error['error']): string => {
+        if (!err) { return 'Неизвестная ошибка' }
+        if (typeof err === 'string') { return err }
 
-    return <ErrorPage status={status || 'Внутренняя ошибка приложения'} error={text || String(error)} />
+        const text = err.message ?? err.text
+
+        if (text) { return text }
+
+        try {
+            return JSON.stringify(err)
+        } catch {
+            return String(err)
+        }
+    }
+
+    const errorText = getErrorText(error)
+    const errorStatus = error?.status
+
+    const displayStatus = errorStatus ?? 'Внутренняя ошибка приложения'
+
+    return <ErrorPage status={displayStatus} error={errorText} />
 }
+
 const defaultComponents: Record<number | string, ComponentType<Error>> = {
     403: ForbiddenPage,
     404: NotFoundPage,
