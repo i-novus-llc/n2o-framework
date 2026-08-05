@@ -8,7 +8,8 @@
         <form id="main">
             <fields>
                 <auto-complete id="auto1" label="Auto complete" query-id="testSelect" placeholder="{message}"
-                               tags="true" value-field-id="id" label-field-id="fullName" input-label-field-id="shortName" search-filter-id="search">
+                               tags="true" value-field-id="id" label-field-id="fullName" input-label-field-id="shortName" search-filter-id="search"
+                               mask="99-999-99-99" mask-paste-mode="free">
                     <filters>
                         <eq field-id="id" value="{org_id}" reset-on-change="true" model="resolve"
                             datasource="test"/>
@@ -18,7 +19,7 @@
                         <fetch on="auto2" enabled="{id==2 || id==3}"/>
                     </dependencies>
                 </auto-complete>
-                <auto-complete id="auto2" label="Auto complete" max-tag-text-length="15">
+                <auto-complete id="auto2" label="Auto complete" max-tag-text-length="15" mask="+7 (999) 999-99-99">
                     <options>
                         <option name="{test1}"/>
                         <option name="test2"/>

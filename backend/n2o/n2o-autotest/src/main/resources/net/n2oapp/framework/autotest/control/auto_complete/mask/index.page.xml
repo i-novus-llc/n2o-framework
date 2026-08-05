@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка маски AutoComplete">
+    <form>
+        <fields>
+            <input-text id="input"/>
+            <auto-complete id="namesFree"
+                           query-id="test"
+                           value-field-id="name"
+                           tags="true"
+                           mask="99-999-99-99"
+                           mask-paste-mode="free"/>
+            <auto-complete id="namesStrict"
+                           query-id="test"
+                           value-field-id="name"
+                           tags="true"
+                           mask="99-999-99-99"
+                           mask-paste-mode="strict"/>
+            <auto-complete id="auto" mask="99-999-99-99"/>
+        </fields>
+    </form>
+</simple-page>

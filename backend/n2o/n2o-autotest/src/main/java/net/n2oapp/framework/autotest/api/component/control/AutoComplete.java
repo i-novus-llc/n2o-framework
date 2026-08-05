@@ -1,11 +1,13 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import net.n2oapp.framework.autotest.api.component.PopupControl;
+
 import java.time.Duration;
 
 /**
  * Компонент ввода текста с автозаполнением для автотестирования
  */
-public interface AutoComplete extends Control {
+public interface AutoComplete extends Control, PopupControl {
     /**
      * Устанавливает текст в поле ввода
      *
@@ -17,6 +19,11 @@ public interface AutoComplete extends Control {
      * @param value вводимый текст
      */
     void setValue(String value);
+
+    /**
+     * Вставить из буфера обмена
+     */
+    void pasteValue();
 
     /**
      * Клик по полю ввода
@@ -34,24 +41,27 @@ public interface AutoComplete extends Control {
     void clear();
 
     /**
-     * Нажатие по кнопки Enter, для добавления тэга
+     * Нажатие кнопки Enter для добавления тэга
      */
     void enter();
 
     /**
      * Удаление тега в случае, если значения в поле отображаются тегами
+     *
      * @param value значение удаляемого тега
      */
     void removeTag(String value);
 
     /**
      * Проверка выбранных тегов
+     *
      * @param tags список ожидаемых выбранных тегов
      */
     void shouldHaveTags(String[] tags, Duration... duration);
 
     /**
      * Проверка наличия опций в раскрывающемся списке
+     *
      * @param values список ожидаемых опций
      */
     void shouldHaveDropdownOptions(String[] values, Duration... duration);
@@ -63,6 +73,7 @@ public interface AutoComplete extends Control {
 
     /**
      * Выбор опции из раскрывающегося списка
+     *
      * @param value значения выбираемой опции
      */
     void chooseDropdownOption(String value);

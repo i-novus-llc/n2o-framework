@@ -1593,6 +1593,20 @@
                         <xs:documentation>Максимальная длина текста элемента.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="mask" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Маска текста.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mask-paste-mode" type="maskPasteModeType" default="strict">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Режим вставки значения в маску.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2592,6 +2606,24 @@
             <xs:enumeration value="square"/>
             <xs:enumeration value="circle"/>
             <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="maskPasteModeType">
+        <xs:annotation>
+            <xs:documentation>Режим вставки значения в маску.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="strict">
+                <xs:annotation>
+                    <xs:documentation>Строгая проверка маски. Значение фильтруется по маске.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="free">
+                <xs:annotation>
+                    <xs:documentation>Нестрогая проверка маски. Значение вставляется как есть.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.control.plain.MaskPasteModeEnum;
 
 
 /**
@@ -17,4 +18,8 @@ public class AutoComplete extends ListControl {
     private Integer maxTagTextLength;
     @JsonProperty
     private String inputLabelFieldId;
+    @JsonProperty
+    private String mask;
+    @JsonProperty
+    private MaskPasteModeEnum maskPasteMode;
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, useEffect, useState, ClipboardEvent } from 'react'
+import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import { type useInputControllerProps } from './types'

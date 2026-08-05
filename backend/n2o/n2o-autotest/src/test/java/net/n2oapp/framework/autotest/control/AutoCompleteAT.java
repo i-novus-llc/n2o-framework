@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -183,12 +184,109 @@ class AutoCompleteAT extends AutoTestBase {
         select.shouldHaveValue("type2");
         autoComplete.click();
         autoComplete.setValue("test");
+        autoComplete.shouldBeOpened();
         autoComplete.shouldHaveDropdownOptions(new String[]{"test4", "test5"});
 
         select.clear();
+        select.shouldBeEmpty();
+        autoComplete.shouldHaveValue("test");
         autoComplete.click();
+        autoComplete.shouldBeOpened();
         autoComplete.shouldHaveDropdownOptions(new String[]{"test1", "test2", "test3", "test4", "test5", "test6"});
         autoComplete.setValue("3");
         autoComplete.shouldHaveDropdownOptions(new String[]{"test3"});
+    }
+
+    @Test
+    void testMask() {
+        setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/mask");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/mask/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/mask/test.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fields();
+
+        // ========== 1. ПРОВЕРКА FREE РЕЖИМА ==========
+        // mask-paste-mode="free"
+        AutoComplete autoCompleteFree = fields.field("namesFree").control(AutoComplete.class);
+        autoCompleteFree.shouldExists();
+        InputText input = fields.field("input").control(InputText.class);
+
+        // 1.1 Атрибут mask - ручной ввод по маске 99-999-99-99
+        autoCompleteFree.click();
+        autoCompleteFree.setValue("123456789");
+        autoCompleteFree.shouldHaveValue("12-345-67-89");
+
+        // Проверка, что больше 9 цифр не вставляется
+        autoCompleteFree.clear();
+        autoCompleteFree.setValue("12345678901");
+        autoCompleteFree.shouldHaveValue("12-345-67-89");
+
+        // 1.2 Атрибут mask - поиск по частично заполненному значению
+        autoCompleteFree.clear();
+        autoCompleteFree.setValue("11");
+        autoCompleteFree.shouldHaveDropdownOptions(new String[]{"11-111-11-26"});
+
+        // 1.3 Атрибут mask-paste-mode="free" - вставка с невалидными символами (сохраняется как есть)
+        autoCompleteFree.clear();
+        autoCompleteFree.click();
+        // ручной ввод
+        autoCompleteFree.setValue("1a2b3c4d5e6f7g8h9i");
+        autoCompleteFree.shouldHaveValue("12-345-67-89");
+        // копировать из буфера
+        input.setValue("1a2b3c4d5e6f7g8h9i");
+        input.copyValue();
+        autoCompleteFree.pasteValue();
+        autoCompleteFree.shouldHaveValue("1a2b3c4d5e6f7g8h9i");
+
+        // 1.4 Выбор из выпадающего списка с маской
+        autoCompleteFree.clear();
+        autoCompleteFree.setValue("33");
+        autoCompleteFree.shouldHaveDropdownOptions(new String[]{"33-333-33-26"});
+        autoCompleteFree.chooseDropdownOption("33-333-33-26");
+        autoCompleteFree.shouldHaveTags(new String[]{"33-333-33-..."});
+
+        // ========== 2. ПРОВЕРКА STRICT РЕЖИМА ==========
+        // mask-paste-mode="strict"
+        AutoComplete autoCompleteStrict = fields.field("namesStrict").control(AutoComplete.class);
+        autoCompleteStrict.shouldExists();
+
+        // 2.1 Атрибут mask - ручной ввод по маске
+        autoCompleteStrict.click();
+        // ручной ввод
+        autoCompleteStrict.setValue("123456789");
+        autoCompleteStrict.shouldHaveValue("12-345-67-89");
+        // копировать из буфера
+        input.setValue("1a2b3c4d5e6f7g8h9i");
+        input.copyValue();
+        autoCompleteStrict.pasteValue();
+        autoCompleteStrict.shouldHaveValue("12-345-67-89");
+
+        // 2.2 Атрибут mask-paste-mode="strict" - вставка фильтруется по маске (только цифры)
+        autoCompleteStrict.clear();
+        autoCompleteStrict.setValue("1a2b3c4d5e6f7g8h9i");
+        autoCompleteStrict.shouldHaveValue("12-345-67-89");
+
+        // 2.3 Выбор из выпадающего списка
+        autoCompleteStrict.clear();
+        autoCompleteStrict.setValue("44");
+        autoCompleteStrict.shouldHaveDropdownOptions(new String[]{"44-444-44-26"});
+        autoCompleteStrict.chooseDropdownOption("44-444-44-26");
+        autoCompleteStrict.shouldHaveTags(new String[]{"44-444-44-..."});
+
+        // если ввести цифру, её возможно удалить или изменить
+        AutoComplete auto = fields.field("auto").control(AutoComplete.class);
+        auto.shouldExists();
+        auto.click();
+        auto.setValue("987654321");
+        auto.shouldHaveValue("98-765-43-21");
+        auto.clear();
+        auto.shouldBeEmpty();
+        auto.setValue("123456789");
+        auto.shouldHaveValue("12-345-67-89");
     }
 }

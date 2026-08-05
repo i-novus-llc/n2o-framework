@@ -26,6 +26,11 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
+    public void pasteValue() {
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "v"));
+    }
+
+    @Override
     public void click() {
         element().click();
     }
@@ -68,7 +73,9 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void chooseDropdownOption(String value) {
-        dropdownOptions().find(Condition.text(value)).click();
+        dropdownOptions().find(Condition.text(value))
+                .shouldBe(Condition.exist)
+                .click();
     }
 
     @Override
@@ -86,5 +93,29 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     protected ElementsCollection dropdownOptions() {
         return element().parent().$$(".n2o-dropdown-control button");
+    }
+
+    @Override
+    public void openPopup() {
+
+    }
+
+    @Override
+    public void closePopup() {
+
+    }
+
+    @Override
+    public void shouldBeOpened() {
+        selectPopUp().shouldNotBe(Condition.hidden);
+    }
+
+    @Override
+    public void shouldBeClosed() {
+        selectPopUp().shouldBe(Condition.hidden);
+    }
+
+    protected SelenideElement selectPopUp() {
+        return element().parent().$(".n2o-pop-up");
     }
 }

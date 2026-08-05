@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.plain;
 
+import net.n2oapp.framework.api.metadata.control.plain.MaskPasteModeEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAutoComplete;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.v3.list.ListFieldIOv3;
@@ -18,6 +19,8 @@ public class AutoCompleteIOv3 extends ListFieldIOv3<N2oAutoComplete> {
         p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
         p.attribute(e, "input-label-field-id", m::getInputLabelFieldId, m::setInputLabelFieldId);
+        p.attribute(e, "mask", m::getMask, m::setMask);
+        p.attributeEnum(e, "mask-paste-mode", m::getMaskPasteMode, m::setMaskPasteMode, MaskPasteModeEnum.class);
     }
 
     @Override

@@ -74,4 +74,9 @@ public interface InputText extends Control {
      * Проверка не существования заголовка
      */
     void shouldNotHaveLabel();
+
+    /**
+     * Скопировать в буфер обмена
+     */
+    void copyValue();
 }

@@ -109,6 +109,11 @@ public class N2oInputText extends N2oControl implements InputText {
         element().parent().parent().parent().$(".n2o-field-label").shouldNot(Condition.exist);
     }
 
+    @Override
+    public void copyValue() {
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.chord(Keys.CONTROL, "c"));
+    }
+
     protected ElementsCollection stepButton() {
         return element().parent().$$(".n2o-input-number-buttons button");
     }
