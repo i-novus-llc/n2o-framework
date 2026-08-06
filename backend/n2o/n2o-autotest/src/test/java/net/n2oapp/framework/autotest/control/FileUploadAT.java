@@ -128,7 +128,6 @@ class FileUploadAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled("NNO-12971")
     void fileUploaderCleanable() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/index.page.xml"));
 
@@ -141,6 +140,7 @@ class FileUploadAT extends AutoTestBase {
 
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
         fileUpload.shouldHaveUploadFiles(1);
+        fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
         fileUpload.uploadFileShouldHaveName(0, "test1.json");
         assertThat(fileStoreController.getFileStore().size(), is(1));
 
