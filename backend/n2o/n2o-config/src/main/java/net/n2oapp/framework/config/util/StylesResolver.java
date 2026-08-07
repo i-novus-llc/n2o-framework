@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.join;
@@ -11,6 +13,8 @@ import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase
  * Утилита преобразования стилей
  */
 public class StylesResolver {
+
+    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
 
     private StylesResolver() {
 
@@ -29,10 +33,10 @@ public class StylesResolver {
             String[] lineArr = line.split(":");
             if (lineArr.length != 2)
                 throw new IllegalArgumentException(String.format("Некорректный формат строки стилей: '%s'", line));
-            String key = kebabToCamelCase(lineArr[0].replaceAll("[\\t ]", ""));
-            String value = lineArr[1];
-            while (value.startsWith(" "))
-                value = value.replaceFirst("[\\t ]", "");
+            Matcher matcher = WHITESPACE_PATTERN.matcher(lineArr[0]);
+            String key = kebabToCamelCase(matcher.replaceAll(""));
+            matcher = WHITESPACE_PATTERN.matcher(lineArr[1].trim());
+            String value = matcher.replaceAll(" ");
             result.put(key, value);
         }
 

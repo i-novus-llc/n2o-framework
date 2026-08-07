@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.multi.N2oCheckboxGroup;
 
-import java.util.Map;
-
 /**
  * Клиентская модель группы чекбоксов
  */
@@ -17,7 +15,5 @@ public class CheckboxGroup extends ListControl {
     private Boolean inline;
     @JsonProperty
     private N2oCheckboxGroup.CheckboxGroupTypeEnum type;
-    @JsonProperty
-    private Map<String, String> style;
 }
 
