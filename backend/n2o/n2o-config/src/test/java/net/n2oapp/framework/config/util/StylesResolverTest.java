@@ -26,6 +26,11 @@ class StylesResolverTest {
 
         assertThat(StylesResolver.resolveStyles(" "), nullValue());
         assertThat(StylesResolver.resolveStyles(null), nullValue());
+
+        Map<String, String> v = StylesResolver.resolveStyles("   background-color : red   ;   padding  :   30px   30px   30px   30px   ");
+        assertThat(v.size(), is(2));
+        assertThat(v.get("backgroundColor"), is("red"));
+        assertThat(v.get("padding"), is("30px 30px 30px 30px"));
     }
 
     @Test
