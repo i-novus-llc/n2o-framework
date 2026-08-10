@@ -87,6 +87,17 @@ public interface Drawer extends Component {
      */
     void scrollDown();
 
+    /**
+     * Проверка наличия затемненного фона (backdrop)
+     */
+    void shouldHaveBackgroundColor();
+
+    /**
+     * Проверка отсутствия затемненного фона (backdrop)
+     */
+    void shouldNotHaveBackgroundColor();
+
+
     enum PlacementEnum {
         LEFT,
         TOP,

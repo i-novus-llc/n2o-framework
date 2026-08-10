@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.action.BackdropEnum;
 import net.n2oapp.framework.api.metadata.action.ModalSizeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.action.SubmitActionTypeEnum;
@@ -19,7 +20,7 @@ public class ShowModalElementIOV2 extends AbstractOpenPageElementIOV2<N2oShowMod
     public void io(Element e, N2oShowModal sm, IOProcessor p) {
         super.io(e, sm, p);
         p.attributeEnum(e, "modal-size", sm::getModalSize, sm::setModalSize, ModalSizeEnum.class);
-        p.attribute(e, "backdrop", sm::getBackdrop, sm::setBackdrop);
+        p.attributeEnum(e, "backdrop", sm::getBackdrop, sm::setBackdrop, BackdropEnum.class);
         p.attributeBoolean(e, "scrollable", sm::getScrollable, sm::setScrollable);
         p.attributeBoolean(e, "has-header", sm::getHasHeader, sm::setHasHeader);
         p.attribute(e, "class", sm::getClassName, sm::setClassName);

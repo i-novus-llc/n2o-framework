@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
@@ -79,6 +81,43 @@ class OpenDrawerAT extends AutoTestBase {
         checkRow3(page, rows, drawerPage, pg, fields);
 
         checkRow0(page, rows, drawerPage, pg, fields);
+
+        checkBackdrop(page);
+    }
+
+    private static void checkBackdrop(SimplePage page) {
+        Drawer drawerPage;
+        Toolbar toolbar = page.widget(TableWidget.class).toolbar().topLeft();
+        Button backdropStatic = toolbar.button("backdrop='static'");
+        backdropStatic.shouldExists();
+        backdropStatic.click();
+        drawerPage = N2oSelenide.drawer();
+        drawerPage.shouldExists();
+        drawerPage.shouldHaveBackgroundColor();
+        drawerPage.clickBackdrop();
+        drawerPage.shouldExists();
+        drawerPage.close();
+        drawerPage.shouldNotExists();
+
+        Button backdropFalse = toolbar.button("backdrop='false'");
+        backdropFalse.shouldExists();
+        backdropFalse.click();
+        drawerPage = N2oSelenide.drawer();
+        drawerPage.shouldExists();
+        drawerPage.shouldNotHaveBackgroundColor();
+        page.element().click();
+        drawerPage.shouldExists();
+        drawerPage.close();
+        drawerPage.shouldNotExists();
+
+        Button backdropTrue = toolbar.button("backdrop='true'");
+        backdropTrue.shouldExists();
+        backdropTrue.click();
+        drawerPage = N2oSelenide.drawer();
+        drawerPage.shouldExists();
+        drawerPage.shouldHaveBackgroundColor();
+        drawerPage.clickBackdrop();
+        drawerPage.shouldNotExists();
     }
 
     private static void checkRow2(SimplePage page, TableWidget.Rows rows, Drawer drawerPage, SimplePage pg, Fields fields) {
@@ -122,5 +161,7 @@ class OpenDrawerAT extends AutoTestBase {
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("11");
         fields.field("name").control(InputText.class).shouldHaveValue("test100");
+        drawerPage.closeByEsc();
+        drawerPage.shouldNotExists();
     }
 }

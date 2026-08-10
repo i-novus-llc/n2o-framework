@@ -833,9 +833,8 @@ n2o.api.action.show_modal.backdrop = static
 | height                       | Строка                | Высота окна. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px` |                       |
 | placement                    | left top right bottom | Позиция окна                                                                                                    | right                 |
 | closable                     | true false            | Наличие крестика для закрытия drawer окна                                                                       | true                  |
-| backdrop                     | true false            | Наличие фона                                                                                                    | true                  |
+| backdrop                     | true false static     | Наличие фона drawer окна и закрытие по клику на фон:<br/>`true` - темный фон, клик по фону закрывает drawer окно<br/>`false` - прозрачный фон, клик по фону не закрывает drawer окно<br/>`static` - темный фон, клик по фону не закрывает drawer окно | static                |
 | close-on-escape              | true false            | Закрыть окно при нажатии на Esc                                                                                 | true                  |
-| close-on-backdrop            | true false            | Закрыть окно по клику на фон                                                                                    | true                  |
 | fixed-footer                 | true false            | Фиксирование подвала                                                                                            | false                 |
 
 **Настройки**
@@ -847,12 +846,10 @@ n2o.api.action.open_drawer.width = 400
 n2o.api.action.open_drawer.placement = right
 #Наличие крестика для закрытия drawer окна
 n2o.api.action.open_drawer.closable = true
-#Наличие фона
-n2o.api.action.open_drawer.backdrop = true
+#Наличие фона drawer окна и закрытие по клику на фон
+n2o.api.action.open_drawer.backdrop = static
 #Закрыть окно при нажатии на Esc
 n2o.api.action.open_drawer.close_on_escape = true
-#Закрыть окно по клику на фон
-n2o.api.action.open_drawer.close_on_backdrop = true
 #Фиксирование подвала (footer)
 n2o.api.action.open_drawer.fixed_footer = false
 ```

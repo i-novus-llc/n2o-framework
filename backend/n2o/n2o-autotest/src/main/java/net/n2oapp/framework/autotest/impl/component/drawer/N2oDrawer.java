@@ -113,6 +113,16 @@ public class N2oDrawer extends N2oComponent implements Drawer {
                 "document.querySelector('.n2o-drawer-children-wrapper').scrollHeight");
     }
 
+    @Override
+    public void shouldHaveBackgroundColor() {
+        element().parent().parent().parent().$(".drawer-mask").shouldBe(Condition.visible);
+    }
+
+    @Override
+    public void shouldNotHaveBackgroundColor() {
+        element().parent().parent().parent().$(".drawer-mask").shouldNotBe(Condition.exist);
+    }
+
     public class N2oDrawerToolbar implements DrawerToolbar {
 
         @Override

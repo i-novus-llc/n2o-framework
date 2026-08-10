@@ -8,6 +8,15 @@
             <button label="Открыть без шапки" model="filter">
                 <show-modal page-id="test" backdrop="true" has-header="false"/>
             </button>
+            <button label="backdrop='static'" no-label-block="true" disable-on-empty-model="false">
+                <show-modal page-id="test" backdrop="static"/>
+            </button>
+            <button label="backdrop='false'" no-label-block="true" disable-on-empty-model="false">
+                <show-modal page-id="test" backdrop="false"/>
+            </button>
+            <button label="backdrop='true'" no-label-block="true" disable-on-empty-model="false">
+                <show-modal page-id="test" backdrop="true"/>
+            </button>
         </toolbar>
     </form>
 </simple-page>

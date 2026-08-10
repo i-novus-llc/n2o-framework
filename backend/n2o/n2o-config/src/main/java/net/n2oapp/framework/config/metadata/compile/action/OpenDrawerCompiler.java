@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.BackdropEnum;
 import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -34,15 +35,14 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
 
     protected void compilePayload(N2oOpenDrawer source, OpenDrawer drawer, PageContext pageContext, CompileProcessor p) {
         OpenDrawerPayload payload = drawer.getPayload();
-        payload.setBackdrop(castDefault(source.getBackdrop(),
-                () -> p.resolve(property("n2o.api.action.open_drawer.backdrop"), Boolean.class)));
+        BackdropEnum backdrop = castDefault(source.getBackdrop(),
+                () -> p.resolve(property("n2o.api.action.open_drawer.backdrop"), BackdropEnum.class));
+        payload.setBackdrop(backdrop == null ? null : backdrop.getClientValue());
         payload.setWidth(prepareSizeAttribute(castDefault(source.getWidth(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.width"), String.class))));
         payload.setHeight(prepareSizeAttribute(source.getHeight()));
         payload.setPlacement(castDefault(source.getPlacement(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
-        payload.setCloseOnBackdrop(castDefault(source.getCloseOnBackdrop(),
-                () -> p.resolve(property("n2o.api.action.open_drawer.close_on_backdrop"), Boolean.class), () -> true));
         payload.setClosable(castDefault(source.getClosable(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.closable"), Boolean.class), () -> true));
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());

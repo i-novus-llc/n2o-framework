@@ -13,8 +13,7 @@ public class N2oOpenDrawer extends N2oAbstractPageAction {
     private String height;
     private String placement;
     private Boolean closable;
-    private Boolean backdrop;
+    private BackdropEnum backdrop;
     private Boolean closeOnEscape;
-    private Boolean closeOnBackdrop;
     private Boolean fixedFooter;
 }

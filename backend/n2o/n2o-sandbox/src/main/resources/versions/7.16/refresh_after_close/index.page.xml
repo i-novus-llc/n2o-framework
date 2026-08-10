@@ -15,7 +15,7 @@
                     <show-modal page-id="modal" refresh-on-close="true" refresh-datasources="table" route="/modal" backdrop="true"/>
                 </button>
                 <button label="Drawer" disable-on-empty-model="false">
-                    <open-drawer page-id="modal" refresh-on-close="true" refresh-datasources="table" route="/drawer" close-on-backdrop="true"/>
+                    <open-drawer page-id="modal" refresh-on-close="true" refresh-datasources="table" route="/drawer" backdrop="true"/>
                 </button>
             </toolbar>
         </form>

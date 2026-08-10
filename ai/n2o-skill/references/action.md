@@ -64,9 +64,8 @@ Same as `<open-page>` plus:
 | height | String (px/%) | Drawer height | |
 | placement | left / right / top / bottom | Position | right |
 | closable | boolean | Show close button | true |
-| backdrop | boolean | Show background | true |
+| backdrop | true / false / static | Background behavior (true=closes on click, false=transparent, static=no close on click) | static |
 | close-on-escape | boolean | Close on Esc key | true |
-| close-on-backdrop | boolean | Close on backdrop click | true |
 | fixed-footer | boolean | Fix footer position | false |
 
 ### `<close>` — Close modal/drawer/page

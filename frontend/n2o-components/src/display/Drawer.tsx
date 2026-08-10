@@ -10,14 +10,17 @@ import { NOOP_FUNCTION } from '../utils/emptyTypes'
 export type Props = TBaseProps & {
     // Включение маски(backdrop)
     animation?: boolean;
-    // Позиция компонента
-    backdrop?: boolean;
+    /**
+     * Маска(backdrop) и закрытие по клику на неё:
+     * true - тёмная маска, клик закрывает
+     * false - без маски, клик не закрывает
+     * 'static' - тёмная маска, клик не закрывает
+     */
+    backdrop?: boolean | 'static';
     // Нижняя часть компонента
     children?: ReactNode;
-    // Включение закрытия по клику на маску(backdrop)
-    closable?: boolean;
-    closeOnBackdrop?: boolean;
     // Включение кнопки закрытия
+    closable?: boolean;
     closeOnEscape?: boolean;
     // Основная часть компонента
     fixedFooter: boolean;
@@ -41,7 +44,6 @@ export type Props = TBaseProps & {
 
 export function Drawer({
     className,
-    closeOnBackdrop = true,
     visible,
     placement,
     onClose = NOOP_FUNCTION,
@@ -78,9 +80,9 @@ export function Drawer({
             height={height}
             placement={placement}
             onClose={onClose}
-            showMask={backdrop}
+            showMask={backdrop !== false}
             level={level}
-            maskClosable={closeOnBackdrop}
+            maskClosable={backdrop === true}
             onHandleClick={onHandleClick}
             keyboard={closeOnEscape}
         >

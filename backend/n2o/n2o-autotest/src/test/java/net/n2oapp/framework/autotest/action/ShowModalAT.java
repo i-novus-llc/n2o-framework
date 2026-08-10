@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -91,12 +92,10 @@ class ShowModalAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Настраиваемое модальное окно");
+        Toolbar toolbar = page.widget(FormWidget.class).toolbar().topLeft();
 
-        Button openModalWithHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с шапкой");
+        Button openModalWithHeader = toolbar.button("Открыть с шапкой");
         openModalWithHeader.shouldExists();
-        Button openModalWithoutHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть без шапки");
-        openModalWithoutHeader.shouldExists();
-
         openModalWithHeader.click();
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
@@ -107,11 +106,44 @@ class ShowModalAT extends AutoTestBase {
         modalPage.close();
         modalPage.shouldNotExists();
 
+        Button openModalWithoutHeader = toolbar.button("Открыть без шапки");
+        openModalWithoutHeader.shouldExists();
         openModalWithoutHeader.click();
         modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         modalPage.shouldNotHaveHeader();
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
+        modalPage.clickBackdrop();
+        modalPage.shouldNotExists();
+
+        Button backdropStatic = toolbar.button("backdrop='static'");
+        backdropStatic.shouldExists();
+        backdropStatic.click();
+        modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.shouldHaveBackgroundColor();
+        modalPage.clickBackdrop();
+        modalPage.shouldExists();
+        modalPage.close();
+        modalPage.shouldNotExists();
+
+        Button backdropFalse = toolbar.button("backdrop='false'");
+        backdropFalse.shouldExists();
+        backdropFalse.click();
+        modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.shouldNotHaveBackgroundColor();
+        modalPage.clickBackdrop();
+        modalPage.shouldExists();
+        modalPage.close();
+        modalPage.shouldNotExists();
+
+        Button backdropTrue = toolbar.button("backdrop='true'");
+        backdropTrue.shouldExists();
+        backdropTrue.click();
+        modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.shouldHaveBackgroundColor();
         modalPage.clickBackdrop();
         modalPage.shouldNotExists();
     }

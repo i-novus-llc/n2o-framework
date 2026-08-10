@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.action.BackdropEnum;
 import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.action.SubmitActionTypeEnum;
 import net.n2oapp.framework.api.metadata.control.PageRefEnum;
@@ -20,10 +21,9 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         p.attribute(e, "width", od::getWidth, od::setWidth);
         p.attribute(e, "height", od::getHeight, od::setHeight);
         p.attribute(e, "placement", od::getPlacement, od::setPlacement);
-        p.attributeBoolean(e, "backdrop", od::getBackdrop, od::setBackdrop);
+        p.attributeEnum(e, "backdrop", od::getBackdrop, od::setBackdrop, BackdropEnum.class);
         p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
         p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
-        p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
         p.attributeBoolean(e, "fixed-footer", od::getFixedFooter, od::setFixedFooter);
         p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionTypeEnum.class);
         p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModelEnum.class);
