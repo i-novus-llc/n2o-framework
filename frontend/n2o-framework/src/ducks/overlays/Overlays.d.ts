@@ -9,7 +9,7 @@ export interface OverlayProps {
     closeButton: boolean
     prompt: boolean
     hasHeader: boolean
-    backdrop: string
+    backdrop: boolean | 'static'
     mode?: boolean
 }
 

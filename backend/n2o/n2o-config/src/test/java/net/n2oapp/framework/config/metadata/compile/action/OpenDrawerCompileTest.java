@@ -82,6 +82,10 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(payload.getCloseOnEscape(), is(true));
         assertThat(payload.getWidth(), is("200px"));
         assertThat(payload.getHeight(), is("300px"));
+        assertThat(payload.getBackdrop(), is(true));
+
+        OpenDrawerPayload defaultPayload = ((OpenDrawer) table.getToolbar().getButton("default").getAction()).getPayload();
+        assertThat(defaultPayload.getBackdrop(), is("static"));
 
         PageContext drawerContext = (PageContext) route("/p/create/", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
@@ -146,6 +150,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/:id/update/"));
         assertThat(payload.getPrompt(), is(false));
         assertThat(payload.getFixedFooter(), is(true));
+        assertThat(payload.getBackdrop(), is(false));
 
         PageContext drawerContext = (PageContext) route("/p/123/update/", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testOpenDrawerPageSecondFlow"));

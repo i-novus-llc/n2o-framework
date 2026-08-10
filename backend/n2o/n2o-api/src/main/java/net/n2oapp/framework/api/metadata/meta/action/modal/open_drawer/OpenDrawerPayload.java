@@ -16,15 +16,11 @@ public class OpenDrawerPayload extends ModalPayload {
     @JsonProperty
     private Boolean closable = true;
     @JsonProperty
-    private Boolean backdrop;
-    @JsonProperty
     private String width;
     @JsonProperty
     private String height;
     @JsonProperty
     private String placement;
-    @JsonProperty
-    private Boolean closeOnBackdrop;
     @JsonProperty
     private Boolean prompt;
     @JsonProperty

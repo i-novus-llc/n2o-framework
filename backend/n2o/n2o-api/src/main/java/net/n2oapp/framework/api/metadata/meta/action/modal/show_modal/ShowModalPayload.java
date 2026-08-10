@@ -29,7 +29,5 @@ public class ShowModalPayload extends ModalPayload {
     @JsonProperty
     private String className;
     @JsonProperty
-    private Object backdrop;
-    @JsonProperty
     private Map<String, String> style;
 }

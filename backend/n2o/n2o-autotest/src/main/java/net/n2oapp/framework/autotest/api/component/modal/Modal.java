@@ -77,4 +77,14 @@ public interface Modal extends Component {
 
         Toolbar bottomRight();
     }
+
+    /**
+     * Проверка наличия затемненного фона (backdrop)
+     */
+    void shouldHaveBackgroundColor();
+
+    /**
+     * Проверка отсутствия затемненного фона (backdrop)
+     */
+    void shouldNotHaveBackgroundColor();
 }

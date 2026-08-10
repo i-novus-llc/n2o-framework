@@ -73,6 +73,16 @@ public class N2oModal extends N2oComponent implements Modal {
         element().click(ClickOptions.usingDefaultMethod().offsetX(widthOffset));
     }
 
+    @Override
+    public void shouldHaveBackgroundColor() {
+        element().parent().parent().parent().$(".modal-backdrop").shouldBe(Condition.visible);
+    }
+
+    @Override
+    public void shouldNotHaveBackgroundColor() {
+        element().parent().parent().parent().$(".modal-backdrop").shouldNotBe(Condition.exist);
+    }
+
     public class N2oModalToolbar implements ModalToolbar {
 
         @Override

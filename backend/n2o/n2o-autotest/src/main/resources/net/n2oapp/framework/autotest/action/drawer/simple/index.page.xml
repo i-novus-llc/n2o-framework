@@ -31,6 +31,15 @@
                     </params>
                 </open-drawer>
             </button>
+            <button label="backdrop='static'" no-label-block="true">
+                <open-drawer page-id="drawer" backdrop="static"/>
+            </button>
+            <button label="backdrop='false'" no-label-block="true">
+                <open-drawer page-id="drawer" backdrop="false"/>
+            </button>
+            <button label="backdrop='true'" no-label-block="true">
+                <open-drawer page-id="drawer" backdrop="true"/>
+            </button>
         </toolbar>
         <columns>
             <column text-field-id="id"/>

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.BackdropEnum;
 import net.n2oapp.framework.api.metadata.action.ModalSizeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -44,9 +45,9 @@ public class ShowModalCompiler extends AbstractModalCompiler<ShowModal, N2oShowM
         payload.setHasHeader(castDefault(source.getHasHeader(),
                 () -> p.resolve(property("n2o.api.action.show_modal.has_header"), Boolean.class)));
         payload.setClassName(source.getClassName());
-        String backdrop = castDefault(source.getBackdrop(),
-                () -> p.resolve(property("n2o.api.action.show_modal.backdrop"), String.class));
-        payload.setBackdrop("true".equals(backdrop) || "false".equals(backdrop) ? Boolean.valueOf(backdrop) : backdrop);
+        BackdropEnum backdrop = castDefault(source.getBackdrop(),
+                () -> p.resolve(property("n2o.api.action.show_modal.backdrop"), BackdropEnum.class));
+        payload.setBackdrop(backdrop == null ? null : backdrop.getClientValue());
         payload.setStyle(StylesResolver.resolveStyles(source.getStyle()));
     }
 }

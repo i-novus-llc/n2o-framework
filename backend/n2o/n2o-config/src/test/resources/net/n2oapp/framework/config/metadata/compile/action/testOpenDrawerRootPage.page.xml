@@ -6,14 +6,14 @@
                 <datasource query-id="testShowModal" route="/"/>
                 <toolbar>
                     <button id="create" model="filter">
-                        <open-drawer page-id="testShowModalPage" submit-operation-id="create" submit-model="edit" refresh-datasources="second" route="/create" width="200" height="300">
+                        <open-drawer page-id="testShowModalPage" submit-operation-id="create" submit-model="edit" refresh-datasources="second" route="/create" width="200" height="300" backdrop="true">
                             <datasources>
                                 <datasource default-values-mode="defaults"/>
                             </datasources>
                         </open-drawer>
                     </button>
                     <button id="update" model="resolve">
-                        <open-drawer page-id="testOpenDrawerPageSecondFlow" submit-operation-id="update" route="/:id/update" fixed-footer="true">
+                        <open-drawer page-id="testOpenDrawerPageSecondFlow" submit-operation-id="update" route="/:id/update" fixed-footer="true" backdrop="false">
                             <datasources>
                                 <datasource default-values-mode="query">
                                     <filters>

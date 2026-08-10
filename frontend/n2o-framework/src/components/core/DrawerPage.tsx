@@ -28,9 +28,8 @@ interface Props extends WithOverlayMethodsProps {
     width?: string
     height?: string
     placement?: DrawerProps['placement']
-    backdrop?: boolean
+    backdrop?: boolean | 'static'
     level?: string | string[]
-    closeOnBackdrop?: boolean
     animation?: boolean
     closeOnEscape?: boolean
     closable?: boolean
@@ -56,7 +55,6 @@ function DrawerPage({
     placement,
     backdrop,
     level,
-    closeOnBackdrop,
     animation,
     closeOverlay,
     fixedFooter,
@@ -110,7 +108,6 @@ function DrawerPage({
                     height={height}
                     placement={placement}
                     level={level}
-                    closeOnBackdrop={closeOnBackdrop}
                     animation={animation}
                     fixedFooter={fixedFooter}
                     closeOnEscape={closeOnEscape}

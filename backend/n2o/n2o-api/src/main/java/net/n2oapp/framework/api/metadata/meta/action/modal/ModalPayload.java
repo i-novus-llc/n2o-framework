@@ -18,6 +18,8 @@ public class ModalPayload implements ActionPayload {
     @Deprecated
     private String name;
     @JsonProperty
+    private Object backdrop;
+    @JsonProperty
     private String pageId;
     @JsonProperty
     private String pageUrl;
