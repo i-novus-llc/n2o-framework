@@ -13,7 +13,7 @@
         </fields>
         <toolbar>
             <button label="Сохранить" validate="false">
-                <validate>
+                <validate datasource="formDs" model="filter">
                     <field id="country"/>
                 </validate>
                 <invoke operation-id="create"/>
