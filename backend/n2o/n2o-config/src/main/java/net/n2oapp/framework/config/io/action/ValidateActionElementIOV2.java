@@ -16,7 +16,7 @@ public class ValidateActionElementIOV2 extends AbstractActionElementIOV2<N2oVali
     @Override
     public void io(Element e, N2oValidateAction a, IOProcessor p) {
         super.io(e, a, p);
-        p.attribute(e, "datasource", a::getDatasource, a::setDatasource);
+        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
         p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModelEnum.class);
         p.attributeEnum(e, "break-on", a::getBreakOn, a::setBreakOn, ValidateBreakOnEnum.class);
 

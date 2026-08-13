@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.Source;
 @Getter
 @Setter
 public class N2oValidateAction extends N2oAbstractAction {
-    private String datasource;
+    private String datasourceId;
     private ReduxModelEnum model;
     private ValidateBreakOnEnum breakOn;
     private Field[] fields;
