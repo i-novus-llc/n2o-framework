@@ -2,8 +2,10 @@ package net.n2oapp.framework.autotest.widget.multiform;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
+import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.MultiFormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -218,7 +220,8 @@ class MultiFormAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/widget/multiform/dependencies/");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/dependencies/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/dependencies/data.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/dependencies/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/dependencies/fetchCheck.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -244,6 +247,17 @@ class MultiFormAT extends AutoTestBase {
         multiForm.form(0).fields().field("enabled").control(Checkbox.class).setChecked(false);
         checkFormInitialState(multiForm, 0);
         checkFormInitialState(multiForm, 1);
+
+        // фильтр со значением-ссылкой внутри <fetch-value>
+        StandardField birthday = multiForm.form(0).fields().field("birthday");
+        birthday.shouldExists();
+        DateInput dateInput = birthday.control(DateInput.class);
+        birthday.shouldHaveValidationMessage(Condition.empty);
+        dateInput.setValue("01.01.2026");
+        birthday.shouldHaveValidationMessage(Condition.exist);
+        birthday.shouldHaveValidationMessage(Condition.text("Недостаточно лет"));
+        dateInput.setValue("01.01.2000");
+        birthday.shouldHaveValidationMessage(Condition.empty);
     }
 
     private static void checkFormInitialState(MultiFormWidget multiForm, int index) {
