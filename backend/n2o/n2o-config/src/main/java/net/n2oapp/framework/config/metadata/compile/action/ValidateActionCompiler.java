@@ -32,8 +32,8 @@ public class ValidateActionCompiler extends AbstractActionCompiler<ValidateActio
         compiled.setType(p.resolve(property("n2o.api.action.validate.type"), String.class));
 
         ValidateActionPayload payload = compiled.getPayload();
-        payload.setId(getClientDatasourceId(getLocalDatasourceId(p), p));
-        payload.setModel(ActionCompileStaticProcessor.getLocalModel(p));
+        payload.setId(getClientDatasourceId(castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p)), p));
+        payload.setModel(castDefault(source.getModel(), () -> ActionCompileStaticProcessor.getLocalModel(p)));
         payload.setField(getField(p));
         payload.setBreakOn(castDefault(source.getBreakOn(), () -> p.resolve(property("n2o.api.action.validate.break_on"), ValidateBreakOnEnum.class)));
         if (source.getFields() != null && source.getFields().length > 0) {
