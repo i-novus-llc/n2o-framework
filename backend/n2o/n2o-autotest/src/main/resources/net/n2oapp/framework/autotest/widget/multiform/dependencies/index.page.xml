@@ -54,6 +54,30 @@
                             </dependencies>
                         </input-text>
                     </row>
+                    <row>
+                        <date-time id="birthday">
+                            <validations>
+                                <condition on="birthdayCheck"
+                                           message="Недостаточно лет">
+                                    birthdayCheck == null || birthdayCheck == true
+                                </condition>
+                            </validations>
+                        </date-time>
+                        <hidden id="birthdayCheck">
+                            <dependencies>
+                                <fetch-value query-id="fetchCheck"
+                                             size="1"
+                                             on="birthday"
+                                             apply-on-init="false"
+                                             value-field-id="result"
+                                             enabled="{birthday != null}">
+                                    <filters>
+                                        <eq field-id="age" value="{birthday}"/>
+                                    </filters>
+                                </fetch-value>
+                            </dependencies>
+                        </hidden>
+                    </row>
                 </set>
             </fields>
         </multi-form>
