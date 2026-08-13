@@ -49,8 +49,8 @@ class ValidateActionCompileTest extends SourceCompileTestBase {
         MultiAction testAction = (MultiAction) form.getToolbar().get("topLeft").getFirst().getButtons().getFirst().getAction();
         ValidateAction validateAction = (ValidateAction) testAction.getPayload().getActions().getFirst();
         assertThat(validateAction.getType(), is("n2o/api/datasource/validate"));
-        assertThat(validateAction.getPayload().getId(), is("w_w1"));
-        assertThat(validateAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
+        assertThat(validateAction.getPayload().getId(), is("w_formDs"));
+        assertThat(validateAction.getPayload().getModel(), is(ReduxModelEnum.FILTER));
         assertThat(validateAction.getPayload().getBreakOn(), is(ValidateBreakOnEnum.DANGER));
 
         assertThat(validateAction.getPayload().getFields(), contains("country"));
