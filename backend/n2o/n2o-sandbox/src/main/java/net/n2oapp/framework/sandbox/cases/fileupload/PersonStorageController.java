@@ -31,7 +31,7 @@ public class PersonStorageController {
         return new ListResponse(storage.values());
     }
 
-    public PersonModel getById(@PathVariable String id) {
+    public PersonModel getById(String id) {
         return storage.get(id);
     }
 
@@ -48,7 +48,7 @@ public class PersonStorageController {
         personModel.setPatronymic(person.getPatronymic());
     }
 
-    public void deletePerson(@PathVariable String id) {
+    public void deletePerson(String id) {
         storage.remove(id);
     }
 
