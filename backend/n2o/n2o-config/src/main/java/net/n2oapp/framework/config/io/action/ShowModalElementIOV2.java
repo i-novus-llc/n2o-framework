@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.action.BackdropEnum;
 import net.n2oapp.framework.api.metadata.action.ModalSizeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.action.SubmitActionTypeEnum;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -32,7 +31,6 @@ public class ShowModalElementIOV2 extends AbstractOpenPageElementIOV2<N2oShowMod
         p.attributeEnum(e, "target-model", sm::getTargetModel, sm::setTargetModel, ReduxModelEnum.class);
         p.attribute(e, "target-datasource", sm::getTargetDatasourceId, sm::setTargetDatasourceId);
         p.attribute(e, "target-field-id", sm::getTargetFieldId, sm::setTargetFieldId);
-        p.attributeEnum(e, "target-page", sm::getTargetPage, sm::setTargetPage, PageRefEnum.class);
         p.attributeEnum(e, "copy-mode", sm::getCopyMode, sm::setCopyMode, CopyModeEnum.class);
     }
 

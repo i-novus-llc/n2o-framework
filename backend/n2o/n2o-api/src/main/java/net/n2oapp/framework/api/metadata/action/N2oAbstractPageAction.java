@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
@@ -54,7 +53,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String targetDatasourceId;
     private ReduxModelEnum targetModel;
     private String targetFieldId;
-    private PageRefEnum targetPage;
 
     @Deprecated
     private Boolean closeAfterSubmit;

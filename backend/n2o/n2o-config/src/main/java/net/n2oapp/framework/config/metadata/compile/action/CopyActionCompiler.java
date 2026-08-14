@@ -4,16 +4,12 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -43,7 +39,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
                 getClientDatasourceId(source.getSourceDatasourceId(), p),
                 source.getSourceModel().getId(), source.getSourceFieldId());
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
-                getClientTargetDatasourceId(source, context, p),
+                getClientDatasourceId(source.getTargetDatasourceId(), p),
                 source.getTargetModel().getId(),
                 source.getTargetFieldId());
 
@@ -73,15 +69,5 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
                 () -> p.resolve(property("n2o.api.action.copy.close_on_success"), Boolean.class));
         meta.setModalsToClose(closeOnSuccess ? 1 : 0);
         return meta;
-    }
-
-    private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getTargetPage() == PageRefEnum.PARENT && context instanceof PageContext pageContext) {
-            Map<String, String> parentDatasourceIdsMap = pageContext.getParentDatasourceIdsMap();
-            if (parentDatasourceIdsMap != null && parentDatasourceIdsMap.containsKey(source.getTargetDatasourceId()))
-                return parentDatasourceIdsMap.get(source.getTargetDatasourceId());
-            return getClientDatasourceId(source.getTargetDatasourceId(), pageContext.getParentClientPageId());
-        }
-        return getClientDatasourceId(source.getTargetDatasourceId(), p);
     }
 }

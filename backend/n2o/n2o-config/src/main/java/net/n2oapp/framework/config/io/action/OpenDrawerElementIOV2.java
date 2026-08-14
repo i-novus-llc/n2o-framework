@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.BackdropEnum;
 import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.action.SubmitActionTypeEnum;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -32,7 +31,6 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         p.attributeEnum(e, "target-model", od::getTargetModel, od::setTargetModel, ReduxModelEnum.class);
         p.attribute(e, "target-datasource", od::getTargetDatasourceId, od::setTargetDatasourceId);
         p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
-        p.attributeEnum(e, "target-page", od::getTargetPage, od::setTargetPage, PageRefEnum.class);
         p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyModeEnum.class);
     }
 
