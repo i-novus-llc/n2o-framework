@@ -1,14 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <form>
-        <fields>
-            <input-select id="region" label="Регион" ref-model="filter" ref-page="parent">
-                <default-value name="{region.name}" id="{region.id}"/>
-                <options>
-                    <option name="region1" id="1"/>
-                    <option name="region2" id="2"/>
-                </options>
-            </input-select>
-        </fields>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <parent-datasource id="tableDS"/>
+    </datasources>
+    <regions>
+        <form>
+            <fields>
+                <input-select id="region" label="Регион" ref-model="filter" ref-datasource="tableDS">
+                    <default-value name="{region.name}" id="{region.id}"/>
+                    <options>
+                        <option name="region1" id="1"/>
+                        <option name="region2" id="2"/>
+                    </options>
+                </input-select>
+            </fields>
+        </form>
+    </regions>
+</page>

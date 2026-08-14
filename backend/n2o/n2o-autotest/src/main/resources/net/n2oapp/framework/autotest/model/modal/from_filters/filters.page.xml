@@ -1,9 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <form>
-        <fields>
-            <input-text id="name" ref-model="filter" ref-page="parent" default-value="{name}"/>
-            <input-text id="type" ref-model="filter" ref-page="parent" default-value="{type}"/>
-        </fields>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <parent-datasource id="tableDS"/>
+    </datasources>
+    <regions>
+        <form datasource="tableDS">
+            <fields>
+                <input-text id="name" ref-model="filter" ref-datasource="tableDS" default-value="{name}"/>
+                <input-text id="type" ref-model="filter" ref-datasource="tableDS" default-value="{type}"/>
+            </fields>
+        </form>
+    </regions>
+</page>

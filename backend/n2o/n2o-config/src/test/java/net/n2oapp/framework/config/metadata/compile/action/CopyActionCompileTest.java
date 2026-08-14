@@ -104,7 +104,7 @@ class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));
         assertThat(copyInPage2.getPayload().getSource().getPrefix(), is("filter"));
-        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("page1_ds2"));
+        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("p_ds2"));
         assertThat(copyInPage2.getPayload().getTarget().getField(), is("targetId"));
         assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(copyInPage2.getPayload().getMode(), is(CopyModeEnum.REPLACE));

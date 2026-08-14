@@ -19,7 +19,6 @@ public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
     private String targetDatasourceId;
     private ReduxModelEnum targetModel;
     private String targetFieldId;
-    private PageRefEnum targetPage;
 
     private Boolean closeOnSuccess;
     private CopyModeEnum mode;

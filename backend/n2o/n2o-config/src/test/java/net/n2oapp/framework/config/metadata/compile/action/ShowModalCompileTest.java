@@ -373,7 +373,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_modal"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
         assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModelEnum.EDIT.getId()));
-        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_update_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyModeEnum.REPLACE));
         assertThat(submit.getMeta().getModalsToClose(), is(1));

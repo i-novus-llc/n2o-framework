@@ -1,20 +1,33 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Страница с/без выборки">
-    <form>
-        <datasource size="1" query-id="test">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Страница с/без выборки">
+    <datasources>
+        <datasource id="ds" query-id="test">
             <filters>
-                <eq field-id="id" param="id"/>
+                <eq field-id="id" param="id" required="true"/>
             </filters>
         </datasource>
-        <fields>
-            <input-text id="text" enabled="false" label="Поле с данными, введенными в модальном окне">
-                <toolbar>
-                    <button label="Ввести данные в модальном окне" disable-on-empty-model="false">
-                        <show-modal page-id="modal" submit-action-type="copy"/>
-                    </button>
-                </toolbar>
-            </input-text>
-            <input-text id="name" enabled="false" label="Выборка текущего виджета"/>
-        </fields>
-    </form>
-</simple-page>
+    </datasources>
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <input-text id="text" enabled="false" label="Поле с данными, введенными в модальном окне">
+                    <toolbar>
+                        <button label="Ввести данные в модальном окне" disable-on-empty-model="false">
+                            <show-modal page-id="modal">
+                                <toolbars>
+                                    <toolbar>
+                                        <button label="Сохранить">
+                                            <copy target-datasource="ds"/>
+                                            <close/>
+                                        </button>
+                                    </toolbar>
+                                </toolbars>
+                            </show-modal>
+                        </button>
+                    </toolbar>
+                </input-text>
+                <input-text id="name" enabled="false" label="Выборка текущего виджета"/>
+            </fields>
+        </form>
+    </regions>
+</page>

@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Прокидывание модели на форму в drawer" route="/">
+    <datasources>
+        <datasource id="tableDS" query-id="test"/>
+    </datasources>
     <regions>
         <line label="Передача параметров из фильтров таблицы">
-            <table id="tableWgt">
-                <datasource query-id="test"/>
+            <table id="tableWgt" datasource="tableDS">
                 <columns>
                     <column text-field-id="id"/>
                     <column text-field-id="name"/>

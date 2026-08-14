@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -354,12 +353,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
                 copyAction.setSourceFieldId(source.getCopyFieldId());
                 copyAction.setTargetModel(source.getTargetModel());
-                copyAction.setTargetPage(castDefault(source.getTargetPage(), PageRefEnum.PARENT));
-                if (copyAction.getTargetPage().equals(PageRefEnum.PARENT)) {
-                    copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
-                } else {
-                    copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
-                }
+                copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
                 copyAction.setTargetFieldId(source.getTargetFieldId());
                 copyAction.setMode(source.getCopyMode());
                 copyAction.setCloseOnSuccess(closeOnSuccess);

@@ -1,8 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Прокидывание модели на форму в модальное окно" route="/">
+    <datasources>
+        <datasource id="formDS"/>
+        <datasource id="form2DS"/>
+    </datasources>
     <regions>
         <line label="Передача параметров из формы">
-            <form id="form">
+            <form id="form" datasource="formDS">
                 <fields>
                     <input-text id="address" label="Адрес (собирается из того, что ввели в модальном окне)">
                         <toolbar>
@@ -30,7 +34,7 @@
                     <input-text id="city" label="Город (значение должно копироваться в модальное окно и обратно)" default-value="Казань"/>
                 </fields>
             </form>
-            <form id="form2">
+            <form id="form2" datasource="form2DS">
                 <fields>
                     <input-text id="street" label="Улица (значение должно копироваться в модальное окно, но не обратно)" default-value="Качалова"/>
                 </fields>
