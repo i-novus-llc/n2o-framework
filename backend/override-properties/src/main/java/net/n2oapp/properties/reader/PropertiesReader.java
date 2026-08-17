@@ -37,18 +37,13 @@ public class PropertiesReader {
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             for (Resource resource : resolver.getResources(locationPattern)) {
                 try (InputStream is = resource.getInputStream()) {
-                    if (is != null) {
-                        loadPropertiesFromStream(properties, is);
-                    } else {
-                        log.debug("{} not found.", locationPattern);
-                    }
+                    loadPropertiesFromStream(properties, is);
                 }
             }
-            return properties;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
-        return null;
+        return properties;
     }
 
     private static void loadPropertiesFromStream(OverrideProperties properties, InputStream is) {
