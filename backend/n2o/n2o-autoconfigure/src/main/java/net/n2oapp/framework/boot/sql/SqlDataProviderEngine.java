@@ -51,7 +51,7 @@ import static net.n2oapp.framework.engine.data.QueryUtil.*;
 public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProvider>,
         ApplicationContextAware, ResourceLoaderAware {
 
-    private static final Pattern SQL_ERROR_PATTERN = Pattern.compile("(\\A|\n)[A-Z][a-z](.|\n)+?; SQL statement:");
+    private static final Pattern SQL_ERROR_PATTERN = Pattern.compile("(?s)(\\A|\n)[A-Z][a-z].+?; SQL statement:");
     @Value("${spring.datasource.hikari.minimum-idle:0}")
     private int defaultMinimumIdle;
     @Autowired
