@@ -50,7 +50,7 @@ class InheritedDatasourceCompileTest extends SourceCompileTestBase {
                 hasProperty("sourceDs", is("testInheritedDatasource_ds1")),
                 hasProperty("sourceField", is("name")),
                 hasProperty("type", is("inherited")),
-                hasProperty("sourceModel", is(ReduxModelEnum.SELECTED))
+                hasProperty("sourceModel", is(ReduxModelEnum.FILTER))
         ));
 
         InheritedDatasource inh2 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh2");

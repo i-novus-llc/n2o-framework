@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 public enum ReduxModelEnum implements N2oEnum {
     RESOLVE("resolve"),
     FILTER("filter"),
-    SELECTED("selected"),
     EDIT("edit"),
     MULTI("multi"),
     DATASOURCE("datasource");

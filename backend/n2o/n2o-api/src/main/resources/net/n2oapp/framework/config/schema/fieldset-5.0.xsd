@@ -109,7 +109,7 @@
                 <xs:attribute name="field-label-width" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Ширина заголовков внутренних полей в пикселях.
+                            Ширина заголовков внутренних полей.
                             Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>

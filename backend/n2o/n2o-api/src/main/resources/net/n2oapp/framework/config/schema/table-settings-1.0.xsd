@@ -167,7 +167,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="default-charset" type="charset" default="utf-8">
+                <xs:attribute name="default-charset" type="charset" default="UTF-8">
                     <xs:annotation>
                         <xs:documentation>
                             Кодировка по умолчанию

@@ -57,7 +57,7 @@ Exports table data to a file. By default opens a modal for format/charset/size s
 | url | String | URL to external export service (if blank — built-in export) | |
 | format | String (comma-sep) | Available formats to choose from | |
 | default-format | csv/xlsx | Pre-selected format | csv |
-| default-charset | UTF-8/Cp1251 | Pre-selected charset | utf-8 |
+| default-charset | UTF-8/Cp1251 | Pre-selected charset | UTF-8 |
 | default-size | all/page | Export all records or current page only | all |
 | show-modal | boolean | Show settings modal; `false` = download immediately with defaults | true |
 | filename | String | Name of downloaded file | |

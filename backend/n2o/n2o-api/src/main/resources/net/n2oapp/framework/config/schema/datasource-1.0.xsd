@@ -68,13 +68,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="size" type="xs:integer" default="10">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Размер выборки
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="storage-type" type="storageType" default="sessionStorage">
                     <xs:annotation>
                         <xs:documentation>
