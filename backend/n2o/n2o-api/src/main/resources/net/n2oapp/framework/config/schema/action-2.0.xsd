@@ -515,7 +515,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="color" type="xs:string">
+        <xs:attribute name="color" type="bs:colorDefinition">
             <xs:annotation>
                 <xs:documentation>
                     Цвет кнопки

@@ -22,7 +22,7 @@
             </column>
         </columns>
         <toolbar place="topRight">
-            <ts:export default-format="csv" default-size="page" default-charset="utf-8" show-modal="false"/>
+            <ts:export default-format="csv" default-size="page" default-charset="UTF-8" show-modal="false"/>
         </toolbar>
     </table>
 </simple-page>

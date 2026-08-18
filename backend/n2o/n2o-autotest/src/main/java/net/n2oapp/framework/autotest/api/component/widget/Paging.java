@@ -205,23 +205,4 @@ public interface Paging extends Component {
      * Проверка не существования пагинации
      */
     void shouldNotExists();
-
-    enum LayoutEnum {
-        BORDERED("bordered"),
-        FLAT("flat"),
-        SEPARATED("separated"),
-        BORDERED_ROUNDED("bordered-rounded"),
-        FLAT_ROUNDED("flat-rounded"),
-        SEPARATED_ROUNDED("separated-rounded");
-
-        private final String title;
-
-        LayoutEnum(String title) {
-            this.title = title;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-    }
 }

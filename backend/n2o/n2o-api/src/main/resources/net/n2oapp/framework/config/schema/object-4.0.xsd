@@ -316,7 +316,7 @@
                         maxOccurs="unbounded"/>
             <xs:element name="list" type="operationOutParameterReferenceDefinition" minOccurs="0"
                         maxOccurs="unbounded"/>
-            <xs:element name="switch" type="switchDefinition"/>
+            <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -325,7 +325,7 @@
             <xs:documentation>Исходящий простой параметр операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="switch" type="switchDefinition"/>
+            <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" use="required">
             <xs:annotation>

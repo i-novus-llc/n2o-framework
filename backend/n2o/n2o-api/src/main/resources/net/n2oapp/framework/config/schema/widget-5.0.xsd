@@ -1021,7 +1021,7 @@
         </xs:sequence>
         <xs:attribute name="value-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                <xs:documentation>Идентификатор поля, значение которого будет сравниваться с value в case.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1060,7 +1060,7 @@
                 <xs:complexType>
                     <xs:complexContent>
                         <xs:restriction base="tool:toolbarDefinition">
-                            <xs:attribute name="place" type="placeType" use="prohibited"/>
+                            <xs:attribute name="place" type="tool:placeType" use="prohibited"/>
                         </xs:restriction>
                     </xs:complexContent>
                 </xs:complexType>
@@ -1135,7 +1135,7 @@
                 <xs:documentation>Стиль компонента пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="place" type="placeEnum" default="bottomLeft">
+        <xs:attribute name="place" type="tool:placeType" default="bottomLeft">
             <xs:annotation>
                 <xs:documentation>Место расположения пагинации.</xs:documentation>
             </xs:annotation>
@@ -1245,42 +1245,6 @@
             <xs:enumeration value="radio"/>
             <!--выбор с помощью чекбоксов в первом столбце-->
             <xs:enumeration value="checkbox"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="layoutEnum">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="bordered"/>
-            <xs:enumeration value="flat"/>
-            <xs:enumeration value="separated"/>
-            <xs:enumeration value="bordered-rounded"/>
-            <xs:enumeration value="flat-rounded"/>
-            <xs:enumeration value="separated-rounded"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="placeEnum">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="topLeft"/>
-            <xs:enumeration value="topRight"/>
-            <xs:enumeration value="bottomLeft"/>
-            <xs:enumeration value="bottomRight"/>
-            <xs:enumeration value="topCenter"/>
-            <xs:enumeration value="bottomCenter"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="placeType">
-        <xs:annotation>
-            <xs:documentation>Тип места расположения меню.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="topLeft"/>
-            <xs:enumeration value="topRight"/>
-            <xs:enumeration value="bottomLeft"/>
-            <xs:enumeration value="bottomRight"/>
-            <xs:enumeration value="topCenter"/>
-            <xs:enumeration value="bottomCenter"/>
         </xs:restriction>
     </xs:simpleType>
 

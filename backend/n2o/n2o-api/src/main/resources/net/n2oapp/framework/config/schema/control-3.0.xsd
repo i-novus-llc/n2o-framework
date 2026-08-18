@@ -307,7 +307,7 @@
                 <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="ref-model" type="clientModel" default="resolve">
+        <xs:attribute name="ref-model" type="act:clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>Ссылка на модель, в которой будет инициализация значения.</xs:documentation>
             </xs:annotation>
@@ -544,11 +544,6 @@
                 <xs:attribute name="search" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Возможность поиска по значению</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="param" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
@@ -2285,7 +2280,7 @@
                         <xs:documentation>Идентификатор поля</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="actions" type="xs:integer" use="optional">
+                <xs:attribute name="actions" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>
                             Список идентификаторов действий через запятую, которые используются внутри markdown.
@@ -2571,7 +2566,7 @@
                 <xs:documentation>Идентификатор источника данных, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel">
+        <xs:attribute name="model" type="act:clientModel">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
@@ -2587,19 +2582,6 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-
-    <xs:simpleType name="clientModel">
-        <xs:annotation>
-            <xs:documentation>Модель, над которой выполняется действие на клиенте.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="filter"/>
-            <xs:enumeration value="resolve"/>
-            <xs:enumeration value="edit"/>
-            <xs:enumeration value="selected"/>
-            <xs:enumeration value="datasource"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="uncheckedValue">
         <xs:annotation>
