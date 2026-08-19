@@ -129,7 +129,7 @@ public abstract class RouteUtil {
         List<String> result = new ArrayList<>();
         String[] urlParts = url.split("\\?");
         String[] splitUrl = urlParts[0].split("/");
-        for (int i = 0; i < splitUrl.length && i < splitUrl.length; i++) {
+        for (int i = 0; i < splitUrl.length; i++) {
             String token = splitUrl[i];
             if (token.startsWith(":")) {
                 result.add(token.substring(1));
@@ -137,7 +137,7 @@ public abstract class RouteUtil {
         }
         if (urlParts.length == 2) {
             String[] splitParam = urlParts[1].split("&");
-            for (int i = 0; i < splitParam.length && i < splitParam.length; i++) {
+            for (int i = 0; i < splitParam.length; i++) {
                 if (splitParam[i].contains(":")) {
                     result.add(splitParam[i].substring(splitParam[i].indexOf(":") + 1));
                 }
