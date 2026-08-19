@@ -9,7 +9,7 @@ import java.util.Date;
  * Шаблон кэширования запросов по стратегии "Время жизни" (по умолчанию 1 минута).
  */
 public class LifetimeClientCacheTemplate extends ClientCacheTemplate {
-    private long lifetime = 1000 * 60;
+    private long lifetime = (long) 1000 * 60;
 
     public LifetimeClientCacheTemplate() {
     }

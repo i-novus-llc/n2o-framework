@@ -162,7 +162,7 @@ public class ReloadableProperties extends OverrideProperties {
 
     public boolean isExpired() {
         long currentTime = System.currentTimeMillis();
-        long cacheTimeLong = cacheTime * 1000;
+        long cacheTimeLong = (long) cacheTime * 1000;
         return (timeStamp + cacheTimeLong) < currentTime;
     }
 

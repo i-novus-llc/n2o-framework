@@ -34,6 +34,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.INTEGER;
@@ -44,6 +45,7 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
 public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataProvider>, ResourceLoaderAware {
 
     private static final String FILTERS = "filters";
+    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("[\\s]");
     /**
      * Путь к файлу для чтения с диска
      */
@@ -365,10 +367,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private List<DataSet> paginate(Integer limit, Integer offset, Integer count, List<DataSet> data) {
         Boolean unique = count != null && count.equals(1);
 
-        if (limit != null && offset != null && !unique) {
+        if (limit != null && offset != null && Boolean.TRUE.equals(!unique)) {
             data = data
                     .stream()
-                    .limit(limit + offset)
+                    .limit((long) limit + offset)
                     .skip(offset).collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
@@ -383,7 +385,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             return data;
         }
         for (String filter : filters) {
-            String[] splittedFilter = filter.replaceAll("[\\s]", "").split(":");
+            String[] splittedFilter = WHITESPACE_PATTERN.matcher(filter).replaceAll("").split(":");
             String field = splittedFilter[0];
             Object pattern = inParams.get(splittedFilter[2]);
 
@@ -477,76 +479,77 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
         List patterns = pattern instanceof List patternList ? patternList : Arrays.asList(pattern);
-        if (patterns != null) {
-            String[] splittedField = field.split("\\.");
-            String parent = splittedField[0];
-            String child = splittedField.length > 1 ? splittedField[1] : null;
-            data = data
-                    .stream()
-                    .filter(m -> {
-                        if (child != null) {
-                            if (!m.containsKey(parent))
-                                return false;
-                            if (m.get(parent) instanceof NestedList nestedList) {
-                                return nestedList.stream().anyMatch(c ->
-                                        ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
-                                );
-                            } else {
-                                return m.containsKey(field) && patterns.contains(m.get(field));
-                            }
-                        }
-                        if (m.get(field) instanceof Number fieldNumber) {
-                            List<Long> longPatterns = new ArrayList<>();
-                            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                            return longPatterns.contains(fieldNumber.longValue());
-                        }
-                        for (Object p : patterns) {
-                            if (p.toString().equals(m.get(field).toString()))
-                                return true;
-                        }
-                        return false;
-                    })
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
+        String[] splittedField = field.split("\\.");
+        String parent = splittedField[0];
+        String child = splittedField.length > 1 ? splittedField[1] : null;
+        data = data
+                .stream()
+                .filter(m -> matchesInFilter(field, m, child, parent, patterns))
+                .collect(Collectors.toCollection(ArrayList::new));
         return data;
+    }
+
+    private static boolean matchesInFilter(String field, DataSet m, String child, String parent, List patterns) {
+        if (child != null) {
+            if (!m.containsKey(parent))
+                return false;
+            if (m.get(parent) instanceof NestedList nestedList) {
+                return nestedList.stream().anyMatch(c ->
+                        ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
+                );
+            } else {
+                return m.containsKey(field) && patterns.contains(m.get(field));
+            }
+        }
+        if (m.get(field) instanceof Number fieldNumber) {
+            List<Long> longPatterns = new ArrayList<>();
+            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
+            return longPatterns.contains(fieldNumber.longValue());
+        }
+        for (Object p : patterns) {
+            if (p.toString().equals(m.get(field).toString()))
+                return true;
+        }
+        return false;
     }
 
     private List<DataSet> notInFilterData(String field, Object pattern, List<DataSet> data) {
         List patterns = pattern instanceof List patternList ? patternList : Arrays.asList(pattern);
-        if (patterns != null) {
-            String[] splittedField = field.split("\\.");
-            String parent = splittedField[0];
-            String child = splittedField.length > 1 ? splittedField[1] : null;
-            data = data
-                    .stream()
-                    .filter(m -> {
-                        if (child != null) {
-                            if (!m.containsKey(parent))
-                                return false;
-                            if (m.get(parent) instanceof NestedList nestedList) {
-                                return nestedList.stream().anyMatch(c ->
-                                        ((DataSet) c).containsKey(child) && !patterns.contains(((DataSet) c).get(child))
-                                );
-                            } else {
-                                return m.containsKey(field) && !patterns.contains(m.get(field));
-                            }
-                        }
-                        if (m.get(field) instanceof Number numberField) {
-                            List<Long> longPatterns = new ArrayList<>();
-                            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                            return !longPatterns.contains(numberField.longValue());
-                        }
-                        return !patterns.contains(m.get(field).toString());
-                    })
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
+        String[] splittedField = field.split("\\.");
+        String parent = splittedField[0];
+        String child = splittedField.length > 1 ? splittedField[1] : null;
+        data = data
+                .stream()
+                .filter(m -> matchesNotInFilter(field, m, child, parent, patterns))
+                .collect(Collectors.toCollection(ArrayList::new));
         return data;
+    }
+
+    private static boolean matchesNotInFilter(String field, DataSet m, String child, String parent, List patterns) {
+        if (child != null) {
+            if (!m.containsKey(parent))
+                return false;
+            if (m.get(parent) instanceof NestedList nestedList) {
+                return nestedList.stream().anyMatch(c ->
+                        ((DataSet) c).containsKey(child) && !patterns.contains(((DataSet) c).get(child))
+                );
+            } else {
+                return m.containsKey(field) && !patterns.contains(m.get(field));
+            }
+        }
+        if (m.get(field) instanceof Number numberField) {
+            List<Long> longPatterns = new ArrayList<>();
+            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
+            return !longPatterns.contains(numberField.longValue());
+        }
+        return !patterns.contains(m.get(field).toString());
     }
 
     private List<DataSet> containsFilterData(String field, Object pattern, List<DataSet> data) {
         List<?> patterns = pattern instanceof List patternList ? patternList : Collections.singletonList(pattern);
         if (patterns.isEmpty())
             return data;
+
         List<String> splittedField = new ArrayList<>(Arrays.asList(field.split("\\.")));
         if (splittedField.size() == 1) {
             return data
@@ -576,52 +579,53 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> lessFilterData(String field, Object pattern, List<DataSet> data) {
-        if (pattern != null) {
-            data = data
-                    .stream()
-                    .filter(m -> {
-                        if (!m.containsKey(field) || m.get(field) == null)
-                            return false;
-                        if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber) {
-                            return fieldNumber.longValue() < patternNumber.longValue();
-                        }
-                        if (pattern instanceof LocalDate) {
-                            LocalDate date = parseToLocalDate(m.get(field).toString());
-                            return date.isEqual((ChronoLocalDate) pattern) || date.isBefore((ChronoLocalDate) pattern);
-                        }
-                        if (pattern instanceof LocalDateTime) {
-                            LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
-                            return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isBefore((ChronoLocalDateTime<?>) pattern);
-                        }
-                        return m.get(field).toString().compareTo(pattern.toString()) < 0;
-                    })
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
+        if (pattern == null)
+            return data;
+
+        data = data
+                .stream()
+                .filter(m -> {
+                    if (!m.containsKey(field) || m.get(field) == null)
+                        return false;
+                    if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber) {
+                        return fieldNumber.longValue() < patternNumber.longValue();
+                    }
+                    if (pattern instanceof LocalDate) {
+                        LocalDate date = parseToLocalDate(m.get(field).toString());
+                        return date.isEqual((ChronoLocalDate) pattern) || date.isBefore((ChronoLocalDate) pattern);
+                    }
+                    if (pattern instanceof LocalDateTime) {
+                        LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
+                        return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isBefore((ChronoLocalDateTime<?>) pattern);
+                    }
+                    return m.get(field).toString().compareTo(pattern.toString()) < 0;
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
         return data;
     }
 
     private List<DataSet> moreFilterData(String field, Object pattern, List<DataSet> data) {
-        if (pattern != null) {
-            data = data
-                    .stream()
-                    .filter(m -> {
-                        if (!m.containsKey(field) || m.get(field) == null)
-                            return false;
-                        if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber) {
-                            return ((Long) fieldNumber.longValue()).compareTo(patternNumber.longValue()) > 0;
-                        }
-                        if (pattern instanceof LocalDate) {
-                            LocalDate date = parseToLocalDate(m.get(field).toString());
-                            return date.isEqual((ChronoLocalDate) pattern) || date.isAfter((ChronoLocalDate) pattern);
-                        }
-                        if (pattern instanceof LocalDateTime) {
-                            LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
-                            return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isAfter((ChronoLocalDateTime<?>) pattern);
-                        }
-                        return m.get(field).toString().compareTo(pattern.toString()) > 0;
-                    })
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
+        if (pattern == null)
+            return data;
+        data = data
+                .stream()
+                .filter(m -> {
+                    if (!m.containsKey(field) || m.get(field) == null)
+                        return false;
+                    if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber) {
+                        return ((Long) fieldNumber.longValue()).compareTo(patternNumber.longValue()) > 0;
+                    }
+                    if (pattern instanceof LocalDate) {
+                        LocalDate date = parseToLocalDate(m.get(field).toString());
+                        return date.isEqual((ChronoLocalDate) pattern) || date.isAfter((ChronoLocalDate) pattern);
+                    }
+                    if (pattern instanceof LocalDateTime) {
+                        LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
+                        return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isAfter((ChronoLocalDateTime<?>) pattern);
+                    }
+                    return m.get(field).toString().compareTo(pattern.toString()) > 0;
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
         return data;
     }
 
