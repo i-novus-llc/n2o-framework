@@ -20,7 +20,6 @@ public class NotEqAndNotEq extends NotInListRule {
         return toRestriction(getResultList(left, right));
     }
 
-
     @SuppressWarnings("unchecked")
     protected List getResultList(Filter left, Filter right) {
         List res = new ArrayList();
@@ -32,16 +31,6 @@ public class NotEqAndNotEq extends NotInListRule {
         }
         return res;
     }
-
-    private Filter toRestriction(List res) {
-        if (res.isEmpty()) {
-            return null;
-        } else if (res.size() == 1) {
-            return new Filter(res.get(0), FilterTypeEnum.NOT_EQ);
-        }
-        return new Filter(res, FilterTypeEnum.NOT_IN);
-    }
-
 
     @Override
     public Pair<FilterTypeEnum> getType() {

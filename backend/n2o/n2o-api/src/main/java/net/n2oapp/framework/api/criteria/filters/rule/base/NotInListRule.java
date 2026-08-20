@@ -19,7 +19,7 @@ public abstract class NotInListRule implements Rule {
 
     protected abstract List getResultList(Filter left, Filter right);
 
-    private Filter toRestriction(List res) {
+    protected Filter toRestriction(List res) {
         if (res.isEmpty()) {
             return null;
         } else if (res.size() == 1) {
