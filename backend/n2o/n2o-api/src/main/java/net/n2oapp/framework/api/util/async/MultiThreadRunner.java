@@ -33,27 +33,29 @@ public class MultiThreadRunner {
      */
     public int run(Callable<Boolean> callable) throws InterruptedException, ExecutionException {
 
-        ExecutorService executor = Executors.newCachedThreadPool();
-        ArrayList<Future<Boolean>> results = new ArrayList<>();
+        try (ExecutorService executor = Executors.newCachedThreadPool()) {
+            ArrayList<Future<Boolean>> results = new ArrayList<>();
 
-        for(int i = 0; i < threadMax; i++) {
-            results.add(executor.submit(callable));
-        }
-
-        int miscalculations = 0;
-        for(Future<Boolean> result : results) {
-            Boolean res = result.get();
-
-            if (!res) {
-                System.out.println("Incorrect result, expected [true], but got [false]'");
-                miscalculations += 1;
+            for (int i = 0; i < threadMax; i++) {
+                results.add(executor.submit(callable));
             }
+
+            int miscalculations = 0;
+            for (Future<Boolean> result : results) {
+                Boolean res = result.get();
+
+                if (Boolean.FALSE.equals(res)) {
+                    System.out.println("Incorrect result, expected [true], but got [false]'");
+                    miscalculations += 1;
+                }
+            }
+
+            executor.shutdown();
+            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS))
+                System.out.println("Timeout " + timeout + "s exceeded, interrupting threads.");
+
+            System.out.println("Overall: " + miscalculations + " wrong values.");
+            return miscalculations;
         }
-
-        executor.awaitTermination(timeout, TimeUnit.SECONDS);
-        executor.shutdownNow();
-
-        System.out.println("Overall: " + miscalculations + " wrong values.");
-        return miscalculations;
     }
 }
