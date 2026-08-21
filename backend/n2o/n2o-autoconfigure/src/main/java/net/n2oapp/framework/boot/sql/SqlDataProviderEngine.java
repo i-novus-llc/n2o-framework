@@ -32,6 +32,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -203,8 +204,10 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
 
     private String constructSqlMessage(DataAccessException e) {
         String sqlMessage = e.getMessage();
-        if (e instanceof BadSqlGrammarException badSqlGE)
-            sqlMessage = badSqlGE.getSQLException().getMessage();
+        if (e instanceof BadSqlGrammarException badSqlGE) {
+            SQLException sqlEx = badSqlGE.getSQLException();
+            sqlMessage = sqlEx != null ? sqlEx.getMessage() : e.getMessage();
+        }
         Matcher matcher = SQL_ERROR_PATTERN.matcher(sqlMessage);
         if (matcher.find())
             return "Bad SQL grammar: " + (matcher.group().startsWith("\n") ?

@@ -13,6 +13,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -129,10 +131,13 @@ public class N2oRouter implements MetadataRouter {
                 if (result == null && !subUrl.endsWith(ROOT_ROUTE))
                     result = findRoute(subUrl + ROOT_ROUTE, Page.class);
             }
+            
             if (result != null) {
-                if (result instanceof PageContext pageContext && pageContext.getSubRoutes() != null && ((PageContext) result).getSubRoutes().containsKey(subUrl)) {
-                    CompileContext<Page, ?> subPageMetadataContext = findRoute(((PageContext) result).getSubRoutes().get(subUrl), Page.class);
-                    pipeline.get(subPageMetadataContext, new N2oCompileProcessor(environment, subPageMetadataContext, subPageMetadataContext.getParams(url, params))); //warm up subPage
+                if (result instanceof PageContext pageContext && pageContext.getSubRoutes() != null && pageContext.getSubRoutes().containsKey(subUrl)) {
+                    CompileContext<Page, ?> subPageMetadataContext = findRoute(pageContext.getSubRoutes().get(subUrl), Page.class);
+                    if (subPageMetadataContext != null) {
+                        pipeline.get(subPageMetadataContext, new N2oCompileProcessor(environment, subPageMetadataContext, subPageMetadataContext.getParams(url, params))); //warm up subPage
+                    }
                 } else {
                     pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
                 }

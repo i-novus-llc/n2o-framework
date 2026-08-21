@@ -213,7 +213,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private CollectionPage<DataSet> executePageQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
-        if (criteria != null && criteria.getRestrictions() != null) {
+        if (criteria.getRestrictions() != null) {
             Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toSet());
             for (String fieldId : restrictionFieldIds) {
                 if (reduceFiltersByField(criteria, fieldId))

@@ -60,7 +60,7 @@ public class CsvFileGenerator implements FileGenerator {
     }
 
     private List<String[]> resolveToCsvFormat(List<DataSet> data, List<ExportRequest.ExportField> headers) {
-        if (data.isEmpty())
+        if (data == null || headers == null || data.isEmpty())
             return new ArrayList<>();
 
         int columnCount = headers.size();
