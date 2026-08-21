@@ -41,7 +41,7 @@ public class SelectiveMetadataLoader implements SourceLoader<CompileInfo> {
             MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));
             return SelectiveUtil.readByPath(info.getId(), info.getPath(), readerFactory);
         } finally {
-            MetadataParamHolder.setParams(null);
+            MetadataParamHolder.removeParams();
         }
     }
 }

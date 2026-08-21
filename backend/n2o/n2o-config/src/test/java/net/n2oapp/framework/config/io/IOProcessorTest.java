@@ -684,7 +684,7 @@ class IOProcessorTest {
             MetadataParamHolder.setParams(params);
             testElementWithProperty(p, "testProp2");
         } finally {
-            MetadataParamHolder.setParams(null);
+            MetadataParamHolder.removeParams();
         }
 
         //test messages
@@ -703,7 +703,7 @@ class IOProcessorTest {
             MetadataParamHolder.setParams(params);
             testElementWithProperty(p, "testProp2");//самый приоритетный params
         } finally {
-            MetadataParamHolder.setParams(null);
+            MetadataParamHolder.removeParams();
         }
 
         //test fail fast

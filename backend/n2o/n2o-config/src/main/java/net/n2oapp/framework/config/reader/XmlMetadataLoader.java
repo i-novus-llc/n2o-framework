@@ -47,7 +47,7 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
         } catch (Exception e) {
             throw new N2oMetadataReaderException(e, info.getId(), info.getXmlURI(), info.getConfigId().getType());
         } finally {
-            MetadataParamHolder.setParams(null);
+            MetadataParamHolder.removeParams();
         }
     }
 
