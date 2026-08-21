@@ -38,7 +38,7 @@ public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
         } catch (Exception e) {
             throw N2oException.wrap(e);
         } finally {
-            MetadataParamHolder.setParams(null);
+            MetadataParamHolder.removeParams();
         }
     }
 
