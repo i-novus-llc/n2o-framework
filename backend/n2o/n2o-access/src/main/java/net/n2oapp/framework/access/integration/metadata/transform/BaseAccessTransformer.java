@@ -56,52 +56,17 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                 (nonNull(security.getFirst().get("object"))
                         || nonNull(security.getFirst().get(CUSTOM)))) return;
 
-        if (nonNull(schema.getPermitAllPoints())) {
-            schema.getPermitAllPoints().stream()
-                    .filter(ap -> ap instanceof N2oObjectAccessPoint n2oObjectAccessPoint
-                            && StringUtils.maskMatch(n2oObjectAccessPoint.getObjectId(), objectId)
-                            && (isNull(operationId) || StringUtils.maskMatch(n2oObjectAccessPoint.getAction(), operationId)))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (CollectionUtils.isNotEmpty(list)) {
-                                    securityObject.setPermitAll(true);
-                                }
-                                return list;
-                            }
-                    ));
+        // Проверка точек доступа с использованием вынесенных методов
+        if (nonNull(schema.getPermitAllPoints()) && hasObjectAccessPoint(schema.getPermitAllPoints(), objectId, operationId)) {
+            securityObject.setPermitAll(true);
         }
 
-        if (nonNull(schema.getAuthenticatedPoints())) {
-            schema.getAuthenticatedPoints().stream()
-                    .filter(ap -> ap instanceof N2oObjectAccessPoint n2oObjectAccessPoint
-                            && StringUtils.maskMatch(n2oObjectAccessPoint.getObjectId(), objectId)
-                            && (isNull(operationId) || StringUtils.maskMatch(n2oObjectAccessPoint.getAction(), operationId)))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (CollectionUtils.isNotEmpty(list)) {
-                                    securityObject.setAuthenticated(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getAuthenticatedPoints()) && hasObjectAccessPoint(schema.getAuthenticatedPoints(), objectId, operationId)) {
+            securityObject.setAuthenticated(true);
         }
 
-        if (nonNull(schema.getAnonymousPoints())) {
-            schema.getAnonymousPoints().stream()
-                    .filter(ap -> ap instanceof N2oObjectAccessPoint n2oObjectAccessPoint
-                            && StringUtils.maskMatch(n2oObjectAccessPoint.getObjectId(), objectId)
-                            && (isNull(operationId) || StringUtils.maskMatch(n2oObjectAccessPoint.getAction(), operationId)))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (CollectionUtils.isNotEmpty(list)) {
-                                    securityObject.setAnonymous(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getAnonymousPoints()) && hasObjectAccessPoint(schema.getAnonymousPoints(), objectId, operationId)) {
+            securityObject.setAnonymous(true);
         }
 
         List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oObjectAccessPoint.class,
@@ -155,49 +120,16 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         SecurityObject securityObject = new SecurityObject();
 
-        if (nonNull(schema.getPermitAllPoints())) {
-            schema.getPermitAllPoints().stream()
-                    .filter(ap -> ap instanceof N2oPageAccessPoint n2oPageAccessPoint
-                            && n2oPageAccessPoint.getPage().equals(originPageId))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (list.size() == 1) {
-                                    securityObject.setPermitAll(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getPermitAllPoints()) && hasPageAccessPoint(schema.getPermitAllPoints(), originPageId)) {
+            securityObject.setPermitAll(true);
         }
 
-        if (nonNull(schema.getAuthenticatedPoints())) {
-            schema.getAuthenticatedPoints().stream()
-                    .filter(ap -> ap instanceof N2oPageAccessPoint n2oPageAccessPoint
-                            && n2oPageAccessPoint.getPage().equals(originPageId))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (list.size() == 1) {
-                                    securityObject.setAuthenticated(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getAuthenticatedPoints()) && hasPageAccessPoint(schema.getAuthenticatedPoints(), originPageId)) {
+            securityObject.setAuthenticated(true);
         }
 
-        if (nonNull(schema.getAnonymousPoints())) {
-            schema.getAnonymousPoints().stream()
-                    .filter(ap -> ap instanceof N2oPageAccessPoint n2oPageAccessPoint
-                            && n2oPageAccessPoint.getPage().equals(originPageId))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (list.size() == 1) {
-                                    securityObject.setAnonymous(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getAnonymousPoints()) && hasPageAccessPoint(schema.getAnonymousPoints(), originPageId)) {
+            securityObject.setAnonymous(true);
         }
 
         List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oPageAccessPoint.class,
@@ -258,49 +190,16 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         SecurityObject securityObject = new SecurityObject();
 
-        if (nonNull(schema.getPermitAllPoints())) {
-            schema.getPermitAllPoints().stream()
-                    .filter(ap -> ap instanceof N2oUrlAccessPoint n2oUrlAccessPoint
-                            && n2oUrlAccessPoint.getMatcher().matches(url))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (list.size() == 1) {
-                                    securityObject.setPermitAll(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getPermitAllPoints()) && hasUrlAccessPoint(schema.getPermitAllPoints(), url)) {
+            securityObject.setPermitAll(true);
         }
 
-        if (nonNull(schema.getAuthenticatedPoints())) {
-            schema.getAuthenticatedPoints().stream()
-                    .filter(ap -> ap instanceof N2oUrlAccessPoint n2oUrlAccessPoint
-                            && n2oUrlAccessPoint.getMatcher().matches(url))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (list.size() == 1) {
-                                    securityObject.setAuthenticated(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getAuthenticatedPoints()) && hasUrlAccessPoint(schema.getAuthenticatedPoints(), url)) {
+            securityObject.setAuthenticated(true);
         }
 
-        if (nonNull(schema.getAnonymousPoints())) {
-            schema.getAnonymousPoints().stream()
-                    .filter(ap -> ap instanceof N2oUrlAccessPoint n2oUrlAccessPoint
-                            && n2oUrlAccessPoint.getMatcher().matches(url))
-                    .collect(Collectors.collectingAndThen(
-                            Collectors.toList(),
-                            list -> {
-                                if (list.size() == 1) {
-                                    securityObject.setAnonymous(true);
-                                }
-                                return list;
-                            }
-                    ));
+        if (nonNull(schema.getAnonymousPoints()) && hasUrlAccessPoint(schema.getAnonymousPoints(), url)) {
+            securityObject.setAnonymous(true);
         }
 
         List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oUrlAccessPoint.class,
@@ -377,6 +276,27 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             }
         }
         return result;
+    }
+
+    // Вспомогательные методы для проверки наличия точек доступа
+
+    private boolean hasObjectAccessPoint(List<AccessPoint> points, String objectId, String operationId) {
+        return points.stream()
+                .anyMatch(ap -> ap instanceof N2oObjectAccessPoint n2oObjectAccessPoint
+                        && StringUtils.maskMatch(n2oObjectAccessPoint.getObjectId(), objectId)
+                        && (isNull(operationId) || StringUtils.maskMatch(n2oObjectAccessPoint.getAction(), operationId)));
+    }
+
+    private boolean hasPageAccessPoint(List<AccessPoint> points, String pageId) {
+        return points.stream()
+                .anyMatch(ap -> ap instanceof N2oPageAccessPoint n2oPageAccessPoint
+                        && n2oPageAccessPoint.getPage().equals(pageId));
+    }
+
+    private boolean hasUrlAccessPoint(List<AccessPoint> points, String url) {
+        return points.stream()
+                .anyMatch(ap -> ap instanceof N2oUrlAccessPoint n2oUrlAccessPoint
+                        && n2oUrlAccessPoint.getMatcher().matches(url));
     }
 
     protected void transfer(PropertiesAware from, PropertiesAware to) {
