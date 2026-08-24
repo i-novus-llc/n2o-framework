@@ -3,7 +3,7 @@ import { useInView } from 'react-intersection-observer'
 
 import { Spinner } from '../Spinner/Spinner'
 
-import style from './sandbox.module.scss'
+import style from './sandbox.module.css'
 
 const DEFAULT_HEIGHT = 500
 const VISIBLE_DELAY = 500

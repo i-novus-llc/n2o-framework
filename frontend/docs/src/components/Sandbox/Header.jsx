@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import CONFIG from '../../ci-config.json'
 
-import style from './sandbox.module.scss'
+import style from './sandbox.module.css'
 
 function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, filesMap }) {
     const { origin } = window?.location

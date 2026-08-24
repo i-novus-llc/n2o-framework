@@ -9,7 +9,7 @@ import { Admonition } from '../Admonition/Admonition'
 import { visibilityHOC } from './visibilityHOC'
 import { CodeWrapper } from './CodeWrapper'
 import { NETWORK_PERMISSION_INSTRUCTION, useNetworkPermission } from './useNetworkPermission'
-import style from './sandbox.module.scss'
+import style from './sandbox.module.css'
 
 const IS_DOCS = 'isDocs=true'
 
