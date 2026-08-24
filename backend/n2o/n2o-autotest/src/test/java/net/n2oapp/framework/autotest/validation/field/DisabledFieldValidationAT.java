@@ -32,7 +32,7 @@ class DisabledFieldValidationAT extends AutoTestBase {
     @Override
     public void setUp() {
         super.setUp();
-        ScriptProcessor.getScriptEngine();
+        ScriptProcessor.warmUp();
     }
 
     @Override

@@ -6,11 +6,8 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,22 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScriptProcessorTest {
 
     private final ScriptProcessor scriptProcessor = new ScriptProcessor();
-
-    private ScriptEngine borrowedEngine;
-
-    private ScriptEngine getScriptEngine() {
-        return borrowedEngine;
-    }
-
-    @BeforeEach
-    void setUp() {
-        borrowedEngine = ScriptProcessor.getScriptEngine();
-    }
-
-    @AfterEach
-    void tearDown() {
-        ScriptProcessor.releaseScriptEngine(borrowedEngine);
-    }
 
     @Test
     void testResolveLinksWithNestedObjects() {
@@ -277,31 +258,34 @@ class ScriptProcessorTest {
     void buildMoreExpressionTest() throws ScriptException {
         //числа
         String exp = scriptProcessor.buildMoreExpression("num", 5);
-        ScriptEngine engine = getScriptEngine();
-
-        engine.put("num", 6);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("num", 9);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("num", 4);
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("num", 5);
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("num", 6);
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("num", 9);
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("num", 4);
+            assertFalse((Boolean) engine.eval(exp));
+            engine.put("num", 5);
+            assertFalse((Boolean) engine.eval(exp));
+            return null;
+        });
     }
 
     @Test
     void buildLessExpressionTest() throws ScriptException {
         //числа
         String exp = scriptProcessor.buildLessExpression("num", 5);
-        ScriptEngine engine = getScriptEngine();
-        engine.put("num", 6);
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("num", 9);
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("num", 4);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("num", 5);
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("num", 6);
+            assertFalse((Boolean) engine.eval(exp));
+            engine.put("num", 9);
+            assertFalse((Boolean) engine.eval(exp));
+            engine.put("num", 4);
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("num", 5);
+            assertFalse((Boolean) engine.eval(exp));
+            return null;
+        });
     }
 
 
@@ -309,110 +293,128 @@ class ScriptProcessorTest {
     void buildInIntervalExpressionTest() throws ScriptException {
         //числа
         String exp = scriptProcessor.buildInIntervalExpression("num", new Interval<>(1, 10));
-        ScriptEngine engine = getScriptEngine();
-        engine.put("num", 2);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("num", 9);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("num", 11);
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("num", 10);
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("num", 2);
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("num", 9);
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("num", 11);
+            assertFalse((Boolean) engine.eval(exp));
+            engine.put("num", 10);
+            assertFalse((Boolean) engine.eval(exp));
+            return null;
+        });
     }
 
 
     @Test
     void buildInListExpressionTest() throws ScriptException {
         String exp = scriptProcessor.buildInListExpression("name", Arrays.asList("John", "Marry"));
-        ScriptEngine engine = getScriptEngine();
-        engine.put("name", "John");
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("name", "Marry");
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("name", "Bobby");
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("name", "John");
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("name", "Marry");
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("name", "Bobby");
+            assertFalse((Boolean) engine.eval(exp));
+            return null;
+        });
 
-        exp = scriptProcessor.buildInListExpression("someBoolean", Arrays.asList(true, false));
-        engine = getScriptEngine();
-        engine.put("someBoolean", true);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("someBoolean", false);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("someBoolean", "s");
-        assertFalse((Boolean) engine.eval(exp));
+        String boolExp = scriptProcessor.buildInListExpression("someBoolean", Arrays.asList(true, false));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("someBoolean", true);
+            assertTrue((Boolean) engine.eval(boolExp));
+            engine.put("someBoolean", false);
+            assertTrue((Boolean) engine.eval(boolExp));
+            engine.put("someBoolean", "s");
+            assertFalse((Boolean) engine.eval(boolExp));
+            return null;
+        });
     }
 
     @Test
     void buildLikeAndLikeStartExpressionTest() throws ScriptException {
         String exp = scriptProcessor
                 .buildLikeExpression("name", "est str");
-        ScriptEngine engine = getScriptEngine();
-        engine.put("name", "Test string");
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("name", "Not");
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("name", "Test string");
+            assertTrue((Boolean) engine.eval(exp));
+            engine.put("name", "Not");
+            assertFalse((Boolean) engine.eval(exp));
+            return null;
+        });
 
-        exp = scriptProcessor
+        String startExp = scriptProcessor
                 .buildLikeStartExpression("name", "Test");
-        engine = getScriptEngine();
-        engine.put("name", "Test string");
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("name", "est string");
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("name", "Test string");
+            assertTrue((Boolean) engine.eval(startExp));
+            engine.put("name", "est string");
+            assertFalse((Boolean) engine.eval(startExp));
+            return null;
+        });
     }
 
     @Test
     void buildNotInListExpressionTest() throws ScriptException {
         String exp = scriptProcessor.buildNotInListExpression("name", Arrays.asList("John", "Marry"));
-        ScriptEngine engine = getScriptEngine();
-        engine.put("name", "John");
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("name", "Marry");
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("name", "Bobby");
-        assertTrue((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("name", "John");
+            assertFalse((Boolean) engine.eval(exp));
+            engine.put("name", "Marry");
+            assertFalse((Boolean) engine.eval(exp));
+            engine.put("name", "Bobby");
+            assertTrue((Boolean) engine.eval(exp));
+            return null;
+        });
     }
 
     @Test
     void buildEqualExpressionTest() throws ScriptException {
-        String exp = scriptProcessor.buildEqualExpression("name", "John");
-        assertEquals("name == 'John'", exp);
-        ScriptEngine engine = getScriptEngine();
-        engine.put("name", "John");
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("name", "Bobby");
-        assertFalse((Boolean) engine.eval(exp));
+        String nameExp = scriptProcessor.buildEqualExpression("name", "John");
+        assertEquals("name == 'John'", nameExp);
 
-        exp = scriptProcessor.buildEqualExpression("num", 1);
-        engine.put("num", 1);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("num", 2);
-        assertFalse((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("name", "John");
+            assertTrue((Boolean) engine.eval(nameExp));
+            engine.put("name", "Bobby");
+            assertFalse((Boolean) engine.eval(nameExp));
 
-        Date value = new Date();
-        exp = scriptProcessor.buildEqualExpression("date", value);
-        String actualValue = new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(value);
-        engine.put("date", actualValue);
-        assertTrue((Boolean) engine.eval(exp));
-        engine.put("date", "01.01.1970 03:01");
-        assertFalse((Boolean) engine.eval(exp));
+            String numExp = scriptProcessor.buildEqualExpression("num", 1);
+            engine.put("num", 1);
+            assertTrue((Boolean) engine.eval(numExp));
+            engine.put("num", 2);
+            assertFalse((Boolean) engine.eval(numExp));
+
+            Date value = new Date();
+            String dateExp = scriptProcessor.buildEqualExpression("date", value);
+            String actualValue = new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(value);
+            engine.put("date", actualValue);
+            assertTrue((Boolean) engine.eval(dateExp));
+            engine.put("date", "01.01.1970 03:01");
+            assertFalse((Boolean) engine.eval(dateExp));
+            return null;
+        });
     }
 
     @Test
     void buildNotEqualExpressionTest() throws ScriptException {
-        String exp = scriptProcessor.buildNotEqExpression("name", "John");
-        assertEquals("name != 'John'", exp);
-        ScriptEngine engine = getScriptEngine();
-        engine.put("name", "John");
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("name", "Bobby");
-        assertTrue((Boolean) engine.eval(exp));
+        String nameExp = scriptProcessor.buildNotEqExpression("name", "John");
+        assertEquals("name != 'John'", nameExp);
 
-        exp = scriptProcessor.buildNotEqExpression("num", 1);
-        engine.put("num", 1);
-        assertFalse((Boolean) engine.eval(exp));
-        engine.put("num", 2);
-        assertTrue((Boolean) engine.eval(exp));
+        ScriptProcessor.withEngine(engine -> {
+            engine.put("name", "John");
+            assertFalse((Boolean) engine.eval(nameExp));
+            engine.put("name", "Bobby");
+            assertTrue((Boolean) engine.eval(nameExp));
+
+            String numExp = scriptProcessor.buildNotEqExpression("num", 1);
+            engine.put("num", 1);
+            assertFalse((Boolean) engine.eval(numExp));
+            engine.put("num", 2);
+            assertTrue((Boolean) engine.eval(numExp));
+            return null;
+        });
     }
 
     @Test

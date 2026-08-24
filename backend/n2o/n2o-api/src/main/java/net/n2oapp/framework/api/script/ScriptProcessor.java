@@ -11,6 +11,8 @@ import org.apache.commons.io.IOUtils;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.HostAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
@@ -35,6 +37,7 @@ import static net.n2oapp.framework.api.StringUtils.isJs;
  * Утилитный класс для генерации js скриптов
  */
 public class ScriptProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(ScriptProcessor.class);
     public static final String SPREAD_TO_MAP_TEMPLATE = ".map(function(t){return t.";
     private static final List<String> momentFuncs = Arrays.asList("moment", "now", "today", "yesterday", "tomorrow",
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
@@ -590,39 +593,45 @@ public class ScriptProcessor {
 
     public static Set<String> extractVars(String script) {
         if (script == null) return new HashSet<>();
-        ScriptEngine engine = getScriptEngine();
         try {
-            Bindings b = engine.createBindings();
-            b.put(N2O_SCRIPT_VAR, script);
-            String json = (String) engine.eval("JSON.stringify(n2oExtractVars(" + N2O_SCRIPT_VAR + "))", b);
-            if (json == null || json.equals("null") || json.equals("[]")) return new HashSet<>();
-            String[] arr = JSON_MAPPER.readValue(json, String[].class);
-            return new HashSet<>(Arrays.asList(arr));
+            return withEngine(engine -> {
+                try {
+                    Bindings b = engine.createBindings();
+                    b.put(N2O_SCRIPT_VAR, script);
+                    String json = (String) engine.eval("JSON.stringify(n2oExtractVars(" + N2O_SCRIPT_VAR + "))", b);
+                    if (json == null || json.equals("null") || json.equals("[]")) return new HashSet<String>();
+                    String[] arr = JSON_MAPPER.readValue(json, String[].class);
+                    return new HashSet<>(Arrays.asList(arr));
+                } catch (ScriptException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new N2oException(e);
+                }
+            });
         } catch (ScriptException e) {
             throw new ScriptParserException(script, e);
-        } catch (Exception e) {
-            throw new N2oException(e);
-        } finally {
-            releaseScriptEngine(engine);
         }
     }
 
     private static Set<String> extractRootIdentifiers(String script) {
         if (script == null) return Set.of();
-        ScriptEngine engine = getScriptEngine();
         try {
-            Bindings b = engine.createBindings();
-            b.put(N2O_SCRIPT_VAR, script);
-            String json = (String) engine.eval("JSON.stringify(n2oExtractRootVars(" + N2O_SCRIPT_VAR + "))", b);
-            if (json == null || json.equals("null") || json.equals("[]")) return Set.of();
-            String[] arr = JSON_MAPPER.readValue(json, String[].class);
-            return new HashSet<>(Arrays.asList(arr));
+            return withEngine(engine -> {
+                try {
+                    Bindings b = engine.createBindings();
+                    b.put(N2O_SCRIPT_VAR, script);
+                    String json = (String) engine.eval("JSON.stringify(n2oExtractRootVars(" + N2O_SCRIPT_VAR + "))", b);
+                    if (json == null || json.equals("null") || json.equals("[]")) return Set.<String>of();
+                    String[] arr = JSON_MAPPER.readValue(json, String[].class);
+                    return new HashSet<>(Arrays.asList(arr));
+                } catch (ScriptException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new N2oException(e);
+                }
+            });
         } catch (ScriptException e) {
             throw new ScriptParserException(script, e);
-        } catch (Exception e) {
-            throw new N2oException(e);
-        } finally {
-            releaseScriptEngine(engine);
         }
     }
 
@@ -654,18 +663,21 @@ public class ScriptProcessor {
 
     public static String addContextFor(String script, final String context, final Collection<String> vars) {
         if (vars == null || vars.isEmpty()) return script;
-        ScriptEngine engine = getScriptEngine();
         try {
-            String varsJson = JSON_MAPPER.writeValueAsString(vars);
-            Bindings b = engine.createBindings();
-            b.put(N2O_SCRIPT_VAR, script);
-            b.put("__n2oContext", context);
-            b.put("__n2oVarsJson", varsJson);
-            return (String) engine.eval("n2oAddContextFor(" + N2O_SCRIPT_VAR + ", __n2oContext, JSON.parse(__n2oVarsJson))", b);
-        } catch (Exception e) {
+            return withEngine(engine -> {
+                try {
+                    String varsJson = JSON_MAPPER.writeValueAsString(vars);
+                    Bindings b = engine.createBindings();
+                    b.put(N2O_SCRIPT_VAR, script);
+                    b.put("__n2oContext", context);
+                    b.put("__n2oVarsJson", varsJson);
+                    return (String) engine.eval("n2oAddContextFor(" + N2O_SCRIPT_VAR + ", __n2oContext, JSON.parse(__n2oVarsJson))", b);
+                } catch (Exception e) {
+                    throw new N2oException(e);
+                }
+            });
+        } catch (ScriptException e) {
             throw new N2oException(e);
-        } finally {
-            releaseScriptEngine(engine);
         }
     }
 
@@ -696,12 +708,7 @@ public class ScriptProcessor {
     }
 
     public static <T> T eval(String script, DataSet dataSet) throws ScriptException {
-        ScriptEngine engine = getScriptEngine();
-        try {
-            return doEval(script, dataSet, engine);
-        } finally {
-            releaseScriptEngine(engine);
-        }
+        return withEngine(engine -> doEval(script, dataSet, engine));
     }
 
     @SuppressWarnings("unchecked")
@@ -817,7 +824,50 @@ public class ScriptProcessor {
         return res.toString();
     }
 
+    /**
+     * @deprecated движок, полученный этим методом, необходимо вручную вернуть в пул через
+     * {@link #releaseScriptEngine(ScriptEngine)} (обязательно в блоке {@code finally}), иначе пул
+     * движков скриптов необратимо уменьшится. Используйте {@link #withEngine(EngineFunction)},
+     * который гарантирует возврат движка в пул, либо {@link #warmUp()} для прогрева пула.
+     */
+    @Deprecated
     public static ScriptEngine getScriptEngine() {
+        return borrowEngine();
+    }
+
+    /**
+     * @deprecated используйте {@link #withEngine(EngineFunction)}, который гарантирует возврат
+     * движка в пул. См. {@link #getScriptEngine()}.
+     */
+    @Deprecated
+    public static void releaseScriptEngine(ScriptEngine engine) {
+        returnEngine(engine);
+    }
+
+    /**
+     * Выполняет операцию на движке скриптов из пула, гарантируя возврат движка в пул.
+     * Движок действителен только внутри {@code function}, сохранять его за пределами вызова нельзя.
+     *
+     * @param function операция над движком
+     * @return результат операции
+     */
+    public static <T> T withEngine(EngineFunction<T> function) throws ScriptException {
+        ScriptEngine engine = borrowEngine();
+        try {
+            return function.apply(engine);
+        } finally {
+            returnEngine(engine);
+        }
+    }
+
+    /**
+     * Прогревает пул движков, чтобы первое выполнение скрипта не тратило время на инициализацию
+     */
+    public static void warmUp() {
+        returnEngine(borrowEngine());
+    }
+
+    private static ScriptEngine borrowEngine() {
         ensurePoolInitialized();
         try {
             ScriptEngine engine = ENGINE_POOL.poll(30, TimeUnit.SECONDS);
@@ -831,8 +881,11 @@ public class ScriptProcessor {
         }
     }
 
-    public static void releaseScriptEngine(ScriptEngine engine) {
-        ENGINE_POOL.offer(engine);
+    private static void returnEngine(ScriptEngine engine) {
+        boolean returned = ENGINE_POOL.offer(engine);
+        if (!returned) {
+            logger.warn("Не удалось вернуть движок скриптов в пул: очередь переполнена, движок будет потерян");
+        }
     }
 
     private static void ensurePoolInitialized() {
