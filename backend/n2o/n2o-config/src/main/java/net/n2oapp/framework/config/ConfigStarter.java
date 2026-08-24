@@ -69,7 +69,7 @@ public class ConfigStarter {
         startMonitoringXml();
         wasRunning = true;
         eventBus.publish(new N2oStartedEvent(this));
-        ScriptProcessor.releaseScriptEngine(ScriptProcessor.getScriptEngine());//warmup
+        ScriptProcessor.warmUp();
         logger.info("N2O was started");
     }
 
