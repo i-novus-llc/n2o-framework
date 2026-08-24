@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Header } from './Header'
 import { Code } from './Code'
-import style from './sandbox.module.scss'
+import style from './sandbox.module.css'
 
 function CodeWrapperBody({ projectId, filesMap }) {
     const fileNames = Object.keys(filesMap).sort((a, b) => a - b)

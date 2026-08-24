@@ -55,7 +55,7 @@
                                         <argument>build</argument>
                                     </arguments>
                                     <environmentVariables>
-                                        <NODE_OPTIONS>--max_old_space_size=4096</NODE_OPTIONS>
+                                        <NODE_OPTIONS>--max-old-space-size=4096</NODE_OPTIONS>
                                     </environmentVariables>
                                 </configuration>
                             </execution>

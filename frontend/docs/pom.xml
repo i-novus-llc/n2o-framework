@@ -36,11 +36,11 @@
                         <configuration>
                             <target>
                                 <echo file="${basedir}/src/ci-config.json">{
-    "sandboxUrl": "${sandboxUrl}",
-    "n2oVersion": "${project.version}",
-    "docusaurusUrl": "${docusaurusUrl}",
-    "sandboxStandsUrl": "${sandboxStandsUrl}"
-}
+                                    "sandboxUrl": "${sandboxUrl}",
+                                    "n2oVersion": "${project.version}",
+                                    "docusaurusUrl": "${docusaurusUrl}",
+                                    "sandboxStandsUrl": "${sandboxStandsUrl}"
+                                    }
                                 </echo>
                             </target>
                         </configuration>
@@ -64,24 +64,28 @@
                             <arguments>
                                 <argument>install</argument>
                             </arguments>
+                            <environmentVariables>
+                                <NODE_OPTIONS>--openssl-legacy-provider</NODE_OPTIONS>
+                            </environmentVariables>
                         </configuration>
                     </execution>
 
-                    <!-- yarn build -->
+                    <!-- docs build: invoke Docusaurus directly via node (see ci-build.cjs).
+                         Running through `yarn run build` under Maven's non-TTY exec was
+                         killed with exit 129 (SIGHUP); this path avoids that. -->
                     <execution>
-                        <id>yarn run build</id>
+                        <id>docusaurus build</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>yarn</executable>
+                            <executable>node</executable>
                             <arguments>
-                                <argument>run</argument>
-                                <argument>build</argument>
+                                <argument>ci-build.cjs</argument>
                             </arguments>
                             <environmentVariables>
-                                <NODE_OPTIONS>--max_old_space_size=4096</NODE_OPTIONS>
+                                <NODE_OPTIONS>--max-old-space-size=4096</NODE_OPTIONS>
                             </environmentVariables>
                         </configuration>
                     </execution>

@@ -1,4 +1,4 @@
-const CONFIG = require('./src/ci-config.json')
+import CONFIG from './src/ci-config.json'
 
 let contextPath = CONFIG.docusaurusUrl || '/'
 
@@ -8,9 +8,14 @@ if (contextPath[contextPath.length - 1] !== '/') {
 
 const description = 'N2O Framework - библиотека с открытым исходным кодом, написанная на Java и ReactJS. Позволяет создавать веб приложения со сложными пользовательскими интерфейсами без глубоких знаний веб технологий и фронтенд фреймворков.'
 
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
-module.exports = {
+const WORDS_PER_MINUTE = 200
+const readingTimeWithoutIntlSegmenter = ({ content }) => {
+    const words = content.split(/\s+/).filter(Boolean).length
+    return Math.round((words / WORDS_PER_MINUTE) * 100) / 100
+}
 
+/** @type {import('@docusaurus/types').DocusaurusConfig} */
+export default {
     /* Обязательные поля */
 
     // Текст вкладки браузера и h1 на дефолтной главной странице (useDocusaurusContext().siteConfig.title)
@@ -25,8 +30,13 @@ module.exports = {
     /* Опциональные поля */
 
     //tagline: 'The tagline of my site',
+    markdown: {
+        hooks: {
+            onBrokenMarkdownLinks: 'warn',
+        },
+    },
     onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
+    onBrokenAnchors: 'ignore',
     // Ссылка относительно папки static. Можно указать http адрес
     favicon: 'img/favicon.ico',
     organizationName: CONFIG.organizationName || 'Ай-Новус',
@@ -89,29 +99,32 @@ module.exports = {
     }],
 },
     presets: [
-    [
-        '@docusaurus/preset-classic',
-        {
-            docs: {
-                sidebarPath: require.resolve('./sidebars.js'),
-                disableVersioning: false,
-                lastVersion: 'current',
-                onlyIncludeVersions: ['current'],
-                versions: {
-                    current: {
-                        label: `${CONFIG.n2oVersion} 🚧`,
+        [
+            '@docusaurus/preset-classic',
+            {
+                docs: {
+                    sidebarPath: require.resolve('./sidebars.js'),
+                    disableVersioning: false,
+                    lastVersion: 'current',
+                    onlyIncludeVersions: ['current'],
+                    versions: {
+                        current: {
+                            label: `${CONFIG.n2oVersion} 🚧`,
+                        },
                     },
                 },
-            },
-            theme: {
-                customCss: require.resolve('./src/css/custom.css'),
-            },
+                blog: {
+                    readingTime: readingTimeWithoutIntlSegmenter,
+                },
+                theme: {
+                    customCss: require.resolve('./src/css/custom.css'),
+                },
 
-        },
+            },
+        ],
     ],
-],
+
     plugins: [
-        'docusaurus-plugin-sass',
         [
             '@easyops-cn/docusaurus-search-local',
             {

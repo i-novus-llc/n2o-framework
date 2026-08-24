@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { Highlight, themes } from 'prism-react-renderer'
 
 import { getFileLang } from './utils'
-import styles from './sandbox.module.scss'
+import styles from './sandbox.module.css'
 
 const CodeBody = ({ fileName, source }) => (
     <Highlight code={source} theme={themes.oceanicNext} language={getFileLang(fileName)}>
