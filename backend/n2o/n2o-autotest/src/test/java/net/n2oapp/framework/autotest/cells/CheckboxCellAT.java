@@ -84,27 +84,27 @@ class CheckboxCellAT extends AutoTestBase {
 
         rows.row(1).cell(1, CheckboxCell.class).setChecked(true);
         rows.shouldBeSelected(1);
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("2");
 
         rows.row(2).cell(1, CheckboxCell.class).setChecked(false);
         rows.shouldBeSelected(2);
-        alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("3");
 
         rows.row(1).cell(0).click();
         rows.shouldBeSelected(1);
         rows.row(1).cell(1, CheckboxCell.class).setChecked(false);
-        alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("2");
 
         rows.row(2).cell(0).click();
         rows.shouldBeSelected(2);
         rows.row(2).cell(1, CheckboxCell.class).setChecked(true);
-        alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("3");
     }

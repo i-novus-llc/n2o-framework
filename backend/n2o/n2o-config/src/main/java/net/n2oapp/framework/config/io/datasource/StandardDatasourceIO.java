@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.SaveSettingsEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -53,7 +53,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
         p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePositionEnum.class);
-        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacementEnum.class);
+        p.attributeEnum(e, "message-place", t::getMessagePlace, t::setMessagePlace, MessagePlaceEnum.class);
         p.attribute(e, "message-widget-id", t::getMessageWidgetId, t::setMessageWidgetId);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
         p.attributeArray(e, "refresh-datasources", ",", t::getRefreshDatasourceIds, t::setRefreshDatasourceIds);

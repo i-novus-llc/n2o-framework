@@ -276,7 +276,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="placement" type="messagePlacement" default="top">
+                <xs:attribute name="place" type="messagePlace" default="top">
                     <xs:annotation>
                         <xs:documentation>
                             Расположение уведомления
@@ -781,7 +781,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="message-placement" type="messagePlacement" default="top">
+                <xs:attribute name="message-place" type="messagePlace" default="top">
                     <xs:annotation>
                         <xs:documentation>
                             Положение сообщения при фиксации
@@ -1378,7 +1378,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="placement" type="drawerPlacement" default="right">
+                <xs:attribute name="place" type="drawerPlace" default="right">
                     <xs:annotation>
                         <xs:documentation>
                             Позиция окна
@@ -1555,7 +1555,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="message-placement" type="messagePlacement">
+        <xs:attribute name="message-place" type="messagePlace">
             <xs:annotation>
                 <xs:documentation>
                     Положение сообщения при фиксации
@@ -1715,7 +1715,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="messagePlacement">
+    <xs:simpleType name="messagePlace">
         <xs:restriction>
             <xs:annotation>
                 <xs:documentation>
@@ -1837,7 +1837,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="drawerPlacement">
+    <xs:simpleType name="drawerPlace">
         <xs:annotation>
             <xs:documentation>
                 Позиция drawer окна

@@ -19,7 +19,7 @@ public class AlertActionElementIOV2 extends AbstractActionElementIOV2<N2oAlertAc
         p.attribute(e, "title", a::getTitle, a::setTitle);
         p.attribute(e, "text", a::getText, a::setText);
         p.attribute(e, "color", a::getColor, a::setColor);
-        p.attribute(e, "placement", a::getPlacement, a::setPlacement);
+        p.attribute(e, "place", a::getPlace, a::setPlace);
         p.attribute(e, "href", a::getHref, a::setHref);
         p.attribute(e, "time", a::getTime, a::setTime);
         p.attribute(e, "timeout", a::getTimeout, a::setTimeout);

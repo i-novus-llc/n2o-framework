@@ -4,16 +4,16 @@
     <form>
         <toolbar>
             <button label="Открыть слева">
-                <open-drawer page-id="drawer" page-name="не должно быть крестика" placement="left" closable="false"/>
+                <open-drawer page-id="drawer" page-name="не должно быть крестика" place="left" closable="false"/>
             </button>
             <button label="Открыть справа">
-                <open-drawer page-id="drawer" page-name="не должно быть затемнения" placement="right" backdrop="false"/>
+                <open-drawer page-id="drawer" page-name="не должно быть затемнения" place="right" backdrop="false"/>
             </button>
             <button label="Открыть снизу">
-                <open-drawer page-id="drawer" page-name="не должно закрываться при клике вне формы" placement="bottom"/>
+                <open-drawer page-id="drawer" page-name="не должно закрываться при клике вне формы" place="bottom"/>
             </button>
             <button label="Открыть сверху">
-                <open-drawer page-id="drawer" page-name="размер 300х300" width="300" height="300" placement="top"/>
+                <open-drawer page-id="drawer" page-name="размер 300х300" width="300" height="300" place="top"/>
             </button>
         </toolbar>
         <fields>

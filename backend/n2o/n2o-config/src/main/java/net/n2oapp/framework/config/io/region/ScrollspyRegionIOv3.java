@@ -20,7 +20,7 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
         super.io(e, r, p);
         p.attribute(e, "title", r::getTitle, r::setTitle);
         p.attribute(e, "active", r::getActive, r::setActive);
-        p.attribute(e, "placement", r::getPlacement, r::setPlacement);
+        p.attribute(e, "place", r::getPlace, r::setPlace);
         p.attributeBoolean(e, "headlines", r::getHeadlines, r::setHeadlines);
         p.attribute(e, "max-height", r::getMaxHeight, r::setMaxHeight);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);

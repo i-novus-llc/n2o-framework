@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +39,7 @@ public class ResponseMessage implements Compiled {
     @JsonProperty
     private String modelLink;
     @JsonProperty
-    private MessagePlacementEnum placement;
+    private MessagePlaceEnum placement;
     @JsonProperty
     private Map<String, String> style;
     @JsonProperty("stacktrace")

@@ -19,7 +19,7 @@ import java.util.Map;
 public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
     private String title;
     private String active;
-    private String placement;
+    private String place;
     private Boolean headlines;
     private String maxHeight;
     private Boolean routable;

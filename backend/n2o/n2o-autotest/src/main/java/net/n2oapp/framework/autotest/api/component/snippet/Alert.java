@@ -73,7 +73,7 @@ public interface Alert extends Snippet {
     }
     @RequiredArgsConstructor
     @Getter
-    enum PlacementEnum implements N2oEnum {
+    enum PlaceEnum implements N2oEnum {
         TOP("top"),
         BOTTOM("bottom"),
         TOP_LEFT("topLeft"),

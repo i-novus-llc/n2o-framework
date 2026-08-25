@@ -4,7 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.*;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
@@ -51,7 +51,7 @@ public class AlertMessageBuilder {
     public ResponseMessage buildMessage(RequestInfo requestInfo, SeverityTypeEnum severityType) {
         ResponseMessage message = constructMessage(severityType);
         if (requestInfo.getMessagePlacement() != null)
-            message.setPlacement(MessagePlacementEnum.valueOf(requestInfo.getMessagePlacement().name()));
+            message.setPlacement(MessagePlaceEnum.valueOf(requestInfo.getMessagePlacement().name()));
         return message;
     }
 
@@ -101,7 +101,7 @@ public class AlertMessageBuilder {
         ResponseMessage message = new ResponseMessage();
         message.setSeverityType(severityType);
         if (propertyResolver != null) {
-            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement", MessagePlacementEnum.class));
+            message.setPlacement(propertyResolver.getProperty("n2o.api.message.place", MessagePlaceEnum.class));
             if (severityType != null) {
                 Integer timeout = Integer.parseInt(
                         propertyResolver.getProperty(String.format("n2o.api.message.%s.timeout", severityType.getId())));

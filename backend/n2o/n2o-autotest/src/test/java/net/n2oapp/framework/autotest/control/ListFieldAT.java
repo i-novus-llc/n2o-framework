@@ -187,7 +187,7 @@ class ListFieldAT extends AutoTestBase {
                 .control(InputSelect.class);
         inputSelect.openPopup();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldBeVisible();
         alert.shouldHaveText("В файле 'test.query.xml' не найден запрос \"<count>\", необходимый для пагинации");
     }

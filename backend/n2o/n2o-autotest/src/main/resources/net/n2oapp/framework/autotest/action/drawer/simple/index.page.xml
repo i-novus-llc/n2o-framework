@@ -4,28 +4,28 @@
         <datasource query-id="test"/>
         <toolbar>
             <button label="openLeft">
-                <open-drawer page-id="drawer" route="/:id/drawer" width="250" height="250" placement="left">
+                <open-drawer page-id="drawer" route="/:id/drawer" width="250" height="250" place="left">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>
                 </open-drawer>
             </button>
             <button label="openTop">
-                <open-drawer page-id="drawer" route="/:id/drawer" width="300" height="300" placement="top" fixed-footer="true">
+                <open-drawer page-id="drawer" route="/:id/drawer" width="300" height="300" place="top" fixed-footer="true">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>
                 </open-drawer>
             </button>
             <button label="openRight">
-                <open-drawer page-id="drawer" route="/:id/drawer" placement="right" backdrop="false" close-on-escape="false">
+                <open-drawer page-id="drawer" route="/:id/drawer" place="right" backdrop="false" close-on-escape="false">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>
                 </open-drawer>
             </button>
             <button label="openBottom">
-                <open-drawer page-id="drawer" route="/:id/drawer" placement="bottom" closable="false">
+                <open-drawer page-id="drawer" route="/:id/drawer" place="bottom" closable="false">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>

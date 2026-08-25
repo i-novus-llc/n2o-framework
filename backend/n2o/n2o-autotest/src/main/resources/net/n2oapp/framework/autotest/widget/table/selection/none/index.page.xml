@@ -28,7 +28,7 @@
             </columns>
             <rows>
                 <click>
-                    <alert title="alert" placement="topLeft"/>
+                    <alert title="alert" place="topLeft"/>
                 </click>
             </rows>
         </table>

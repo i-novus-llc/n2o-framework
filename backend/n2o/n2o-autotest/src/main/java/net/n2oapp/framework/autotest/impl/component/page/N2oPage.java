@@ -76,8 +76,8 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public Alerts alerts(Alert.PlacementEnum placement) {
-        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.getId())), Alerts.class);
+    public Alerts alerts(Alert.PlaceEnum place) {
+        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", place.getId())), Alerts.class);
     }
 
     @Override

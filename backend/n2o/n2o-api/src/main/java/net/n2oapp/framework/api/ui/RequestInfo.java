@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.user.UserContext;
 
@@ -22,7 +22,7 @@ public class RequestInfo {
     private DataSet queryData;
     private String messagesForm;
     private MessagePositionEnum messagePosition;
-    private MessagePlacementEnum messagePlacement;
+    private MessagePlaceEnum messagePlacement;
     private CompileContext<?, ?> context;
 
     public void addAttribute(String name, Object value) {

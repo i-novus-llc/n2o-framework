@@ -8,7 +8,7 @@
             <alert title="title" text="text"/>
         </button>
         <button id="alert" model="filter">
-            <alert title="Title {message}" text="Text {message}" placement="bottomRight" close-button="false" datasource="ds1"
+            <alert title="Title {message}" text="Text {message}" place="bottomRight" close-button="false" datasource="ds1"
                    class="css-on-action" style="width:90%" href="http://example.org" color="info" time="2022-02-02T12:15:23" timeout="5000"/>
         </button>
     </toolbar>

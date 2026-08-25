@@ -70,10 +70,10 @@ public interface Page extends Component {
 
     /**
      * Возвращает компонент оповещение, положение которого совпадает с ожидаемым
-     * @param placement положение оповещения на странице
+     * @param place положение оповещения на странице
      * @return Компонент оповещение для автотестирования
      */
-    Alerts alerts(Alert.PlacementEnum placement);
+    Alerts alerts(Alert.PlaceEnum place);
 
     /**
      * Проверка совпадения части ссылки страницы

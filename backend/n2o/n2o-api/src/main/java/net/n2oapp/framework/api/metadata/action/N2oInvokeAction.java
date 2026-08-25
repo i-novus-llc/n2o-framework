@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 
@@ -27,7 +27,7 @@ public class N2oInvokeAction extends N2oAbstractMetaAction {
     private Boolean messageOnFail;
     private Boolean useFailOut;
     private MessagePositionEnum messagePosition;
-    private MessagePlacementEnum messagePlacement;
+    private MessagePlaceEnum messagePlace;
     private String datasourceId;
     private ReduxModelEnum model;
     private N2oFormParam[] formParams;

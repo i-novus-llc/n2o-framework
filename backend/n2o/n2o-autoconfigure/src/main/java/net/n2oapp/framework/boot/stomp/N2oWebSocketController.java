@@ -112,7 +112,7 @@ public class N2oWebSocketController implements WebSocketController {
             alertAction.setTitle(resolveStringValueLink(alertAction.getTitle(), messageActionMap));
             alertAction.setText(resolveStringValueLink(alertAction.getText(), messageActionMap));
             alertAction.setColor(resolveStringValueLink(alertAction.getColor(), messageActionMap));
-            alertAction.setPlacement(resolveStringValueLink(alertAction.getPlacement(), messageActionMap));
+            alertAction.setPlace(resolveStringValueLink(alertAction.getPlace(), messageActionMap));
             alertAction.setTime(resolveStringValueLink(alertAction.getTime(), messageActionMap));
             alertAction.setTimeout(resolveStringValueLink(alertAction.getTimeout(), messageActionMap));
         } else if (stompAction instanceof N2oSetValueAction setValueAction) {

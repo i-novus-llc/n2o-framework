@@ -59,7 +59,7 @@ class ClipboardButtonAT extends AutoTestBase {
 
         clipboardButton.shouldHaveDescription("Копировать СНИЛС");
         clipboardButton.click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Скопировано в буфер обмена");
 

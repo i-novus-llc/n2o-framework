@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -192,8 +192,8 @@ public class ClientDataProviderUtil {
             actionContext.setCallValidation(actionContextData.isCallValidation());
             actionContext.setMessagePosition(castDefault(actionContextData.getMessagePosition(),
                     () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
-            actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlacement(),
-                    () -> p.resolve(property("n2o.api.message.placement"), MessagePlacementEnum.class)));
+            actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlace(),
+                    () -> p.resolve(property("n2o.api.message.place"), MessagePlaceEnum.class)));
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)

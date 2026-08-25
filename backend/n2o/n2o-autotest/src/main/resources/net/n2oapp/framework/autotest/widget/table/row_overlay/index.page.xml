@@ -13,11 +13,11 @@
             <overlay>
                 <toolbar>
                     <button label="Кнопка">
-                        <alert title="Уведомление по кнопке" text="Привет, мир!" placement="topLeft"/>
+                        <alert title="Уведомление по кнопке" text="Привет, мир!" place="topLeft"/>
                     </button>
                     <sub-menu label="Меню">
                         <menu-item label="Кнопка1">
-                            <alert title="Уведомление по menu-item" text="Привет, мир1!" placement="topRight"/>
+                            <alert title="Уведомление по menu-item" text="Привет, мир1!" place="topRight"/>
                         </menu-item>
                     </sub-menu>
                 </toolbar>

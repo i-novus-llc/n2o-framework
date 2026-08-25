@@ -70,12 +70,12 @@ class PhoneFieldAT extends AutoTestBase {
 
         phoneField.setValue("+7 (999) 123-45-00");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         phoneField.shouldHaveInvalidText(Condition.empty);
 
         phoneField.setValue("123");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldNotExists();
         phoneField.shouldHaveInvalidText(Condition.text("Невалидный номер телефона"));
         phoneField.shouldHaveValue("123");
 

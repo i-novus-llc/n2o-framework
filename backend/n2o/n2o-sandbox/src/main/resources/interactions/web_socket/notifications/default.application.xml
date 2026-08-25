@@ -5,7 +5,7 @@
     </datasources>
     <events>
         <stomp-event id="notif" destination="/notifications">
-            <alert title="{title}" text="{text}" color="{color}" placement="{placement}" timeout="7000"/>
+            <alert title="{title}" text="{text}" color="{color}" place="{place}" timeout="7000"/>
         </stomp-event>
         <stomp-event id="setvalue" destination="/notifications2">
             <set-value id="message" target-datasource="ds" to="message">

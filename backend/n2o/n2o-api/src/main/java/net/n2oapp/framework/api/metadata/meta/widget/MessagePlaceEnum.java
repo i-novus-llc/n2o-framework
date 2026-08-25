@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.N2oEnum;
  */
 @RequiredArgsConstructor
 @Getter
-public enum MessagePlacementEnum implements N2oEnum {
+public enum MessagePlaceEnum implements N2oEnum {
     TOP("top"),
     BOTTOM("bottom"),
     TOP_LEFT("topLeft"),

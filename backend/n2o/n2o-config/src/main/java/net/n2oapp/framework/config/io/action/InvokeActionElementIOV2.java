@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import org.jdom2.Element;
@@ -34,7 +34,7 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         p.attributeBoolean(e, "message-on-fail", ia::getMessageOnFail, ia::setMessageOnFail);
         p.attributeBoolean(e, "use-fail-out", ia::getUseFailOut, ia::setUseFailOut);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePositionEnum.class);
-        p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacementEnum.class);
+        p.attributeEnum(e, "message-place", ia::getMessagePlace, ia::setMessagePlace, MessagePlaceEnum.class);
         p.attribute(e, DATASOURCE, ia::getDatasourceId, ia::setDatasourceId);
         p.attributeEnum(e, MODEL, ia::getModel, ia::setModel, ReduxModelEnum.class);
 

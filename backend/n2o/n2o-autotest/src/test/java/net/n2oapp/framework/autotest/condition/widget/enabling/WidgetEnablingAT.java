@@ -66,11 +66,11 @@ class WidgetEnablingAT extends AutoTestBase {
         StandardButton button = table.toolbar().topLeft().button("test");
         button.shouldBeEnabled();
         button.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldExists();
 
         Cells row = table.columns().rows().row(2);
         row.click();
-        page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0).shouldExists();
+        page.alerts(Alert.PlaceEnum.TOP_LEFT).alert(0).shouldExists();
 
         Checkbox checkbox = form.fieldsets()
                 .fieldset(0, SimpleFieldSet.class)

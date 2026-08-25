@@ -62,7 +62,7 @@ class OpenDrawerAT extends AutoTestBase {
         page.widget(TableWidget.class).toolbar().topLeft().button("openLeft").click();
         Drawer drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.shouldHavePlacement(Drawer.PlacementEnum.LEFT);
+        drawerPage.shouldHavePlace(Drawer.PlaceEnum.LEFT);
         drawerPage.shouldHaveWidth("250");
         drawerPage.shouldHaveHeight("250");
         drawerPage.shouldNotHaveFixedFooter();
@@ -125,7 +125,7 @@ class OpenDrawerAT extends AutoTestBase {
         rows.shouldBeSelected(2);
         page.widget(TableWidget.class).toolbar().topLeft().button("openTop").click();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.shouldHavePlacement(Drawer.PlacementEnum.TOP);
+        drawerPage.shouldHavePlace(Drawer.PlaceEnum.TOP);
         drawerPage.shouldHaveWidth("300");
         drawerPage.shouldHaveHeight("300");
         drawerPage.shouldHaveFixedFooter();
@@ -142,7 +142,7 @@ class OpenDrawerAT extends AutoTestBase {
         rows.shouldBeSelected(3);
         page.widget(TableWidget.class).toolbar().topLeft().button("openRight").click();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.shouldHavePlacement(Drawer.PlacementEnum.RIGHT);
+        drawerPage.shouldHavePlace(Drawer.PlaceEnum.RIGHT);
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("44");
         fields.field("name").control(InputText.class).shouldHaveValue("test400");
@@ -157,7 +157,7 @@ class OpenDrawerAT extends AutoTestBase {
         rows.shouldBeSelected(0);
         page.widget(TableWidget.class).toolbar().topLeft().button("openBottom").click();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.shouldHavePlacement(Drawer.PlacementEnum.BOTTOM);
+        drawerPage.shouldHavePlace(Drawer.PlaceEnum.BOTTOM);
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("11");
         fields.field("name").control(InputText.class).shouldHaveValue("test100");

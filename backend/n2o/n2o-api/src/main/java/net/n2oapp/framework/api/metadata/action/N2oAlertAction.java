@@ -13,7 +13,7 @@ public class N2oAlertAction extends N2oAbstractAction {
     private String title;
     private String text;
     private String color;
-    private String placement;
+    private String place;
     private String href;
     private String time;
     private String timeout;

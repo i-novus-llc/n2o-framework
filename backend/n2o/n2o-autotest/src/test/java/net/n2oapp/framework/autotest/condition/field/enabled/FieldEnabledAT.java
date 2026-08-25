@@ -114,7 +114,7 @@ class FieldEnabledAT extends AutoTestBase {
         maskedInput.setValue("111-111-111 11");
         buttonField.shouldBeEnabled();
         buttonField.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldExists();
         inputText.shouldBeEnabled();
         inputField.shouldBeRequired();
         inputText.shouldBeEmpty();
@@ -161,7 +161,7 @@ class FieldEnabledAT extends AutoTestBase {
         maskedInput.setValue("111-111-111 11");
         buttonField.shouldBeEnabled();
         buttonField.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldExists();
         inputText.shouldBeEnabled();
         inputField.shouldBeRequired();
         inputText.shouldBeEmpty();

@@ -47,7 +47,7 @@ class CustomActionsAT extends AutoTestBase {
         StandardButton customInvoke = page.widget(FormWidget.class).toolbar().topLeft().button("Custom invoke");
         customInvoke.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница для редиректа");

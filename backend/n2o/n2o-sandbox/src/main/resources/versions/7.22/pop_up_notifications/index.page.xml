@@ -31,22 +31,22 @@
             </row>
             <row>
                 <button label="top">
-                    <alert text="Привет, мир!" placement="top"/>
+                    <alert text="Привет, мир!" place="top"/>
                 </button>
                 <button label="bottom">
-                    <alert text="Привет, мир!" placement="bottom"/>
+                    <alert text="Привет, мир!" place="bottom"/>
                 </button>
                 <button label="topLeft">
-                    <alert text="Привет, мир!" placement="topLeft"/>
+                    <alert text="Привет, мир!" place="topLeft"/>
                 </button>
                 <button label="topRight">
-                    <alert text="Привет, мир!" placement="topRight"/>
+                    <alert text="Привет, мир!" place="topRight"/>
                 </button>
                 <button label="bottomLeft">
-                    <alert text="Привет, мир!" placement="bottomLeft"/>
+                    <alert text="Привет, мир!" place="bottomLeft"/>
                 </button>
                 <button label="bottomRight">
-                    <alert text="Привет, мир!" placement="bottomRight"/>
+                    <alert text="Привет, мир!" place="bottomRight"/>
                 </button>
             </row>
             <col>

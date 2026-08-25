@@ -12,7 +12,7 @@
                     message-on-fail="false"
                     message-on-success="false"
                     message-position="fixed"
-                    message-placement="top"
+                    message-place="top"
                     use-fail-out="false"
                     redirect-url="/testUrl"
                     redirect-target="self"

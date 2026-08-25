@@ -2,10 +2,10 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <events>
         <stomp-event id="showNotif" destination="/notifications">
-            <alert title="{title}" text="{text}" color="{color}" placement="{placement}" timeout="{timeout}"/>
+            <alert title="{title}" text="{text}" color="{color}" place="{place}" timeout="{timeout}"/>
         </stomp-event>
         <stomp-event id="showTask" destination="/task">
-            <alert title="{title}" text="{text}" color="primary" placement="topLeft" timeout="{timeout}"/>
+            <alert title="{title}" text="{text}" color="primary" place="topLeft" timeout="{timeout}"/>
         </stomp-event>
         <on-change id="onChangeEvent" datasource="ds">
             <alert title="{title}" text="{text}"/>

@@ -19,7 +19,7 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         super.io(e, od, p);
         p.attribute(e, "width", od::getWidth, od::setWidth);
         p.attribute(e, "height", od::getHeight, od::setHeight);
-        p.attribute(e, "placement", od::getPlacement, od::setPlacement);
+        p.attribute(e, "place", od::getPlace, od::setPlace);
         p.attributeEnum(e, "backdrop", od::getBackdrop, od::setBackdrop, BackdropEnum.class);
         p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
         p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);

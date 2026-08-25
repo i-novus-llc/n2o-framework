@@ -7,7 +7,7 @@
                 style="width: 500px"
                 src="ScrollSpy"
                 active="mi2"
-                placement="right"
+                place="right"
                 title="regionTitle"
                 headlines="true"
                 max-height="700"

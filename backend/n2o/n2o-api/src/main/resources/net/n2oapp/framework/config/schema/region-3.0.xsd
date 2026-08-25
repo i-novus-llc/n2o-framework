@@ -505,7 +505,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="placement" type="scrollspyPlacement" default="left">
+        <xs:attribute name="place" type="scrollspyPlace" default="left">
             <xs:annotation>
                 <xs:documentation>
                     Сторона расположения меню
@@ -558,7 +558,7 @@
         </xs:anyAttribute>
     </xs:complexType>
 
-    <xs:simpleType name="scrollspyPlacement">
+    <xs:simpleType name="scrollspyPlace">
         <xs:restriction>
             <xs:annotation>
                 <xs:documentation>

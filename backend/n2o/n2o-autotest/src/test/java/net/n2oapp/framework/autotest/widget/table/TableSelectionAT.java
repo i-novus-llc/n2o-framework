@@ -107,7 +107,7 @@ class TableSelectionAT extends AutoTestBase {
         rows.shouldHaveSize(3);
         rows.shouldNotHaveSelectedRows();
         rows.row(1).click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP_LEFT).alert(0);
         alert.shouldExists();
     }
 
@@ -153,7 +153,7 @@ class TableSelectionAT extends AutoTestBase {
         rows.shouldNotHaveSelectedRows();
 
         row.cell(5, ToolbarCell.class).toolbar().button("Кнопка").click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP_LEFT).alert(0);
         alert.shouldExists();
         rows.shouldNotHaveSelectedRows();
     }

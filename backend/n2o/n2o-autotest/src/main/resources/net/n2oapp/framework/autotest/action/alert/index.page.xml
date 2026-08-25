@@ -9,16 +9,16 @@
         </actions>
         <toolbar place="topLeft">
             <button label="Тестирование текста и заголовка" disable-on-empty-model="false">
-                <alert title="Простое уведомление" text="Привет, мир!" placement="topLeft"/>
+                <alert title="Простое уведомление" text="Привет, мир!" place="topLeft"/>
             </button>
             <button label="Тестирование таймаута" disable-on-empty-model="false">
-                <alert timeout="2000" color="info" placement="topRight" close-button="false"/>
+                <alert timeout="2000" color="info" place="topRight" close-button="false"/>
             </button>
             <button label="Тестирование кнопки закрыть" disable-on-empty-model="false">
-                <alert timeout="8000" color="light" placement="bottomRight"/>
+                <alert timeout="8000" color="light" place="bottomRight"/>
             </button>
             <button label="Тестирование ссылки" disable-on-empty-model="false">
-                <alert text="Привет, мир!" href="#/test" color="warning" placement="bottomLeft"/>
+                <alert text="Привет, мир!" href="#/test" color="warning" place="bottomLeft"/>
             </button>
         </toolbar>
     </form>

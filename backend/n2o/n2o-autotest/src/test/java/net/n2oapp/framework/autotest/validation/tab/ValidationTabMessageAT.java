@@ -180,7 +180,7 @@ class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(2).shouldBeValid();
 
         saveBtn.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 
     @Test

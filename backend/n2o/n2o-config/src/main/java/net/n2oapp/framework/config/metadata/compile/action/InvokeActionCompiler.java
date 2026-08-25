@@ -158,7 +158,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         if (buttonScope instanceof ButtonScope bs)
             actionContextData.setCallValidation(!Boolean.FALSE.equals(bs.getValidate()));
         actionContextData.setMessagePosition(source.getMessagePosition());
-        actionContextData.setMessagePlacement(source.getMessagePlacement());
+        actionContextData.setMessagePlace(source.getMessagePlace());
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));
         dataProvider.setActionContextData(actionContextData);
         ClientDataProvider compiledDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
