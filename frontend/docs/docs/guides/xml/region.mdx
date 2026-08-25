@@ -151,7 +151,7 @@ n2o.api.region.panel.routable = true
 |--------------|------------|---------------------------------------------------------------------------------------------------------------------------|-----------------------|
 | active       | Строка     | Активный элемент по умолчанию                                                                                             |                       |
 | title        | Строка     | Заголовок меню                                                                                                            |                       |
-| placement    | left right | Сторона расположения меню                                                                                                 | left                  |
+| place        | left right | Сторона расположения меню                                                                                                 | left                  |
 | headlines    | true false | Наличие разделительной строки между блоками                                                                               | false                 |
 | max-height   | Строка     | Максимальная высота содержимого региона. Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px` |                       |
 | routable     | true false | Восстановление активного элемента по URL                                                                                  | true                  |
@@ -161,7 +161,7 @@ n2o.api.region.panel.routable = true
 
 ```yaml
 #Сторона расположения меню
-n2o.api.region.scrollspy.placement = left
+n2o.api.region.scrollspy.place = left
 #Наличие разделительной строки между блоками
 n2o.api.region.scrollspy.headlines = false
 #Восстановление активного элемента по URL
@@ -178,7 +178,7 @@ n2o.api.region.scrollspy.routable = true
 
 ```xml
 <scrollspy title="Регион"
-           placement="right"
+           place="right"
            headlines="true">
     <menu-item>
         ...

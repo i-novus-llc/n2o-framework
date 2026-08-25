@@ -81,7 +81,7 @@ class ValidateActionAT extends AutoTestBase {
 
         checkBtn.click();
 
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_MESSAGE);
 
         saveBtn.click();
 
@@ -95,8 +95,8 @@ class ValidateActionAT extends AutoTestBase {
         page.widget(FormWidget.class).fields().field("Провалидировать часть полей", ButtonField.class).click();
         nameField.shouldHaveValidationMessage(Condition.empty);
         birthdayField.shouldHaveValidationMessage(Condition.empty);
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
-        page.alerts(Alert.PlacementEnum.TOP).alert(1).shouldHaveText(SUCCESS_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(1).shouldHaveText(SUCCESS_MESSAGE);
     }
 
     @Test
@@ -115,7 +115,7 @@ class ValidateActionAT extends AutoTestBase {
 
         StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (danger)");
         button.click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldNotExists();
 
         form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
@@ -160,7 +160,7 @@ class ValidateActionAT extends AutoTestBase {
 
         StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (warning)");
         button.click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldNotExists();
 
         form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
@@ -209,7 +209,7 @@ class ValidateActionAT extends AutoTestBase {
         multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
         multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
         alert.closeButton().click();
 
@@ -281,7 +281,7 @@ class ValidateActionAT extends AutoTestBase {
         innerField11.control(InputText.class).setValue("Тест");
         validateAllOuterBtn.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText(SUCCESS_MESSAGE);
         outerField0.shouldHaveValidationMessage(Condition.empty);
         innerField00.shouldHaveValidationMessage(Condition.empty);
@@ -326,7 +326,7 @@ class ValidateActionAT extends AutoTestBase {
         innerField01.control(InputText.class).setValue("Тест");
         validateFirstOuterBtn.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText(SUCCESS_MESSAGE);
         outerField0.shouldHaveValidationMessage(Condition.empty);
         innerField00.shouldHaveValidationMessage(Condition.empty);
@@ -370,7 +370,7 @@ class ValidateActionAT extends AutoTestBase {
         innerField00.control(InputText.class).setValue("Тест");
         validateFirstInnerBtn.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText(SUCCESS_MESSAGE);
         outerField0.shouldHaveValidationMessage(Condition.empty);
         innerField00.shouldHaveValidationMessage(Condition.empty);

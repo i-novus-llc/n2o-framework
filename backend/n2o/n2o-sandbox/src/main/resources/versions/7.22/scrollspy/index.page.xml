@@ -18,7 +18,7 @@
                 <scrollspy id="r1"
                            title="Меню"
                            headlines="true"
-                           placement="left">
+                           place="left">
                     <menu-item id="mi1" title="Личные данные">
                         <form>
                             <fields>

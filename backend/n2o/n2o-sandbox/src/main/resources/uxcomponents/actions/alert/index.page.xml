@@ -5,7 +5,7 @@
         <toolbar place="topLeft">
             <button label="Показать уведомление" disable-on-empty-model="false">
                 <alert title="Новое сообщение" text="Привет, мир!"
-                       color="success" placement="topRight"/>
+                       color="success" place="topRight"/>
             </button>
         </toolbar>
     </form>

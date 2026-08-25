@@ -25,7 +25,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 @Component
 public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion, N2oScrollspyRegion> {
 
-    private static final String PLACEMENT_PROPERTY = "n2o.api.region.scrollspy.placement";
+    private static final String PLACE_PROPERTY = "n2o.api.region.scrollspy.place";
     private static final String HEADLINES_PROPERTY = "n2o.api.region.scrollspy.headlines";
     private static final String ROUTABLE_PROPERTY = "n2o.api.region.scrollspy.routable";
     private static final String GROUP_HEADLINE_PROPERTY = "n2o.api.region.scrollspy.group.headline";
@@ -51,7 +51,7 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         build(region, source, p);
         region.setTitle(source.getTitle());
         region.setPlacement(
-                castDefault(source.getPlacement(), () -> p.resolve(property(PLACEMENT_PROPERTY), String.class))
+                castDefault(source.getPlace(), () -> p.resolve(property(PLACE_PROPERTY), String.class))
         );
         region.setHeadlines(
                 castDefault(source.getHeadlines(), () -> p.resolve(property(HEADLINES_PROPERTY), Boolean.class))

@@ -25,7 +25,7 @@
             </columns>
             <rows>
                 <click>
-                    <alert text="alert" color="info" placement="topLeft"/>
+                    <alert text="alert" color="info" place="topLeft"/>
                 </click>
             </rows>
             <toolbar>

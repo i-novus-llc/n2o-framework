@@ -73,7 +73,7 @@ class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(2).click();
         button.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveTitle("Сообщение");
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveTitle("Сообщение");
     }
 
     @Test
@@ -94,7 +94,7 @@ class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().row(2).cell(1).shouldExists();
         table.columns().rows().row(2).cell(1).shouldHaveText("2");
         table.columns().rows().row(2).click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveTitle("Алерт");
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveTitle("Алерт");
 
         table.columns().rows().row(1).cell(1).shouldHaveText("1");
         table.columns().rows().row(1).click();

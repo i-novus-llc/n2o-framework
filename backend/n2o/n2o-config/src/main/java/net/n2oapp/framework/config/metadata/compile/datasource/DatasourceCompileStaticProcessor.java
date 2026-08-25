@@ -124,7 +124,7 @@ public class DatasourceCompileStaticProcessor {
         actionContextData.setMessageOnFail(castDefault(submit.getMessageOnFail(),
                 () -> p.resolve(property("n2o.api.datasource.submit.message_on_fail"), Boolean.class)));
         actionContextData.setMessagePosition(submit.getMessagePosition());
-        actionContextData.setMessagePlacement(submit.getMessagePlacement());
+        actionContextData.setMessagePlace(submit.getMessagePlace());
         actionContextData.setOperation(object.getOperations().get(submit.getOperationId()));
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());

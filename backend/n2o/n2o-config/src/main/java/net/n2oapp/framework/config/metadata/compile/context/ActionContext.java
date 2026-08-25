@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.LoadingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class ActionContext extends ObjectContext {
     private boolean useFailOut;
     private boolean callValidation;
     private MessagePositionEnum messagePosition;
-    private MessagePlacementEnum messagePlacement;
+    private MessagePlaceEnum messagePlacement;
     /**
      * Маппинг path, query, header, form параметров url к in параметрам операции
      */

@@ -7,13 +7,13 @@
                 <open-drawer page-id="modal"/>
             </button>
             <button label="Открыть слева" disable-on-empty-model="false">
-                <open-drawer page-id="modal" placement="left"/>
+                <open-drawer page-id="modal" place="left"/>
             </button>
             <button label="Открыть сверху" disable-on-empty-model="false">
-                <open-drawer page-id="modal" placement="top"/>
+                <open-drawer page-id="modal" place="top"/>
             </button>
             <button label="Открыть снизу" disable-on-empty-model="false">
-                <open-drawer page-id="modal" placement="bottom"/>
+                <open-drawer page-id="modal" place="bottom"/>
             </button>
         </toolbar>
     </form>

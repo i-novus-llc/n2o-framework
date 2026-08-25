@@ -5,7 +5,7 @@
         <fields>
             <alert id="info" color="info"
                    text="Для отображения всплывающего уведомления отправьте GET запрос
-                      /sandbox/websocket/notifications/alert?title=Новое сообщение&amp;text=Привет, мир!&amp;color=success&amp;placement=topRight"/>
+                      /sandbox/websocket/notifications/alert?title=Новое сообщение&amp;text=Привет, мир!&amp;color=success&amp;place=topRight"/>
         </fields>
     </form>
 </simple-page>

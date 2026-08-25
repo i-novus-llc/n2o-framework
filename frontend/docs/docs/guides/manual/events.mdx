@@ -70,7 +70,7 @@ Stomp событие - это событие, которое может быть
         <!-- клиент будет прослушивать данные, полученные по указанному destination -->
         <stomp-event id="notif" destination="/notifications">
             <!-- действие отображения уведомления -->
-            <alert title="Привет, Мир!" text="Текст сообщения" placement="top-right" color="success" timeout="3000"/>
+            <alert title="Привет, Мир!" text="Текст сообщения" place="top-right" color="success" timeout="3000"/>
         </stomp-event>
     </events>
 
@@ -87,7 +87,7 @@ Stomp событие - это событие, которое может быть
         <!-- клиент будет прослушивать данные, полученные по указанному destination -->
         <stomp-event id="notif" destination="/notifications">
             <!-- действие отображения уведомления (атрибуты-ссылки будут прочитаны из пришедших данных) -->
-            <alert title="{header}" text="{body}" placement="{placement}" color="{severity}" timeout="7000"/>
+            <alert title="{header}" text="{body}" place="{place}" color="{severity}" timeout="7000"/>
         </stomp-event>
     </events>
 

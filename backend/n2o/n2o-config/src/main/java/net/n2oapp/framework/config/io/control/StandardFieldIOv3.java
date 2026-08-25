@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraintVali
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
@@ -91,7 +91,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
         p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePositionEnum.class);
-        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacementEnum.class);
+        p.attributeEnum(e, "message-place", t::getMessagePlace, t::setMessagePlace, MessagePlaceEnum.class);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
         p.attributeArray(e, "refresh-datasource", ",", t::getRefreshDatasourceIds, t::setRefreshDatasourceIds);
         p.attribute(e, "route", t::getRoute, t::setRoute);

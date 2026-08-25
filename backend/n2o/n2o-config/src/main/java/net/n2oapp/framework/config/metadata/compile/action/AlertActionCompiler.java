@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -51,8 +51,8 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
 
     private AlertActionPayload initPayload(N2oAlertAction source, CompileProcessor p) {
         AlertActionPayload payload = new AlertActionPayload();
-        payload.setKey(castDefault(p.resolve(source.getPlacement(), MessagePlacementEnum.class),
-                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacementEnum.class)));
+        payload.setKey(castDefault(p.resolve(source.getPlace(), MessagePlaceEnum.class),
+                () -> p.resolve(property("n2o.api.action.alert.place"), MessagePlaceEnum.class)));
         payload.setAlerts(initMessage(source, p));
         return payload;
     }
@@ -71,8 +71,8 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
                 () -> p.resolve(property("n2o.api.action.alert.color"), String.class)));
         message.setCloseButton(castDefault(source.getCloseButton(),
                 () -> p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
-        message.setPlacement(castDefault(p.resolve(source.getPlacement(), MessagePlacementEnum.class),
-                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacementEnum.class)));
+        message.setPlacement(castDefault(p.resolve(source.getPlace(), MessagePlaceEnum.class),
+                () -> p.resolve(property("n2o.api.action.alert.place"), MessagePlaceEnum.class)));
         message.setTimeout(castDefault(p.resolve(source.getTimeout(), Integer.class),
                 () -> p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getSeverity())), Integer.class)));
         message.setTime(initTimeStamp(source));

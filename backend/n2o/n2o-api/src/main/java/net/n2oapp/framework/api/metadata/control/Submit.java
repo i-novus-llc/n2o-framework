@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 
 @Getter
@@ -15,7 +15,7 @@ public class Submit implements Source {
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
     private MessagePositionEnum messagePosition;
-    private MessagePlacementEnum messagePlacement;
+    private MessagePlaceEnum messagePlace;
     private String messageWidgetId;
     private String route;
     private N2oParam[] pathParams;

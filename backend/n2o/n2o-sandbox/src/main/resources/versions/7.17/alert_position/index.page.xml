@@ -8,7 +8,7 @@
                     <invoke operation-id="save" message-position="relative"/>
                 </button>
                 <button label="Ошибка валидации" disable-on-empty-model="false">
-                    <invoke operation-id="validate" message-placement="bottom"/>
+                    <invoke operation-id="validate" message-place="bottom"/>
                 </button>
             </group>
             <group>

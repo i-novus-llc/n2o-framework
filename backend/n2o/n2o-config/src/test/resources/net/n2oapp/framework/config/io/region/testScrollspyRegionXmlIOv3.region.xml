@@ -5,7 +5,7 @@
            src="ScrollSpy"
            active="mi1"
            title="regionTitle"
-           placement="right"
+           place="right"
            headlines="true"
            active-param="item"
            routable="false"

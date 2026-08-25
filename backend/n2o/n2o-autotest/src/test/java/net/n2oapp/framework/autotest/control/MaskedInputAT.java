@@ -5,7 +5,6 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -97,12 +96,12 @@ class MaskedInputAT extends AutoTestBase {
         mask.setValue("12-12");
         mask.shouldHaveValue("12-12");
         saveButton.click();
-        simplePage.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        simplePage.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         mask.shouldHaveInvalidText(Condition.empty);
 
         mask.setValue("00");
         saveButton.click();
-        simplePage.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
+        simplePage.alerts(Alert.PlaceEnum.TOP).alert(0).shouldNotExists();
         mask.shouldHaveInvalidText(Condition.text("Невалидный формат данных"));
         mask.shouldHaveValue("00");
     }

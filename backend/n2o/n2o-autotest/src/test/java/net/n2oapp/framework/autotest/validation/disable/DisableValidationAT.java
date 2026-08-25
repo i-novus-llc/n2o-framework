@@ -68,14 +68,14 @@ class DisableValidationAT extends AutoTestBase {
         field2.shouldHaveValidationMessage(Condition.text("Значение не должно быть пустым"));
 
         toolbar.button("Сохранить без валидации").click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
 
         field1.control(InputText.class).setValue("любой текст");
         field2.control(InputText.class).setValue("любой текст");
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
         validateBtn.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Готово");
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText("Готово");
 
         /// set-value
         InputText value = fields.field("value").control(InputText.class);

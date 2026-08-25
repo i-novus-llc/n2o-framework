@@ -13,7 +13,7 @@ public interface Alerts extends ComponentsCollection {
      * </p>
      *
      * <p>For example: {@code
-     *    alerts(Alert.PlacementEnum.topLeft).alert(0);
+     *    alerts(Alert.PlaceEnum.topLeft).alert(0);
      * }</p>
      *
      * @param index номер требуемого предупреждения

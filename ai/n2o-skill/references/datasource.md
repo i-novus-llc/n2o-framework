@@ -27,7 +27,7 @@ Body: `<filters>`, `<submit>`, `<dependencies>`
 | message-on-success | boolean | Show message on success | false |
 | message-on-fail | boolean | Show message on fail | false |
 | message-position | fixed / relative | Message position | |
-| message-placement | top / bottom / topLeft / topRight / bottomLeft / bottomRight | Message placement | |
+| message-place | top / bottom / topLeft / topRight / bottomLeft / bottomRight | Message placement | |
 | message-widget-id | String | Widget ID for relative message | |
 | submit-all | boolean | Submit entire form or only form-param fields | true |
 
@@ -216,7 +216,7 @@ Body: `<submit>`, `<filters>`, `<dependencies>`
 | message-on-success | boolean | Show message on success | false |
 | message-on-fail | boolean | Show message on fail | false |
 | message-position | fixed / relative | Message position | |
-| message-placement | top / bottom / topLeft / topRight / bottomLeft / bottomRight | Message placement | |
+| message-place | top / bottom / topLeft / topRight / bottomLeft / bottomRight | Message placement | |
 | message-widget-id | String | Widget ID for relative message | |
 | submit-all | boolean | Submit entire form or only form-param fields | true |
 | clear-cache-after-submit | boolean | Clear cache after submit | false |

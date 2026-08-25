@@ -34,9 +34,9 @@ public interface Drawer extends Component {
     /**
      * Проверка соответствия положения окна
      *
-     * @param placement ожидаемое положение окна
+     * @param place ожидаемое положение окна
      */
-    void shouldHavePlacement(PlacementEnum placement);
+    void shouldHavePlace(PlaceEnum place);
 
     /**
      * Проверка соответствия ширины выезжаемого окна
@@ -98,7 +98,7 @@ public interface Drawer extends Component {
     void shouldNotHaveBackgroundColor();
 
 
-    enum PlacementEnum {
+    enum PlaceEnum {
         LEFT,
         TOP,
         BOTTOM,

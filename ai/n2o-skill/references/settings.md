@@ -76,7 +76,7 @@ n2o.api.action.show_modal.has_header=true
 n2o.api.action.show_modal.scrollbar=false
 n2o.api.action.show_modal.overlay=true
 n2o.api.action.open_drawer.width=
-n2o.api.action.open_drawer.placement=right
+n2o.api.action.open_drawer.place=right
 n2o.api.action.open_drawer.closable=true
 ```
 
@@ -128,7 +128,7 @@ n2o.api.data.graphql.endpoint=/graphql
 ## UI / Frontend Settings
 ```properties
 n2o.ui.message.position=topRight
-n2o.ui.message.placement=top
+n2o.ui.message.place=top
 n2o.ui.header.fixed=false
 n2o.ui.sidebar.fixed=false
 n2o.ui.breadcrumbs.max-count=3

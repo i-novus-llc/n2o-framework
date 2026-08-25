@@ -19,7 +19,7 @@
             <submit operation-id="update"
                     message-on-success="true"
                     message-on-fail="true"
-                    message-placement="bottom"
+                    message-place="bottom"
                     message-position="fixed"/>
         </datasource>
 

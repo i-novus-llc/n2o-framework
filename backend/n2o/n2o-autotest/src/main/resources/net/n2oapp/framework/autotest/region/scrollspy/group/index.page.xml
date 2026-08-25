@@ -6,7 +6,7 @@
                 id="r1"
                 title="Меню"
                 headlines="true"
-                placement="left"
+                place="left"
                 max-height="500">
             <group title="Первая группа" headline="false">
                 <menu-item id="mi1" title="Личные данные">

@@ -70,12 +70,12 @@ class EmailFieldAT extends AutoTestBase {
         emailField.setValue("test@gmail.com");
         emailField.shouldHaveValue("test@gmail.com");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         emailField.shouldHaveInvalidText(Condition.empty);
 
         emailField.setValue("invalid.com");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldNotExists();
         emailField.shouldHaveInvalidText(Condition.text("Невалидный почтовый адрес"));
         emailField.shouldHaveValue("invalid.com");
 

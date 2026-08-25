@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.LoadingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 
@@ -61,7 +61,7 @@ public class N2oClientDataProvider implements Serializable {
         private boolean callValidation;
         private String messagesForm;
         private MessagePositionEnum messagePosition;
-        private MessagePlacementEnum messagePlacement;
+        private MessagePlaceEnum messagePlace;
     }
 }
 

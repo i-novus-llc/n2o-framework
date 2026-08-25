@@ -70,12 +70,12 @@ class SnilsFieldAT extends AutoTestBase {
         snilsField.setValue("424-225-277 48");
         snilsField.shouldHaveValue("424-225-277 48");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         snilsField.shouldHaveInvalidText(Condition.empty);
 
         snilsField.setValue("123");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldNotExists();
         snilsField.shouldHaveInvalidText(Condition.text("Невалидный формат данных СНИЛС"));
         snilsField.shouldHaveValue("123");
 

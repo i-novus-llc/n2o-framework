@@ -66,7 +66,7 @@
                       submit="true" apply-on-init="true"/>
             </dependencies>
             <submit operation-id="create" route="/test" message-position="fixed"
-                    message-placement="top" message-on-fail="true" message-on-success="true"
+                    message-place="top" message-on-fail="true" message-on-success="true"
                     message-widget-id="w1" refresh-on-success="true" refresh-datasources="ds2" submit-all="true"/>
             <filters>
                 <eq field-id="test" datasource="ds1" model="datasource" value="{id}" param="param" required="true"
@@ -90,7 +90,7 @@
             </filters>
             <submit operation-id="update" refresh-datasources="ds1" message-position="fixed" refresh-on-success="true"
                     message-on-fail="true" submit-all="true" route="/test" clear-cache-after-submit="true"
-                    message-widget-id="w1" message-placement="bottom" message-on-success="true"/>
+                    message-widget-id="w1" message-place="bottom" message-on-success="true"/>
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>

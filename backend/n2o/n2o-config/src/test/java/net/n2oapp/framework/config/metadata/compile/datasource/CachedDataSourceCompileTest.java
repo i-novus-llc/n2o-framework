@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -72,7 +72,7 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(false));
         assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
-        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.TOP));
+        assertThat(opCtx.getMessagePlacement(), is(MessagePlaceEnum.TOP));
         ModelLink link = new ModelLink(ReduxModelEnum.RESOLVE, "testCachedDatasource_ds1");
         link.setValue("`id`");
         assertThat(datasource.getSubmit().getFormMapping(), hasEntry("id", link));

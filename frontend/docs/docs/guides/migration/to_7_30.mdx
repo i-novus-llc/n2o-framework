@@ -8,11 +8,12 @@ description: ""
 ### Изменения в XML API {#changes-xml-api}
 
 - Атрибут `model` действия `<clear>` был переименован в `models`.
+- Атрибут `placement` компонентов `<alert>`, `<open-drawer>`, `<scrollspy>` был переименован в `place` для обеспечения единообразия.
+- Атрибут `message-placement` компонентов `<invoke>`, `<submit>` был переименован в `message-place`.
 - Удален компонент `<calendar>`.
 - Удалены компоненты `<left-right-page>` и `<top-left-right-page>`.
 - Удален элемент `<set>` из объекта `<object>`.
 - Удален атрибут `close-on-backdrop` в `<open-drawer>`. Вместо него предлагается использовать атрибут `backdrop`.
-  Настройка "n2o.api.action.open_drawer.backdrop" изменила значение по умолчанию на `static`.
 - Удален атрибут `validation-fail-key` из полей объектов.
 - Удален атрибут `tags` из поля `<auto-complete>`. Отображение элементов в виде тегов становится базовым поведением.
 - Удален способ передачи в open-page `:key` прим. `<path-param name="id" value=":id"/>`
@@ -157,7 +158,7 @@ description: ""
 
 ### Изменения маршрутизации {#changes-routing}
 
-Изменилась логика построения url перехода по ссылке в элементах где имеется атрибут `url` или `href`
+Изменилась логика построения url перехода по ссылке в элементах, где имеется атрибут `url` или `href`
 (например `<a>`, `<link>`, `<alert>`, `<print>`, `<image>`, `<html>`).
 Ранее, если на странице с **url="/page1"** в атрибуте было указано **href="./open"**, то страница открывалась по ссылке **/page1/open**.
 Теперь же относительные пути будут работать по общепринятым мировым стандартам и страница будет открываться по ссылке **/open**.
@@ -203,3 +204,11 @@ description: ""
 Ранее JS выражения в XML файлах исполнялись движком Nashorn, который поддерживал только стандарт ES5.
 Начиная с версии 7.30 используется GraalJS с поддержкой **ECMAScript 2020**.
 С его возможностями можете ознакомиться в [официальной документации](https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/).
+
+### Изменения в настройках {#changes-settings}
+
+- Настройка "n2o.api.action.open_drawer.backdrop" изменила значение по умолчанию на `static`.
+- Настройка "n2o.api.region.scrollspy.placement" переименована в "n2o.api.region.scrollspy.place".
+- Настройка "n2o.api.message.placement" переименована в "n2o.api.message.place".
+- Настройка "n2o.api.action.alert.placement" переименована в "n2o.api.action.alert.place".
+- Настройка "n2o.api.action.open_drawer.placement" переименована в "n2o.api.action.open_drawer.place".

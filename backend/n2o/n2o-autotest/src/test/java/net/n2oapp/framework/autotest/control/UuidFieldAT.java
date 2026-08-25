@@ -71,12 +71,12 @@ class UuidFieldAT extends AutoTestBase {
         uuidField.setValue("dfd11111-1111-1111-8111-111111111111");
         uuidField.shouldHaveValue("dfd11111-1111-1111-8111-111111111111");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         uuidField.shouldHaveInvalidText(Condition.empty);
 
         uuidField.setValue("123");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
+        page.alerts(Alert.PlaceEnum.TOP).alert(0).shouldNotExists();
         uuidField.shouldHaveInvalidText(Condition.text("Невалидный формат UUID"));
         uuidField.shouldHaveValue("123");
 

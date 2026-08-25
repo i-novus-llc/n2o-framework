@@ -85,7 +85,7 @@ Settings: `n2o.api.region.tabs.always_refresh=false`, `n2o.api.region.tabs.lazy=
 |---|---|---|---|
 | active | String | Default active item | |
 | title | String | Menu heading | |
-| placement | left / right | Side on which the menu is placed | left |
+| place | left / right | Side on which the menu is placed | left |
 | headlines | boolean | Whether to show a separator line between blocks | false |
 | max-height | String (px) | Maximum height of region content | |
 | routable | boolean | Restore active items from URL | true |
@@ -101,7 +101,7 @@ Body: `<menu-item>`, `<sub-menu>`, and `<group>` elements, each containing widge
 | headline | boolean | Whether to show a separator line | false |
 
 ```xml
-<scrollspy title="Navigation" placement="left">
+<scrollspy title="Navigation" place="left">
     <menu-item id="s1" title="Section 1"><form/></menu-item>
     <sub-menu id="s2" title="Section 2">
         <menu-item id="s2a" title="Sub A"><table/></menu-item>

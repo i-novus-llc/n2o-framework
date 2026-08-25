@@ -21,7 +21,7 @@
                 <column text-field-id="toolbar">
                     <toolbar>
                        <button label="Кнопка">
-                           <alert title="alert" placement="topLeft"/>
+                           <alert title="alert" place="topLeft"/>
                        </button>
                     </toolbar>
                 </column>

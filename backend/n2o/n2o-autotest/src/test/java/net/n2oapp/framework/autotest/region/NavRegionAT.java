@@ -106,7 +106,7 @@ class NavRegionAT extends AutoTestBase {
         NavRegion.NavRegionItem menuItem = nav.content().item(0, NavRegion.NavRegionItem.class);
         menuItem.shouldHaveLabel("Главная");
         menuItem.click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText("home");
         alert.closeButton();
 
@@ -216,7 +216,7 @@ class NavRegionAT extends AutoTestBase {
         groupDropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Безопасность");
         groupDropdownItem.item(0, NavRegion.NavRegionItem.class).click();
         groupDropdownItem.shouldBeClosed();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        Alert alert = page.alerts(Alert.PlaceEnum.TOP).alert(0);
         alert.shouldHaveText("security");
         alert.closeButton();
 

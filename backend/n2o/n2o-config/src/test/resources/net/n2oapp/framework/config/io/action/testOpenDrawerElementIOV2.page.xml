@@ -7,7 +7,7 @@
                          refresh-datasources="testWidget" refresh-on-close="true"
                          submit-model="resolve"
                          closable="false" width="10pt"
-                         height="20pt" placement="left"
+                         height="20pt" place="left"
                          backdrop="true"
                          copy-model="edit" copy-datasource="table" copy-field-id="test"
                          submit-action-type="copy" copy-mode="replace" close-on-escape="false"

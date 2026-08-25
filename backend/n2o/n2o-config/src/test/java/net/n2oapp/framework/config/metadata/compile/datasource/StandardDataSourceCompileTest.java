@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.DependencyTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -160,7 +160,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
-        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.TOP));
+        assertThat(opCtx.getMessagePlacement(), is(MessagePlaceEnum.TOP));
 
         //        with form-param
         ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds2");
@@ -177,7 +177,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
-        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.BOTTOM));
+        assertThat(opCtx.getMessagePlacement(), is(MessagePlaceEnum.BOTTOM));
 
         //        with path-param
         ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds4");

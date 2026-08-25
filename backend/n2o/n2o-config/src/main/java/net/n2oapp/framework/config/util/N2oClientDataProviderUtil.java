@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -116,8 +116,8 @@ public class N2oClientDataProviderUtil {
         actionContextData.setMessageOnFail(castDefault(submit.getMessageOnFail(), false));
         actionContextData.setMessagePosition(castDefault(submit.getMessagePosition(),
                 () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
-        actionContextData.setMessagePlacement(castDefault(submit.getMessagePlacement(),
-                () -> p.resolve(property("n2o.api.message.placement"), MessagePlacementEnum.class)));
+        actionContextData.setMessagePlace(castDefault(submit.getMessagePlace(),
+                () -> p.resolve(property("n2o.api.message.place"), MessagePlaceEnum.class)));
         actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
