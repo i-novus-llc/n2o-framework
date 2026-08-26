@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Transactional
 public class MyService {
@@ -21,7 +23,8 @@ public class MyService {
     }
 
     public Person getOne(Integer id) {
-        return repository.findById(Long.valueOf(id)).get();
+        return repository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new NoSuchElementException("Person not found with id: " + id));
     }
 
     public Integer getCount(Criteria criteria) {
@@ -33,7 +36,8 @@ public class MyService {
     }
 
     public Person update(Person in) {
-        Person p = repository.findById(in.getId()).get();
+        Person p = repository.findById(in.getId())
+                .orElseThrow(() -> new NoSuchElementException("Person not found with id: " + in.getId()));
         p.setFirstName(in.getFirstName());
         p.setLastName(in.getLastName());
         repository.save(p);
