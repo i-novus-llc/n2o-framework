@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.util.RefUtil;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Утилиты для работы с динамическими метаданными
@@ -66,7 +65,7 @@ public abstract class DynamicUtil {
 
     public static String reduceTokens(String metadataId, String... tokens) {
         if (tokens != null && tokens.length > 0) {
-            return metadataId + "$" + Stream.of(tokens).reduce((a, b) -> a + "," + b).get();
+            return metadataId + "$" + String.join(",", tokens);
         }
         return metadataId;
     }
