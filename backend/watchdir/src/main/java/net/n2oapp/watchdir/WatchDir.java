@@ -112,6 +112,7 @@ public class WatchDir {
             //Here must pause, so that the thread to take a changes
             Thread.sleep(50);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new WatchDirException(e.getMessage(), e);
         }
         synchronized (skips) {
@@ -260,13 +261,14 @@ public class WatchDir {
     }
 
     private WatchKey getWatchKey() {
-        WatchKey key;
         try {
-            key = watcher.take();
-        } catch (InterruptedException | ClosedWatchServiceException x) {
+            return watcher.take();
+        } catch (InterruptedException x) {
+            Thread.currentThread().interrupt();
+            return null;
+        } catch (ClosedWatchServiceException x) {
             return null;
         }
-        return key;
     }
 
     private void handleEvent(WatchEvent<?> event, Path child) {
@@ -341,4 +343,3 @@ public class WatchDir {
         }
     }
 }
-

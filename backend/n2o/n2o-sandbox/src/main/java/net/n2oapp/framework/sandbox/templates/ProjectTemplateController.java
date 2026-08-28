@@ -88,9 +88,17 @@ public class ProjectTemplateController {
             }
             logger.info("Send response with {} projects", response.getProjects().size());
             return response;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw diffFailure(oldTag, newTag, e);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to compute changed packages between tags '" + oldTag + "' and '" + newTag + "'", e);
+            throw diffFailure(oldTag, newTag, e);
         }
+    }
+
+    private static IllegalStateException diffFailure(String oldTag, String newTag, Exception e) {
+        return new IllegalStateException(
+                "Failed to compute changed packages between tags '" + oldTag + "' and '" + newTag + "'", e);
     }
 
     private Map<String, ProjectModel> getAllProjects() {
