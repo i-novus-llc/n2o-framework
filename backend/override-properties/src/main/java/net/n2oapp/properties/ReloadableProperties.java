@@ -12,9 +12,10 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
-
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * ReloadableProperties reads values from .properties file every {@link #cacheTime} seconds
@@ -27,24 +28,20 @@ public class ReloadableProperties extends OverrideProperties {
     private volatile long timeStamp = Long.MIN_VALUE;
     private volatile int cacheTime = 60;
     private volatile boolean exists;
-    private volatile Resource resource;
+    private final transient AtomicReference<Resource> resource = new AtomicReference<>();
     private final Semaphore available = new Semaphore(1);
+    private static final Logger logger = LoggerFactory.getLogger(ReloadableProperties.class);
 
     public ReloadableProperties(URI uri) throws MalformedURLException {
-        this.resource = new UrlResource(uri);
+        this.resource.set(new UrlResource(uri));
     }
 
     public ReloadableProperties(Resource resource) {
-        this.resource = resource;
+        this.resource.set(resource);
     }
-
 
     public ReloadableProperties() {
     }
-
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
 
     @Override
     public Set<String> stringPropertyNames() {
@@ -103,39 +100,51 @@ public class ReloadableProperties extends OverrideProperties {
     }
 
     private synchronized void load() {
-        if (resource == null)
+        Resource res = resource.get();
+        if (res == null)
             return;
         if (isExpired())
             clear();
-        try (InputStream resourceAsStream = resource.getInputStream()) {
+        try (InputStream resourceAsStream = res.getInputStream()) {
             available.acquire();
             load(resourceAsStream);
             exists = true;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            onLoadFailure();
         } catch (Exception e) {
-            timeStamp = System.currentTimeMillis();
-            exists = false;
-            //ситуация не является особо ошибочной, т.к. файла по этому пути может и не быть
-            logger.debug(String.format("error while trying reload properties from [%s]", resource.toString()));
+            onLoadFailure();
         } finally {
             available.release();
         }
+    }
+
+    private void onLoadFailure() {
+        timeStamp = System.currentTimeMillis();
+        exists = false;
+        logger.debug("error while trying reload properties from [{}]", resource.get());
     }
 
     public void updateProperty(Object key, Object value) {
         try {
             available.acquire();
             put(key, value);
-            PropertiesRewriter.updateProperty(resource, key, value);
-        } catch (InterruptedException | IOException e) {
-            exists = false;
-            if (key == null) key = "null";
-            if (value == null) value = "null";
-            logger.debug(String.format("error while trying update property (key: %s, value: %s) from [%s]",
-                    key.toString(), value.toString(), resource.toString()));
-            throw new IllegalStateException(e);
+            PropertiesRewriter.updateProperty(resource.get(), key, value);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw onUpdateFailure(key, value, e);
+        } catch (IOException e) {
+            throw onUpdateFailure(key, value, e);
         } finally {
             available.release();
         }
+    }
+
+    private IllegalStateException onUpdateFailure(Object key, Object value, Exception e) {
+        exists = false;
+        logger.debug("error while trying update property (key: {}, value: {}) from [{}]",
+                key, value, resource.get());
+        return new IllegalStateException(e);
     }
 
     public void removeProperty(Object key) {
@@ -143,17 +152,23 @@ public class ReloadableProperties extends OverrideProperties {
             available.acquire();
             if (containsKey(key)) {
                 remove(key);
-                PropertiesRewriter.removeProperty(resource, key);
+                PropertiesRewriter.removeProperty(resource.get(), key);
             }
-        } catch (InterruptedException | IOException e) {
-            exists = false;
-            if (key == null) key = "null";
-            logger.debug(String.format("error while trying remove property (key: %s) from [%s]",
-                    key.toString(), resource.toString()));
-            throw new IllegalStateException(e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw onRemoveFailure(key, e);
+        } catch (IOException e) {
+            throw onRemoveFailure(key, e);
         } finally {
             available.release();
         }
+    }
+
+    private IllegalStateException onRemoveFailure(Object key, Exception e) {
+        exists = false;
+        logger.debug("error while trying remove property (key: {}) from [{}]",
+                key, resource.get());
+        return new IllegalStateException(e);
     }
 
     public boolean isExists() {
@@ -162,7 +177,7 @@ public class ReloadableProperties extends OverrideProperties {
 
     public boolean isExpired() {
         long currentTime = System.currentTimeMillis();
-        long cacheTimeLong = (long) cacheTime * 1000;
+        long cacheTimeLong = (long) cacheTime * 1000L;
         return (timeStamp + cacheTimeLong) < currentTime;
     }
 
@@ -194,10 +209,25 @@ public class ReloadableProperties extends OverrideProperties {
     }
 
     public Resource getResource() {
-        return resource;
+        return resource.get();
     }
 
     public void setResource(Resource resource) {
-        this.resource = resource;
+        this.resource.set(resource);
+    }
+
+    @Override
+    public synchronized boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReloadableProperties that = (ReloadableProperties) o;
+        return super.equals(o) &&
+                cacheTime == that.cacheTime &&
+                Objects.equals(resource.get(), that.resource.get());
+    }
+
+    @Override
+    public synchronized int hashCode() {
+        return Objects.hash(super.hashCode(), cacheTime, resource.get());
     }
 }
