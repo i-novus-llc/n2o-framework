@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.multiform;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.action.MergeModeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
@@ -31,8 +32,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class MultiFormCompileTest extends SourceCompileTestBase {
 
@@ -62,23 +65,28 @@ class MultiFormCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testMultiFormCompile"));
 
         MultiForm multiForm = (MultiForm) page.getRegions().get("single").getFirst().getContent().get(1);
+
         assertThat(page.getDatasources().get("testMultiFormCompile_ds").getValidations(ReduxModelEnum.RESOLVE).size(), is(0));
         assertThat(page.getDatasources().get("testMultiFormCompile_ds").getValidations(ReduxModelEnum.DATASOURCE).size(), is(1));
         List<Validation> validations = page.getDatasources().get("testMultiFormCompile_ds").getValidations(ReduxModelEnum.DATASOURCE).get("testField");
         assertThat(validations.size(), is(2));
 
-        assertThat(multiForm.getId(), is("testMultiFormCompile_w2"));
-        assertThat(multiForm.getSrc(), is("MultiFormWidget"));
-        assertThat(multiForm.getFetchOnInit(), is(true));
-        assertThat(multiForm.getFetchOnVisibility(), is(true));
-        assertThat(multiForm.getDatasource(), is("testMultiFormCompile_ds"));
+        assertThat(multiForm, allOf(
+                hasProperty("id", is("testMultiFormCompile_w2")),
+                hasProperty("src", is("MultiFormWidget")),
+                hasProperty("fetchOnInit", is(true)),
+                hasProperty("fetchOnVisibility", is(true)),
+                hasProperty("datasource", is("testMultiFormCompile_ds"))
+        ));
 
         FormWidgetComponent formComponent = multiForm.getForm();
-        assertThat(formComponent.getAutoFocus(), is(true));
-        assertThat(formComponent.getPrompt(), is(true));
+        assertThat(formComponent, allOf(
+                hasProperty("autoFocus", is(true)),
+                hasProperty("prompt", is(true))
+        ));
 
         List<FieldSet.Row> rowList = formComponent.getFieldsets().getFirst().getRows();
-        assertThat(rowList.size(), is(17));
+        assertThat(rowList.size(), is(18));
         assertThat(rowList.getFirst().getCols().getFirst().getFields().getFirst().getLabel(), is("Имя"));
         assertThat(rowList.get(1).getCols().getFirst().getFields().getFirst().getLabel(), is("Фамилия"));
 
@@ -88,12 +96,14 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         assertThat(openPageFieldAction.getPathMapping().get("lastName").getLink(),
                 is("models.datasource['testMultiFormCompile_ds'][index]"));
 
-        assertThat(multiForm.getPaging().getNext(), is(true));
-        assertThat(multiForm.getPaging().getPrev(), is(true));
+        assertThat(multiForm.getPaging(), allOf(
+                hasProperty("next", is(true)),
+                hasProperty("prev", is(true))
+        ));
 
         assertThat(multiForm.getToolbar().get("bottomRight"), notNullValue());
         List<AbstractButton> buttons = multiForm.getToolbar().get("bottomRight").getFirst().getButtons();
-        assertThat(buttons.size(), is(16));
+        assertThat(buttons.size(), is(17));
 
         AbstractButton openButton = buttons.getFirst();
         assertThat(openButton.getLabel(), is("Открыть"));
@@ -112,9 +122,11 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         assertThat(userCondition.getExpression(), is("firstName != null"));
 
         AbstractButton actionButton = buttons.get(1);
-        assertThat(actionButton.getLabel(), is("Кнопка с action"));
-        assertThat(actionButton.getIcon(), is("fa fa-plus"));
-        assertThat(actionButton.getId(), is("action1_5"));
+        assertThat(actionButton, allOf(
+                hasProperty("label", is("Кнопка с action")),
+                hasProperty("icon", is("fa fa-plus")),
+                hasProperty("id", is("action1_5"))
+        ));
 
         AbstractButton secondOpenButton = buttons.get(3);
         List<Condition> conditions = secondOpenButton.getConditions().get(ValidationTypeEnum.ENABLED);
@@ -131,13 +143,17 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         // кнопка с confirm внутри fields: model=datasource, field=[index]
         ButtonField confirmFieldButton = (ButtonField) rowList.get(3).getCols().getFirst().getFields().getFirst();
         ConfirmAction confirmFieldAction = (ConfirmAction) confirmFieldButton.getAction();
-        assertThat(confirmFieldAction.getPayload().getModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(confirmFieldAction.getPayload().getField(), is("[index]"));
+        assertThat(confirmFieldAction.getPayload(), allOf(
+                hasProperty("model", is(ReduxModelEnum.DATASOURCE)),
+                hasProperty("field", is("[index]"))
+        ));
 
         // кнопка с confirm в toolbar: model=datasource, field=null
         ConfirmAction confirmToolbarAction = (ConfirmAction) buttons.get(2).getAction();
-        assertThat(confirmToolbarAction.getPayload().getModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(confirmToolbarAction.getPayload().getField(), nullValue());
+        assertThat(confirmToolbarAction.getPayload(), allOf(
+                hasProperty("model", is(ReduxModelEnum.DATASOURCE)),
+                hasProperty("field", nullValue())
+        ));
 
         // кнопка с alert внутри fields: modelLink содержит [index]
         ButtonField alertFieldButton = (ButtonField) rowList.get(6).getCols().getFirst().getFields().getFirst();
@@ -164,6 +180,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         CopyAction copyFieldAction = (CopyAction) copyFieldButton.getAction();
         assertThat(copyFieldAction.getPayload().getSource().getField(), is("[index].firstName"));
         assertThat(copyFieldAction.getPayload().getTarget().getField(), is("[index].lastName"));
+
         // кнопка с copy (во внешнюю форму) внутри fields: sourceFieldId содержит [index], targetFieldId - null .
         copyFieldButton = (ButtonField) rowList.get(9).getCols().getFirst().getFields().getFirst();
         copyFieldAction = (CopyAction) copyFieldButton.getAction();
@@ -174,6 +191,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         CopyAction copyToolbarAction = (CopyAction) buttons.get(7).getAction();
         assertThat(copyToolbarAction.getPayload().getSource().getField(), is("firstName"));
         assertThat(copyToolbarAction.getPayload().getTarget().getField(), is("lastName"));
+
         // кнопка с copy (во внешнюю форму) в toolbar: sourceFieldId и targetFieldId - null
         copyToolbarAction = (CopyAction) buttons.get(8).getAction();
         assertThat(copyToolbarAction.getPayload().getSource().getField(), nullValue());
@@ -203,6 +221,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         ButtonField setValueFieldButton = (ButtonField) rowList.get(12).getCols().getFirst().getFields().getFirst();
         SetValueAction setValueFieldAction = (SetValueAction) setValueFieldButton.getAction();
         assertThat(setValueFieldAction.getPayload().getTarget().getField(), is("[index].lastName"));
+
         // кнопка с set-value (во внешнюю форму) внутри fields: target.field - null
         setValueFieldButton = (ButtonField) rowList.get(13).getCols().getFirst().getFields().getFirst();
         setValueFieldAction = (SetValueAction) setValueFieldButton.getAction();
@@ -211,6 +230,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         // кнопка с set-value в toolbar: target.field без [index]
         SetValueAction setValueToolbarAction = (SetValueAction) buttons.get(11).getAction();
         assertThat(setValueToolbarAction.getPayload().getTarget().getField(), is("lastName"));
+
         // кнопка с set-value (во внешнюю форму) в toolbar: target.field - null
         setValueToolbarAction = (SetValueAction) buttons.get(12).getAction();
         assertThat(setValueToolbarAction.getPayload().getTarget().getField(), nullValue());
@@ -241,5 +261,28 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         // кнопка с validate в toolbar: field=null
         ValidateAction validateToolbarAction = (ValidateAction) buttons.get(15).getAction();
         assertThat(validateToolbarAction.getPayload().getField(), nullValue());
+
+        // кнопка fillFromName внутри fields
+        ButtonField buttonField = (ButtonField) rowList.get(17).getCols().getFirst().getFields().getFirst();
+        SetValueAction setValueAction = (SetValueAction) buttonField.getAction();
+        assertThat(setValueAction.getPayload(), allOf(
+                hasProperty("source", hasProperty("field", is("[index]"))),
+                hasProperty("source", hasProperty("prefix", is(ReduxModelEnum.DATASOURCE.getId()))),
+                hasProperty("target", hasProperty("field", is("[index].name2"))),
+                hasProperty("target", hasProperty("prefix", is(ReduxModelEnum.DATASOURCE.getId()))),
+                hasProperty("sourceMapper", is("(function(){return name}).call(this)")),
+                hasProperty("mode", is(MergeModeEnum.REPLACE))
+        ));
+
+        // кнопка fillFromName в toolbar
+        setValueAction = (SetValueAction) buttons.get(16).getAction();
+        assertThat(setValueAction.getPayload(), allOf(
+                hasProperty("source", hasProperty("field", nullValue())),
+                hasProperty("source", hasProperty("prefix", is(ReduxModelEnum.DATASOURCE.getId()))),
+                hasProperty("target", hasProperty("field", is("name2"))),
+                hasProperty("target", hasProperty("prefix", is(ReduxModelEnum.DATASOURCE.getId()))),
+                hasProperty("sourceMapper", is("(function(){return name}).call(this)")),
+                hasProperty("mode", is(MergeModeEnum.REPLACE))
+        ));
     }
 }

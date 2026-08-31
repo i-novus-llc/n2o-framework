@@ -74,8 +74,6 @@ public class ModelLinkUtil {
         MultiFormScope multiFormScope = p.getScope(MultiFormScope.class);
 
         String prefix = getField(p);
-        if (multiFormScope != null && multiFormScope.isInner())
-            prefix = INDEX;
 
         if (prefix == null || multiFormScope == null || !datasourceId.equals(multiFormScope.getDatasourceId()))
             return fieldId;
@@ -85,6 +83,14 @@ public class ModelLinkUtil {
                 return fieldId;
             else
                 return prefix.concat(".").concat(fieldId);
+        }
+        return null;
+    }
+
+    public static String getField(String datasourceId, CompileProcessor p) {
+        MultiFormScope multiFormScope = p.getScope(MultiFormScope.class);
+        if (multiFormScope != null && multiFormScope.isInner() && datasourceId.equals(multiFormScope.getDatasourceId())) {
+            return INDEX;
         }
         return null;
     }

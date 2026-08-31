@@ -45,6 +45,9 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         String clientSourceDatasourceId = getClientDatasourceId(sourceDatasourceId, p);
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(clientSourceDatasourceId,
                 castDefault(source.getSourceModel(), model.getId()));
+        if (source.getTo() != null)
+            sourceModel.setField(ModelLinkUtil.getField(sourceDatasourceId, p));
+
         String clientTargetDatasourceId = getClientDatasourceId(targetDatasourceId, p);
         if (clientTargetDatasourceId == null) {
             throw new N2oException("В действии \"<set-value>\" не задан атрибут 'target-datasource'");

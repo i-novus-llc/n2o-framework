@@ -74,6 +74,9 @@
                 <button label="Validate">
                     <validate/>
                 </button>
+                <button id="fillFromName" label="Заполнить из названия">
+                    <set-value to="name2">return name</set-value>
+                </button>
             </fields>
             <toolbar place="bottomRight">
                 <group>
@@ -128,6 +131,9 @@
                     </button>
                     <button label="Кнопка с validate">
                         <validate/>
+                    </button>
+                    <button id="fillFromName" label="Заполнить из названия">
+                        <set-value to="name2">return name</set-value>
                     </button>
                 </group>
             </toolbar>
