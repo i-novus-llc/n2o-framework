@@ -33,7 +33,7 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
     @Override
     public ImageField compile(N2oImageField source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageField imageField = new ImageField();
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(imageField, source, context, p);
         imageField.setData(castDefault(p.resolveJS(source.getData()),
                 () -> StringUtils.hasLink(source.getUrl())

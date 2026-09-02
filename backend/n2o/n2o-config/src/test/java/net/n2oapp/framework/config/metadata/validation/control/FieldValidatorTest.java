@@ -80,7 +80,7 @@ class FieldValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testDefaultValue() {
-        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValue.widget.xml");
+        validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValue.page.xml");
     }
 
     /**

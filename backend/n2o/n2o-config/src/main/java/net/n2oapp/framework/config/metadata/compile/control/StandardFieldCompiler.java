@@ -27,7 +27,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 public abstract class StandardFieldCompiler<D extends Control, S extends N2oStandardField> extends FieldCompiler<StandardField<D>, S> {
 
     protected StandardField<D> compileStandardField(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         if (isNull(control.getSrc()))
             control.setSrc(source.getSrc());
         source.setSrc(null);
@@ -39,7 +39,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         initValidations(source, field, context, p);
         compileFilters(source, p);
         compileCopied(source, p);
-        compileControl(control, source, p, field, context);
+        compileControl(control, source, p, field);
         control.setProperties(field.getProperties());
         field.setProperties(null); //для StandardField properties должны попасть в control, а не field
         field.setDataProvider(initDataProvider(source, context, p));
@@ -47,7 +47,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         return field;
     }
 
-    protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field, CompileContext<?, ?> context) {
+    protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field) {
         String src = castDefault(
                 control.getSrc(),
                 () -> p.resolve(Placeholders.property(getControlSrcProperty()), String.class)
@@ -58,7 +58,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         control.setId(source.getId());
         control.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         control.setClassName(p.resolveJS(source.getCssClass()));
-        compileDefaultValues(field, source, context, p);
+        compileDefaultValues(field, source, p);
     }
 
     @Override

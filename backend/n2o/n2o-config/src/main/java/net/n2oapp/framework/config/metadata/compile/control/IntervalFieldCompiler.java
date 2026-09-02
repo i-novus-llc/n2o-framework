@@ -26,7 +26,7 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField
     public IntervalField<C> compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
 
         IntervalField<C> field = new IntervalField<>();
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(field, source, context, p);
         field.setClassName(null);//для IntervalField className должен попасть в control, а не field
         initValidations(source, field, context, p);

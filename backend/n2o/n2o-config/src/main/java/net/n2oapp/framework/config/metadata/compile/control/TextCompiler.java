@@ -25,7 +25,7 @@ public class TextCompiler extends FieldCompiler<Text, N2oText> {
         if (source.getContent() != null)
             text.setContent(p.resolveJS(source.getContent().trim()));
         text.setFormat(source.getFormat());
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(text, source, context, p);
 
         return text;

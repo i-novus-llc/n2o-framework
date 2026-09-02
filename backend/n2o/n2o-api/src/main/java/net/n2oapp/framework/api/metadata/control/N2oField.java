@@ -38,7 +38,6 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     private String defaultValue;
     private String param;
     private ReduxModelEnum refModel;
-    private PageRefEnum refPage;
     private String refDatasourceId;
     private String refFieldId;
 

@@ -1,19 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Значение по умолчанию через ссылку на данные">
-    <form>
-        <fields>
-            <output-text id="person.id"
-                         default-value="{id}"
-                         ref-datasource="persons"
-                         ref-model="resolve"
-                         ref-page="parent"/>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Значение по умолчанию через ссылку на данные">
+    <datasources>
+        <parent-datasource id="ds"/>
+    </datasources>
+    <regions>
+        <form>
+            <fields>
+                <output-text id="person.id"
+                             default-value="{id}"
+                             ref-datasource="ds"
+                             ref-model="resolve"/>
 
-            <input-text id="personname"
-                        default-value="{name}"
-                        ref-datasource="persons"
-                        ref-model="resolve"
-                        ref-page="parent"/>
-        </fields>
-    </form>
-</simple-page>
+                <input-text id="personname"
+                            default-value="{name}"
+                            ref-datasource="ds"
+                            ref-model="resolve"/>
+            </fields>
+        </form>
+    </regions>
+</page>

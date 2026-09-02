@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -35,7 +34,6 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.MultiFieldSetScope;
@@ -67,7 +65,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return "n2o.api.field.src";
     }
 
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaults(S source, CompileProcessor p) {
         source.setNoLabel(castDefault(source.getNoLabel(),
                 () -> p.resolve(property("n2o.api.control.no_label"), String.class)));
         source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
@@ -76,19 +74,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             source.getRefModel() != null ||
             source.getRefFieldId() != null)
             source.setUsingRef(true);
-        source.setRefPage(castDefault(source.getRefPage(), PageRefEnum.THIS));
-        source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> {
-            if (source.getRefPage().equals(PageRefEnum.THIS)) {
-                return initLocalDatasourceId(p);
-            } else if (source.getRefPage().equals(PageRefEnum.PARENT)) {
-                if (context instanceof PageContext pageContext) {
-                    return pageContext.getParentLocalDatasourceId();
-                } else {
-                    throw new N2oException(String.format("Поле '%s' имеет атрибут 'ref-page=parent', но PageContext не найден", source.getId()));
-                }
-            }
-            return null;
-        }));
+        source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> initLocalDatasourceId(p)));
         source.setRefModel(castDefault(source.getRefModel(),
                 () -> Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 () -> ReduxModelEnum.RESOLVE));
@@ -179,7 +165,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getOn() != null)
             compiled.getOn().addAll(Set.of(source.getOn()));
         else if (Boolean.TRUE.equals(p.resolve(property("n2o.api.control.dependency.on.auto"), Boolean.class)) &&
-                 !hasContext(compiled.getExpression()))
+                !hasContext(compiled.getExpression()))
             compiled.getOn().addAll(extractOnVariables(compiled.getExpression()));
 
         field.addDependency(compiled);
@@ -235,8 +221,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setType(ValidationTypeEnum.FETCH);
             dependency.setEnabled(castDefault(p.resolveJS(fetch.getEnabled(), Boolean.class),
                     () -> p.resolve(property("n2o.api.control.dependency.fetch.enabled"), Boolean.class)));
-        }
-        else if (source instanceof N2oField.ResetDependency reset) {
+        } else if (source instanceof N2oField.ResetDependency reset) {
             ResetDependency resetDependency = new ResetDependency();
             resetDependency.setType(ValidationTypeEnum.RESET);
             resetDependency.setValidate(castDefault(reset.getValidate(),
@@ -528,7 +513,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return enablingConditions;
     }
 
-    protected void compileDefaultValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileDefaultValues(D control, S source, CompileProcessor p) {
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
             compileParams(control, source, paramScope, p);
@@ -536,11 +521,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
-            processDefaultValues(control, source, context, p, defaultValues);
+            processDefaultValues(control, source, p, defaultValues);
         }
     }
 
-    private void processDefaultValues(D control, S source, CompileContext<?, ?> context,
+    private void processDefaultValues(D control, S source,
                                       CompileProcessor p, ModelsScope defaultValues) {
         Object defValue;
         String controlId = getIdWithMultisetPrefix(control.getId(), p);
@@ -551,13 +536,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
 
         if (defValue != null) {
-            processNonNullDefaultValue(control, source, context, p, defaultValues, defValue, controlId);
-        } else if (PageRefEnum.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
-            addParentRefDefaultValue(source, context, p, defaultValues, controlId);
+            processNonNullDefaultValue(control, source, p, defaultValues, defValue, controlId);
+        } else if (source.getRefFieldId() != null) {
+            addParentRefDefaultValue(source, p, defaultValues, controlId);
         }
     }
 
-    private void processNonNullDefaultValue(D control, S source, CompileContext<?, ?> context,
+    private void processNonNullDefaultValue(D control, S source,
                                             CompileProcessor p, ModelsScope defaultValues,
                                             Object defValue, String controlId) {
         if (defValue instanceof String strDefValue) {
@@ -565,16 +550,16 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
 
         if (StringUtils.isJs(defValue)) {
-            handleJsDefaultValue(source, context, p, defaultValues, defValue, controlId);
+            handleJsDefaultValue(source, p, defaultValues, defValue, controlId);
         } else {
-            handleRegularDefaultValue(control, source, context, p, defaultValues, defValue, controlId);
+            handleRegularDefaultValue(control, source, p, defaultValues, defValue, controlId);
         }
     }
 
-    private void handleJsDefaultValue(S source, CompileContext<?, ?> context,
+    private void handleJsDefaultValue(S source,
                                       CompileProcessor p, ModelsScope defaultValues,
                                       Object defValue, String controlId) {
-        ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
+        ModelLink defaultValue = getDefaultValueModelLink(source, p);
         if (source.getRefFieldId() == null)
             defaultValue.setValue(defValue);
         if (!source.isUsingRef())
@@ -583,11 +568,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         defaultValues.add(controlId, defaultValue);
     }
 
-    private void handleRegularDefaultValue(D control, S source, CompileContext<?, ?> context,
+    private void handleRegularDefaultValue(D control, S source,
                                            CompileProcessor p, ModelsScope defaultValues,
                                            Object defValue, String controlId) {
         SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-        ModelLink modelLink = getDefaultValueModelLink(source, context, p);
+        ModelLink modelLink = getDefaultValueModelLink(source, p);
 
         if (defValue instanceof DefaultValues defVals) {
             processDefaultValuesMap(defVals);
@@ -612,10 +597,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private void addParentRefDefaultValue(S source, CompileContext<?, ?> context,
+    private void addParentRefDefaultValue(S source,
                                           CompileProcessor p, ModelsScope defaultValues,
                                           String controlId) {
-        ModelLink modelLink = getDefaultValueModelLink(source, context, p);
+        ModelLink modelLink = getDefaultValueModelLink(source, p);
         modelLink.setParam(source.getParam());
         defaultValues.add(controlId, modelLink);
     }
@@ -657,16 +642,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param p      Процессор сборки метаданных
      * @return Модель для дефолтного значения поля
      */
-    private ModelLink getDefaultValueModelLink(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        String clientDatasourceId = null;
-        if (Objects.requireNonNull(source.getRefPage()) == PageRefEnum.THIS) {
-            clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), p);
-        } else if (source.getRefPage() == PageRefEnum.PARENT) {
-            if (context instanceof PageContext pageContext) {
-                clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), pageContext.getParentClientPageId(), p);
-            } else
-                throw new N2oException(String.format("Поле '%s' имеет атрибут 'ref-page=parent', но PageContext не найден", source.getId()));
-        }
+    private ModelLink getDefaultValueModelLink(S source, CompileProcessor p) {
+        String refDatasourceId = source.getRefDatasourceId();
+        String clientDatasourceId = getClientDatasourceId(refDatasourceId, p);
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {
             defaultValue = new ModelLink(source.getRefModel(), clientDatasourceId, source.getRefFieldId());
@@ -675,9 +653,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
-        if (PageRefEnum.THIS.equals(source.getRefPage()))
-            defaultValue.setObserve(true);
-
+        defaultValue.setObserve(true);
         return defaultValue;
     }
 
