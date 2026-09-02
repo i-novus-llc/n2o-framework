@@ -1,8 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Передача параметров в модальное окно">
+    <datasources>
+        <datasource id="firstDs"/>
+        <datasource id="secondDs"/>
+    </datasources>
     <regions>
         <region>
-            <form id="first">
+            <form id="first" datasource="firstDs">
                 <toolbar>
                     <button label="Открыть">
                         <show-modal page-id="test"/>
@@ -14,7 +18,7 @@
                     <input-select id="addresses" label="Список с множественным выбором" query-id="test" type="multi"/>
                 </fields>
             </form>
-            <form id="second">
+            <form id="second" datasource="secondDs">
                 <fields>
                     <input-text id="id"/>
                     <input-text id="name"/>

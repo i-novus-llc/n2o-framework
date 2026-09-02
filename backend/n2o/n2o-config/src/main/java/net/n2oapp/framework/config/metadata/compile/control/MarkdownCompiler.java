@@ -47,7 +47,7 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
                 field.getActions().put(actionId, compileAction(metaActions.get(actionId).getN2oActions(), null, context,p));
             }
         }
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(field, source, context, p);
         return field;
     }

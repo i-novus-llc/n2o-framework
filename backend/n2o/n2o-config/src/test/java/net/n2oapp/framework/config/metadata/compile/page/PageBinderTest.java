@@ -306,6 +306,7 @@ class PageBinderTest extends SourceCompileTestBase {
         context.setParentClientPageId("_");
         context.setParentClientWidgetId("table");
         context.setParentRoute("/table/:id");
+        context.setParentDatasourceIdsMap(Map.of("table", "_table"));
         context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.RESOLVE, "table", "id")));
         context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModelEnum.RESOLVE, "_table", "id")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.page.xml",

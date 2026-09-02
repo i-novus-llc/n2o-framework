@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 
 /**

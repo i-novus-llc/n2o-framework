@@ -26,10 +26,10 @@ public class HiddenCompiler extends FieldCompiler<Hidden, N2oHidden> {
     @Override
     public Hidden compile(N2oHidden source, CompileContext<?, ?> context, CompileProcessor p) {
         Hidden hidden = new Hidden();
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(hidden, source, context, p);
         compileFilters(source, p);
-        compileDefaultValues(hidden, source, context, p);
+        compileDefaultValues(hidden, source, p);
         return hidden;
     }
 }

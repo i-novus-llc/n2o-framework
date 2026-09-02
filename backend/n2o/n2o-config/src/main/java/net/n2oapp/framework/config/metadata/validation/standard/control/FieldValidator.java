@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -66,7 +65,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param source Поле
      */
     private void checkDefaultValues(N2oField source) {
-        if ((source.getRefPage() != null || source.getRefDatasourceId() != null || source.getRefModel() != null)
+        if ((source.getRefDatasourceId() != null || source.getRefModel() != null)
                 && source.getRefFieldId() == null)
             if (source instanceof N2oListField list) {
                 checkListFieldDefaultValues(list);
@@ -118,7 +117,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param source Поле
      */
     private void checkRefDatasource(N2oField source, SourceProcessor p) {
-        if (source.getRefDatasourceId() != null && PageRefEnum.THIS.equals(source.getRefPage())) {
+        if (source.getRefDatasourceId() != null) {
             ValidationUtils.checkDatasourceExistence(source.getRefDatasourceId(), p,
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
                             ValidationUtils.getIdOrEmptyString(source.getId()), source.getRefDatasourceId()));

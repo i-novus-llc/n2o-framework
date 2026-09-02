@@ -4,9 +4,9 @@
         <test file="test.json"/>
     </list>
     <filters>
-        <eq filter-id="id" field-id="id"/>
-        <eq filter-id="name" field-id="name"/>
-        <eq filter-id="type" field-id="type"/>
+        <eq field-id="id"/>
+        <eq field-id="name"/>
+        <eq field-id="type"/>
     </filters>
     <fields>
         <field id="id" domain="integer"/>

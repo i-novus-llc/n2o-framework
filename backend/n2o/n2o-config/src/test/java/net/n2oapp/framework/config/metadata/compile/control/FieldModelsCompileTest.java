@@ -54,12 +54,12 @@ class FieldModelsCompileTest extends SourceCompileTestBase {
         //parent
         assertThat(models.get("resolve['modalPage_info'].parentFull").normalizeLink(), is("models.filter['_testForm'].testValue"));
         assertThat(models.get("resolve['modalPage_info'].parentRefField").normalizeLink(), is("models.filter['_testForm'].field"));
-        assertThat(models.get("resolve['modalPage_info'].parentDefaults").normalizeLink(), is("models.resolve['_form'].testValue"));
+        assertThat(models.get("resolve['modalPage_info'].parentDefaults").normalizeLink(), is("models.resolve['_formDS'].testValue"));
 
         //this
 
         ModelLink link = models.get("resolve['modalPage_info'].thisFull");
-        assertThat(link.normalizeLink(), is("models.filter['modalPage_testForm'].testValue"));
+        assertThat(link.normalizeLink(), is("models.filter['_testForm'].testValue"));
         assertThat(link.isObserve(), is(true));
 
         assertThat(models.get("resolve['modalPage_info'].thisDefaults").normalizeLink(), is("models.resolve['modalPage_info'].testValue"));
@@ -73,13 +73,13 @@ class FieldModelsCompileTest extends SourceCompileTestBase {
         assertThat(models.get("resolve['modalPage_info'].selectRefField").normalizeLink(), is("models.filter['_testForm'].address"));
 
         link = models.get("resolve['modalPage_info'].selectParentDefaults");
-        assertThat(link.getLink(), is("models.resolve['_form']"));
+        assertThat(link.getLink(), is("models.resolve['_formDS']"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("id"), is("`address.id`"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("name"), is("`address.name`"));
 
         //this
         link = models.get("resolve['modalPage_info'].selectThisFull");
-        assertThat(link.getLink(), is("models.filter['modalPage_testForm']"));
+        assertThat(link.getLink(), is("models.filter['_testForm']"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("id"), is("`address.id`"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("name"), is("`address.name`"));
 

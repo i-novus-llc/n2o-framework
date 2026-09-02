@@ -35,7 +35,7 @@ public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
                 content = content.replace("'", "\\'");
             html.setContent(p.resolveJS(content.trim()));
         }
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(html, source, context, p);
         return html;
     }

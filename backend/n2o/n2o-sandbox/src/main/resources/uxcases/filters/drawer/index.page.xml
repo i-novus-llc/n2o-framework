@@ -20,7 +20,7 @@
                 <column text-field-id="urgently.name" label="Срочность"/>
                 <column text-field-id="status.name" label="Статус"/>
             </columns>
-            <filters search-on-change="true">
+            <filters fetch-on-change="true">
                 <set field-label-location="left">
                     <row>
                         <hidden id="fio"/>
@@ -41,12 +41,20 @@
                         </col>
                         <button id="sb" label="Все фильтры" model="filter" icon="fa fa-filter">
                             <open-drawer page-id="modal"
-                                         closable="false"
-                                         submit-action-type="copy"
-                                         submit-label="Применить"
-                                         copy-mode="replace"
-                                         target-model="filter"
-                            />
+                                         closable="false">
+                                <toolbars>
+                                    <toolbar>
+                                        <button label="Применить" color="primary"
+                                                disable-on-empty-model="false">
+                                            <copy target-datasource="ds1" target-model="filter" mode="replace"/>
+                                            <close/>
+                                        </button>
+                                        <button label="Закрыть" disable-on-empty-model="false">
+                                            <close/>
+                                        </button>
+                                    </toolbar>
+                                </toolbars>
+                            </open-drawer>
                         </button>
                         <button label="Сбросить">
                             <clear models="filter"/>

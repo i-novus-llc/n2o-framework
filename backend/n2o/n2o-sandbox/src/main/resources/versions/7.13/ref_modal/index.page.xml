@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Прокидывание модели на форму в модальное окно или drawer">
+    <datasources>
+        <datasource id="parentDs" query-id="test"/>
+        <datasource id="form2Ds"/>
+    </datasources>
     <regions>
         <line label="Передача параметров из формы">
             <form id="form">
@@ -16,33 +20,34 @@
                             <set-value on="city">
                                 var address = "";
                                 if (typeof city != 'undefined')
-                                    address += city;
+                                address += city;
                                 if (typeof street != 'undefined') {
-                                    if (address.length !== 0)
-                                        address += ", ";
-                                    address += street;
+                                if (address.length !== 0)
+                                address += ", ";
+                                address += street;
                                 }
                                 if (typeof house != 'undefined') {
-                                    if (address.length !== 0)
-                                        address += ", ";
-                                    address += house;
+                                if (address.length !== 0)
+                                address += ", ";
+                                address += house;
                                 }
                                 return address;
                             </set-value>
                         </dependencies>
                     </input-text>
-                    <input-text id="city" label="Город (значение должно копироваться в модальное окно и обратно)" default-value="Казань"/>
+                    <input-text id="city" label="Город (значение должно копироваться в модальное окно и обратно)"
+                                default-value="Казань"/>
                 </fields>
             </form>
-            <form id="form2">
+            <form id="form2" datasource="form2Ds">
                 <fields>
-                    <input-text id="street" label="Улица (значение должно копироваться в модальное окно, но не обратно)" default-value="Качалова"/>
+                    <input-text id="street" label="Улица (значение должно копироваться в модальное окно, но не обратно)"
+                                default-value="Качалова"/>
                 </fields>
             </form>
         </line>
         <line label="Передача параметров из фильтров таблицы">
-            <table id="tableWgt">
-                <datasource query-id="test"/>
+            <table id="tableWgt" datasource="parentDs">
                 <columns>
                     <column text-field-id="id"/>
                     <column text-field-id="name"/>
@@ -53,7 +58,8 @@
                         <input-text id="name"/>
                         <input-text id="type"/>
                         <button label="Расширенные фильтры" model="filter">
-                            <open-drawer page-id="filters" submit-label="Применить" route="/filters" submit-action-type="copy"
+                            <open-drawer page-id="filters" submit-label="Применить" route="/filters"
+                                         submit-action-type="copy"
                                          target-model="filter" copy-mode="replace">
                                 <datasources>
                                     <datasource default-values-mode="defaults"/>

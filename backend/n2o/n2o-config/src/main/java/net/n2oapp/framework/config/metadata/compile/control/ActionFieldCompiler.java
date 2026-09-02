@@ -14,8 +14,8 @@ import static org.apache.commons.lang3.ArrayUtils.getLength;
 public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oActionField> extends FieldCompiler<D, S> {
 
     @Override
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        super.initDefaults(source, context, p);
+    protected void initDefaults(S source, CompileProcessor p) {
+        super.initDefaults(source, p);
         source.setActions(initActions(source, p));
     }
 

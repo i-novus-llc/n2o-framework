@@ -3,7 +3,7 @@
     <regions>
         <form>
             <fields>
-                <input-text id="id" ref-datasource="ds1" default-value="{name}" ref-page="this"/>
+                <input-text id="id" ref-datasource="ds1" default-value="{name}"/>
             </fields>
         </form>
     </regions>

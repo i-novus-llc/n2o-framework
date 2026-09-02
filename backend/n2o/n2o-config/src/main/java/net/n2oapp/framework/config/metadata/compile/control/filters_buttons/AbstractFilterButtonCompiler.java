@@ -18,7 +18,7 @@ public abstract class AbstractFilterButtonCompiler<D extends AbstractFilterButto
     protected abstract String getDefaultLabel(CompileProcessor p);
 
     protected void compileButton(D button, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         compileField(button, source, context, p);
         button.setIcon(source.getIcon());
         button.setLabel(castDefault(p.resolveJS(source.getLabel()), getDefaultLabel(p)));

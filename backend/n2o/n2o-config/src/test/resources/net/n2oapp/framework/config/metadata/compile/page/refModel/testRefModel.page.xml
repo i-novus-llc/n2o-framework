@@ -1,12 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="main" size="1" query-id="testRefModel">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+        <parent-datasource id="table"/>
+    </datasources>
     <regions>
-        <form id="main">
-            <datasource size="1" query-id="testRefModel">
-                <filters>
-                    <eq field-id="id" param="id"/>
-                </filters>
-            </datasource>
+        <form id="main" datasource="main">
             <fields>
                 <input-text id="id" enabled="false"/>
             </fields>
@@ -21,8 +24,8 @@
                 </filters>
             </datasource>
             <fields>
-                <input-text id="mainId" enabled="false" label="Чтение из виджета текущей страницы" ref-page="this" ref-datasource="main" default-value="{id}"/>
-                <input-text id="mainId2" enabled="false" label="Чтение из виджета родительской страницы" ref-page="parent" ref-datasource="table" default-value="{id}"/>
+                <input-text id="mainId" enabled="false" label="Чтение из виджета текущей страницы" ref-datasource="main" default-value="{id}"/>
+                <input-text id="mainId2" enabled="false" label="Чтение из виджета родительской страницы" ref-datasource="table" default-value="{id}"/>
             </fields>
         </form>
     </regions>
