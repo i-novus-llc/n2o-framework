@@ -164,7 +164,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private void addAuthorization(N2oGraphQlDataProvider invocation, HttpHeaders headers) {
         String token = invocation.getAccessToken() != null ?
                 invocation.getAccessToken() : accessToken;
-        headers.set("Authorization", "Bearer " + token);
+        if (token != null && !token.trim().isEmpty()) {
+            headers.set("Authorization", "Bearer " + token);
+        }
     }
 
     /**
