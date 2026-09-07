@@ -61,19 +61,19 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldBeEmpty();
         autoComplete.setValue("c");
         autoComplete.shouldHaveValue("c");
-        autoComplete.shouldHaveDropdownOptions(new String[]{"abc", "ccc"});
+        autoComplete.shouldHaveDropdownOptions(new String[]{"aaa", "abc", "ccc"});
         autoComplete.chooseDropdownOption("ccc");
         autoComplete.shouldHaveValue("ccc");
         autoComplete.click();
         autoComplete.clear();
         autoComplete.setValue("ab");
-        autoComplete.shouldHaveDropdownOptions(new String[]{"abc"});
+        autoComplete.shouldHaveDropdownOptions(new String[]{"aaa", "abc", "ccc"});
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveValue("abc");
         autoComplete.click();
         autoComplete.clear();
         autoComplete.setValue("d");
-        autoComplete.shouldNotHaveDropdownOptions();
+        autoComplete.shouldHaveDropdownOptions(new String[]{"aaa", "abc", "ccc"});
 
         autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete4")
                 .control(AutoComplete.class);
@@ -81,8 +81,8 @@ class AutoCompleteAT extends AutoTestBase {
 
         autoComplete.click();
         autoComplete.setValue("Иванов");
-        autoComplete.chooseDropdownOption("Иванов К.Л.");
-        autoComplete.shouldHaveValue("12");
+        autoComplete.chooseDropdownOption("Иванов П.И.");
+        autoComplete.shouldHaveValue("1");
         autoComplete.setValue("А.А.");
         autoComplete.chooseDropdownOption("Соколова А.А.");
         autoComplete.shouldHaveValue("15");
@@ -120,7 +120,7 @@ class AutoCompleteAT extends AutoTestBase {
 
         autoComplete.click();
         autoComplete.setValue("ab");
-        autoComplete.shouldHaveDropdownOptions(new String[]{"abc"});
+        autoComplete.shouldHaveDropdownOptions(new String[]{"aaa", "abc"});
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveTags(new String[]{"item1", "abc"});
 

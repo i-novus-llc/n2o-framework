@@ -364,17 +364,6 @@ class AutoComplete extends React.Component<Props, State> {
         } = this.props
         const needAddFilter = !find(value, item => item[labelFieldId] === input)
 
-        const filteredOptions = options.filter(
-            item => isEmpty(input) ||
-                (String(item[labelFieldId as keyof TOption])).toLowerCase()
-                    // TODO не совпадает типизация input, заявлено string по факту может быть string[]
-                    .includes(
-                        Array.isArray(input)
-                            ? extractRealData(input[0].toLowerCase(), mask)
-                            : extractRealData(input.toLowerCase(), mask),
-                    ),
-        )
-
         const filterValue = isEmpty(input) ? {} : { [quickSearchParam || labelFieldId]: input }
 
         const commonInputProps = {
@@ -382,7 +371,7 @@ class AutoComplete extends React.Component<Props, State> {
             mode: 'autocomplete' as const,
             maxTagTextLength,
             multiSelect: tags,
-            options: filteredOptions,
+            options,
             setRef: this.setInputRef,
             onInputChange: this.onInputChange,
             setActiveValueId: this.setActiveValueId,
@@ -444,7 +433,7 @@ class AutoComplete extends React.Component<Props, State> {
                             </InputSelectGroup>
                         )}
                     </Reference>
-                    {isExpanded && !isEmpty(filteredOptions) && (
+                    {isExpanded && !isEmpty(options) && (
                         <Popper
                             placement="bottom-start"
                             strategy="fixed"
@@ -469,7 +458,7 @@ class AutoComplete extends React.Component<Props, State> {
                                         setActiveValueId={this.setActiveValueId}
                                         fetchData={fetchData}
                                         needAddFilter={needAddFilter}
-                                        options={filteredOptions}
+                                        options={options}
                                         valueFieldId={valueFieldId}
                                         labelFieldId={labelFieldId}
                                         iconFieldId={iconFieldId}
