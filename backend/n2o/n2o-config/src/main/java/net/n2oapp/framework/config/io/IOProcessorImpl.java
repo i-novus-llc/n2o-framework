@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.merge.MergeUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jdom2.Attribute;
@@ -344,7 +345,13 @@ public class IOProcessorImpl implements IOProcessor {
             }
             for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
                 Element childE = (Element) child;
-                Attribute attribute = childE.getAttributes().get(0);
+                List<Attribute> attributes = childE.getAttributes();
+                if (attributes.isEmpty())
+                    throw new N2oMetadataValidationException(
+                            String.format("Элемент \"<%s>\" не содержит атрибутов. Ожидается хотя бы один атрибут для сопоставления ключ-значение.",
+                                    childE.getName())
+                    );
+                Attribute attribute = attributes.get(0);
                 String key = attribute.getName();
                 String value = attribute.getValue();
                 Object objValue = domainProcessor.deserialize(value);

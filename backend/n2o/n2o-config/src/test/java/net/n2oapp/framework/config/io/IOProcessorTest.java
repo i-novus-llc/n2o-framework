@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
@@ -41,8 +42,7 @@ import java.util.Properties;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -1013,6 +1013,26 @@ class IOProcessorTest {
         p.anyChildren(out, "children", listNamespaceEntity::getEntityList, listNamespaceEntity::setEntityList,
                 p.anyOf(NamespaceEntity.class), Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         assertThat(in, isSimilarTo(out));
+    }
+
+    @Test
+    void testChildrenAttributesToMapEmptyElement() {
+        // Создаём XML-структуру с пустым элементом <el/> без атрибутов
+        Element root = new Element("root");
+        Element seq = new Element("children");
+        Element emptyEl = new Element("el");
+        seq.addContent(emptyEl);
+        root.addContent(seq);
+
+        IOProcessor p = new IOProcessorImpl(true);
+        MapNamespaceEntity map = new MapNamespaceEntity();
+
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> p.childrenAttributesToMap(root, "children", "el", map::getEntityMap, map::setEntityMap)
+        );
+
+        assertThat(exception.getMessage(), is("Элемент \"<el>\" не содержит атрибутов. Ожидается хотя бы один атрибут для сопоставления ключ-значение."));
     }
 
     private Element dom(String file) throws JDOMException, IOException {
