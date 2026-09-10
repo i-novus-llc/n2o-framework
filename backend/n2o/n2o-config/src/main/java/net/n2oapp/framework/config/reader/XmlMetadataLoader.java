@@ -73,12 +73,15 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
 
     private String getErrorMessage(String id, Exception e) {
         StringBuilder message = new StringBuilder();
-        message.append(String.format("Ошибка чтения метаданных '%s'.\n", id));
-        if (e.getCause() instanceof SAXParseException exception) {
+        message.append(String.format("Ошибка чтения метаданных '%s'.", id)).append('\n');
+        Throwable cause = e.getCause();
+        if (cause instanceof SAXParseException exception) {
             message.append(String.format("Ошибка в строке %d, колонке %d: ",
                     exception.getLineNumber(), exception.getColumnNumber()));
+            message.append(getDescription(exception));
+        } else {
+            message.append(getDescription(cause != null ? cause : e));
         }
-        message.append(e.getCause().getLocalizedMessage());
         return message.toString();
     }
 
@@ -89,4 +92,9 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
                     n2o.getClass().getSimpleName(), metadataClass.getSimpleName()));
         return n2o;
     }
+
+    private String getDescription(Throwable e) {
+        return e.getLocalizedMessage() == null ? e.toString() : e.getLocalizedMessage();
+    }
+
 }
