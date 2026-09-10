@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Synchronized;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,7 @@ public class FileStorageController {
     private final Path path;
 
     private static final String DEFAULT_STORE_KEY = "common";
+    private static final Logger log = LoggerFactory.getLogger(FileStorageController.class);
     private final Map<String, Map<String, FileModel>> storage = new HashMap<>();
     private int id = 0;
 
@@ -37,6 +40,7 @@ public class FileStorageController {
         return getList(DEFAULT_STORE_KEY);
     }
 
+    @Synchronized
     public ListResponse getList(String storeKey) {
         Map<String, FileModel> filesMap = storage.get(getStoreKeyOrDefault(storeKey));
         return new ListResponse(filesMap == null ? new ArrayList<>() : filesMap.values());
@@ -46,6 +50,7 @@ public class FileStorageController {
         delete(id, DEFAULT_STORE_KEY);
     }
 
+    @Synchronized
     public void delete(String id, String storeKey) {
         if (id == null) return;
         if (storeKey == null) {
@@ -95,6 +100,7 @@ public class FileStorageController {
         return loadFile(fileName, DEFAULT_STORE_KEY);
     }
 
+    @Synchronized
     public Resource loadFile(String fileName, String storeKey) {
         try {
             Path filePath = getFilePath(fileName, getStoreKeyOrDefault(storeKey)).normalize();
@@ -108,9 +114,19 @@ public class FileStorageController {
 
     @Synchronized
     public void clear() {
-        storage.forEach((k, v) -> delete(k));
+        storage.forEach((storeKey, filesMap) -> {
+            for (String fileId : List.copyOf(filesMap.keySet()))
+                delete(fileId, storeKey);
+            try {
+                Files.deleteIfExists(path.resolve(storeKey));
+            } catch (IOException e) {
+                log.error("Не удалось удалить директорию '{}'", storeKey, e);
+            }
+        });
+        storage.clear();
+        storage.put(DEFAULT_STORE_KEY, new HashMap<>());
+        id = 0;
     }
-
 
     @Getter
     @AllArgsConstructor
