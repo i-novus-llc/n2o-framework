@@ -4,62 +4,39 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class WatchDir2Test {
-    private static final String TEST_DIR = getTestFolder();
-    private final Path path = Paths.get(TEST_DIR + "test.txt");
+
+    @TempDir
+    Path testDir;
+    private Path path;
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);
 
-    private static String getTestFolder() {
-        StringBuilder customTestPath = new StringBuilder();
-
-        customTestPath.append(System.getProperty("user.home"));
-        customTestPath.append(File.separator);
-        customTestPath.append(WatchDirTest.class.getSimpleName());
-        customTestPath.append(File.separator);
-
-        return customTestPath.toString();
-    }
-
     @BeforeEach
-    void setUpClass() throws IOException {
-        File testDir = new File(TEST_DIR);
-        if (testDir.exists()) {
-            FileUtils.forceDelete(testDir);
-        }
-        assertTrue(testDir.mkdirs());
-        reset(listener);
-
-        watchDir = new WatchDir(Paths.get(TEST_DIR), false, listener);
+    void setUpClass() {
+        path = testDir.resolve("test.txt");
+        watchDir = new WatchDir(testDir, false, listener);
     }
 
     @AfterEach
-    void tearDownClass() throws IOException {
+    void tearDownClass() {
         watchDir.stop();
-
-        File testDir = new File(TEST_DIR);
-        if (testDir.exists()) {
-            FileUtils.forceDelete(testDir);
-        }
-        assertFalse(testDir.exists());
     }
 
     @Test
     void eventOnlyOnCreate() throws IOException {
         watchDir.start();
 
-        FileUtils.touch(new File(path.toString()));
+        FileUtils.touch(path.toFile());
 
         verify(listener, timeout(10000).atLeast(1)).fileCreated(path);
         verify(listener, never()).fileModified(any(Path.class));
@@ -68,11 +45,11 @@ class WatchDir2Test {
 
     @Test
     void eventOnlyOnChange() throws IOException {
-        FileUtils.touch(new File(path.toString()));
+        FileUtils.touch(path.toFile());
 
         watchDir.start();
 
-        FileUtils.write(new File(path.toString()), "test", Charset.defaultCharset());
+        FileUtils.write(path.toFile(), "test", Charset.defaultCharset());
         verify(listener, timeout(10000).atLeast(1)).fileModified(path);
         verify(listener, never()).fileCreated(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
@@ -80,10 +57,10 @@ class WatchDir2Test {
 
     @Test
     void eventOnDelete() throws IOException {
-        FileUtils.touch(new File(path.toString()));
+        FileUtils.touch(path.toFile());
         watchDir.start();
 
-        assertTrue(new File(path.toString()).delete());
+        assertTrue(path.toFile().delete());
         verify(listener, timeout(10000).atLeast(1)).fileDeleted(path);
         verify(listener, never()).fileCreated(any(Path.class));
         //side effect. Иногда Watcher сначала шлет modified, а потом deleted
@@ -91,13 +68,13 @@ class WatchDir2Test {
 
     @Test
     void eventsWhenChangeDir() throws IOException {
-        String dir = TEST_DIR + "dir" + File.separator;
+        Path dir = testDir.resolve("dir");
 
         //создание пустой папки
         reset(listener);
         watchDir.start();
-        FileUtils.forceMkdir(new File(dir));
-        verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(dir));
+        FileUtils.forceMkdir(dir.toFile());
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(dir);
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
         watchDir.stop();
@@ -105,8 +82,8 @@ class WatchDir2Test {
         //удаление пустой папки
         reset(listener);
         watchDir.start();
-        FileUtils.forceDelete(new File(dir));
-        verify(listener, timeout(10000).atLeast(1)).fileDeleted(Paths.get(dir));
+        FileUtils.forceDelete(dir.toFile());
+        verify(listener, timeout(10000).atLeast(1)).fileDeleted(dir);
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, never()).fileCreated(any(Path.class));
         watchDir.stop();
@@ -114,9 +91,9 @@ class WatchDir2Test {
         //создание папки с файлом
         reset(listener);
         watchDir.start();
-        FileUtils.forceMkdir(new File(dir));
-        FileUtils.touch(new File(dir + "file.txt"));
-        verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(dir));
+        FileUtils.forceMkdir(dir.toFile());
+        FileUtils.touch(dir.resolve("file.txt").toFile());
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(dir);
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
         watchDir.stop();
@@ -124,23 +101,23 @@ class WatchDir2Test {
         //удаление папки с файлом
         reset(listener);
         watchDir.start();
-        FileUtils.forceDelete(new File(dir));
+        FileUtils.forceDelete(dir.toFile());
         verify(listener, timeout(10000).times(0)).fileCreated(any(Path.class));
         verify(listener, never()).fileModified(any(Path.class));
-        verify(listener, timeout(10000).atLeast(1)).fileDeleted(Paths.get(dir));
+        verify(listener, timeout(10000).atLeast(1)).fileDeleted(dir);
     }
 
     @Test
     void createChangeDelete() throws IOException {
         watchDir.start();
 
-        FileUtils.touch(new File(path.toString()));
+        FileUtils.touch(path.toFile());
         verify(listener, after(2000).atLeast(1)).fileCreated(path);
 
-        FileUtils.write(new File(path.toString()), "test", Charset.defaultCharset());
+        FileUtils.write(path.toFile(), "test", Charset.defaultCharset());
         verify(listener, after(2000).atLeast(1)).fileModified(path);
 
-        FileUtils.forceDelete(new File(path.toString()));
+        FileUtils.forceDelete(path.toFile());
         verify(listener, timeout(10000).atLeast(1)).fileDeleted(path);
     }
 }

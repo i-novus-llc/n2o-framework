@@ -3,73 +3,70 @@ package net.n2oapp.watchdir;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import static net.n2oapp.watchdir.WatchDirTestUtil.*;
 import static org.mockito.Mockito.*;
 
 class WatchDirSkipTest {
 
+    @TempDir
+    Path testDir;
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);
 
     @BeforeEach
-    void setUpClass() throws Exception {
-        createTestDir();
-        reset(listener);
-        watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
+    void setUpClass() {
+        watchDir = new WatchDir(testDir, true, listener);
     }
 
     @AfterEach
-    void tearDownClass() throws Exception {
+    void tearDownClass() {
         watchDir.stop();
-        clearTestDir();
     }
 
     @Test
-    @Disabled("https://jira.i-novus.ru/browse/NNO-10598")
     void skipOnFileIsNotListenedTakeOnIsListened() throws IOException {
+        Path file = testDir.resolve("test.txt");
+        Path file2 = testDir.resolve("test2.txt");
+
         watchDir.start();
 
-        watchDir.skipOn(TEST_FILE);
+        watchDir.skipOn(file.toString());
 
-        FileUtils.touch(new File(TEST_FILE));
-        Path file = Paths.get(TEST_FILE);
+        FileUtils.touch(file.toFile());
         verify(listener, after(2000).never()).fileCreated(file);
 
-        FileUtils.write(new File(TEST_FILE), "test", Charset.defaultCharset());
+        FileUtils.write(file.toFile(), "test", Charset.defaultCharset());
         verify(listener, after(2000).never()).fileModified(file);
 
-        watchDir.takeOn(TEST_FILE);
+        watchDir.takeOn(file.toString());
 
-        FileUtils.touch(new File(TEST2_FILE));
-        verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(TEST2_FILE));
+        FileUtils.touch(file2.toFile());
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(file2);
 
-        FileUtils.write(new File(TEST_FILE), "test2", Charset.defaultCharset());
+        FileUtils.write(file.toFile(), "test2", Charset.defaultCharset());
         verify(listener, timeout(5000).atLeast(1)).fileModified(file);
     }
 
     @Test
     void skipOnDirBeforeStartupIsNotListened() throws IOException {
-        String baseExcludeDir = TEST_DIR + "exclude1" + File.separator;
-        String excludeDir = baseExcludeDir + "exclude2" + File.separator + "exclude3";
-        Path excludeFile = Paths.get(excludeDir + "exclude.txt");
-        FileUtils.forceMkdir(new File(excludeDir));
+        Path baseExcludeDir = testDir.resolve("exclude1");
+        Path excludeDir = baseExcludeDir.resolve("exclude2").resolve("exclude3");
+        Path excludeFile = excludeDir.resolve("exclude.txt");
+        FileUtils.forceMkdir(excludeDir.toFile());
 
-        watchDir.skipOn(baseExcludeDir);
+        watchDir.skipOn(baseExcludeDir.toString());
 
         watchDir.start();
 
         FileUtils.touch(excludeFile.toFile());
         verify(listener, after(2000).never()).fileCreated(excludeFile);
         verify(listener, never()).fileModified(excludeFile);
-        verify(listener, never()).fileModified(Paths.get(excludeDir));
+        verify(listener, never()).fileModified(excludeDir);
     }
 }
