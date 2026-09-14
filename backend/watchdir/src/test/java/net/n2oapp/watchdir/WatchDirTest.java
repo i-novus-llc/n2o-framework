@@ -3,52 +3,34 @@ package net.n2oapp.watchdir;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class WatchDirTest {
-    private static final String TEST_DIR = getTestFolder();
-    private Path path = Paths.get(TEST_DIR + "test.txt");
+
+    @TempDir
+    Path testDir;
+    private Path path;
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);
 
-    private static String getTestFolder() {
-        return System.getProperty("user.home") +
-                File.separator +
-                WatchDirTest.class.getSimpleName() +
-                File.separator;
-    }
-
     @BeforeEach
-    void setUpClass() throws IOException {
-        File testDir = new File(TEST_DIR);
-        if (testDir.exists()) {
-            FileUtils.forceDelete(testDir);
-        }
-        assertTrue(testDir.mkdirs());
-
-        reset(listener);
-
-        watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
+    void setUpClass() {
+        path = testDir.resolve("test.txt");
+        watchDir = new WatchDir(testDir, true, listener);
     }
 
     @AfterEach
-    void tearDownClass() throws IOException {
+    void tearDownClass() {
         watchDir.stop();
-        File testDir = new File(TEST_DIR);
-        if (testDir.exists()) {
-            FileUtils.forceDelete(testDir);
-        }
-        assertFalse(testDir.exists());
     }
 
     @Test
@@ -62,7 +44,6 @@ class WatchDirTest {
     }
 
     @Test
-    @Disabled("https://jira.i-novus.ru/browse/NNO-10598")
     void checkingRestartingMonitoring() throws Exception {
         FileUtils.touch(new File(path.toString()));
         verify(listener, after(2000).never()).fileCreated(path);
@@ -91,7 +72,7 @@ class WatchDirTest {
     void fileCreatedWasCalledAfterMovingDirectory() throws IOException {
         watchDir.start();
 
-        path = Paths.get(TEST_DIR + "testFolder");
+        path = testDir.resolve("testFolder");
 
         FileUtils.forceMkdir(new File(path.toString()));
         verify(listener, timeout(5000).atLeast(1)).fileCreated(path);
@@ -148,7 +129,7 @@ class WatchDirTest {
         //старт без единого пути
         assertThrows(WatchDirException.class, () -> watchDir.start());
 
-        watchDir.addPath(TEST_DIR);
+        watchDir.addPath(testDir.toString());
         //успешный старт
         watchDir.start();
 
@@ -161,12 +142,12 @@ class WatchDirTest {
     void immutableAfterStart() {
         watchDir = new WatchDir();
         watchDir.setListener(listener);
-        watchDir.addPath(TEST_DIR);
+        watchDir.addPath(testDir.toString());
         watchDir.start();
         //смена listener после старта
         assertThrows(WatchDirException.class, () -> watchDir.setListener(listener));
 
         //добавление пути после старта
-        assertThrows(WatchDirException.class, () -> watchDir.addPath(TEST_DIR));
+        assertThrows(WatchDirException.class, () -> watchDir.addPath(testDir.toString()));
     }
 }

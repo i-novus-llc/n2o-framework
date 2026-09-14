@@ -4,13 +4,11 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import static net.n2oapp.watchdir.WatchDirTestUtil.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -22,30 +20,33 @@ import static org.mockito.Mockito.*;
  */
 class WatchDirRecursiveOnStartTest {
 
+    @TempDir
+    Path testDir;
+    private Path subDir;
+    private Path sub2Dir;
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);
 
     @BeforeEach
-    void setUpClass() throws Exception {
-        createTestDir();
-        assertTrue(new File(SUB_DIR).mkdirs());
-        reset(listener);
-        watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
+    void setUpClass() throws IOException {
+        subDir = testDir.resolve("dir");
+        sub2Dir = subDir.resolve("sub");
+        FileUtils.forceMkdir(subDir.toFile());
+        watchDir = new WatchDir(testDir, true, listener);
     }
 
     @AfterEach
-    void tearDownClass() throws Exception {
+    void tearDownClass() {
         watchDir.stop();
-        clearTestDir();
     }
 
     @Test
     void onlyFileCreatedWasCalledAfterCreatingEmptySubDir() {
         watchDir.start();
 
-        assertTrue(new File(SUB2_DIR).mkdir());
+        assertTrue(sub2Dir.toFile().mkdir());
 
-        verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(SUB2_DIR));
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(sub2Dir);
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
     }
@@ -54,54 +55,55 @@ class WatchDirRecursiveOnStartTest {
     void onlyFileCreatedWasCalledAfterCreatingSubDir() throws IOException {
         watchDir.start();
 
-        assertTrue(new File(SUB2_DIR).mkdir());
+        assertTrue(sub2Dir.toFile().mkdir());
 
-        FileUtils.touch(new File(SUB2_FILE1));
-        verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(SUB2_DIR));
-        verify(listener, never()).fileCreated(Paths.get(SUB2_FILE1));
+        Path sub2File1 = sub2Dir.resolve("file1.txt");
+        FileUtils.touch(sub2File1.toFile());
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(sub2Dir);
+        verify(listener, never()).fileCreated(sub2File1);
         verify(listener, never()).fileDeleted(any(Path.class));
     }
 
     @Test
     void deletingSubDirWithFilesCallFileModifiedAndFileDeleted() throws IOException {
-        assertTrue(new File(SUB2_DIR).mkdir());
-        FileUtils.touch(new File(SUB2_FILE1));
-        FileUtils.touch(new File(SUB2_FILE2));
+        assertTrue(sub2Dir.toFile().mkdir());
+        FileUtils.touch(sub2Dir.resolve("file1.txt").toFile());
+        FileUtils.touch(sub2Dir.resolve("file2.txt").toFile());
 
         watchDir.start();
 
         //удаление подпапки с файлом
-        FileUtils.deleteDirectory(new File(SUB2_DIR));
-        assertFalse(new File(SUB2_DIR).exists());
+        FileUtils.deleteDirectory(sub2Dir.toFile());
+        assertFalse(sub2Dir.toFile().exists());
 
         //при удалении папки, сначала удаляются файлы внутри неё, поэтому регистрируется событие изменения
-        verify(listener, after(2000).never()).fileModified(Paths.get(SUB2_DIR));
-        verify(listener, atLeast(1)).fileDeleted(Paths.get(SUB2_DIR));
-        verify(listener, never()).fileModified(Paths.get(SUB_DIR));
+        verify(listener, after(2000).never()).fileModified(sub2Dir);
+        verify(listener, atLeast(1)).fileDeleted(sub2Dir);
+        verify(listener, never()).fileModified(subDir);
     }
 
     @Test
     void fileDeletedWasCalledAfterDeletingEmptySubDir() throws IOException {
-        assertTrue(new File(SUB2_DIR).mkdir());
+        assertTrue(sub2Dir.toFile().mkdir());
 
         watchDir.start();
 
-        FileUtils.forceDelete(new File(SUB2_DIR));
+        FileUtils.forceDelete(sub2Dir.toFile());
 
-        verify(listener, after(2000).never()).fileModified(Paths.get(SUB_DIR));
-        verify(listener, timeout(10000).atLeast(1)).fileDeleted(Paths.get(SUB2_DIR));
+        verify(listener, after(2000).never()).fileModified(subDir);
+        verify(listener, timeout(10000).atLeast(1)).fileDeleted(sub2Dir);
     }
 
     @Test
     void fileCreatedAndFileDeletedWasCalledAfterCreatingAndDeletingEmptySubDir() {
         watchDir.start();
 
-        assertTrue(new File(SUB2_DIR).mkdir());
+        assertTrue(sub2Dir.toFile().mkdir());
 
-        verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(SUB2_DIR));
-        assertTrue(new File(SUB2_DIR).delete());
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(sub2Dir);
+        assertTrue(sub2Dir.toFile().delete());
 
-        verify(listener, timeout(10000).atLeast(1)).fileDeleted(Paths.get(SUB2_DIR));
-        verify(listener, never()).fileModified(Paths.get(SUB_DIR));
+        verify(listener, timeout(10000).atLeast(1)).fileDeleted(sub2Dir);
+        verify(listener, never()).fileModified(subDir);
     }
 }
