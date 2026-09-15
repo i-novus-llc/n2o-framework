@@ -23,6 +23,9 @@ report
 *.ipr
 temp
 
+# VSCode
+.vscode
+
 # Gradle
 .gradle
 build
