@@ -5,22 +5,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteNotFoundException;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import org.apache.commons.io.IOUtils;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.env.PropertyResolver;
 
 import java.io.IOException;
 import java.util.*;
@@ -30,21 +25,29 @@ import java.util.*;
  * Обеспечивает обработку ошибок и получение контекста пользователя.
  */
 @Slf4j
-@Setter
 public abstract class N2oServlet extends HttpServlet {
     public static final String USER = "user";
-    protected ObjectMapper objectMapper = new ObjectMapper();
-    private AlertMessageBuilder messageBuilder;
-    private ClientCacheTemplate clientCacheTemplate;
-    private PropertyResolver propertyResolver;
-    private AlertMessagesConstructor messagesConstructor;
+    protected final ObjectMapper objectMapper;
+    private final ClientCacheTemplate clientCacheTemplate;
+    private final AlertMessagesConstructor messagesConstructor;
 
+    /**
+     * Конструктор для сервлетов без клиентского кэша
+     */
+    protected N2oServlet(ObjectMapper objectMapper,
+                         AlertMessagesConstructor messagesConstructor) {
+        this(objectMapper, null, messagesConstructor);
+    }
 
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        if (messageBuilder == null)
-            messageBuilder = new AlertMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()), propertyResolver);
+    /**
+     * Конструктор для сервлетов с клиентским кэшем
+     */
+    protected N2oServlet(ObjectMapper objectMapper,
+                         ClientCacheTemplate clientCacheTemplate,
+                         AlertMessagesConstructor messagesConstructor) {
+        this.objectMapper = Objects.requireNonNull(objectMapper);
+        this.clientCacheTemplate = clientCacheTemplate;
+        this.messagesConstructor = Objects.requireNonNull(messagesConstructor);
     }
 
     public UserContext getUser(HttpServletRequest req) {
@@ -74,7 +77,6 @@ public abstract class N2oServlet extends HttpServlet {
     }
 
     protected void safeDoGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 
     @Override
@@ -88,7 +90,6 @@ public abstract class N2oServlet extends HttpServlet {
     }
 
     protected void safeDoPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     }
 
     @Override
@@ -102,7 +103,6 @@ public abstract class N2oServlet extends HttpServlet {
     }
 
     protected void safeDoPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     }
 
     @Override
@@ -116,7 +116,6 @@ public abstract class N2oServlet extends HttpServlet {
     }
 
     protected void safeDoDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     }
 
     protected Object getRequestBody(HttpServletRequest request) {

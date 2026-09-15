@@ -213,3 +213,34 @@ description: ""
 - Настройка `n2o.api.message.placement` переименована в `n2o.api.message.place`.
 - Настройка `n2o.api.action.alert.placement` переименована в `n2o.api.action.alert.place`.
 - Настройка `n2o.api.action.open_drawer.placement` переименована в `n2o.api.action.open_drawer.place`.
+
+
+### Изменения в API сервлетов {#changes-servlet-api}
+
+`N2oServlet` и его наследники переведены на внедрение через конструктор: удалены `init()`, `setMessageBuilder()`, `setPropertyResolver()` и сеттеры полей.
+ Добавлен конструктор `N2oServlet(ObjectMapper, AlertMessagesConstructor)`.
+ `ClientCacheTemplate` теперь передаётся только в `PageServlet`.
+
+**Миграция кастомных сервлетов:**
+
+Было:
+```java
+
+public class MyServlet extends N2oServlet {
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        setMessageBuilder(new AlertMessageBuilder(...));
+        setPropertyResolver(env);
+    }
+}
+```
+
+Стало:
+```java
+public class MyServlet extends N2oServlet {
+    public MyServlet(ObjectMapper objectMapper, AlertMessagesConstructor messagesConstructor) {
+        super(objectMapper, messagesConstructor);
+    }
+}
+```
