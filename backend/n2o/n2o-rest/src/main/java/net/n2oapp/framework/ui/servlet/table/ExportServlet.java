@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.servlet.table;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,6 +8,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.ExportRequest;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
@@ -19,10 +21,12 @@ import java.util.Map;
 import static net.n2oapp.framework.ui.utils.UrlUtil.resolveAbsoluteUrl;
 
 public class ExportServlet extends N2oServlet {
-
     private final ExportController controller;
 
-    public ExportServlet(ExportController controller) {
+    public ExportServlet(ExportController controller,
+                         ObjectMapper objectMapper,
+                         AlertMessagesConstructor messagesConstructor) {
+        super(objectMapper, messagesConstructor);
         this.controller = controller;
     }
 

@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -41,6 +40,8 @@ public class N2oServletConfiguration {
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
 
+    private final ObjectMapper metaObjectMapper = ObjectMapperConstructor.metaObjectMapper();
+
     @Bean
     @ConditionalOnProperty(name = "n2o.ui.cache.page.enabled", havingValue = "true")
     public ClientCacheTemplate pageClientCacheTemplate(CacheManager cacheManager, Environment env) {
@@ -59,73 +60,64 @@ public class N2oServletConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean pageServlet(MetadataEnvironment env, MetadataRouter router,
-                                               AlertMessageBuilder messageBuilder,
-                                               SubModelsProcessor subModelsProcessor,
-                                               Optional<ClientCacheTemplate> pageClientCacheTemplate,
-                                               AlertMessagesConstructor messagesConstructor) {
-        PageServlet pageServlet = new PageServlet();
+    public ServletRegistrationBean<PageServlet> pageServlet(MetadataEnvironment env,
+                                                            MetadataRouter router,
+                                                            AlertMessagesConstructor messagesConstructor,
+                                                            SubModelsProcessor subModelsProcessor,
+                                                            Optional<ClientCacheTemplate> pageClientCacheTemplate) {
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
                 .compile().transform().cache().copy()
                 .bind();
-        pageServlet.setPipeline(pipeline);
-        pageServlet.setRouter(router);
-        pageServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        pageServlet.setMessageBuilder(messageBuilder);
-        pageServlet.setMessagesConstructor(messagesConstructor);
-        pageServlet.setSubModelsProcessor(subModelsProcessor);
-        pageServlet.setPropertyResolver(env.getSystemProperties());
-        pageClientCacheTemplate.ifPresent(pageServlet::setClientCacheTemplate);
-        return new ServletRegistrationBean(pageServlet, n2oApiUrl + "/page/*");
+
+        PageServlet pageServlet = new PageServlet(
+                metaObjectMapper,
+                pageClientCacheTemplate.orElse(null),
+                messagesConstructor,
+                router,
+                pipeline,
+                subModelsProcessor
+        );
+        return new ServletRegistrationBean<>(pageServlet, n2oApiUrl + "/page/*");
     }
 
     @Bean
-    public ServletRegistrationBean dataServlet(DataController controller,
-                                               AlertMessageBuilder messageBuilder,
-                                               AlertMessagesConstructor messagesConstructor) {
-        DataServlet dataServlet = new DataServlet(controller);
-        dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        dataServlet.setMessageBuilder(messageBuilder);
-        dataServlet.setMessagesConstructor(messagesConstructor);
-        return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
+    public ServletRegistrationBean<DataServlet> dataServlet(DataController controller,
+                                                            AlertMessagesConstructor messagesConstructor) {
+        DataServlet dataServlet = new DataServlet(controller, metaObjectMapper, messagesConstructor);
+        return new ServletRegistrationBean<>(dataServlet, n2oApiUrl + "/data/*");
     }
 
     @Bean
-    public ServletRegistrationBean pagingCountServlet(DataController controller,
-                                                      AlertMessageBuilder messageBuilder) {
-        PagingCountServlet dataServlet = new PagingCountServlet(controller);
-        dataServlet.setMessageBuilder(messageBuilder);
-        return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/count/*");
+    public ServletRegistrationBean<PagingCountServlet> pagingCountServlet(DataController controller,
+                                                                          AlertMessagesConstructor messagesConstructor) {
+        PagingCountServlet servlet = new PagingCountServlet(controller, metaObjectMapper, messagesConstructor);
+        return new ServletRegistrationBean<>(servlet, n2oApiUrl + "/count/*");
     }
 
     @Bean
-    public ServletRegistrationBean validationServlet(DataController controller,
-                                                     AlertMessageBuilder messageBuilder) {
-        ValidationDataServlet validationDataServlet = new ValidationDataServlet(controller);
-        validationDataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        validationDataServlet.setMessageBuilder(messageBuilder);
-        return new ServletRegistrationBean(validationDataServlet, n2oApiUrl + "/validation/*");
+    public ServletRegistrationBean<ValidationDataServlet> validationServlet(DataController controller,
+                                                                            AlertMessagesConstructor messagesConstructor) {
+        ValidationDataServlet servlet = new ValidationDataServlet(controller, metaObjectMapper, messagesConstructor);
+        return new ServletRegistrationBean<>(servlet, n2oApiUrl + "/validation/*");
     }
 
     @Bean
-    public ServletRegistrationBean exportServlet(ExportController controller,
-                                                 AlertMessageBuilder messageBuilder) {
-        ExportServlet exportServlet = new ExportServlet(controller);
-        exportServlet.setMessageBuilder(messageBuilder);
-        return new ServletRegistrationBean(exportServlet, n2oApiUrl + "/export/*");
+    public ServletRegistrationBean<ExportServlet> exportServlet(ExportController controller,
+                                                                AlertMessagesConstructor messagesConstructor) {
+        ExportServlet servlet = new ExportServlet(controller, metaObjectMapper, messagesConstructor);
+        return new ServletRegistrationBean<>(servlet, n2oApiUrl + "/export/*");
     }
 
     @Bean
-    public ServletRegistrationBean appConfigServlet(ConfigurableEnvironment configurableEnvironment,
-                                                    ContextProcessor contextProcessor,
-                                                    ExposedResourceBundleMessageSource clientMessageSource,
-                                                    MetadataEnvironment env) {
+    public ServletRegistrationBean<AppConfigServlet> appConfigServlet(ConfigurableEnvironment configurableEnvironment,
+                                                                      ContextProcessor contextProcessor,
+                                                                      ExposedResourceBundleMessageSource clientMessageSource,
+                                                                      MetadataEnvironment env) {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
         writer.setContextProcessor(contextProcessor);
         writer.setPropertyResolver(configurableEnvironment);
-        ObjectMapper objectMapper = ObjectMapperConstructor.metaObjectMapper();
-        writer.setObjectMapper(objectMapper);
+        writer.setObjectMapper(metaObjectMapper);
         writer.setPath("classpath*:META-INF/config.json");
         writer.setOverridePath("classpath*:META-INF/config-build.json");
 
@@ -140,8 +132,8 @@ public class N2oServletConfiguration {
                 pipeline,
                 env,
                 applicationId,
-                objectMapper
+                metaObjectMapper
         );
-        return new ServletRegistrationBean(appConfigServlet, n2oApiUrl + "/config", "/n2o/config.json");
+        return new ServletRegistrationBean<>(appConfigServlet, n2oApiUrl + "/config", "/n2o/config.json");
     }
 }
