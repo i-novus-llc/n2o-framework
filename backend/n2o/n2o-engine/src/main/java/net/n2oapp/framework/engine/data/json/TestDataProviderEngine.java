@@ -386,6 +386,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         }
         for (String filter : filters) {
             String[] splittedFilter = WHITESPACE_PATTERN.matcher(filter).replaceAll("").split(":");
+
+            if (splittedFilter.length < 3) {
+                throw new N2oException(String.format(
+                        "Некорректный формат фильтра: '%s'. Ожидается 'поле :оператор :имяПараметра', например 'name :eq :name'",
+                        filter));
+            }
+
             String field = splittedFilter[0];
             Object pattern = inParams.get(splittedFilter[2]);
 
