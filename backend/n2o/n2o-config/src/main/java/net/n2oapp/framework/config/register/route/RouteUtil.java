@@ -43,7 +43,7 @@ public abstract class RouteUtil {
      * @param url Адрес URL
      * @return Нормализованный адрес URL
      */
-    @Deprecated(since = "7.30", forRemoval = true)
+    @Deprecated(since = "8.0", forRemoval = true)
     public static String normalize(String url) {
         if (url == null || !isApplicationUrl(url))
             return url;
