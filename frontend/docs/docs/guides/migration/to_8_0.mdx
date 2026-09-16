@@ -1,9 +1,9 @@
 ---
-title: Миграция с 7.29 на 7.30
+title: Миграция с 7.29 на 8.0
 description: ""
 ---
 
-## 7.30.0 {#7_30_0}
+## 8.0.0 {#8_0_0}
 
 ### Изменения в XML API {#changes-xml-api}
 
@@ -23,7 +23,7 @@ description: ""
 - Удален атрибут `mode` у виджета `<form>`.
   Ранее данный атрибут позволял использовать две модели данных — `edit` и `resolve` — внутри одной формы при значении `two-models`,
   либо использовать одну модель при значении `one-model`.
-  Начиная с версии 7.30 поддержка этого режима прекращена. Для всех форм используется единая модель `resolve`.
+  Начиная с версии 8.0 поддержка этого режима прекращена. Для всех форм используется единая модель `resolve`.
 
     Для миграции старых форм необходимо удалить атрибут `mode` из формы.
     1. Для форм с `mode="one-model"` достаточно просто удалить атрибут.
@@ -61,7 +61,7 @@ description: ""
 </table>
 ```
 
-```xml title="Пример, как работает в версии 7.30"
+```xml title="Пример, как работает сейчас"
 <form id="filters">
     <toolbar>
         <button label="Найти">
@@ -203,7 +203,7 @@ description: ""
 ### Расширенная поддержка JS в XML {#changes-js-expressions}
 
 Ранее JS выражения в XML файлах исполнялись движком Nashorn, который поддерживал только стандарт ES5.
-Начиная с версии 7.30 используется GraalJS с поддержкой **ECMAScript 2020**.
+Начиная с версии 8.0 используется GraalJS с поддержкой **ECMAScript 2020**.
 С его возможностями можете ознакомиться в [официальной документации](https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/).
 
 ### Изменения в настройках {#changes-settings}
@@ -215,17 +215,15 @@ description: ""
 - Настройка `n2o.api.action.open_drawer.placement` переименована в `n2o.api.action.open_drawer.place`.
 
 
-### Изменения в API сервлетов {#changes-servlet-api}
+### Изменения в Java API {#changes-java-api}
 
-`N2oServlet` и его наследники переведены на внедрение через конструктор: удалены `init()`, `setMessageBuilder()`, `setPropertyResolver()` и сеттеры полей.
- Добавлен конструктор `N2oServlet(ObjectMapper, AlertMessagesConstructor)`.
- `ClientCacheTemplate` теперь передаётся только в `PageServlet`.
+- `N2oServlet` и его наследники переведены на внедрение через конструктор:
+удалены `init()`, `setMessageBuilder()`, `setPropertyResolver()` и сеттеры полей.
+Добавлен конструктор `N2oServlet(ObjectMapper, AlertMessagesConstructor)`.
+`ClientCacheTemplate` теперь передаётся только в `PageServlet`.
 
-**Миграция кастомных сервлетов:**
-
-Было:
+**Было:**
 ```java
-
 public class MyServlet extends N2oServlet {
     @Override
     public void init() throws ServletException {
@@ -236,7 +234,7 @@ public class MyServlet extends N2oServlet {
 }
 ```
 
-Стало:
+**Стало:**
 ```java
 public class MyServlet extends N2oServlet {
     public MyServlet(ObjectMapper objectMapper, AlertMessagesConstructor messagesConstructor) {

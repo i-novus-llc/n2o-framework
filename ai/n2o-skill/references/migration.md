@@ -134,7 +134,7 @@
 
 ---
 
-## `target` → `new-window` (link open behavior. Since 7.30.x version!)
+## `target` → `new-window` (link open behavior. Since 8.0.x version!)
 The `target` attribute is unified across all components. The `newWindow` value is **deprecated** and no longer supported — opening a link in a new browser tab is now a separate boolean attribute `new-window`. The `self` value is now emitted as `self` (previously `_self`), and `application` remains the default.
 
 | Component | Attribute change | New default |
@@ -252,7 +252,7 @@ Default properties: `n2o.api.action.link.new_window`, `n2o.api.action.open_page.
 
 ---
 
-## Relative URL resolution (routing mode. Since 7.30.x version!)
+## Relative URL resolution (routing mode. Since 8.0.x version!)
 The way relative `url`/`href` values are resolved changed for elements carrying a `url`/`href` (e.g. `<a>`, `<link>`, `<alert>`, `<print>`, `<image>`, `<html>`). Relative paths now follow standard web semantics instead of always being appended to the current page path.
 
 For a page with `url="/page1"` (directory `/page1/`… note: no trailing slash means the last segment is dropped):
