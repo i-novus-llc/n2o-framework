@@ -3,6 +3,7 @@ package net.n2oapp.framework.engine.data.json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,9 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.OperationEnum.*;
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.STRING;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1214,5 +1217,58 @@ class TestDataProviderEngineTest {
         assertThat(result.get(0).get("id"), is(1));
         assertThat(result.get(0).get("name"), is("test10"));
         assertThat(result.get(0).get("type"), is("10"));
+    }
+
+    /**
+     * Проверка, что при неверном формате фильтра в сообщении об ошибке
+     * указан конкретный фильтр, а не шаблон '%s'.
+     */
+    @Test
+    void testInvalidFilterFormatMessage() {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile("testNumericPrimaryKey.json");
+        provider.setOperation(FIND_ALL);
+
+        Map<String, Object> inParams = new LinkedHashMap<>();
+        inParams.put("sorting", new ArrayList<>());
+        inParams.put("filters", Arrays.asList("id :eq"));
+        inParams.put("limit", 10);
+        inParams.put("offset", 0);
+        inParams.put("page", 1);
+
+        N2oException ex = assertThrows(N2oException.class,
+                () -> engine.invoke(provider, inParams));
+
+        assertThat(ex.getMessage(), containsString("'id :eq'"));
+        assertThat(ex.getMessage(), not(containsString("%s")));
+    }
+
+    /**
+     * Проверка, что при нескольких фильтрах в сообщении указан именно неверный.
+     */
+    @Test
+    void testInvalidFilterFormatMessageWithSeveralFilters() {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile("testNumericPrimaryKey.json");
+        provider.setOperation(FIND_ALL);
+
+        Map<String, Object> inParams = new LinkedHashMap<>();
+        inParams.put("sorting", new ArrayList<>());
+        // Первый фильтр корректный, второй — нет
+        inParams.put("filters", Arrays.asList("name :like :name", "brokenFilter"));
+        inParams.put("name", "Test");
+        inParams.put("limit", 10);
+        inParams.put("offset", 0);
+        inParams.put("page", 1);
+
+        N2oException ex = assertThrows(N2oException.class,
+                () -> engine.invoke(provider, inParams));
+
+        assertThat(ex.getMessage(), containsString("'brokenFilter'"));
+        assertThat(ex.getMessage(), not(containsString("'name :like :name'")));
     }
 }
