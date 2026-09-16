@@ -214,9 +214,10 @@ description: ""
 - Настройка `n2o.api.action.alert.placement` переименована в `n2o.api.action.alert.place`.
 - Настройка `n2o.api.action.open_drawer.placement` переименована в `n2o.api.action.open_drawer.place`.
 
-
 ### Изменения в Java API {#changes-java-api}
 
+- Удалён публичный метод `setSeparator(char)` у класса `CsvFileGenerator`. Ранее он позволял изменить разделитель колонок CSV-экспорта во время работы приложения.
+  Для настройки разделителя колонок CSV-экспорта используйте настройку `n2o.api.generate.button.export.csv.columnSeparator` (по умолчанию `;`).
 - `N2oServlet` и его наследники переведены на внедрение через конструктор:
 удалены `init()`, `setMessageBuilder()`, `setPropertyResolver()` и сеттеры полей.
 Добавлен конструктор `N2oServlet(ObjectMapper, AlertMessagesConstructor)`.

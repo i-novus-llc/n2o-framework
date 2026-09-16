@@ -2,9 +2,10 @@ package net.n2oapp.framework.ui.controller.export.format;
 
 import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
-import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.ExportRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -17,12 +18,22 @@ import java.util.function.UnaryOperator;
 
 import static net.n2oapp.framework.ui.controller.export.FormatUtil.applyFormat;
 
-@NoArgsConstructor
 @Component
 public class CsvFileGenerator implements FileGenerator {
 
     private static final String FILE_FORMAT = "csv";
-    private char csvSeparator = ';';
+    private final char csvSeparator;
+
+    @Autowired
+    public CsvFileGenerator(@Value("${n2o.api.generate.button.export.csv.columnSeparator}") String separator) {
+        this.csvSeparator = (separator != null && !separator.isEmpty())
+                ? separator.charAt(0)
+                : ';';
+    }
+
+    public CsvFileGenerator() {
+        this(";");
+    }
 
     @Override
     public byte[] createFile(String charset, List<DataSet> data, List<ExportRequest.ExportField> headers) {
@@ -53,10 +64,6 @@ public class CsvFileGenerator implements FileGenerator {
     @Override
     public String getContentType() {
         return "text/csv";
-    }
-
-    public void setSeparator(char separator) {
-        this.csvSeparator = separator;
     }
 
     private List<String[]> resolveToCsvFormat(List<DataSet> data, List<ExportRequest.ExportField> headers) {
