@@ -112,7 +112,7 @@ public class XMLChangeListener implements FileChangeListener {
     }
 
     private void deleteSourceFromMemoryByPath(String path) {
-        if (path.lastIndexOf('/') <= path.lastIndexOf('.')) return; //Хак для отсеивания временных файлов
+        if (Path.of(path).getFileName().toString().contains(".")) return;
 
         Node node = Node.byAbsolutePath(path, getConfigPath(path));
         List<SourceInfo> sourceInfoList = configRegister.find(s -> s instanceof FileInfo fileInfo && fileInfo.getLocalPath().startsWith(node.getLocalPath()));
