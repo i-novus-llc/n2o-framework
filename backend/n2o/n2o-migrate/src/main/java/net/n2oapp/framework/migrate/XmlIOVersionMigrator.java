@@ -11,6 +11,8 @@ import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class XmlIOVersionMigrator {
     private static final XMLOutputter XML_OUTPUTTER = new XMLOutputter(Format.getPrettyFormat().setIndent("    "));
     private static final String XML_HEADER = "<?xml version='1.0' encoding='UTF-8'?>\r\n";
     private static final Map<String, String> namespaceUriMapping = Map.of();
+    private static final Logger log = LoggerFactory.getLogger(XmlIOVersionMigrator.class);
 
     public XmlIOVersionMigrator(N2oApplicationBuilder builder) {
         ReaderFactoryByMap readerFactoryByMap = new ReaderFactoryByMap(builder.getEnvironment());
@@ -90,7 +93,7 @@ public class XmlIOVersionMigrator {
                 Files.writeString(path, migratedXml);
             }
         } catch (Exception e) {
-            System.err.println("Ошибка при миграции файла " + filePath + ": " + e.getMessage());
+            log.error("Failed to migrate file: {}", filePath, e);
         }
     }
 
@@ -116,7 +119,7 @@ public class XmlIOVersionMigrator {
                                         .replace(directory, ""));
                             }
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            log.error("Error reading file while scanning directory: {}", path, e);
                         }
                     });
         }

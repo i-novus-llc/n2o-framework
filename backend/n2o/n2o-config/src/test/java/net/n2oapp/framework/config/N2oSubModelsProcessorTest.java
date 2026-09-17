@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
-import net.n2oapp.framework.api.util.N2oTestUtil;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.function.BiFunction;
 
+import static net.n2oapp.framework.config.util.TestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +32,7 @@ class N2oSubModelsProcessorTest {
     private N2oSubModelsProcessor processor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         QueryProcessor queryProcessor = mock(QueryProcessor.class);
         when(queryProcessor.executeOneSizeQuery(any(), any()))
                 .thenReturn(new CollectionPage<>(1, Arrays.asList(new DataSet("label", "someLabel").add("someField", "someFieldValue").add("id", 1)), null));
@@ -79,7 +79,7 @@ class N2oSubModelsProcessorTest {
         //в query нету поля для value
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", false, null);
         DataSet dataSet = new DataSet("gender.wrong", 1);
-        N2oTestUtil.assertOnException(() -> processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet), RuntimeException.class);
+        assertOnException(() -> processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet), RuntimeException.class);
     }
 
 
@@ -140,7 +140,7 @@ class N2oSubModelsProcessorTest {
         //в query нету поля для value
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", true, null);
         DataSet dataSet = new DataSet("gender[0].wrong", 1);
-        N2oTestUtil.assertOnException(() -> processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet), RuntimeException.class);
+        assertOnException(() -> processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet), RuntimeException.class);
     }
 
 
@@ -154,7 +154,7 @@ class N2oSubModelsProcessorTest {
             this.simpleFieldsMap.put("id", idField);
             this.displayFields = Arrays.asList(idField, new QuerySimpleField("label"), new QuerySimpleField("someField"));
             N2oQuery.Filter filter = new N2oQuery.Filter();
-            Map<FilterTypeEnum, N2oQuery.Filter> filterMap = new HashMap<>();
+            Map<FilterTypeEnum, N2oQuery.Filter> filterMap = new EnumMap<>(FilterTypeEnum.class);
             filterMap.put(FilterTypeEnum.EQ, filter);
             this.getFiltersMap().put("id", filterMap);
         }

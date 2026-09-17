@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnSuccess;
+import static net.n2oapp.framework.config.util.TestUtil.assertOnException;
+import static net.n2oapp.framework.config.util.TestUtil.assertOnSuccess;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

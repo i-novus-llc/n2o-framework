@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Consumer;
 
-import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,7 +20,7 @@ class ContextProcessorTest {
     private ContextProcessor processor;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() {
         Context service = new ContextMock();
         processor = new ContextProcessor(service);
     }
@@ -37,6 +37,7 @@ class ContextProcessorTest {
 
         @Override
         public void set(Map<String, Object> dataSet) {
+            // this method is empty
         }
     }
 
@@ -98,5 +99,28 @@ class ContextProcessorTest {
 
         assertOnException(() -> processor.resolveText("#{empty!}"), NotFoundContextPlaceholderException.class);
         assertEquals("val", processor.resolveText("#{empty?val}"));
+    }
+
+    public static void assertOnException(Closure closure, Class<? extends Exception> clazz) {
+        assertOnException(closure, clazz, e -> {
+        });
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Exception> void assertOnException(Closure closure, Class<T> clazz, Consumer<T> checker) {
+        boolean result = false;
+        try {
+            closure.call();
+        } catch (Exception e) {
+            result = clazz.isAssignableFrom(e.getClass());
+            checker.accept((T) e);
+        }
+        assert result;
+    }
+
+
+    public interface Closure {
+        void call();
     }
 }

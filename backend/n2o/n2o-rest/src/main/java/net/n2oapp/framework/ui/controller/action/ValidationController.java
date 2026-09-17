@@ -35,7 +35,7 @@ public class ValidationController implements ControllerTypeAware {
             response.setStatus(500);
             response.setText(StringUtils.resolveLinks(requestInfo.getValidation().getMessage(), requestInfo.getData()));
             responseInfo.setSuccess(false);
-            logger.error(String.format("For field %s validation fail:%s", response.getField(), response.getText()));
+            logger.error("For field {} validation fail: {}", response.getField(), response.getText());
         }, domainProcessor);
         return response;
     }

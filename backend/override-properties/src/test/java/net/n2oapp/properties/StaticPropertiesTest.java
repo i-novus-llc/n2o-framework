@@ -1,14 +1,12 @@
 package net.n2oapp.properties;
 
 import lombok.Getter;
-import net.n2oapp.properties.test.TestUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.function.Consumer;
 
-import static net.n2oapp.properties.test.TestUtil.assertOnException;
-import static net.n2oapp.properties.test.TestUtil.assertOnSuccess;
 
 /**
  * @author operehod
@@ -38,8 +36,8 @@ class StaticPropertiesTest {
 
 
     private void testInitialization() {
-        TestUtil.Closure getProperty = () -> StaticProperties.get("test.property");
-        TestUtil.Closure initProperties = () -> new StaticProperties().setProperties(properties);
+        Closure getProperty = () -> StaticProperties.get("test.property");
+        Closure initProperties = () -> new StaticProperties().setProperties(properties);
         //успешно инициализируемся properties
         assertOnSuccess(initProperties);
         //делаем get, ошибки больше нет
@@ -47,7 +45,6 @@ class StaticPropertiesTest {
         //инициализируемся properties еще раз, получаем ошибку
         assertOnException(initProperties, IllegalStateException.class);
     }
-
 
     private void testGet() {
         //init
@@ -98,11 +95,48 @@ class StaticPropertiesTest {
     }
 
     @Getter
-    private enum TestEnum{
+    private enum TestEnum {
         TEST_1("test1"), TEST_2("Test_2"), TEST_3("TEST__3");
         private final String id;
+
         TestEnum(String id) {
             this.id = id;
         }
+    }
+
+
+    public static void assertOnException(Closure closure, Class<? extends Exception> clazz) {
+        assertOnException(closure, clazz, e -> {
+        });
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Exception> void assertOnException(Closure closure, Class<T> clazz, Consumer<T> checker) {
+        boolean result = false;
+        try {
+            closure.call();
+        } catch (Exception e) {
+            result = clazz.isAssignableFrom(e.getClass());
+            checker.accept((T) e);
+        }
+        assert result;
+    }
+
+
+    public static void assertOnSuccess(Closure closure) {
+        boolean result = true;
+        try {
+            closure.call();
+        } catch (Exception e) {
+            result = false;
+        }
+        assert result;
+    }
+
+    public interface Closure {
+
+        void call();
+
     }
 }

@@ -100,7 +100,7 @@ public class RegisterUtil {
             try {
                 infoList.add(mapper.apply(node));
             } catch (Exception e) {
-                log.error("Bad format config file [" + node.getName() + "]", e);
+                log.error("Bad format config file [{}]", node.getName(), e);
             }
         }
         return infoList;

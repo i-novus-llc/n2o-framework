@@ -100,7 +100,7 @@ public class XMLChangeListener implements FileChangeListener {
                 deleteSourceFromMemoryByPath(file.toAbsolutePath().toString());
             }
         } catch (Exception e) {
-            log.error("Fail deleted handled: " + file, e);
+            log.error("Fail deleted handled: {}", file, e);
         }
     }
 
