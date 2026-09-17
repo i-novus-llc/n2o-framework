@@ -19,5 +19,9 @@ springServices:
       N2O_SANDBOX_PROJECT_SEARCH_FOLDERS: "/autotest"
     replicaCount: 1
     contextPath: tests
+    startupProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 10
+      failureThreshold: 30
     ingress:
       path: /tests

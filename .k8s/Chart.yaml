@@ -5,7 +5,7 @@ version: ${project.version}
 dependencies:
   # template chart for application spring services
   - name: spring-app-template
-    version: 1.2.0
+    version: 1.10.0
     repository: oci://harbor.i-novus.ru/library/helm/n2o
     alias: springServices
   - name: generic-app-template
