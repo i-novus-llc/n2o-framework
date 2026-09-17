@@ -240,6 +240,7 @@ export function MaskedInputContent({
      * @param e - событие изменения
      * @private
      */
+    // eslint-disable-next-line complexity
     const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         if (onKeyDown) {
             onKeyDown(e)
@@ -320,7 +321,9 @@ export function MaskedInputContent({
             if (mode === 'autocomplete') {
                 const newSelected = findEquals || (typeof value === 'string' && isMaskFilled(mask, value) && value)
 
-                if (newSelected) {
+                if (maskPasteMode === 'free') {
+                    onSelect(value)
+                } else if (newSelected) {
                     onSelect(newSelected)
                 }
 
