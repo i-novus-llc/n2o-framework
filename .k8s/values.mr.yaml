@@ -14,6 +14,10 @@ springServices:
         cpu: 10m
     replicaCount: 1
     contextPath: demo
+    startupProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 10
+      failureThreshold: 30
     ingress:
       path: /demo
   n2o-sandbox:

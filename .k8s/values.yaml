@@ -20,6 +20,10 @@ springServices:
       SPRING_CONFIG_IMPORT: "consul:"
     replicaCount: 1
     contextPath: sandbox
+    startupProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 10
+      failureThreshold: 30
     ingress:
       path: /sandbox
 
