@@ -45,6 +45,8 @@ export interface RegionProps {
     parent?: string | null
 }
 
+// TODO рефакторинг вкладок
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const createRegionContainer = <P extends RegionEnhancer>(config: Config) => (WrappedComponent: ComponentType<P & RegionProps>) => {
     const { listKey } = config
 
@@ -121,6 +123,21 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
                 return
             }
 
+            if (
+                routable &&
+                isEmpty(resolveModel) &&
+                !isEmpty(query) &&
+                activeTabFieldId &&
+                !active &&
+                !activeEntity
+            ) {
+                const activeFromQuery = query[activeTabFieldId]
+
+                if (activeFromQuery) {
+                    setResolve?.({ [activeTabFieldId]: activeFromQuery })
+                }
+            }
+
             const delay = setTimeout(() => {
                 const state = getState()
 
@@ -128,7 +145,7 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
                     const model = resolveModel[datasource]
 
                     /** Авто выбор первой видимой вкладки + setResolve если model не существует (initial) **/
-                    if (isEmpty(model) || model[activeTabFieldId] === undefined) {
+                    if (isEmpty(model) || get(model, activeTabFieldId) === undefined) {
                         setFirstAvailableTab(
                             service,
                             changeActiveEntity,
@@ -141,7 +158,7 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
                         return
                     }
 
-                    const activeFromResolve = model[activeTabFieldId]
+                    const activeFromResolve = get(model, activeTabFieldId)
 
                     if (!serviceInfo?.[activeFromResolve]) {
                         changeActiveEntity(activeFromResolve)
