@@ -77,10 +77,7 @@ public class ModelLink extends BindLink {
         this.datasource = link.datasource;
         this.suffix = link.suffix;
         this.fieldId = link.fieldId;
-        setValue(link.getValue());
-        setSubModelQuery(link.getSubModelQuery());
-        setParam(link.getParam());
-        setObserve(link.isObserve());
+        copyAttributes(link);
     }
 
     public ModelLink(String datasource, String suffix) {
@@ -227,16 +224,6 @@ public class ModelLink extends BindLink {
             return null;
         String link = String.format("models.%s['%s']%s", model.getId(), widgetId, Objects.toString(suffix, ""));
         return fieldId == null ? link : link + "." + fieldId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     @Override

@@ -5,7 +5,7 @@ import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.api.util.async.MultiThreadRunner;
+import net.n2oapp.framework.config.util.async.MultiThreadRunner;
 import org.junit.jupiter.api.Test;
 
 import javax.script.ScriptException;
@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
+import static net.n2oapp.framework.config.util.TestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;

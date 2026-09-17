@@ -76,7 +76,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         query = replacePlaceholder(query, ":limit", args.remove("limit"), "10");
         query = replacePlaceholder(query, ":offset", args.remove("offset"), "0");
         query = replacePlaceholder(query, ":count", args.remove("count"), "-1");
-        log.debug("Execute SQL query: " + query);
+        log.debug("Execute SQL query: {}", query);
 
         try {
             if (invocation.getConnectionUrl() == null)
@@ -88,7 +88,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             return executeQuery(args, query,
                     rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
         } catch (DataAccessException e) {
-            log.error("Execution error with SQL query: " + query);
+            log.error("Execution error with SQL query: {}", query);
             throw new N2oQueryExecutionException(constructSqlMessage(e), query, e);
         }
     }

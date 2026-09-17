@@ -4,6 +4,8 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.ExportRequest;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -24,6 +26,7 @@ public class XlsxFileGenerator implements FileGenerator {
     private static final int MIN_COLUMN_WIDTH = 20;
     private static final Pattern NUMBER_CLEAN_PATTERN = Pattern.compile("[^\\d.,-]");
     private static final Pattern OPTIONAL_ZEROS_PATTERN = Pattern.compile("\\[0+]");
+    private static final Logger log = LoggerFactory.getLogger(XlsxFileGenerator.class);
 
     @Override
     public byte[] createFile(String charset,
@@ -68,7 +71,7 @@ public class XlsxFileGenerator implements FileGenerator {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to generate XLSX file", e);
         }
 
         return fileBytes;

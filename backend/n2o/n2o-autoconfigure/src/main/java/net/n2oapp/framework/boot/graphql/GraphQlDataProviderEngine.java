@@ -129,7 +129,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             if (data != null && !((DataSet) data).isEmpty() && dataOverErrors)
                 return;
 
-            log.error("Execution error with GraphQL query: " + query);
+            log.error("Execution error with GraphQL query: {}", query);
             throw new N2oGraphQlException(((DataSet) response.getList(RESPONSE_ERROR_KEY).get(0)).getString(RESPONSE_ERROR_MESSAGE_KEY),
                     query, response);
         }
@@ -249,7 +249,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, placeholder, value, "null");
         }
 
-        log.debug("Execute GraphQL query: " + query);
+        log.debug("Execute GraphQL query: {}", query);
         return query;
     }
 
