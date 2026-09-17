@@ -71,7 +71,7 @@ public class ProjectSearcher {
                             }
                         }
                     } catch (Exception e) {
-                        log.error(String.format("Error while reading file: %s\\%s%n%s", folder, getFileName(resource), e.getMessage()));
+                        log.error("Error while reading file: {}/{}", folder, getFileName(resource), e);
                     }
                 }
             }

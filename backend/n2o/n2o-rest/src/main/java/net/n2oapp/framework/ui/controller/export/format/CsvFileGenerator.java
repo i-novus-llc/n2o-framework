@@ -4,6 +4,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.ExportRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,7 +22,7 @@ import static net.n2oapp.framework.ui.controller.export.FormatUtil.applyFormat;
 
 @Component
 public class CsvFileGenerator implements FileGenerator {
-
+    private static final Logger log = LoggerFactory.getLogger(CsvFileGenerator.class);
     private static final String FILE_FORMAT = "csv";
     private final char csvSeparator;
 
@@ -50,7 +52,7 @@ public class CsvFileGenerator implements FileGenerator {
             }
             fileBytes = baos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to generate CSV file", e);
         }
 
         return fileBytes;

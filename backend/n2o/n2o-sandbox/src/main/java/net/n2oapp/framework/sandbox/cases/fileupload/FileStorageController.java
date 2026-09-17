@@ -24,9 +24,8 @@ import java.util.*;
 public class FileStorageController {
 
     private final Path path;
-
-    private static final String DEFAULT_STORE_KEY = "common";
     private static final Logger log = LoggerFactory.getLogger(FileStorageController.class);
+    private static final String DEFAULT_STORE_KEY = "common";
     private final Map<String, Map<String, FileModel>> storage = new HashMap<>();
     private int id = 0;
 
@@ -64,7 +63,7 @@ public class FileStorageController {
             Path filePath = getFilePath(model.getFileName(), storeKey).normalize();
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to delete file: {}", model.getFileName(), e);
         }
     }
 
@@ -91,7 +90,7 @@ public class FileStorageController {
 
             return model;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to store file: {}", file.getOriginalFilename(), e);
             return null;
         }
     }
@@ -107,7 +106,7 @@ public class FileStorageController {
             Resource resource = new UrlResource(filePath.toUri());
             return resource.exists() ? resource : null;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to load file: {}", fileName, e);
             return null;
         }
     }

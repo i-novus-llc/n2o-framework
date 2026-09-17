@@ -1,4 +1,4 @@
-package net.n2oapp.properties.test;
+package net.n2oapp.framework.config.util;
 
 import java.util.function.Consumer;
 
