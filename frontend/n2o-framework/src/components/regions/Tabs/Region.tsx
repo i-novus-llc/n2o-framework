@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react'
+import cloneDeep from 'lodash/cloneDeep'
 import flowRight from 'lodash/flowRight'
 import { Tabs as TabsControl } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
+import set from 'lodash/set'
 
-// @ts-ignore ignore import error from js file
 import { createRegionContainer } from '../withRegionContainer'
-// @ts-ignore ignore import error from js file
 import withWidgetProps from '../withWidgetProps'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
@@ -45,14 +45,20 @@ function TabsRegionBody({
     const { getComponent } = useContext(FactoryContext)
     const Tabs = getComponent('Tabs', FactoryLevels.SNIPPETS) || TabsControl
 
-    const onChange = useCallback((
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
+    const onChange = useCallback((event) => {
         const id = event.target.value
 
-        /* зависимость от dataSource и resolve модели */
         if (datasource && activeTabFieldId) {
             const model = resolveModel[datasource]
+
+            if (activeTabFieldId.includes('.')) {
+                const newModel = cloneDeep(model)
+
+                set(newModel, activeTabFieldId, id)
+                setResolve(newModel)
+
+                return
+            }
 
             setResolve({ ...model, [activeTabFieldId]: id })
 
