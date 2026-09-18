@@ -19,7 +19,7 @@ import java.io.InputStream;
 class N2oApplicationBuilderTest {
     
     @Test
-    @Disabled
+    @Disabled("Причина отключения не задокументирована; тест не содержит ни одного assert-а, требует ревизии")
     void test() {
 
         ReadCompileBindTerminalPipeline pipeline = new N2oApplicationBuilder()
