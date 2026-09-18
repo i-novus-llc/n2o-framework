@@ -13,7 +13,7 @@ springServices:
         memory: 1000M
         cpu: 500m
       requests:
-        memory: 400M
+        memory: 500M
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
