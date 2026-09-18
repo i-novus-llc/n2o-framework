@@ -5,16 +5,16 @@
         <form>
             <toolbar place="topLeft">
                 <button label="Инфо">
-                    <a href="./info"/>
+                    <a href="./info/"/>
                 </button>
                 <button label="Друзья">
-                    <a href="./friends"/>
+                    <a href="./friends/"/>
                 </button>
                 <button label="Аудиозаписи">
-                    <a href="./audio"/>
+                    <a href="./audio/"/>
                 </button>
                 <button label="Видеозаписи">
-                    <a href="./video"/>
+                    <a href="./video/"/>
                 </button>
             </toolbar>
             <fields>
