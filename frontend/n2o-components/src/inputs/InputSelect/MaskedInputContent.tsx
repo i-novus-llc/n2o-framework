@@ -321,7 +321,7 @@ export function MaskedInputContent({
             if (mode === 'autocomplete') {
                 const newSelected = findEquals || (typeof value === 'string' && isMaskFilled(mask, value) && value)
 
-                if (maskPasteMode === 'free') {
+                if (maskPasteMode === MaskPasteMode.FREE) {
                     onSelect(value)
                 } else if (newSelected) {
                     onSelect(newSelected)
@@ -359,7 +359,7 @@ export function MaskedInputContent({
 
         target.value = pastedText
 
-        onInputChange(pastedText)
+        onSelect(pastedText)
     }
 
     const mergedRef = useCallback((node) => {
