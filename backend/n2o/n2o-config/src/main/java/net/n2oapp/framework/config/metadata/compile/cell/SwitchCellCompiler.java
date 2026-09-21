@@ -58,7 +58,7 @@ public class SwitchCellCompiler implements BaseSourceCompiler<SwitchCell, N2oSwi
                            CompileContext<?, ?> context,
                            CompileProcessor p) {
         for (var c : source.getCases()) {
-            AbstractCell compile = p.compile(c.getItem(), context, p);
+            AbstractCell compile = p.compile(c.getItem(), context);
             cell.getSwitchList().put(c.getValue(), compile);
         }
     }

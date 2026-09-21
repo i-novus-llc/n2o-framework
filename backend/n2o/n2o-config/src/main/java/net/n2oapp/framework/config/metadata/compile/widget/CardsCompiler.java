@@ -84,7 +84,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
             N2oCell cell = block.getComponent();
             if (cell == null)
                 cell = new N2oTextCell();
-            clientBlock.setComponent(p.compile(cell, context, p, new IndexScope(), new ComponentScope(block), scopes));
+            clientBlock.setComponent(p.compile(cell, context, new IndexScope(), new ComponentScope(block), scopes));
             blocks.add(clientBlock);
         }
         return blocks;

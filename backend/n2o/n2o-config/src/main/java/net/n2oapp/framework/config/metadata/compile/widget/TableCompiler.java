@@ -177,7 +177,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         CellsScope cellsScope = new CellsScope(new ArrayList<>());
 
         for (N2oAbstractColumn column : source.getColumns()) {
-            columns.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, sortings, scopes));
+            columns.add(p.compile(column, context, new ComponentScope(column), object, columnIndex, cellsScope, query, sortings, scopes));
         }
         component.getHeader().setCells(columns);
         compileColumnsTableSetting(source.getToolbars(), component.getHeader());

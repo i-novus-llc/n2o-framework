@@ -38,7 +38,7 @@ public class DndColumnCompiler<S extends N2oDndColumn> implements BaseSourceComp
         compiled.setFixed(source.getFixed());
 
         for (N2oAbstractColumn subColumn : source.getChildren())
-            compiled.getChildren().add(p.compile(subColumn, context, p));
+            compiled.getChildren().add(p.compile(subColumn, context));
 
         compiled.setProperties(p.mapAttributes(source));
         return compiled;

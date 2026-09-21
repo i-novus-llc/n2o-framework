@@ -75,7 +75,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         N2oCell cell = source.getComponent();
         if (cell == null)
             cell = new N2oTextCell();
-        tile.setComponent(p.compile(cell, context, p, new IndexScope(), new ComponentScope(source), scopes));
+        tile.setComponent(p.compile(cell, context, new IndexScope(), new ComponentScope(source), scopes));
         return tile;
     }
 }

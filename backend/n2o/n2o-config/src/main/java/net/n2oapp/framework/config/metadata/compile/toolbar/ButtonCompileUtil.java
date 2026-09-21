@@ -64,7 +64,7 @@ public class ButtonCompileUtil {
                     buttonGeneratorFactory.generate(type, toolbar, context, p)
                             .stream()
                             .peek(item -> ((ExtensionAttributesAware) item).setExtAttributes(extAttributes))
-                            .map(item -> (AbstractButton)p.compile(item, context, p))
+                            .map(item -> (AbstractButton)p.compile(item, context))
                             .toList()
             )
         );
