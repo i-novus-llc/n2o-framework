@@ -11,8 +11,6 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-
 @Component
 public class SwitchCellValidator implements SourceValidator<N2oSwitchCell>, SourceClassAware {
 
@@ -24,14 +22,20 @@ public class SwitchCellValidator implements SourceValidator<N2oSwitchCell>, Sour
     @Override
     public void validate(N2oSwitchCell source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (StringUtils.isBlank(source.getValueFieldId()))
-            throw new N2oMetadataValidationException(String.format("Для ячейки \"<switch>\" виджета %s не указано значение 'value-field-id'",
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+        String widgetId = ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId());
 
-        Arrays.stream(source.getCases()).forEach(c -> {
+        if (StringUtils.isBlank(source.getValueFieldId()))
+            throw new N2oMetadataValidationException(String.format(
+                    "Для ячейки \"<switch>\" виджета %s не указано значение 'value-field-id'", widgetId));
+
+        if (source.getCases() == null || source.getCases().length == 0)
+            throw new N2oMetadataValidationException(String.format(
+                    "Для ячейки \"<switch>\" виджета %s не задано ни одного \"<case>\"", widgetId));
+
+        p.safeStreamOf(source.getCases()).forEach(c -> {
             if (StringUtils.isBlank(c.getValue()))
-                throw new N2oMetadataValidationException(String.format("Для \"<case>\" ячейки \"<switch>\" виджета %s не указано значение 'value'",
-                        ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                throw new N2oMetadataValidationException(String.format(
+                        "Для \"<case>\" ячейки \"<switch>\" виджета %s не указано значение 'value'", widgetId));
 
             if (c.getItem() != null)
                 p.validate(c.getItem(), widgetScope);

@@ -40,4 +40,12 @@ class SwitchCellValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/switch/testSwitchNoneCaseValue.page.xml"));
         assertEquals("Для \"<case>\" ячейки \"<switch>\" виджета  не указано значение 'value'", exception.getMessage());
     }
+
+    @Test
+    void testSwitchWithoutCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/cells/switch/testSwitchWithoutCases.page.xml"));
+        assertEquals("Для ячейки \"<switch>\" виджета  не задано ни одного \"<case>\"", exception.getMessage());
+    }
 }

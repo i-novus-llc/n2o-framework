@@ -52,11 +52,13 @@ public class SwitchCellCompiler implements BaseSourceCompiler<SwitchCell, N2oSwi
         if (source.getDefaultCase() != null)
             cell.setSwitchDefault(p.compile(source.getDefaultCase(), context, p));
     }
-    
+
     private void initCases(SwitchCell cell,
                            N2oSwitchCell source,
                            CompileContext<?, ?> context,
                            CompileProcessor p) {
+        if (source.getCases() == null)
+            return;
         for (var c : source.getCases()) {
             AbstractCell compile = p.compile(c.getItem(), context, p);
             cell.getSwitchList().put(c.getValue(), compile);
