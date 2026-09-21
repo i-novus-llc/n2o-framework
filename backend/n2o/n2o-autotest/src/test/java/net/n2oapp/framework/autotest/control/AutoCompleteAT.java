@@ -237,18 +237,18 @@ class AutoCompleteAT extends AutoTestBase {
         // ручной ввод
         autoCompleteFree.setValue("1a2b3c4d5e6f7g8h9i");
         autoCompleteFree.shouldHaveValue("12-345-67-89");
-        // копировать из буфера
+        // копировать из буфера. Вставка в режиме free автоматически создает тэг
         input.setValue("1a2b3c4d5e6f7g8h9i");
         input.copyValue();
         autoCompleteFree.pasteValue();
-        autoCompleteFree.shouldHaveValue("1a2b3c4d5e6f7g8h9i");
+        autoCompleteFree.shouldHaveTags(new String[] {"1a2b3c4d5e..."});
+        autoCompleteFree.shouldBeEmpty();
 
         // 1.4 Выбор из выпадающего списка с маской
-        autoCompleteFree.clear();
         autoCompleteFree.setValue("33");
         autoCompleteFree.shouldHaveDropdownOptions(new String[]{"33-333-33-26"});
         autoCompleteFree.chooseDropdownOption("33-333-33-26");
-        autoCompleteFree.shouldHaveTags(new String[]{"33-333-33-..."});
+        autoCompleteFree.shouldHaveTags(new String[]{"1a2b3c4d5e...", "33-333-33-..."});
 
         // ========== 2. ПРОВЕРКА STRICT РЕЖИМА ==========
         // mask-paste-mode="strict"
