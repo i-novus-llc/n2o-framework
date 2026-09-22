@@ -236,9 +236,9 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
             for (int i = 0; i < t.getItems().length; i++) {
                 items[i] = CompileUtil.copy(t.getItems()[i]);
                 if (N2oAbstractButton.class.isAssignableFrom(items[i].getClass())) {
-                    ((N2oAbstractButton) items[i])
-                            .setDatasourceId(((N2oAbstractButton) items[i]).getDatasourceId() == null ?
-                                    resultWidget.getDatasourceId() : ((N2oAbstractButton) items[i]).getDatasourceId());
+                    N2oAbstractButton button = (N2oAbstractButton) items[i];
+                    if (button.getDatasourceId() == null && resultWidget != null)
+                        button.setDatasourceId(resultWidget.getDatasourceId());
                 }
             }
             toolbar.setItems(items);
