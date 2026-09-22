@@ -138,5 +138,6 @@ class ToolbarCompileTest extends SourceCompileTestBase {
         Toolbar toolbar = page.getWidget().getToolbar();
         assertThat(toolbar.getGroups().get(0).getButtons().get(0).getLabel(), is("Сохранить"));
         assertThat(toolbar.getGroups().get(1).getButtons().get(0).getLabel(), is("Закрыть"));
+        assertThat(toolbar.getGroups().get(0).getId(), is(not(toolbar.getGroups().get(1).getId())));
     }
 }
