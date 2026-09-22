@@ -98,6 +98,11 @@ class SubMenuCompileTest extends SourceCompileTestBase {
                 hasProperty("label", is("Закрыть")),
                 hasProperty("action", instanceOf(LinkAction.class))
         ));
+
+        subMenu = (Submenu) toolbar.getButton("mixedMenu");
+        assertThat(subMenu.getContent().size(), is(2));
+        assertThat(subMenu.getContent().get(0), hasProperty("id", is("staticItem")));
+        assertThat(subMenu.getContent().get(1), hasProperty("id", is("update")));
     }
 
     private static void checkCondition(Map<ValidationTypeEnum, List<Condition>> conditions, String expression, String modelLink) {
