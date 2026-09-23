@@ -16,6 +16,9 @@
                         <menu-item label="menu-item1" model="resolve" datasource="ds"/>
                         <menu-item generate="close"/>
                     </sub-menu>
+                    <sub-menu id="mixedMenu" generate="update">
+                        <menu-item id="staticItem" label="static"/>
+                    </sub-menu>
                 </toolbar>
             </table>
         </region>

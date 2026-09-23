@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -78,7 +79,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                         menuItem.setColor(null);
                         return menuItem;
                     })
-                    .toList());
+                    .collect(Collectors.toCollection(ArrayList::new)));
         }
     }
 
