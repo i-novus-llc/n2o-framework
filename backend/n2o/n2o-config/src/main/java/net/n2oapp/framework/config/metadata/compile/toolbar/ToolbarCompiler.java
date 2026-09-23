@@ -47,12 +47,11 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
     public Toolbar compile(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
         Toolbar toolbar = new Toolbar();
         List<Group> groups = new ArrayList<>();
-        int groupIndex = 0;
         String toolbarPlace = getPlace(source, p);
 
-        fillGroups(source, context, p, groups, groupIndex, toolbarPlace);
+        fillGroups(source, context, p, groups, toolbarPlace);
         if (ArrayUtils.isNotEmpty(source.getGenerate()))
-            groups.add(compileGeneratedButtons(source, context, p, groupIndex, toolbarPlace));
+            groups.add(compileGeneratedButtons(source, context, p, groups.size(), toolbarPlace));
 
         if (!groups.isEmpty()) {
             toolbar.put(toolbarPlace, groups);
@@ -61,14 +60,14 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         return toolbar;
     }
 
-    private void fillGroups(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, List<Group> groups, int groupIndex, String toolbarPlace) {
+    private void fillGroups(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, List<Group> groups, String toolbarPlace) {
         if (ArrayUtils.isEmpty(source.getItems()))
             return;
 
         List<ToolbarItem> toolbarItems = List.of(source.getItems());
         int itemIndex = 0;
         while (itemIndex < toolbarItems.size()) {
-            Group group = initGroup(source, toolbarPlace, groupIndex++);
+            Group group = initGroup(source, toolbarPlace, groups.size());
             if (toolbarItems.get(itemIndex) instanceof N2oGroup groupItem) {
                 group.setButtons(compileButtonsOfGroup(source, context, p, groupItem));
                 itemIndex++;
