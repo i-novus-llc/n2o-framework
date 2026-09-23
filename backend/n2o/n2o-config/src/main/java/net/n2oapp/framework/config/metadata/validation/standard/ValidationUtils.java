@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDepend
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
 
@@ -243,19 +242,35 @@ public final class ValidationUtils {
 
     public static void checkOnFailAction(N2oAction[] actions) {
         if (actions == null || actions.length == 0) return;
-        List<N2oAction> onFailActions = Stream.of(actions).filter(N2oOnFailAction.class::isInstance).toList();
-        if (CollectionUtils.isNotEmpty(onFailActions)) {
-            if (onFailActions.size() > 1) {
-                throw new N2oMetadataValidationException("Не может быть более одного элемента \"<on-fail>\"");
-            } else if (onFailActions.size() == 1) {
-                if (!(actions[actions.length - 1] instanceof N2oOnFailAction)) {
-                    throw new N2oMetadataValidationException("Действие \"<on-fail>\" должно быть последним в списке действий");
-                }
-                if (Stream.of(actions).noneMatch(N2oInvokeAction.class::isInstance)) {
-                    throw new N2oMetadataValidationException("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"");
-                }
-            }
+        List<N2oAction> onFailActions = Stream.of(actions)
+                .filter(N2oOnFailAction.class::isInstance)
+                .toList();
+        if (onFailActions.isEmpty()) return;
+
+        if (onFailActions.size() > 1) {
+            throw new N2oMetadataValidationException("Не может быть более одного элемента \"<on-fail>\"");
         }
+        // on-fail должен быть последним в списке верхнего уровня
+        if (!(actions[actions.length - 1] instanceof N2oOnFailAction)) {
+            throw new N2oMetadataValidationException("Действие \"<on-fail>\" должно быть последним в списке действий");
+        }
+        // Проверяем наличие invoke в любом месте (включая вложенные if/else)
+        if (!hasInvokeAction(actions)) {
+            throw new N2oMetadataValidationException("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"");
+        }
+    }
+
+    /**
+     * Рекурсивно проверяет, есть ли среди действий (включая вложенные в if/else) действие <invoke>.
+     */
+    private static boolean hasInvokeAction(N2oAction[] actions) {
+        if (actions == null) return false;
+        for (N2oAction action : actions) {
+            if (action instanceof N2oInvokeAction) return true;
+            if (action instanceof N2oConditionBranch branch && hasInvokeAction(branch.getActions()))
+                return true;
+        }
+        return false;
     }
 
     public static void checkCloseInMultiAction(N2oAction[] actions) {
