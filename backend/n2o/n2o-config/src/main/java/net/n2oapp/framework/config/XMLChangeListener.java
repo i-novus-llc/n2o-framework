@@ -49,7 +49,7 @@ public class XMLChangeListener implements FileChangeListener {
             }
             SourceInfo info = getSourceInfo(file.toAbsolutePath().toString());
 
-            configRegister.update(info);
+            configRegister.add(info);
             eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
             log.debug("Modified handled: {}", file);
         } catch (Exception e) {

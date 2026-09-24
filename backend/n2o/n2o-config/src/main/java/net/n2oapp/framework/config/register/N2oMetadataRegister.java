@@ -72,11 +72,6 @@ public class N2oMetadataRegister implements MetadataRegister {
     }
 
     @Override
-    public <I extends SourceInfo> void update(I info) {
-        // no implementation
-    }
-
-    @Override
     public void clearAll() {
         register.clear();
     }

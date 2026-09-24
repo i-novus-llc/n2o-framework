@@ -102,7 +102,6 @@ public class MetadataPersister {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         try (inputStream) {
             saveContentToFile(inputStream, new File(path));
-            metadataRegister.update(info);//if exists
             metadataRegister.add(info);
             eventBus.publish(new ConfigPersistEvent(this, info, isCreate));
         } catch (IOException e) {
@@ -124,7 +123,6 @@ public class MetadataPersister {
         try {
             watchDir.skipOn(path);
             FileSystemUtil.saveContentToFile(xml, new File(path));
-            metadataRegister.update(infoC);//if exists
             metadataRegister.add(infoC);
             eventBus.publish(new ConfigPersistEvent(this, infoC, isCreate));
         } finally {
@@ -168,7 +166,7 @@ public class MetadataPersister {
                 throw new IllegalStateException();
             watchDir.skipOn(info.getXmlURI());
             try {
-                if (removeContentByUri(info.getXmlURI())) {
+                if (Boolean.TRUE.equals(removeContentByUri(info.getXmlURI()))) {
                     ConfigId configId = info.getConfigId();
                     metadataRegister.remove(configId.getId(), configId.getBaseSourceClass());
                     eventBus.publish(new MetadataRemovedEvent(this, info));
