@@ -88,21 +88,16 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         if (source.getRefreshDatasourceIds() == null)
             return;
         String[] refreshDatasourceIds = source.getRefreshDatasourceIds();
-        boolean isNotDatasource = false;
-        ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
         if (refreshDatasourceIds.length == 1) {
-            if (datasourceIdsScope != null && !datasourceIdsScope.contains(refreshDatasourceIds[0]))
-                isNotDatasource = true;
-            if (isNotDatasource && pageScope != null && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId()))
-                throw new N2oMetadataValidationException(
+            if (pageScope == null || !pageScope.getWidgetIds().contains(source.getRefreshWidgetId()))
+                ValidationUtils.checkDatasourceExistence(refreshDatasourceIds[0], p,
                         String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет %s",
                                 ValidationUtils.getIdOrEmptyString(refreshDatasourceIds[0])));
-        } else if (datasourceIdsScope != null) {
-            for (String datasourceId : refreshDatasourceIds) {
+        } else {
+            for (String datasourceId : refreshDatasourceIds)
                 ValidationUtils.checkDatasourceExistence(datasourceId, p,
                         String.format("Атрибут 'refresh-datasources' ссылается на несуществующий источник данных %s",
                                 ValidationUtils.getIdOrEmptyString(datasourceId)));
-            }
         }
     }
 

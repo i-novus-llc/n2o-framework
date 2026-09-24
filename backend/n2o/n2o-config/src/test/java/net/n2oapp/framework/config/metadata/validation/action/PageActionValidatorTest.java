@@ -178,4 +178,13 @@ class PageActionValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testUniqueRoutes.page.xml");
         assertFalse(output.getOut().contains("Маршрут '/duplicate-route' действия открытия страницы 'utBlank' уже используется на странице."));
     }
+
+    @Test
+    void testRefreshDatasourceNonExistentInApplication() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testRefreshDatasourceNonExistentInApplication.page.xml"));
+        assertEquals("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет 'ds2'",
+                exception.getMessage());
+    }
 }
