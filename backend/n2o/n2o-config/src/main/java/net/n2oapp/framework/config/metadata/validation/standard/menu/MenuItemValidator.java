@@ -47,8 +47,7 @@ public class MenuItemValidator implements SourceValidator<N2oAbstractMenuItem>, 
     }
 
     private void checkMenuItem(N2oMenuItem item) {
-        if (item.getBadgeColor() != null && !StringUtils.isLink(item.getBadgeColor()) &&
-                !EnumUtils.isValidEnum(ColorEnum.class, item.getBadgeColor()))
+        if (ValidationUtils.isInvalidColor(item.getBadgeColor()))
             throw new N2oMetadataValidationException(
                     String.format("\"<menu-item label=%s>\" использует недопустимое значение атрибута 'badge-color=\"%s\"'",
                             ValidationUtils.getIdOrEmptyString(item.getLabel()),
