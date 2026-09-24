@@ -139,6 +139,11 @@ class ButtonValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testOnFailActionWithIfInvoke() {
+        validate("net/n2oapp/framework/config/metadata/validation/button/testOnFailActionWithIfInvoke.page.xml");
+    }
+
+    @Test
     void testMultiActionWithClose() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

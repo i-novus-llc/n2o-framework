@@ -29,7 +29,6 @@ build and verify:
     paths:
       - $CI_PROJECT_DIR/.m2/repository/
     expire_in: 1 day
-  cache: []
 
 autotesting mr stand:
   cache:
