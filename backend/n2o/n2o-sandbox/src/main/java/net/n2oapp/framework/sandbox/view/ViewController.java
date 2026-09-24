@@ -230,7 +230,7 @@ public class ViewController {
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
                     new UserContext(sandboxContext));
-            return ResponseEntity.status(response.getStatus()).body(response.getPaging().getCount());
+            return ResponseEntity.status(response.getStatus()).body(response.getCount());
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();

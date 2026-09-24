@@ -134,7 +134,7 @@ public class N2oController {
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
         dataController.setMessageBuilder(messageBuilder);
         GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
-        return ResponseEntity.status(response.getStatus()).body(response.getPaging().getCount());
+        return ResponseEntity.status(response.getStatus()).body(response.getCount());
     }
 
     @PostMapping({"/n2o/validation/**", "/n2o/validation/", "/n2o/validation"})

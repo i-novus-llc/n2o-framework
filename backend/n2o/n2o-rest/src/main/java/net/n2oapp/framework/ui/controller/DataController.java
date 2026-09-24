@@ -55,10 +55,6 @@ public class DataController extends AbstractController {
         return result;
     }
 
-    public Integer getCount(String path, Map<String, String[]> parameters, UserContext user) {
-        return getData(path, parameters, user).getPaging().getCount();
-    }
-
     public ValidationDataResponse validateData(String path, Object body) {
         ValidationRequestInfo validationRequestInfo = createValidationRequestInfo(path, body);
         return controllerFactory.execute(validationRequestInfo, new ValidationResponseInfo());
@@ -128,7 +124,7 @@ public class DataController extends AbstractController {
     }
 
     private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response, Boolean success) {
-        if (success && requestInfo.getRefresh() != null) {
+        if (Boolean.TRUE.equals(success) && requestInfo.getRefresh() != null) {
             RefreshSaga resolvedRefresh = new RefreshSaga();
             resolvedRefresh.setDatasources(requestInfo.getRefresh().getDatasources());
             response.addRefresh(resolvedRefresh);
