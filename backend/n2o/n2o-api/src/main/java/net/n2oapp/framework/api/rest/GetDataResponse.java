@@ -49,4 +49,8 @@ public class GetDataResponse extends N2oResponse {
         additionalInfo = collectionPage.getAdditionalInfo();
         setResponseMessages(responseInfo.getMessageList(), widgetId);
     }
+
+    public Integer getCount() {
+        return getPaging() != null ? getPaging().getCount() : null;
+    }
 }
