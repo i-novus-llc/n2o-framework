@@ -74,14 +74,6 @@ public interface MetadataRegister {
     void clearAll();
 
     /**
-     * Обновить информацию о метаданной
-     *
-     * @param info Информация о метаданной
-     * @param <I>  Тип информации
-     */
-    <I extends SourceInfo> void update(I info);
-
-    /**
      * Содержит ли реестр информацию о метаданной
      *
      * @param id          Идентификатор метаданной
