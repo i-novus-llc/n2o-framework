@@ -31,7 +31,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(chart, source, context, p, widgetScope, widgetActions, object, null);
 
-        chart.setComponent(p.compile(source.getComponent(), context, p));
+        chart.setComponent(p.compile(source.getComponent(), context));
         chart.getComponent().setSize(p.resolve(property("n2o.api.widget.chart.size"), Integer.class));
         chart.getComponent().setWidth(prepareSizeAttribute(source.getWidth()));
         chart.getComponent().setHeight(prepareSizeAttribute(source.getHeight()));

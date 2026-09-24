@@ -33,7 +33,7 @@ public class ListCellCompiler extends AbstractCellCompiler<ListCell, N2oListCell
                 () -> p.resolve(property("n2o.api.cell.list.inline"), Boolean.class)));
         listCell.setSeparator(source.getSeparator());
         if (source.getLabelFieldId() != null) {
-            AbstractCell innerCell = p.compile(source.getCell() != null ? source.getCell() : new N2oTextCell(), context, p, new ComponentScope(source));
+            AbstractCell innerCell = p.compile(source.getCell() != null ? source.getCell() : new N2oTextCell(), context, new ComponentScope(source));
             innerCell.setFieldKey(source.getLabelFieldId());
             listCell.setContent(innerCell);
         }
