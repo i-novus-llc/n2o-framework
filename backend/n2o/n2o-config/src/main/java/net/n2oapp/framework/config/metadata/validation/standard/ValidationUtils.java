@@ -25,7 +25,10 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -144,20 +147,29 @@ public final class ValidationUtils {
             throw new N2oMetadataValidationException("Условный оператор 'if-else' начинается не с тега \"<if>\"");
 
         LinkedList<N2oConditionBranch> operator = constructOperator(branches);
-        checkDatasourceExistenceInTag(operator.getFirst().getDatasourceId(), p, "\"<if>\"");
-        Optional<N2oElseIfBranchAction> elseIfBranch = findFirstByInstance(operator, N2oElseIfBranchAction.class);
-        Optional<N2oElseBranchAction> elseBranch = findFirstByInstance(operator, N2oElseBranchAction.class);
 
-        if (elseIfBranch.isPresent() && elseBranch.isPresent() &&
-                (operator.indexOf(elseIfBranch.get()) > operator.indexOf(elseBranch.get())))
-            throw new N2oMetadataValidationException("Неверный порядок тегов \"<else-if>\" и \"<else>\" в условном операторе 'if-else'");
+        // <else-if> не может идти после <else>
+        boolean elseSeen = false;
+        for (N2oConditionBranch branch : operator) {
+            if (branch instanceof N2oElseBranchAction) {
+                if (elseSeen)
+                    throw new N2oMetadataValidationException(
+                            "В условном операторе 'if-else' может быть только один тег \"<else>\"");
+                elseSeen = true;
+            } else if (branch instanceof N2oElseIfBranchAction && elseSeen) {
+                throw new N2oMetadataValidationException(
+                        "Тег \"<else-if>\" не может идти после \"<else>\" в условном операторе 'if-else'");
+            }
+        }
 
-        for (N2oConditionBranch operatorBranch : operator) {
-            if (operatorBranch instanceof N2oIfBranchAction)
-                checkTest(operatorBranch, p, "<if>");
-            else if (operatorBranch instanceof N2oElseIfBranchAction)
-                checkTest(operatorBranch, p, "<else-if>");
-            p.validate(operatorBranch);
+        for (N2oConditionBranch branch : operator) {
+            if (branch instanceof N2oIfBranchAction ifBranch) {
+                checkTest(ifBranch, p, "<if>");
+                checkDatasourceExistenceInTag(ifBranch.getDatasourceId(), p, "\"<if>\"");
+            } else if (branch instanceof N2oElseIfBranchAction elseIfBranch) {
+                checkTest(elseIfBranch, p, "<else-if>");
+            }
+            p.validate(branch);
         }
 
         if (!branches.isEmpty())
@@ -317,12 +329,6 @@ public final class ValidationUtils {
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {
         p.checkNotNull(branch.getTest(),
                 String.format("В теге \"%s\" условного оператора 'if-else' не задано условие 'test'", tag));
-    }
-
-    private static <T> Optional<T> findFirstByInstance(List<? super T> list, Class<T> clazz) {
-        if (list == null)
-            return Optional.empty();
-        return list.stream().filter(clazz::isInstance).map(clazz::cast).findFirst();
     }
 
     private static LinkedList<N2oConditionBranch> constructOperator(Queue<N2oConditionBranch> branches) {
