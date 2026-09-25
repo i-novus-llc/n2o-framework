@@ -58,7 +58,7 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testWrongIfElseAndElseSequence.page.xml"));
-        assertEquals("Неверный порядок тегов \"<else-if>\" и \"<else>\" в условном операторе 'if-else'", exception.getMessage());
+        assertEquals("Тег \"<else-if>\" не может идти после \"<else>\" в условном операторе 'if-else'", exception.getMessage());
     }
 
     /**
@@ -91,5 +91,29 @@ class ConditionBranchValidationTest extends SourceValidationTestBase {
     @Test
     void testAllRight() {
         validate("net/n2oapp/framework/config/metadata/validation/action/condition/testAllRight.page.xml");
+    }
+
+
+    @Test
+    void testElseIfAfterElse() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testElseIfAfterElse.page.xml"));
+        assertEquals("Тег \"<else-if>\" не может идти после \"<else>\" в условном операторе 'if-else'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testMultipleElse() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testMultipleElse.page.xml"));
+        assertEquals("В условном операторе 'if-else' может быть только один тег \"<else>\"",
+                exception.getMessage());
+    }
+
+    @Test
+    void testValidIfElse() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/condition/testValidIfElse.page.xml");
     }
 }
