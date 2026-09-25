@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 import static java.util.Objects.isNull;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
  * Валидатор источника данных, ссылающегося на источник из application.xml
@@ -26,11 +27,17 @@ public class ApplicationDatasourceValidator extends AbstractDatasourceValidator<
     public void validate(N2oApplicationDatasource datasource, SourceProcessor p) {
         super.validate(datasource, p);
         N2oApplication n2oApplication = p.getSource(p.resolve("${n2o.application.id}", String.class), N2oApplication.class);
-        if (isNull(n2oApplication.getDatasources()) ||
-                Arrays.stream(n2oApplication.getDatasources()).noneMatch(ds -> ds.getId()
-                        .equals(getDatasourceId(datasource))))
-            throw new N2oMetadataValidationException(String.format("Источник данных \"<app-datasource>\" ссылается на несуществующий в '%s.application.xml' источник данных '%s'",
-                    n2oApplication.getId(), getDatasourceId(datasource)));
+
+        String datasourceId = getDatasourceId(datasource);
+        boolean exists = !isNull(n2oApplication.getDatasources())
+                && Arrays.stream(n2oApplication.getDatasources())
+                .filter(ds -> ds.getId() != null)
+                .anyMatch(ds -> ds.getId().equals(datasourceId));
+
+        if (!exists)
+            throw new N2oMetadataValidationException(String.format(
+                    "Источник данных \"<app-datasource>\" ссылается на несуществующий в '%s.application.xml' источник данных '%s'",
+                    n2oApplication.getId(), datasourceId));
     }
 
     private String getDatasourceId(N2oApplicationDatasource datasource) {
