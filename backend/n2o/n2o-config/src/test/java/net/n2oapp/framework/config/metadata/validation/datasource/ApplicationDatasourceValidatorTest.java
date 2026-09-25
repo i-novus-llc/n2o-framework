@@ -7,7 +7,10 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.ApplicationDatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.DatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -34,7 +37,9 @@ class ApplicationDatasourceValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.ios(new ApplicationIOv3());
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new PageValidator(), new BasePageValidator(), new ApplicationDatasourceValidator());
+        builder.validators(new PageValidator(), new BasePageValidator(), new ApplicationDatasourceValidator(),
+                new ApplicationValidator(),
+                new StandardDatasourceValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/application/empty.application.xml"));
         builder.properties("n2o.application.id=empty");
     }
@@ -71,4 +76,25 @@ class ApplicationDatasourceValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testSourceAppDatasourceNonExistentId.page.xml"));
         assertEquals("Источник данных \"<app-datasource>\" ссылается на несуществующий в 'empty.application.xml' источник данных 'nonEXIST'", exception.getMessage());
     }
+
+    @Test
+    void testApplicationWithoutDatasourceId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testApplicationWithoutDatasourceId.application.xml"));
+        assertEquals("В одном из источников данных приложения 'testApplicationWithoutDatasourceId' не задан 'id'", exception.getMessage());
+    }
+
+    @Test
+    void testAppDatasourceWithoutIdInApplication() {
+        builder.sources(new CompileInfo(
+                "net/n2oapp/framework/config/metadata/validation/datasource/application/testApplicationWithoutDatasourceId.application.xml"));
+        builder.properties("n2o.application.id=testApplicationWithoutDatasourceId");
+
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testAppDatasourceWithoutIdInApplication.page.xml"));
+        assertEquals("В одном из источников данных приложения 'testApplicationWithoutDatasourceId' не задан 'id'", exception.getMessage());
+    }
+
 }

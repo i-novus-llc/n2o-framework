@@ -41,7 +41,7 @@ public class ApplicationValidator implements SourceValidator<N2oApplication>, So
         ValidatorDatasourceIdsScope datasourceIdsScope = new ValidatorDatasourceIdsScope(
                 p.safeStreamOf(datasources).map(N2oAbstractDatasource::getId).collect(Collectors.toSet())
         );
-        p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
+        p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, source, datasourceIdsScope));
 
         if (source.getHeader() != null) {
             if (hasLink(source.getHeader().getTitle()) && source.getHeader().getDatasourceId() == null)

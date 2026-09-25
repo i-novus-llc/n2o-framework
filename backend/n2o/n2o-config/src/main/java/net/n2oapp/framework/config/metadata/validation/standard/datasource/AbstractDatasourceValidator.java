@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
+import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
@@ -22,9 +23,20 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
     public void validate(S source, SourceProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (source.getId() == null && widgetScope == null)
-            throw new N2oMetadataValidationException(String.format("В одном из источников данных страницы %s не задан 'id'",
-                    getIdOrEmptyString(pageScope.getPageId())));
+        N2oApplication application = p.getScope(N2oApplication.class);
+
+        if (source.getId() == null && widgetScope == null) {
+            if (pageScope != null) {
+                throw new N2oMetadataValidationException(String.format(
+                        "В одном из источников данных страницы %s не задан 'id'",
+                        getIdOrEmptyString(pageScope.getPageId())));
+            }
+            if (application != null) {
+                throw new N2oMetadataValidationException(String.format(
+                        "В одном из источников данных приложения %s не задан 'id'",
+                        getIdOrEmptyString(application.getId())));
+            }
+        }
     }
 
     /**
