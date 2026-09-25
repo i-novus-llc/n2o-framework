@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -46,5 +47,9 @@ class HtmlWidgetCompileTest extends SourceCompileTestBase {
 
         htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(htmlWidget.getHtml(), is("<div class='test'><p>Hello</p></div>"));
+
+        // без content и url
+        htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(2);
+        assertThat(htmlWidget.getHtml(), nullValue());
     }
 }

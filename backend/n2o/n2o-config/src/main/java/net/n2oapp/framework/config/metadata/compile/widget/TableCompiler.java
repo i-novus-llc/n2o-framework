@@ -53,6 +53,7 @@ import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpress
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.collections.MapUtils.isNotEmpty;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Компиляция таблицы
@@ -226,7 +227,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private void initDefaultSearchButtons(N2oTable source) {
-        if (source.getFilters() == null || Boolean.TRUE.equals(source.getFilters().getFetchOnChange()))
+        if (source.getFilters() == null || isEmpty(source.getFilters().getItems()) || Boolean.TRUE.equals(source.getFilters().getFetchOnChange()))
             return;
         List<N2oField> searchButtons = new ArrayList<>();
         findSearchButtons(source.getFilters().getItems(), searchButtons);
