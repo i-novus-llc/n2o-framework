@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;
 
@@ -97,5 +98,13 @@ class TilesWidgetCompileTest extends SourceCompileTestBase {
                 hasProperty("showCount", is(ShowCountTypeEnum.ALWAYS)),
                 hasProperty("size", is(10))
         ));
+    }
+
+    @Test
+    void testEmptyTiles() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesEmptyCompile.page.xml")
+                .get(new PageContext("testTilesEmptyCompile"));
+        Tiles tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(0);
+        assertThat(tiles.getTile(), is(empty()));
     }
 }

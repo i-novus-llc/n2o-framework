@@ -307,6 +307,14 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    void testTableEmptyFiltersCompile() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableEmptyFiltersCompile.page.xml")
+                .get(new PageContext("testTableEmptyFiltersCompile"));
+        Table<?> table = (Table<?>) page.getRegions().get("single").getFirst().getContent().getFirst();
+        assertThat(table.getFilter(), nullValue());
+    }
+
+    @Test
     void testDefaultValues() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml")
                 .get(new PageContext("testTableCompileFilters"));

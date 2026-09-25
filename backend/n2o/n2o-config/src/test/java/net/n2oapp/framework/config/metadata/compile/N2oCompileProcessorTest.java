@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -345,6 +346,12 @@ class N2oCompileProcessorTest extends N2oTestBase {
         assertThat(processor.resolveJS("{name}", String.class), is("`name`"));
         assertThat(processor.resolveJS("true", Boolean.class), is(true));
         assertThat(processor.resolveJS("false", Boolean.class), is(false));
+    }
+
+    @Test
+    void testGetExternalFileWithNullUri() {
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
+        assertThat(processor.getExternalFile(null), nullValue());
     }
 
     @Test

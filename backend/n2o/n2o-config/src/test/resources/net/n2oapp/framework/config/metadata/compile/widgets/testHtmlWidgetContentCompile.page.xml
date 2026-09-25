@@ -7,5 +7,6 @@
         <html>
             <content>&lt;div class='test'&gt;&lt;p&gt;Hello&lt;/p&gt;&lt;/div&gt;</content>
         </html>
+        <html/>
     </regions>
 </page>
