@@ -54,6 +54,7 @@
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+        <netty.version>4.1.137.Final</netty.version>
 
         <allure-junit5.version>2.30.0</allure-junit5.version>
         <selenium.version>4.21.0</selenium.version>
