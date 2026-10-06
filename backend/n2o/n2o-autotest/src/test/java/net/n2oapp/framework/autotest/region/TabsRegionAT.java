@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.region;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
@@ -299,5 +301,59 @@ class TabsRegionAT extends AutoTestBase {
         tab4.shouldBeEnabled();
         tab4.click();
         tab4.shouldBeActive();
+    }
+
+    @Test
+    void testRestoreActiveTabByParamAndField() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_param_field/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_param_field/page.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        // открытие страницы с параметром восстанавливает соответствующую вкладку
+        page.toolbar().topLeft().button("TWO").click();
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(3);
+        tabs.tab(0).shouldNotBeActive();
+        tabs.tab(1).shouldBeActive();
+        tabs.tab(2).shouldNotBeActive();
+        page.shouldHaveUrlMatches(".*param=tab2");
+
+        // восстановление после перезагрузки страницы
+        Selenide.refresh();
+        tabs = page.regions().region(0, TabsRegion.class);
+        tabs.tab(1).shouldBeActive();
+        page.shouldHaveUrlMatches(".*param=tab2");
+
+        // переключение вкладок через set-value
+        tabs.tab(1).content().widget(FormWidget.class).fields()
+                .field("toThird", ButtonField.class).click();
+        tabs.tab(2).shouldBeActive();
+        tabs.tab(1).shouldNotBeActive();
+        page.shouldHaveUrlMatches(".*param=tab3");
+
+        tabs.tab(1).click();
+        tabs.tab(1).shouldBeActive();
+        tabs.tab(1).content().widget(FormWidget.class).fields()
+                .field("toFirst", ButtonField.class).click();
+        tabs.tab(0).shouldBeActive();
+        page.shouldHaveUrlMatches(".*param=tab1");
+
+        // восстановление после перезагрузки страницы, когда вкладка переключена
+        Selenide.refresh();
+        tabs = page.regions().region(0, TabsRegion.class);
+        tabs.tab(0).shouldBeActive();
+        tabs.tab(1).shouldNotBeActive();
+        tabs.tab(2).shouldNotBeActive();
+        page.shouldHaveUrlMatches(".*param=tab1");
+
+        // повторное открытие страницы с другим параметром
+        page.breadcrumb().crumb(0).click();
+        page.toolbar().topLeft().button("THREE").click();
+        tabs = page.regions().region(0, TabsRegion.class);
+        tabs.tab(2).shouldBeActive();
+        tabs.tab(0).shouldNotBeActive();
+        page.shouldHaveUrlMatches(".*param=tab3");
     }
 }
