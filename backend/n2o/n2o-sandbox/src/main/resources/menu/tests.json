@@ -360,6 +360,10 @@
           "name": "TabsRegionAT. testEnabled"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/active_param_field",
+          "name": "TabsRegionAT. testRestoreActiveTabByParamAndField"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/subpage/with_buttons",
           "name": "SubPageRegionAT. testSubPageWithButtons"
         },
