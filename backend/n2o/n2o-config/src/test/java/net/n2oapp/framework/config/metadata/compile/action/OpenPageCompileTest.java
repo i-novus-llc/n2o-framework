@@ -75,6 +75,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage4.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageToolbarNoWidgetTarget.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterDetail.page.xml"),
@@ -566,5 +567,23 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getFirst().getButtons().size(), is(1));
         assertThat(toolbar.getFirst().getButtons().getFirst().getLabel(), is("Button2"));
         assertThat(toolbar.getFirst().getButtons().getFirst().getAction(), instanceOf(ClearAction.class));
+    }
+
+    /**
+     * Переопределение toolbar не должно падать с NPE, если у открываемой страницы нет собственного виджета
+     * (у неё только регион sub-page, поэтому resultWidget == null)
+     */
+    @Test
+    void testOpenPageToolbarWithoutResultWidget() {
+        PageContext pageContext = new PageContext("testOpenPageToolbarNoWidget", "/p2");
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageToolbarNoWidget.page.xml")
+                .get(pageContext);
+
+        StandardPage page = (StandardPage) routeAndGet("/p2/route/", Page.class);
+        List<Group> toolbar = page.getToolbar().get("bottomCenter");
+        assertThat(toolbar.getFirst().getButtons().size(), is(1));
+        assertThat(toolbar.getFirst().getButtons().getFirst().getLabel(), is("Button in center"));
+        assertThat(toolbar.getFirst().getButtons().getFirst().getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction) toolbar.getFirst().getButtons().getFirst().getAction()).getUrl(), is("http://i-novus.ru"));
     }
 }
