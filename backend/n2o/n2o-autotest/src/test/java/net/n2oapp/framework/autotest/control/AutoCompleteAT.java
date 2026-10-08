@@ -263,13 +263,13 @@ class AutoCompleteAT extends AutoTestBase {
         input.setValue("111");
         input.copyValue();
         autoCompleteFree.pasteValue();
-        autoCompleteFree.enter();
+        // применение сразу после вставки (без нажатия Enter)
         autoCompleteFree.shouldHaveTags(new String[]{"11-1__", "12-345", "111"});
 
         input.setValue("123456789");
         input.copyValue();
         autoCompleteFree.pasteValue();
-        autoCompleteFree.enter();
+        // применение сразу после вставки (без нажатия Enter)
         autoCompleteFree.shouldHaveTags(new String[]{"11-1__", "12-345", "111", "123456789"});
 
         // ========== 2. ПРОВЕРКА STRICT РЕЖИМА ==========
