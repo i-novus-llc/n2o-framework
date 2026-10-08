@@ -356,4 +356,37 @@ class TabsRegionAT extends AutoTestBase {
         tabs.tab(0).shouldNotBeActive();
         page.shouldHaveUrlMatches(".*param=tab3");
     }
+
+    @Test
+    void testActiveTabFieldIdWithDot() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_field_with_dot/index.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RadioGroup radio = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields()
+                .field("Вкладки").control(RadioGroup.class);
+
+        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(3);
+
+        // значение по умолчанию радио-поля должно активировать соответствующую вкладку
+        radio.shouldBeChecked("Вторая");
+        tabs.tab(0).shouldNotBeActive();
+        tabs.tab(1).shouldBeActive();
+        tabs.tab(2).shouldNotBeActive();
+
+        // переключение радио-поля должно переключать активную вкладку
+        radio.check("Первая");
+        tabs.tab(0).shouldBeActive();
+        tabs.tab(1).shouldNotBeActive();
+        tabs.tab(2).shouldNotBeActive();
+
+        // переключение вкладки должно переключать радио-поле
+        tabs.tab(2).click();
+        tabs.tab(0).shouldNotBeActive();
+        tabs.tab(1).shouldNotBeActive();
+        tabs.tab(2).shouldBeActive();
+        radio.shouldBeChecked("Третья");
+    }
 }

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Вкладки">
+    <datasources>
+        <datasource id="tabsDs"/>
+    </datasources>
+
+    <regions>
+        <form datasource="tabsDs">
+            <fields>
+                <radio-group id="activeTab" label="Вкладки">
+                    <default-value id="tab2" name="Вторая"/>
+                    <options>
+                        <option id="tab1" name="Первая"/>
+                        <option id="tab2" name="Вторая"/>
+                        <option id="tab3" name="Третья"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+
+        <tabs datasource="tabsDs" active-tab-field-id="activeTab.id">
+            <tab id="tab1" name="Первая">
+                <form>
+                    <fields>
+                        <input-text id="f1"/>
+                    </fields>
+                </form>
+            </tab>
+
+            <tab id="tab2" name="Вторая">
+                <form>
+                    <fields>
+                        <input-text id="f2"/>
+                    </fields>
+                </form>
+            </tab>
+
+            <tab id="tab3" name="Третья">
+                <form>
+                    <fields>
+                        <input-text id="f3"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>
