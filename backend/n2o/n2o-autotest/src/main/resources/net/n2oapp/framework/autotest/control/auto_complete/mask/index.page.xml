@@ -17,6 +17,12 @@
                            mask="99-999-99-99"
                            mask-paste-mode="strict"/>
             <auto-complete id="auto" mask="99-999-99-99"/>
+            <auto-complete id="shortMaskFree"
+                           query-id="test"
+                           value-field-id="value"
+                           tags="true"
+                           mask="99-999"
+                           mask-paste-mode="free"/>
         </fields>
     </form>
 </simple-page>
