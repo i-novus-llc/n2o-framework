@@ -364,6 +364,10 @@
           "name": "TabsRegionAT. testRestoreActiveTabByParamAndField"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/active_field_with_dot",
+          "name": "TabsRegionAT. testActiveTabFieldIdWithDot"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/subpage/with_buttons",
           "name": "SubPageRegionAT. testSubPageWithButtons"
         },
