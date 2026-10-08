@@ -6,9 +6,11 @@
     <filters>
         <eq filter-id="id" field-id="id"/>
         <like filter-id="name" field-id="name"/>
+        <like field-id="value"/>
     </filters>
     <fields>
         <field id="id" mapping="[name]"/>
         <field id="name"/>
+        <field id="value"/>
     </fields>
 </query>
