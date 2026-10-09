@@ -35,31 +35,28 @@ public class NestedList extends ArrayList<Object> {
         if (size() <= info.getIndex())
             return null;//case: "[12]", but size 10
         Object value = super.get(info.getIndex());
-        if (value == null)
-            return null;
-        if (!info.isNesting()) {
+        if (value == null || !info.isNesting())
             return value;
-        } else {
-            if (!info.isSpread()) {
-                if (applicableFor(value, info.getRight(), Map.class)) {
-                    return ((Map) value).get(info.getRight());//case: "[0].foo"
-                }
-                if (applicableFor(value, info.getRight(), NestedList.class))
-                    return ((NestedList) value).get(info.getRight());//case: "[0][1]"
-                return resolveObjectValue(info.getRight(), value);
-            } else {
-                if (!(value instanceof List array))
-                    return null;//case: "[0]*.foo", but "[0]" isn't list
-                List<Object> result = new ArrayList<>(array.size());
-                for (Object o : array) {
-                    Object child = null;
-                    if (o instanceof Map oMap)
-                        child = oMap.get(info.getRight());
-                    result.add(child);
-                }
-                return Collections.unmodifiableList(result);
-            }
-        }
+        if (info.isSpread())
+            return getSpreadValue(value, info.getRight());
+        return getNestedValue(value, info.getRight());
+    }
+
+    private static Object getNestedValue(Object value, String right) {
+        if (applicableFor(value, right, Map.class))
+            return ((Map) value).get(right);//case: "[0].foo"
+        if (applicableFor(value, right, NestedList.class))
+            return ((NestedList) value).get(right);//case: "[0][1]"
+        return resolveObjectValue(right, value);
+    }
+
+    private static Object getSpreadValue(Object value, String right) {
+        if (!(value instanceof List<?> array))
+            return null;//case: "[0]*.foo", but "[0]" isn't list
+        List<Object> result = new ArrayList<>(array.size());
+        for (Object o : array)
+            result.add(o instanceof Map<?, ?> oMap ? oMap.get(right) : null);
+        return Collections.unmodifiableList(result);
     }
 
     public Object put(String key, Object value) {
@@ -69,77 +66,63 @@ public class NestedList extends ArrayList<Object> {
             NestedUtils.fillArray(this, info.getIndex());
             return super.set(info.getIndex(), NestedUtils.wrapValue(value,
                     this::createNestedMap, this::createNestedList));
-        } else {
-            if (!info.isSpread()) {
-                //case: "[0].foo"
-                NestedUtils.fillArray(this, info.getIndex());
-                Object rightValue = super.get(info.getIndex());
-                if (!applicableFor(rightValue, info.getRight())) {
-                    rightValue = NestedUtils.createApplicableCollection(info.getRight(),
-                            this::createNestedMap, this::createNestedList);
-                    super.set(info.getIndex(), rightValue);
-                }
-                if (applicableFor(rightValue, info.getRight(), NestedMap.class)) {
-                    //case: "[0].foo"
-                    return ((Map) rightValue).put(info.getRight(), value);
-                } else {
-                    //case: "[0][1]"
-                    return ((NestedList) rightValue).put(info.getRight(), value);
-                }
-            } else {
-                //case: "[0]*.foo"
-                if (value == null) {
-                    return super.set(info.getIndex(), null);
-                } else if (value instanceof Iterable array) {
-                    List<Object> res = new ArrayList<>();
-                    NestedUtils.fillArray(this, info.getIndex());
-                    Object rightValue = super.get(info.getIndex());
-                    if (!(rightValue instanceof NestedList)) {
-                        rightValue = createNestedList(null);
-                        super.set(info.getIndex(), rightValue);
-                    }
-                    int i = 0;
-                    for (Object o : array) {
-                        res.add(((NestedList) rightValue).put("[" + i + "]" + "." + info.getRight(), o));
-                        i++;
-                    }
-                    return res;
-                } else
-                    throw new IllegalArgumentException("Value must be iterable or array, but was " + value);
-            }
         }
+        if (info.isSpread())
+            return putSpreadValue(info, value);
+        return putNestedValue(info, value);
+    }
+
+    private Object putNestedValue(KeyInfo info, Object value) {
+        NestedUtils.fillArray(this, info.getIndex());
+        Object rightValue = super.get(info.getIndex());
+        if (!applicableFor(rightValue, info.getRight())) {
+            rightValue = NestedUtils.createApplicableCollection(info.getRight(),
+                    this::createNestedMap, this::createNestedList);
+            super.set(info.getIndex(), rightValue);
+        }
+        if (applicableFor(rightValue, info.getRight(), NestedMap.class))
+            return ((Map) rightValue).put(info.getRight(), value);//case: "[0].foo"
+        return ((NestedList) rightValue).put(info.getRight(), value);//case: "[0][1]"
+    }
+
+    private Object putSpreadValue(KeyInfo info, Object value) {
+        //case: "[0]*.foo"
+        if (value == null)
+            return super.set(info.getIndex(), null);
+        if (!(value instanceof Iterable<?> array))
+            throw new IllegalArgumentException("Value must be iterable or array, but was " + value);
+        NestedUtils.fillArray(this, info.getIndex());
+        Object rightValue = super.get(info.getIndex());
+        if (!(rightValue instanceof NestedList)) {
+            rightValue = createNestedList(null);
+            super.set(info.getIndex(), rightValue);
+        }
+        NestedList nested = (NestedList) rightValue;
+        List<Object> res = new ArrayList<>();
+        int i = 0;
+        for (Object o : array) {
+            res.add(nested.put("[" + i + "]" + "." + info.getRight(), o));
+            i++;
+        }
+        return res;
     }
 
     public Object removeByKey(Object oKey) {
         if (!(oKey instanceof String key))
             throw new IllegalArgumentException("Argument must be String, but was " + oKey);
         KeyInfo info = getKeyInfo(key);
-        if (!info.isNesting()) {
-            //case: "foo"
-            if (size() > info.getIndex())
-                return super.remove(info.getIndex());
-            else
-                return null;
-        } else {
-            if (!info.isSpread()) {
-                //case: "foo.bar"
-                if (size() <= info.getIndex())
-                    return null;
-                Object rightValue = super.get(info.getIndex());
-                if (!applicableFor(rightValue, info.getRight())) {
-                    return null;
-                }
-                if (applicableFor(rightValue, info.getRight(), NestedMap.class)) {
-                    //case: "foo.bar"
-                    return ((Map) rightValue).remove(info.getRight());
-                } else {
-                    //case: "foo[0]"
-                    return ((NestedList) rightValue).removeByKey(info.getRight());
-                }
-            } else {
-                throw new IllegalArgumentException("Key for containsKey must not contain '*.', but was " + key);
-            }
-        }
+        if (!info.isNesting())
+            return size() > info.getIndex() ? super.remove(info.getIndex()) : null;//case: "foo"
+        if (info.isSpread())
+            throw new IllegalArgumentException("Key for containsKey must not contain '*.', but was " + key);
+        if (size() <= info.getIndex())
+            return null;
+        Object rightValue = super.get(info.getIndex());
+        if (!applicableFor(rightValue, info.getRight()))
+            return null;
+        if (applicableFor(rightValue, info.getRight(), NestedMap.class))
+            return ((Map) rightValue).remove(info.getRight());//case: "foo.bar"
+        return ((NestedList) rightValue).removeByKey(info.getRight());//case: "foo[0]"
     }
 
     protected NestedMap createNestedMap(Map map) {
