@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -40,19 +41,61 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
     }
 
     /**
-     * Проверка существования источников данных, содержащихся в сабмите
+     * Проверка сабмита источника данных
      *
      * @param datasourceId Идентификатор источника данных
      * @param submit       Сабмит
+     * @param objectId     Идентификатор объекта источника данных
+     * @param query        Выборка источника данных
      */
-    public void checkSubmit(String datasourceId, Submit submit, SourceProcessor p) {
-        if (submit != null && submit.getRefreshDatasourceIds() != null) {
+    public void checkSubmit(String datasourceId, Submit submit, String objectId, N2oQuery query, SourceProcessor p) {
+        if (submit == null)
+            return;
+        if (submit.getRefreshDatasourceIds() != null) {
             for (String refreshDs : submit.getRefreshDatasourceIds()) {
                 ValidationUtils.checkDatasourceExistence(refreshDs, p,
                         String.format("Тег \"<submit>\" источника данных %s содержит несуществующий источник данных '%s' в атрибуте 'refresh-datasources'",
                                 getIdOrEmptyString(datasourceId), refreshDs));
             }
         }
+        String resolvedObjectId = objectId;
+        if (objectId == null && query != null)
+            resolvedObjectId = query.getObjectId();
+        checkSubmitOperation(datasourceId, submit, resolvedObjectId, p);
+    }
+
+    /**
+     * Проверка существования операции в объекте, по указанному идентификатору в сабмите
+     *
+     * @param datasourceId Идентификатор источника данных
+     * @param submit       Сабмит
+     * @param objectId     Идентификатор объекта, в котором ищется операция
+     */
+    private void checkSubmitOperation(String datasourceId, Submit submit, String objectId, SourceProcessor p) {
+        if (submit.getOperationId() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Тег \"<submit>\" источника данных %s не содержит обязательный атрибут 'operation-id'",
+                            getIdOrEmptyString(datasourceId)));
+
+        if (objectId == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Тег \"<submit>\" источника данных %s ссылается на операцию %s, но у источника данных не задан объект",
+                            getIdOrEmptyString(datasourceId),
+                            getIdOrEmptyString(submit.getOperationId())));
+        N2oObject object = p.getOrThrow(objectId, N2oObject.class);
+
+        // существование объекта проверяется отдельно
+        if (object == null)
+            return;
+
+        boolean exists = p.safeStreamOf(object.getOperations())
+                .anyMatch(operation -> submit.getOperationId().equals(operation.getId()));
+        if (!exists)
+            throw new N2oMetadataValidationException(
+                    String.format("Тег \"<submit>\" источника данных %s ссылается на несуществующую в объекте %s операцию %s",
+                            getIdOrEmptyString(datasourceId),
+                            getIdOrEmptyString(objectId),
+                            getIdOrEmptyString(submit.getOperationId())));
     }
 
     /**
