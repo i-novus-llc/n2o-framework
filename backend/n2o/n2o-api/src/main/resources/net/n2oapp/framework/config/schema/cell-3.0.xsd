@@ -463,11 +463,12 @@
 
     <xs:complexType name="toolbarDefinition">
         <xs:complexContent>
-            <xs:extension base="tool:toolbarDefinition">
+            <xs:restriction base="tool:toolbarDefinition">
                 <xs:annotation>
                     <xs:documentation>Ячейка с кнопками.</xs:documentation>
                 </xs:annotation>
-            </xs:extension>
+                <xs:attribute name="place" type="tool:placeType" use="prohibited"/>
+            </xs:restriction>
         </xs:complexContent>
     </xs:complexType>
 
