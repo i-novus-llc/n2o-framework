@@ -4,12 +4,14 @@
         <test file="test.json"/>
     </list>
     <filters>
-        <like filter-id="name" field-id="name"/>
-        <eq filter-id="type" field-id="type"/>
+        <like field-id="name"/>
+        <eq field-id="name_eq"/>
+        <eq field-id="type"/>
     </filters>
     <fields>
         <field id="id"/>
         <field id="name"/>
+        <field id="name_eq"/>
         <field id="type"/>
     </fields>
 </query>
