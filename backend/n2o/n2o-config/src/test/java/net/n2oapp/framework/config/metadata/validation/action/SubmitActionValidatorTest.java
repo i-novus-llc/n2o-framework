@@ -24,7 +24,7 @@ class SubmitActionValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oControlsPack(),
                 new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack(), new N2oAllValidatorsPack());
     }
 
@@ -70,4 +70,8 @@ class SubmitActionValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/action/testParentDatasourceUsing.page.xml");
     }
 
+    @Test
+    void testInlineWidgetDatasourceUsing() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testSubmitActionInlineWidgetDatasource.page.xml");
+    }
 }

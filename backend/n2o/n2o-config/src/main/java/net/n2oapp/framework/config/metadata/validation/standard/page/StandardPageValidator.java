@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDataSourcesScopeByInlineDatasource;
 import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
 
 /**
@@ -47,6 +48,7 @@ public class StandardPageValidator implements SourceValidator<N2oStandardPage>, 
                 p.safeStreamOf(datasources).map(N2oAbstractDatasource::getId).collect(Collectors.toSet())
         );
         fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);
+        fillDataSourcesScopeByInlineDatasource(widgets, dataSourcesScope, p);
 
         MetaActions actionBarScope = new MetaActions(
                 p.safeStreamOf(actions).collect(Collectors.toMap(ActionBar::getId, Function.identity()))

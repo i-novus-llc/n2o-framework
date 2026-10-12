@@ -56,8 +56,11 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
         ValidationUtils.checkDatasourceExistence(datasourceId, p,
                 "Атрибут 'datasource' действия \"<submit>\" ссылается на несуществующий источник данных");
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
-        if (dataSourcesScope != null)
-            checkDatasourceByInstance(dataSourcesScope.get(datasourceId));
+        if (dataSourcesScope != null) {
+            N2oAbstractDatasource datasource = dataSourcesScope.get(datasourceId);
+            if (datasource != null)
+                checkDatasourceByInstance(datasource);
+        }
     }
 
     private void checkDatasourceByInstance(@Nonnull N2oAbstractDatasource datasource) {
