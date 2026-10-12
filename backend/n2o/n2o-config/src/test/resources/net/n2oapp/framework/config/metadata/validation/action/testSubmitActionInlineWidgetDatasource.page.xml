@@ -2,8 +2,8 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <form id="form">
-            <datasource id="ds1">
-                <submit/>
+            <datasource id="ds1" object-id="utSubmitAction">
+                <submit operation-id="update"/>
             </datasource>
             <fields>
                 <input-text id="input"/>
