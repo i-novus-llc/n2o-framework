@@ -34,7 +34,8 @@ class StandardDatasourceValidatorTest extends SourceValidationTestBase {
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
         builder.validators(new PageValidator(), new BasePageValidator(), new StandardDatasourceValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/utDsBlank.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/utDs.query.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/utDs.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/utDsSubmit.object.xml"));
     }
 
     /**
@@ -90,6 +91,36 @@ class StandardDatasourceValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithNonExistentRefreshDatasource.page.xml"));
         assertEquals("Тег \"<submit>\" источника данных 'ds1' содержит несуществующий источник данных 'ds2' в атрибуте 'refresh-datasources'", exception.getMessage());
+    }
+
+    /**
+     * Проверяется, что тег <submit> ссылается на несуществующую в объекте операцию
+     */
+    @Test
+    void testSubmitWithNonExistentOperation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithNonExistentOperation.page.xml"));
+        assertEquals("Тег \"<submit>\" источника данных 'ds1' ссылается на несуществующую в объекте 'utDsSubmit' операцию 'update123'", exception.getMessage());
+    }
+
+    /**
+     * Проверяется, что тег <submit> с 'operation-id' в источнике данных без объекта не проходит валидацию
+     */
+    @Test
+    void testSubmitWithoutObject() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithoutObject.page.xml"));
+        assertEquals("Тег \"<submit>\" источника данных 'ds1' ссылается на операцию 'update', но у источника данных не задан объект", exception.getMessage());
+    }
+
+    /**
+     * Проверяется, что тег <submit> со существующей в объекте операцией проходит валидацию
+     */
+    @Test
+    void testSubmitWithExistentOperation() {
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithExistentOperation.page.xml");
     }
 
     /**

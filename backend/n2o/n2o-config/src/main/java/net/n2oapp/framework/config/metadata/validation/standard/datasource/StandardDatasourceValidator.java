@@ -28,7 +28,7 @@ public class StandardDatasourceValidator extends DatasourceValidator<N2oStandard
                 String.format("Источник данных %s", getIdOrEmptyString(datasource.getId())), p);
         N2oQuery query = checkQueryExists(datasource.getQueryId(),
                 String.format("Источник данных %s", getIdOrEmptyString(datasource.getId())), p);
-        checkSubmit(datasource.getId(), datasource.getSubmit(), p);
+        checkSubmit(datasource.getId(), datasource.getSubmit(), datasource.getObjectId(), query, p);
         checkPrefilters(datasource.getId(), datasource.getFilters(), query, p);
     }
 }
