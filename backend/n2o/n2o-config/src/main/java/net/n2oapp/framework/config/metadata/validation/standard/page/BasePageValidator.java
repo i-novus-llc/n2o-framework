@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDataSourcesScopeByInlineDatasource;
 import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.*;
 
@@ -77,6 +78,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
         fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);
+        fillDataSourcesScopeByInlineDatasource(widgets, dataSourcesScope, p);
 
         p.safeStreamOf(toolbars)
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())
