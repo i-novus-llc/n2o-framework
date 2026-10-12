@@ -35,8 +35,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.StylesResolver;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -149,7 +148,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
-        if (nonNull(paramScope) && MapUtils.isNotEmpty(paramScope.getQueryMapping())) {
+        if (nonNull(paramScope) && !CollectionUtils.isEmpty(paramScope.getQueryMapping())) {
             PageRoutes routes = p.getScope(PageRoutes.class);
             Models models = p.getScope(Models.class);
             paramScope.getQueryMapping().forEach((k, v) -> {
@@ -227,11 +226,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     enableConditions.add(condition);
                 }
             }
-            if (CollectionUtils.isNotEmpty(enableConditions))
+            if (!CollectionUtils.isEmpty(enableConditions))
                 dependency.setEnabled(enableConditions);
         }
 
-        if (CollectionUtils.isNotEmpty(visibleConditions))
+        if (!CollectionUtils.isEmpty(visibleConditions))
             dependency.setVisible(visibleConditions);
 
         if (dependency.isNotEmpty()) {

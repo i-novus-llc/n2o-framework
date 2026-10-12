@@ -8,9 +8,9 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkQueryExists;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
@@ -54,7 +54,7 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
      * Проверка корректности указания значений по умолчанию
      */
     private void validateDefaultValues(N2oListField field) {
-        boolean hasDefaultValue = MapUtils.isNotEmpty(field.getDefValue());
+        boolean hasDefaultValue = !CollectionUtils.isEmpty(field.getDefValue());
         boolean hasDefaultValues = ArrayUtils.isNotEmpty(field.getDefValuesArray());
 
         if (hasDefaultValue && hasDefaultValues) {

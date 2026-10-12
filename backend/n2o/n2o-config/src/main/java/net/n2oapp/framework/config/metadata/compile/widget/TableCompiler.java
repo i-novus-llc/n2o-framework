@@ -54,7 +54,6 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static org.apache.commons.collections.MapUtils.isNotEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
@@ -137,13 +136,13 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
 
     private void checkRequiredFilter(String tableId, String queryId, SourceComponent item, Set<String> filterIds) {
         if (item instanceof N2oField field && isRequired(field) && filterIds.stream()
-                    .noneMatch(filterId -> FieldCompileUtil.isSuitableFilterId(field.getId(), filterId))) {
-                throw new N2oException(
-                        String.format(
-                                "В таблице '%s' для обязательного фильтра '%s' не задан фильтр в выборке '%s'",
-                                tableId, field.getId(), queryId
-                        )
-                );
+                .noneMatch(filterId -> FieldCompileUtil.isSuitableFilterId(field.getId(), filterId))) {
+            throw new N2oException(
+                    String.format(
+                            "В таблице '%s' для обязательного фильтра '%s' не задан фильтр в выборке '%s'",
+                            tableId, field.getId(), queryId
+                    )
+            );
         } else if (item instanceof FieldsetItem container && container.getItems() != null) {
             for (FieldsetItem child : container.getItems()) {
                 checkRequiredFilter(tableId, queryId, child, filterIds);
@@ -217,7 +216,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         component.getHeader().setCells(columns);
         compileColumnsTableSetting(source.getToolbars(), component.getHeader());
         component.getBody().setCells(cellsScope.getCells());
-        if (isNotEmpty(sortings)) {
+        if (!CollectionUtils.isEmpty(sortings)) {
             passSortingToDatasource(sortings, source, p);
         }
         component.setRowSelection(castDefault(source.getSelection(), () -> p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
@@ -261,7 +260,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private void initDefaultSearchButtons(N2oTable source) {
-        if (source.getFilters() == null || isEmpty(source.getFilters().getItems()) || Boolean.TRUE.equals(source.getFilters().getFetchOnChange()))
+        if (source.getFilters() == null ||
+                isEmpty(source.getFilters().getItems()) ||
+                Boolean.TRUE.equals(source.getFilters().getFetchOnChange()))
             return;
         List<N2oField> searchButtons = new ArrayList<>();
         findSearchButtons(source.getFilters().getItems(), searchButtons);

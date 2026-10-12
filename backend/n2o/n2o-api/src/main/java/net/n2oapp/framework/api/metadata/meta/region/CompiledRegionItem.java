@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.meta.region;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import org.apache.commons.collections.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
