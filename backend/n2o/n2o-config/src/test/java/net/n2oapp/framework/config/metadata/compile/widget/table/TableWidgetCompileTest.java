@@ -86,6 +86,22 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         );
     }
 
+    /**
+     * Проверка, что при отсутствии фильтра в query.xml для обязательного поля фильтра таблицы
+     * выбрасывается N2oException с понятным сообщением
+     */
+    @Test
+    void testRequiredFilterNotInQuery() {
+        var pipeline = compile("net/n2oapp/framework/config/metadata/compile/widgets/filter/testTableRequiredFilterNotInQuery.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/filter/testTableRequiredFilterNotInQuery.query.xml");
+        var pageContext = new PageContext("testTableRequiredFilterNotInQuery");
+
+        N2oException exception = assertThrows(N2oException.class,
+                () -> pipeline.get(pageContext));
+        assertEquals("В таблице 'w1' для обязательного фильтра 'type' не задан фильтр в выборке 'testTableRequiredFilterNotInQuery'",
+                exception.getMessage());
+    }
+
     @Test
     void testTable() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.page.xml")

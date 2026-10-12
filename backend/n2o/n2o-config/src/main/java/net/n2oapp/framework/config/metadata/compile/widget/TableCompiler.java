@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
@@ -39,6 +40,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.SaveSettingsDatasourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.table.SortingsScope;
+import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -78,6 +80,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         compileBaseWidget(table, source, context, p);
         N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
+        validateRequiredFilters(source, query);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(
                 source.getId(),
@@ -120,6 +123,37 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
         table.setLayout(initLayout(source, p));
         return table;
+    }
+
+    private void validateRequiredFilters(N2oTable source, CompiledQuery query) {
+        if (query == null || source.getFilters() == null || source.getFilters().getItems() == null) {
+            return;
+        }
+        Set<String> filterIds = query.getFilterFieldsMap().keySet();
+        for (SourceComponent item : source.getFilters().getItems()) {
+            checkRequiredFilter(source.getId(), query.getId(), item, filterIds);
+        }
+    }
+
+    private void checkRequiredFilter(String tableId, String queryId, SourceComponent item, Set<String> filterIds) {
+        if (item instanceof N2oField field && isRequired(field) && filterIds.stream()
+                    .noneMatch(filterId -> FieldCompileUtil.isSuitableFilterId(field.getId(), filterId))) {
+                throw new N2oException(
+                        String.format(
+                                "В таблице '%s' для обязательного фильтра '%s' не задан фильтр в выборке '%s'",
+                                tableId, field.getId(), queryId
+                        )
+                );
+        } else if (item instanceof FieldsetItem container && container.getItems() != null) {
+            for (FieldsetItem child : container.getItems()) {
+                checkRequiredFilter(tableId, queryId, child, filterIds);
+            }
+        }
+    }
+
+    private boolean isRequired(N2oField field) {
+        String required = field.getRequired();
+        return required != null && !required.trim().equals("false");
     }
 
     private AbstractTable.Layout initLayout(N2oTable source, CompileProcessor p) {

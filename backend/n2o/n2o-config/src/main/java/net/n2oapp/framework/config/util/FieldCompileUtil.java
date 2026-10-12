@@ -55,17 +55,31 @@ public class FieldCompileUtil {
         List<N2oQuery.Filter> filters = new ArrayList<>();
         if (fieldId == null)
             return filters;
-        query.getFilterFieldsMap().keySet().forEach(filterId -> {
-            if (fieldId.equals(filterId)) {
-                filters.add(query.getFilterFieldsMap().get(filterId));
-            } else if (filterId.startsWith(fieldId)) {
-                String tmp = filterId.substring(fieldId.length());
-                if ((tmp.startsWith(".") && tmp.indexOf(".", 1) == -1) ||
-                        (tmp.startsWith("*.") && tmp.indexOf(".", 2) == -1)) {
-                    filters.add(query.getFilterFieldsMap().get(filterId));
-                }
-            }
+        query.getFilterFieldsMap().forEach((filterId, filter) -> {
+            if (isSuitableFilterId(fieldId, filterId))
+                filters.add(filter);
         });
         return filters;
+    }
+
+    /**
+     * Проверяет, что фильтр с указанным идентификатором подходит полю.
+     * Подходящими для поля a являются a, a.b, a.c, a*.b, a*.c
+     * Подходящими для поля a.b являются a.b, a.b.c, a.b*.c
+     *
+     * @param fieldId  Идентификатор поля
+     * @param filterId Идентификатор фильтра
+     * @return true, если фильтр подходит полю, иначе false
+     */
+    public static boolean isSuitableFilterId(String fieldId, String filterId) {
+        if (fieldId == null || filterId == null)
+            return false;
+        if (fieldId.equals(filterId))
+            return true;
+        if (!filterId.startsWith(fieldId))
+            return false;
+        String tmp = filterId.substring(fieldId.length());
+        return (tmp.startsWith(".") && tmp.indexOf(".", 1) == -1)
+                || (tmp.startsWith("*.") && tmp.indexOf(".", 2) == -1);
     }
 }

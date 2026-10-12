@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <datasource query-id="testTableRequiredFilterNotInQuery"/>
+        <filters>
+            <row>
+                <col>
+                    <input-text id="name"/>
+                </col>
+                <col>
+                    <input-text id="type" required="true" default-value="2"/>
+                </col>
+            </row>
+        </filters>
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+            <column text-field-id="type"/>
+        </columns>
+    </table>
+</simple-page>
