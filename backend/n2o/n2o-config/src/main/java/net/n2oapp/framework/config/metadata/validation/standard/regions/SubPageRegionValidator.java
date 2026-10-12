@@ -25,10 +25,14 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
 
     @Override
     public void validate(N2oSubPageRegion source, SourceProcessor p) {
+        if (source.getPages() == null || source.getPages().length == 0) {
+            throw new N2oMetadataValidationException(
+                    "В регионе \"<sub-page>\" не задано ни одной вложенной страницы \"<page>\"");
+        }
+        Arrays.stream(source.getPages()).forEach(page -> this.validatePage(page, p));
+
         if (source.getDefaultPageId() != null)
             validateDefaultPageId(source);
-
-        Arrays.stream(source.getPages()).forEach(page -> this.validatePage(page, p));
 
         Set<String> routes = new HashSet<>();
         for (N2oSubPageRegion.Page page : source.getPages()) {
