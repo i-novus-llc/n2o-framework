@@ -22,8 +22,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,7 +51,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (isNull(objectId)) return;
         Security security = getSecurity(compiled);
         SecurityObject securityObject = new SecurityObject();
-        if (CollectionUtils.isNotEmpty(security) &&
+        if (!CollectionUtils.isEmpty(security) &&
                 (nonNull(security.getFirst().get("object"))
                         || nonNull(security.getFirst().get(CUSTOM)))) return;
 
@@ -71,7 +70,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oObjectAccessPoint.class,
                 OBJECT_ACCESS.apply(objectId, operationId), schema);
-        if (CollectionUtils.isNotEmpty(userAccesses)) {
+        if (!CollectionUtils.isEmpty(userAccesses)) {
             securityObject.setUsernames(userAccesses
                     .stream()
                     .map(N2oUserAccess::getId)
@@ -79,7 +78,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
         List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oObjectAccessPoint.class,
                 OBJECT_ACCESS.apply(objectId, operationId), schema);
-        if (CollectionUtils.isNotEmpty(permissions)) {
+        if (!CollectionUtils.isEmpty(permissions)) {
             securityObject.setPermissions(permissions
                     .stream()
                     .map(N2oPermission::getId)
@@ -87,7 +86,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
         List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oObjectAccessPoint.class,
                 OBJECT_ACCESS.apply(objectId, operationId), schema);
-        if (CollectionUtils.isNotEmpty(roles)) {
+        if (!CollectionUtils.isEmpty(roles)) {
             securityObject.setRoles(roles
                     .stream()
                     .map(N2oRole::getId)
@@ -114,7 +113,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             return;
         final String originPageId = pageId.split("\\?")[0];
         Security security = getSecurity(compiled);
-        if (CollectionUtils.isNotEmpty(security) &&
+        if (!CollectionUtils.isEmpty(security) &&
                 (nonNull(security.getFirst().get("page"))
                         || nonNull(security.getFirst().get(CUSTOM)))) return;
 
@@ -134,7 +133,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oPageAccessPoint.class,
                 PAGE_ACCESS.apply(originPageId), schema);
-        if (CollectionUtils.isNotEmpty(roles)) {
+        if (!CollectionUtils.isEmpty(roles)) {
             securityObject.setRoles(
                     roles
                             .stream()
@@ -145,7 +144,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oPageAccessPoint.class,
                 PAGE_ACCESS.apply(originPageId), schema);
-        if (CollectionUtils.isNotEmpty(permissions)) {
+        if (!CollectionUtils.isEmpty(permissions)) {
             securityObject.setPermissions(
                     permissions
                             .stream()
@@ -156,7 +155,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oPageAccessPoint.class,
                 PAGE_ACCESS.apply(originPageId), schema);
-        if (CollectionUtils.isNotEmpty(userAccesses)) {
+        if (!CollectionUtils.isEmpty(userAccesses)) {
             securityObject.setUsernames(
                     userAccesses
                             .stream()
@@ -184,7 +183,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (isNull(url))
             return;
         Security security = getSecurity(compiled);
-        if (CollectionUtils.isNotEmpty(security) &&
+        if (!CollectionUtils.isEmpty(security) &&
                 (nonNull(security.getFirst().get("url"))
                         || nonNull(security.getFirst().get(CUSTOM)))) return;
 
@@ -204,7 +203,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oUrlAccessPoint.class,
                 URL_ACCESS.apply(url), schema);
-        if (CollectionUtils.isNotEmpty(roles)) {
+        if (!CollectionUtils.isEmpty(roles)) {
             securityObject.setRoles(
                     roles
                             .stream()
@@ -215,7 +214,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oUrlAccessPoint.class,
                 URL_ACCESS.apply(url), schema);
-        if (CollectionUtils.isNotEmpty(permissions)) {
+        if (!CollectionUtils.isEmpty(permissions)) {
             securityObject.setPermissions(
                     permissions
                             .stream()
@@ -226,7 +225,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oUrlAccessPoint.class,
                 URL_ACCESS.apply(url), schema);
-        if (CollectionUtils.isNotEmpty(userAccesses)) {
+        if (!CollectionUtils.isEmpty(userAccesses)) {
             securityObject.setUsernames(
                     userAccesses
                             .stream()
@@ -320,10 +319,10 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             return;
 
         List<Map<String, SecurityObject>> list = sources.stream().filter(pa -> nonNull(pa.getProperties()) && pa.getProperties().containsKey(SECURITY_PROP_NAME)
-                        && CollectionUtils.isNotEmpty(((Security) pa.getProperties().get(SECURITY_PROP_NAME))))
+                        && !CollectionUtils.isEmpty(((Security) pa.getProperties().get(SECURITY_PROP_NAME))))
                 .flatMap(pa -> ((Security) pa.getProperties().get(SECURITY_PROP_NAME)).stream())
                 .toList();
-        if (CollectionUtils.isNotEmpty(list)) {
+        if (!CollectionUtils.isEmpty(list)) {
             if (isNull(destination.getProperties()))
                 destination.setProperties(new HashMap<>());
             destination.getProperties().put(SECURITY_PROP_NAME, new Security(list));
@@ -350,7 +349,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Map<String, Set<String>> removeRoleFilters = new HashMap<>();
             schema.getN2oRoles().stream().filter(r -> nonNull(r.getAccessPoints()))
                     .forEach(r -> collectRemoveFilters(objectId, operationId, removeRoleFilters, r.getAccessPoints(), r.getId()));
-            if (MapUtils.isNotEmpty(removeRoleFilters)) {
+            if (!CollectionUtils.isEmpty(removeRoleFilters)) {
                 securityFilters.setRemoveRoleFilters(removeRoleFilters);
             }
         }
@@ -359,7 +358,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Map<String, Set<String>> removePermissionFilters = new HashMap<>();
             schema.getN2oPermissions().stream().filter(r -> nonNull(r.getAccessPoints()))
                     .forEach(r -> collectRemoveFilters(objectId, operationId, removePermissionFilters, r.getAccessPoints(), r.getId()));
-            if (MapUtils.isNotEmpty(removePermissionFilters)) {
+            if (!CollectionUtils.isEmpty(removePermissionFilters)) {
                 securityFilters.setRemovePermissionFilters(removePermissionFilters);
             }
         }
@@ -368,7 +367,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Map<String, Set<String>> removeUserFilters = new HashMap<>();
             schema.getN2oUserAccesses().stream().filter(r -> nonNull(r.getAccessPoints()))
                     .forEach(r -> collectRemoveFilters(objectId, operationId, removeUserFilters, r.getAccessPoints(), r.getId()));
-            if (MapUtils.isNotEmpty(removeUserFilters)) {
+            if (!CollectionUtils.isEmpty(removeUserFilters)) {
                 securityFilters.setRemoveUserFilters(removeUserFilters);
             }
         }
@@ -402,7 +401,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                 rf.addAll(Arrays.asList(((N2oObjectAccessPoint) ap).getRemoveFilters()));
             }
         }
-        if (CollectionUtils.isNotEmpty(rf)) {
+        if (!CollectionUtils.isEmpty(rf)) {
             removePermissionFilters.put(id, rf);
         }
     }
@@ -413,7 +412,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Map<String, List<N2oObjectFilter>> roleFilters = new HashMap<>();
             schema.getN2oRoles().stream().filter(r -> nonNull(r.getAccessPoints()))
                     .forEach(r -> collectFiltersFromAccessPoints(objectId, roleFilters, r.getAccessPoints(), r.getId()));
-            if (MapUtils.isNotEmpty(roleFilters)) {
+            if (!CollectionUtils.isEmpty(roleFilters)) {
                 securityFilters.setRoleFilters(roleFilters);
             }
         }
@@ -422,7 +421,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Map<String, List<N2oObjectFilter>> permissionFilters = new HashMap<>();
             schema.getN2oPermissions().stream().filter(p -> nonNull(p.getAccessPoints()))
                     .forEach(p -> collectFiltersFromAccessPoints(objectId, permissionFilters, p.getAccessPoints(), p.getId()));
-            if (MapUtils.isNotEmpty(permissionFilters)) {
+            if (!CollectionUtils.isEmpty(permissionFilters)) {
                 securityFilters.setPermissionFilters(permissionFilters);
             }
         }
@@ -431,7 +430,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
             schema.getN2oUserAccesses().stream().filter(u -> nonNull(u.getAccessPoints()))
                     .forEach(u -> collectFiltersFromAccessPoints(objectId, userFilters, u.getAccessPoints(), u.getId()));
-            if (MapUtils.isNotEmpty(userFilters)) {
+            if (!CollectionUtils.isEmpty(userFilters)) {
                 securityFilters.setUserFilters(userFilters);
             }
         }

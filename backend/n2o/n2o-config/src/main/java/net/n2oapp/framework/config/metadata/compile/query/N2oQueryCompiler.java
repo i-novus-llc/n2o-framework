@@ -18,9 +18,8 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -332,7 +331,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
         field.getN2oSwitch().setValueFieldId(field.getId());
         Map<Object, String> resolvedCases = new HashMap<>();
-        if (!MapUtils.isEmpty(n2oSwitch.getCases())) {
+        if (!CollectionUtils.isEmpty(n2oSwitch.getCases())) {
             for (String key : n2oSwitch.getCases().keySet()) {
                 resolvedCases.put(
                         p.resolve(key),
