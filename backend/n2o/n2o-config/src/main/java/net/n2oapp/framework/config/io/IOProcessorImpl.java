@@ -69,8 +69,7 @@ public class IOProcessorImpl implements IOProcessor {
         this.r = true;
         this.environment = environment;
         this.readerFactory = readerFactory;
-        if (readerFactory instanceof IOProcessorAware ioProcessorAware)
-            ioProcessorAware.setIOProcessor(this);
+        injectIOProcessor(readerFactory);
     }
 
     public IOProcessorImpl(NamespacePersisterFactory persisterFactory, MetadataEnvironment environment) {
@@ -81,8 +80,7 @@ public class IOProcessorImpl implements IOProcessor {
     public IOProcessorImpl(NamespacePersisterFactory persisterFactory) {
         this.r = false;
         this.persisterFactory = persisterFactory;
-        if (persisterFactory instanceof IOProcessorAware ioProcessorAware)
-            ioProcessorAware.setIOProcessor(this);
+        injectIOProcessor(persisterFactory);
     }
 
     @Override
@@ -104,29 +102,16 @@ public class IOProcessorImpl implements IOProcessor {
                           Supplier<? extends T> getter, Consumer<? super T> setter,
                           TypedElementIO<T> io) {
         if (r) {
-            Element child;
-            if (sequences != null) {
-                child = element.getChild(sequences, element.getNamespace());
-                if (child == null)
-                    return;
-            } else {
-                child = element;
-            }
-            child = child.getChild(childName, element.getNamespace());
-            if (child != null) {
-                setter.accept(read(io, child));
-            }
+            Element seqE = findSequenceElement(element, sequences);
+            if (seqE == null) return;
+            Element childE = seqE.getChild(childName, element.getNamespace());
+            if (childE != null)
+                setter.accept(read(io, childE));
         } else {
             T entity = getter.get();
-            if (entity != null) {
-                Element seqE = element;
-                if (sequences != null) {
-                    seqE = initSequenceElement(element, sequences);
-                }
-                Element childE = persist(io, entity, element.getNamespace());
-                installNamespace(childE, element.getNamespace());
-                seqE.addContent(childE);
-            }
+            if (entity == null) return;
+            Element seqE = persistSequences(element, sequences);
+            addChildElement(seqE, persist(io, entity, element.getNamespace()), element.getNamespace());
         }
     }
 
@@ -134,56 +119,14 @@ public class IOProcessorImpl implements IOProcessor {
     public <T> void child(Element element, String sequences, String childName,
                           Supplier<T> getter, Consumer<T> setter,
                           Class<T> elementClass, ElementIO<T> io) {
-        child(element, sequences, childName, getter, setter, new TypedElementIO<>() {
-            @Override
-            public Class<T> getElementClass() {
-                return elementClass;
-            }
-
-            @Override
-            public void io(Element e, T t, IOProcessor p) {
-                io.io(e, t, p);
-            }
-
-            @Override
-            public String getElementName() {
-                return childName;
-            }
-        });
+        child(element, sequences, childName, getter, setter, typedIO(childName, elementClass, io));
     }
 
     @Override
     public <T> void child(Element element, String sequences, String childName,
                           Supplier<? extends T> getter, Consumer<? super T> setter,
                           Supplier<? extends T> newInstance, ElementIO<T> io) {
-        child(element, sequences, childName, getter, setter, new TypedElementIO<T>() {
-            private Class<T> elementClass;
-
-            @Override
-            public String getElementName() {
-                return childName;
-            }
-
-            @Override
-            public Class<T> getElementClass() {
-                if (elementClass == null)
-                    throw new IllegalStateException(EXCEPTION_MESSAGE);
-                return elementClass;
-            }
-
-            @Override
-            public T newInstance(Element element) {
-                T entity = newInstance.get();
-                if (elementClass == null)
-                    elementClass = (Class<T>) entity.getClass();
-                return entity;
-            }
-
-            @Override
-            public void io(Element e, T t, IOProcessor p) {
-                io.io(e, t, p);
-            }
-        });
+        child(element, sequences, childName, getter, setter, typedIO(childName, newInstance, io));
     }
 
     @Override
@@ -192,33 +135,32 @@ public class IOProcessorImpl implements IOProcessor {
             P extends TypedElementPersister<? super T>> void anyChild(Element element, String sequences,
                                                                       Supplier<? extends T> getter, Consumer<? super T> setter,
                                                                       ElementIOFactory<T, R, P> factory) {
-        if (r) {
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren()) {
-                Element childE = (Element) child;
-                setter.accept(read(factory, childE));
-            }
-        } else {
-            T entity = getter.get();
-            if (entity == null) return;
-            Element seqE;
-            if (sequences != null) {
-                seqE = initSequenceElement(element, sequences);
-            } else {
-                seqE = element;
-            }
-            Element childE = persist(factory, entity, element.getNamespace());
-            if (childE != null) {
-                installNamespace(childE, element.getNamespace());
-                seqE.addContent(childE);
-            }
+        if (r)
+            readAnyChild(element, sequences, setter, factory);
+        else
+            persistAnyChild(element, sequences, getter, factory);
+    }
+
+    private <T,
+            R extends TypedElementReader<? extends T>,
+            P extends TypedElementPersister<? super T>> void readAnyChild(Element element, String sequences, Consumer<? super T> setter,
+                      ElementIOFactory<T, R, P> factory) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        for (Object child : seqE.getChildren()) {
+            Element childE = (Element) child;
+            setter.accept(read(factory, childE));
         }
+    }
+
+    private <T,
+            R extends TypedElementReader<? extends T>,
+            P extends TypedElementPersister<? super T>> void persistAnyChild(Element element, String sequences, Supplier<? extends T> getter,
+                         ElementIOFactory<T, R, P> factory) {
+        T entity = getter.get();
+        if (entity == null) return;
+        Element seqE = persistSequences(element, sequences);
+        addChildElement(seqE, persist(factory, entity, element.getNamespace()), element.getNamespace());
     }
 
     @Override
@@ -228,222 +170,188 @@ public class IOProcessorImpl implements IOProcessor {
                                                                    Supplier<T> getter, Consumer<T> setter,
                                                                    NamespaceIOFactory<T, R, P> factory,
                                                                    Namespace defaultNamespace) {
-        if (r) {
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren()) {
-                Element childE = (Element) child;
-                T childT = read(factory, childE, seqE.getNamespace(), defaultNamespace);
-                if (childT != null) {
-                    setter.accept(childT);
-                    return;
-                }
-            }
-        } else {
-            T entity = getter.get();
-            if (entity == null) return;
-            Element seqE;
-            if (sequences != null) {
-                seqE = initSequenceElement(element, sequences);
-            } else {
-                seqE = element;
-            }
-            Element childE = persist(factory, entity, seqE.getNamespace(), defaultNamespace);
-            if (childE != null) {
-                installNamespace(childE, element.getNamespace());
-                seqE.addContent(childE);
+        if (r)
+            readAnyChild(element, sequences, setter, factory, defaultNamespace);
+        else
+            persistAnyChild(element, sequences, getter, factory, defaultNamespace);
+    }
+
+    private <T extends NamespaceUriAware,
+            R extends NamespaceReader<? extends T>,
+            P extends NamespacePersister<? super T>> void readAnyChild(Element element, String sequences, Consumer<T> setter,
+                      NamespaceIOFactory<T, R, P> factory, Namespace defaultNamespace) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        for (Object child : seqE.getChildren()) {
+            T childT = read(factory, (Element) child, seqE.getNamespace(), defaultNamespace);
+            if (childT != null) {
+                setter.accept(childT);
+                return;
             }
         }
     }
 
+    private <T extends NamespaceUriAware,
+            R extends NamespaceReader<? extends T>,
+            P extends NamespacePersister<? super T>> void persistAnyChild(Element element, String sequences, Supplier<T> getter,
+                         NamespaceIOFactory<T, R, P> factory, Namespace defaultNamespace) {
+        T entity = getter.get();
+        if (entity == null) return;
+        Element seqE = persistSequences(element, sequences);
+        addChildElement(seqE, persist(factory, entity, seqE.getNamespace(), defaultNamespace), element.getNamespace());
+    }
+
     @Override
-    @SuppressWarnings("unchecked")
     public <T> void children(Element element, String sequences, String childrenName,
                              Supplier<T[]> getter, Consumer<T[]> setter,
                              TypedElementIO<T> io) {
-        if (r) {
-            List<T> result = new ArrayList<>();
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
-                Element childE = (Element) child;
-                T entity = read(io, childE);
-                result.add(entity);
-            }
-            if (!result.isEmpty()) {
-                T[] res = (T[]) Array.newInstance(io.getElementClass(), result.size());
-                res = result.toArray(res);
-                setter.accept(res);
-            }
-        } else {
-            T[] entity = getter.get();
-            if (entity == null) return;
-            Element seqE;
-            if (sequences != null) {
-                seqE = initSequenceElement(element, sequences);
-            } else {
-                seqE = element;
-            }
-            for (T child : entity) {
-                Element childE = persist(io, child, seqE.getNamespace());
-                installNamespace(childE, seqE.getNamespace());
-                seqE.addContent(childE);
-            }
+        if (r)
+            readChildrenToArray(element, sequences, childrenName, childE -> read(io, childE), io::getElementClass, setter);
+        else
+            persistChildren(element, sequences, getter, io);
+    }
+
+    private <T> void persistChildren(Element element, String sequences, Supplier<T[]> getter,
+                                     TypedElementIO<T> io) {
+        T[] entity = getter.get();
+        if (entity == null) return;
+        Element seqE = persistSequences(element, sequences);
+        for (T child : entity) {
+            addChildElement(seqE, persist(io, child, seqE.getNamespace()), seqE.getNamespace());
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void childrenToMap(Element element, String sequences, String childrenName,
                               String keyName, String valueName,
                               Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter) {
-        if (r) {
-            Map<String, Object> result = new HashMap<>();
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
-                Element childE = (Element) child;
-                String key = process(childE.getAttribute(keyName).getValue());
-                String value = valueName == null ?
-                        childE.getValue() :
-                        childE.getAttribute(valueName).getValue();
-                Object objValue = domainProcessor.deserialize(value, (String) null);
-                result.put(key, objValue);
-            }
-            setter.accept(result);
-        } else {
+        if (r)
+            readChildrenToMap(element, sequences, childrenName,
+                    childE -> process(childE.getAttribute(keyName).getValue()),
+                    childE -> domainProcessor.deserialize(getChildValue(childE, valueName), (String) null),
+                    setter);
+        else
             persistChildrenMap(element, sequences, childrenName, keyName, valueName, getter);
-        }
     }
 
     @Override
     public void childrenAttributesToMap(Element element, String sequences, String childrenName,
                                         Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter) {
-        if (r) {
-            Map<String, Object> result = new HashMap<>();
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
-                Element childE = (Element) child;
-                List<Attribute> attributes = childE.getAttributes();
-                if (attributes.isEmpty())
-                    throw new N2oMetadataValidationException(
-                            String.format("Элемент \"<%s>\" не содержит атрибутов. Ожидается хотя бы один атрибут для сопоставления ключ-значение.",
-                                    childE.getName())
-                    );
-                Attribute attribute = attributes.get(0);
-                String key = attribute.getName();
-                String value = attribute.getValue();
-                Object objValue = domainProcessor.deserialize(value);
-                result.put(key, objValue);
-            }
-            setter.accept(result);
-        } else {
-            Map<String, Object> values = getter.get();
-            if (values == null) return;
-            Element seqE;
-            seqE = persistSequences(element, sequences);
-            for (Map.Entry<String, Object> entry : values.entrySet()) {
-                Element childE = new Element(childrenName, element.getNamespace());
-                childE.setAttribute(entry.getKey(), entry.getValue().toString());
-                seqE.addContent(childE);
-            }
+        if (r)
+            readChildrenToMap(element, sequences, childrenName,
+                    childE -> getFirstAttribute(childE).getName(),
+                    childE -> domainProcessor.deserialize(getFirstAttribute(childE).getValue()),
+                    setter);
+        else
+            persistChildrenAttributesToMap(element, sequences, childrenName, getter);
+    }
+
+    /**
+     * Получить первый атрибут элемента
+     *
+     * @throws N2oMetadataValidationException если у элемента нет атрибутов
+     */
+    private Attribute getFirstAttribute(Element childE) {
+        List<Attribute> attributes = childE.getAttributes();
+        if (attributes.isEmpty())
+            throw new N2oMetadataValidationException(
+                    String.format("Элемент \"<%s>\" не содержит атрибутов. Ожидается хотя бы один атрибут для сопоставления ключ-значение.",
+                            childE.getName())
+            );
+        return attributes.get(0);
+    }
+
+    private void persistChildrenAttributesToMap(Element element, String sequences, String childrenName,
+                                                Supplier<Map<String, Object>> getter) {
+        Map<String, Object> values = getter.get();
+        if (values == null) return;
+        Element seqE = persistSequences(element, sequences);
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
+            Element childE = new Element(childrenName, element.getNamespace());
+            childE.setAttribute(entry.getKey(), entry.getValue().toString());
+            seqE.addContent(childE);
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void childrenToStringMap(Element element, String sequences, String childrenName,
                                     String keyName, String valueName,
                                     Supplier<Map<String, String>> getter, Consumer<Map<String, String>> setter) {
-        if (r) {
-            Map<String, String> result = new HashMap<>();
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
-                Element childE = (Element) child;
-                String key = null;
-                if (childE.getAttribute(keyName) != null)
-                    key = process(childE.getAttribute(keyName).getValue());
-
-                String value = valueName == null ?
-                        childE.getValue() :
-                        childE.getAttribute(valueName).getValue();
-                result.put(key, value);
-            }
-            setter.accept(result);
-        } else {
+        if (r)
+            readChildrenToMap(element, sequences, childrenName,
+                    childE -> {
+                        Attribute keyAttr = childE.getAttribute(keyName);
+                        return keyAttr != null ? process(keyAttr.getValue()) : null;
+                    },
+                    childE -> getChildValue(childE, valueName),
+                    setter);
+        else
             persistChildrenMap(element, sequences, childrenName, keyName, valueName, getter);
-        }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void childrenToStringArray(Element element, String sequences, String childrenName,
                                       Supplier<String[]> getter, Consumer<String[]> setter) {
-        if (r) {
-            List<String> result = new ArrayList<>();
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
-                Element childE = (Element) child;
-                String value = process(childE.getValue());
-                result.add(value);
-            }
-            if (!result.isEmpty()) {
-                setter.accept(result.toArray(String[]::new));
-            }
-        } else {
-            String[] values = getter.get();
-            if (values == null) return;
-            Element seqE;
-            seqE = persistSequences(element, sequences);
-            for (String k : values) {
-                Element childE = new Element(childrenName, element.getNamespace());
-                childE.setText(k);
-                seqE.addContent(childE);
-            }
+        if (r)
+            readChildrenToArray(element, sequences, childrenName, childE -> process(childE.getValue()), () -> String.class, setter);
+        else
+            persistChildrenToStringArray(element, sequences, childrenName, getter);
+    }
+
+    /**
+     * Считать дочерние элементы childrenName из обертки sequences в массив.
+     * Если обертки нет или дочерних элементов нет, setter не вызывается
+     *
+     * @param mapper       преобразование дочернего элемента в значение
+     * @param elementClass класс элементов массива (запрашивается после чтения всех дочерних элементов)
+     */
+    private <T> void readChildrenToArray(Element element, String sequences, String childrenName,
+                                         Function<Element, T> mapper, Supplier<Class<?>> elementClass,
+                                         Consumer<T[]> setter) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        List<T> result = new ArrayList<>();
+        for (Element childE : seqE.getChildren(childrenName, seqE.getNamespace()))
+            result.add(mapper.apply(childE));
+        if (!result.isEmpty())
+            setter.accept(toArray(result, elementClass.get()));
+    }
+
+    /**
+     * Считать дочерние элементы childrenName из обертки sequences в мапу.
+     * Если обертки нет, setter не вызывается
+     *
+     * @param keyMapper   получение ключа из дочернего элемента
+     * @param valueMapper получение значения из дочернего элемента
+     */
+    private <V> void readChildrenToMap(Element element, String sequences, String childrenName,
+                                       Function<Element, String> keyMapper, Function<Element, V> valueMapper,
+                                       Consumer<Map<String, V>> setter) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        Map<String, V> result = new HashMap<>();
+        for (Element childE : seqE.getChildren(childrenName, seqE.getNamespace()))
+            result.put(keyMapper.apply(childE), valueMapper.apply(childE));
+        setter.accept(result);
+    }
+
+    private void persistChildrenToStringArray(Element element, String sequences, String childrenName,
+                                              Supplier<String[]> getter) {
+        String[] values = getter.get();
+        if (values == null) return;
+        Element seqE = persistSequences(element, sequences);
+        for (String k : values) {
+            Element childE = new Element(childrenName, element.getNamespace());
+            childE.setText(k);
+            seqE.addContent(childE);
         }
     }
 
+    /**
+     * Получить (создав при необходимости) элемент-обертку sequences, либо вернуть сам element, если sequences не задан
+     */
     private Element persistSequences(Element element, String sequences) {
-        Element seqE;
-        if (sequences != null) {
-            seqE = initSequenceElement(element, sequences);
-        } else {
-            seqE = element;
-        }
-        return seqE;
+        return sequences != null ? getOrCreateChild(element, sequences) : element;
     }
 
     private <T> void persistChildrenMap(Element element, String sequences, String childrenName,
@@ -451,8 +359,7 @@ public class IOProcessorImpl implements IOProcessor {
                                         Supplier<Map<String, T>> getter) {
         Map<String, T> values = getter.get();
         if (values == null) return;
-        Element seqE;
-        seqE = persistSequences(element, sequences);
+        Element seqE = persistSequences(element, sequences);
         for (Map.Entry<String, T> entry : values.entrySet()) {
             Element childE = new Element(childrenName, element.getNamespace());
             childE.setAttribute(keyName, entry.getKey());
@@ -466,14 +373,27 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> void children(Element element, String sequences, String childrenName,
                              Supplier<T[]> getter, Consumer<T[]> setter,
                              Class<T> elementClass, ElementIO<T> io) {
-        children(element, sequences, childrenName, getter, setter, new TypedElementIO<T>() {
+        children(element, sequences, childrenName, getter, setter, typedIO(childrenName, elementClass, io));
+    }
+
+    @Override
+    public <T> void children(Element element, String sequences, String childrenName,
+                             Supplier<T[]> getter, Consumer<T[]> setter,
+                             Supplier<T> newInstance, ElementIO<T> io) {
+        children(element, sequences, childrenName, getter, setter, typedIO(childrenName, newInstance, io));
+    }
+
+    /**
+     * Обертка над io с заданными именем и классом элемента
+     */
+    private <T> TypedElementIO<T> typedIO(String elementName, Class<T> elementClass, ElementIO<T> io) {
+        return new TypedElementIO<>() {
             @Override
             public String getElementName() {
-                return childrenName;
+                return elementName;
             }
 
             @Override
@@ -485,21 +405,19 @@ public class IOProcessorImpl implements IOProcessor {
             public void io(Element e, T t, IOProcessor p) {
                 io.io(e, t, p);
             }
-        });
-
+        };
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> void children(Element element, String sequences, String childrenName,
-                             Supplier<T[]> getter, Consumer<T[]> setter,
-                             Supplier<T> newInstance, ElementIO<T> io) {
-        children(element, sequences, childrenName, getter, setter, new TypedElementIO<T>() {
+    /**
+     * Обертка над io с заданным именем элемента, класс которого определяется по первому созданному экземпляру
+     */
+    private <T> TypedElementIO<T> typedIO(String elementName, Supplier<? extends T> newInstance, ElementIO<T> io) {
+        return new TypedElementIO<>() {
             private Class<T> elementClass;
 
             @Override
             public String getElementName() {
-                return childrenName;
+                return elementName;
             }
 
             @Override
@@ -510,6 +428,7 @@ public class IOProcessorImpl implements IOProcessor {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public T newInstance(Element element) {
                 T entity = newInstance.get();
                 if (elementClass == null)
@@ -521,8 +440,7 @@ public class IOProcessorImpl implements IOProcessor {
             public void io(Element e, T t, IOProcessor p) {
                 io.io(e, t, p);
             }
-        });
-
+        };
     }
 
     @Override
@@ -531,41 +449,36 @@ public class IOProcessorImpl implements IOProcessor {
             P extends TypedElementPersister<? super T>> void anyChildren(Element element, String sequences,
                                                                          Supplier<T[]> getter, Consumer<T[]> setter,
                                                                          ElementIOFactory<T, R, P> factory) {
-        if (r) {
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            List<T> result = new ArrayList<>();
-            for (Object child : seqE.getChildren()) {
-                Element childE = (Element) child;
-                T childT = read(factory, childE);
-                if (childT != null) {
-                    result.add(childT);
-                }
-            }
-            @SuppressWarnings("unchecked") T[] res = (T[]) Array.newInstance(factory.getBaseElementClass(), result.size());
-            res = result.toArray(res);
-            setter.accept(res);
-        } else {
-            T[] entities = getter.get();
-            if (entities == null) return;
-            Element seqE;
-            if (sequences != null) {
-                seqE = initSequenceElement(element, sequences);
-            } else {
-                seqE = element;
-            }
-            for (T child : entities) {
-                Element childE = persist(factory, child, element.getNamespace());
-                if (childE != null) {
-                    installNamespace(childE, element.getNamespace());
-                    seqE.addContent(childE);
-                }
-            }
+        if (r)
+            readAnyChildren(element, sequences, setter, factory);
+        else
+            persistAnyChildren(element, sequences, getter, factory);
+    }
+
+    private <T,
+            R extends TypedElementReader<? extends T>,
+            P extends TypedElementPersister<? super T>> void readAnyChildren(Element element, String sequences, Consumer<T[]> setter,
+                                                                             ElementIOFactory<T, R, P> factory) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        List<T> result = new ArrayList<>();
+        for (Object child : seqE.getChildren()) {
+            T childT = read(factory, (Element) child);
+            if (childT != null)
+                result.add(childT);
+        }
+        setter.accept(toArray(result, factory.getBaseElementClass()));
+    }
+
+    private <T,
+            R extends TypedElementReader<? extends T>,
+            P extends TypedElementPersister<? super T>> void persistAnyChildren(Element element, String sequences, Supplier<T[]> getter,
+                                                                                ElementIOFactory<T, R, P> factory) {
+        T[] entities = getter.get();
+        if (entities == null) return;
+        Element seqE = persistSequences(element, sequences);
+        for (T child : entities) {
+            addChildElement(seqE, persist(factory, child, element.getNamespace()), element.getNamespace());
         }
     }
 
@@ -576,48 +489,43 @@ public class IOProcessorImpl implements IOProcessor {
                                                                       Supplier<T[]> getter, Consumer<T[]> setter,
                                                                       NamespaceIOFactory<T, R, P> factory,
                                                                       Namespace... defaultNamespace) {
-        if (r) {
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            List<T> result = new ArrayList<>();
-            for (Object child : seqE.getChildren()) {
-                Element childE = (Element) child;
-                T childT = read(factory, childE, seqE.getNamespace(), defaultNamespace);
-                if (childT != null) {
-                    result.add(childT);
-                }
-            }
-            if (!result.isEmpty()) {
-                @SuppressWarnings("unchecked") T[] res;
-                if (factory.getBaseElementClass() == null) {
-                    res = (T[]) Array.newInstance(NamespaceUriAware.class, result.size());
-                } else {
-                    res = (T[]) Array.newInstance(factory.getBaseElementClass(), result.size());
-                }
-                res = result.toArray(res);
-                setter.accept(res);
-            }
-        } else {
-            T[] entities = getter.get();
-            if (entities == null) return;
-            Element seqE;
-            if (sequences != null) {
-                seqE = initSequenceElement(element, sequences);
-            } else {
-                seqE = element;
-            }
-            for (T child : entities) {
-                Element childE = persist(factory, child, seqE.getNamespace(), defaultNamespace);
-                if (childE != null) {
-                    installNamespace(childE, element.getNamespace());
-                    seqE.addContent(childE);
-                }
-            }
+        if (r)
+            readAnyChildren(element, sequences, setter, factory, defaultNamespace);
+        else
+            persistAnyChildren(element, sequences, getter, factory, defaultNamespace);
+    }
+
+    private <T extends NamespaceUriAware,
+            R extends NamespaceReader<? extends T>,
+            P extends NamespacePersister<? super T>> void readAnyChildren(Element element, String sequences, Consumer<T[]> setter,
+                                                                          NamespaceIOFactory<T, R, P> factory,
+                                                                          Namespace... defaultNamespace) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        List<T> result = new ArrayList<>();
+        for (Object child : seqE.getChildren()) {
+            T childT = read(factory, (Element) child, seqE.getNamespace(), defaultNamespace);
+            if (childT != null)
+                result.add(childT);
+        }
+        if (!result.isEmpty()) {
+            Class<?> elementClass = factory.getBaseElementClass() != null
+                    ? factory.getBaseElementClass()
+                    : NamespaceUriAware.class;
+            setter.accept(toArray(result, elementClass));
+        }
+    }
+
+    private <T extends NamespaceUriAware,
+            R extends NamespaceReader<? extends T>,
+            P extends NamespacePersister<? super T>> void persistAnyChildren(Element element, String sequences, Supplier<T[]> getter,
+                                                                             NamespaceIOFactory<T, R, P> factory,
+                                                                             Namespace... defaultNamespace) {
+        T[] entities = getter.get();
+        if (entities == null) return;
+        Element seqE = persistSequences(element, sequences);
+        for (T child : entities) {
+            addChildElement(seqE, persist(factory, child, seqE.getNamespace(), defaultNamespace), element.getNamespace());
         }
     }
 
@@ -626,108 +534,72 @@ public class IOProcessorImpl implements IOProcessor {
                                                       Supplier<T[]> getterList, Consumer<T[]> setterList,
                                                       Class<E> enumClass, Function<T, E> getterEnum, BiConsumer<T, E> setterEnum,
                                                       ClassedElementIO<T> io) {
-        if (r) {
-            List<T> result = new ArrayList<>();
-            Element seqE;
-            if (sequences != null) {
-                seqE = element.getChild(sequences, element.getNamespace());
-                if (seqE == null) return;
-            } else {
-                seqE = element;
-            }
-            for (Object child : seqE.getChildren()) {
-                Element childE = (Element) child;
-                E en = stringToEnum(childE.getName(), enumClass);
-                if (en != null) {
-                    T entity = read(io, childE);
-                    setterEnum.accept(entity, en);
-                    result.add(entity);
-                }
-            }
-            if (!result.isEmpty()) {
-                T[] res = (T[]) Array.newInstance(io.getElementClass(), result.size());
-                res = result.toArray(res);
-                setterList.accept(res);
-            }
-        } else {
-            T[] entity = getterList.get();
-            if (entity == null || entity.length == 0) return;
-            Element seqE;
-            if (sequences != null) {
-                seqE = initSequenceElement(element, sequences);
-            } else {
-                seqE = element;
-            }
-            for (T child : entity) {
-                final E en = getterEnum.apply(child);
-                Element childE = null;
-                if (en != null) {
-                    childE = persist(new NamedElementIO<T>() {
-                        @Override
-                        public String getElementName() {
-                            if (en instanceof N2oEnum n2oEnum)
-                                return n2oEnum.getId();
-                            else
-                                return en.name();
-                        }
+        if (r)
+            readChildrenByEnum(element, sequences, setterList, enumClass, setterEnum, io);
+        else
+            persistChildrenByEnum(element, sequences, getterList, getterEnum, io);
+    }
 
-                        @Override
-                        public void io(Element e, T t, IOProcessor p) {
-                            io.io(e, t, p);
-                        }
-                    }, child, seqE.getNamespace());
-                    installNamespace(childE, element.getNamespace());
-                    seqE.addContent(childE);
-                }
+    private <T, E extends Enum<E>> void readChildrenByEnum(Element element, String sequences, Consumer<T[]> setterList,
+                                                           Class<E> enumClass, BiConsumer<T, E> setterEnum,
+                                                           ClassedElementIO<T> io) {
+        Element seqE = findSequenceElement(element, sequences);
+        if (seqE == null) return;
+        List<T> result = new ArrayList<>();
+        for (Object child : seqE.getChildren()) {
+            Element childE = (Element) child;
+            E en = stringToEnum(childE.getName(), enumClass);
+            if (en != null) {
+                T entity = read(io, childE);
+                setterEnum.accept(entity, en);
+                result.add(entity);
             }
+        }
+        if (!result.isEmpty())
+            setterList.accept(toArray(result, io.getElementClass()));
+    }
+
+    private <T, E extends Enum<E>> void persistChildrenByEnum(Element element, String sequences, Supplier<T[]> getterList,
+                                                              Function<T, E> getterEnum, ClassedElementIO<T> io) {
+        T[] entity = getterList.get();
+        if (entity == null || entity.length == 0) return;
+        Element seqE = persistSequences(element, sequences);
+        for (T child : entity) {
+            E en = getterEnum.apply(child);
+            if (en != null)
+                addChildElement(seqE, persist(enumNamedIO(en, io), child, seqE.getNamespace()), element.getNamespace());
         }
     }
 
+    /**
+     * Обертка над io, у которой имя элемента берется из значения перечисления
+     */
+    private <T> NamedElementIO<T> enumNamedIO(Enum<?> en, ElementIO<T> io) {
+        return new NamedElementIO<>() {
+            @Override
+            public String getElementName() {
+                return enumToString(en);
+            }
+
+            @Override
+            public void io(Element e, T t, IOProcessor p) {
+                io.io(e, t, p);
+            }
+        };
+    }
+
     @Override
-    @SuppressWarnings("unchecked")
     public <T, E extends Enum<E>> void childrenByEnum(Element element, String sequences,
                                                       Supplier<T[]> getterList, Consumer<T[]> setterList,
                                                       Function<T, E> getterEnum, BiConsumer<T, E> setterEnum,
                                                       Supplier<T> newInstance, Class<E> enumClass, ElementIO<T> io) {
         childrenByEnum(element, sequences, getterList, setterList, enumClass, getterEnum, setterEnum,
-                new ClassedElementIO<T>() {
-                    private Class<T> elementClass;
-
-                    @Override
-                    public Class<T> getElementClass() {
-                        if (elementClass == null)
-                            throw new IllegalStateException(EXCEPTION_MESSAGE);
-                        return elementClass;
-                    }
-
-                    @Override
-                    public T newInstance(Element element) {
-                        T entity = newInstance.get();
-                        if (elementClass == null)
-                            elementClass = (Class<T>) entity.getClass();
-                        return entity;
-                    }
-
-                    @Override
-                    public void io(Element e, T t, IOProcessor p) {
-                        io.io(e, t, p);
-                    }
-
-                });
-
+                typedIO(null, newInstance, io));
     }
 
     @Override
     public void attribute(Element element, String name, Supplier<String> getter, Consumer<String> setter) {
-        if (r) {
-            Attribute attribute = element.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(process(attribute.getValue()));
-            }
-        } else {
-            if (getter.get() == null) return;
-            element.setAttribute(new Attribute(name, getter.get()));
-        }
+        typedAttribute(element, name, getter, setter, Function.identity(), Function.identity());
     }
 
     @Override
@@ -752,93 +624,60 @@ public class IOProcessorImpl implements IOProcessor {
 
     @Override
     public void childAttribute(Element element, String childName, String name, Supplier<String> getter, Consumer<String> setter) {
-        if (r) {
-            Element child = element.getChild(childName, element.getNamespace());
-            if (child == null) return;
-            Attribute attribute = child.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(process(attribute.getValue()));
-            }
-        } else {
-            if (getter.get() == null) return;
-            Element childElement = element.getChild(childName, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(childName, element.getNamespace());
-                childElement.setAttribute(new Attribute(name, getter.get()));
-                element.addContent(childElement);
-            } else {
-                childElement.setAttribute(new Attribute(name, getter.get()));
-            }
-        }
+        typedChildAttribute(element, childName, name, getter, setter, Function.identity(), Function.identity());
     }
 
     @Override
     public void childAttributeBoolean(Element element, String childName, String name,
                                       Supplier<Boolean> getter, Consumer<Boolean> setter) {
-        if (r) {
-            Element child = element.getChild(childName, element.getNamespace());
-            if (child == null) return;
-            Attribute attribute = child.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(Boolean.valueOf(process(attribute.getValue())));
-            }
-        } else {
-            if (getter.get() == null) return;
-            Element childElement = element.getChild(childName, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(childName, element.getNamespace());
-                childElement.setAttribute(new Attribute(name, getter.get().toString()));
-                element.addContent(childElement);
-            } else {
-                childElement.setAttribute(new Attribute(name, getter.get().toString()));
-            }
-        }
+        typedChildAttribute(element, childName, name, getter, setter, Boolean::valueOf, Object::toString);
     }
 
     @Override
     public void childAttributeInteger(Element element, String childName, String name, Supplier<Integer> getter, Consumer<Integer> setter) {
-        if (r) {
-            Element child = element.getChild(childName, element.getNamespace());
-            if (child == null) return;
-            Attribute attribute = child.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(Integer.parseInt(process(attribute.getValue())));
-            }
-        } else {
-            if (getter.get() == null) return;
-            Element childElement = element.getChild(childName, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(childName, element.getNamespace());
-                childElement.setAttribute(new Attribute(name, getter.get().toString()));
-                element.addContent(childElement);
-            } else {
-                childElement.setAttribute(new Attribute(name, getter.get().toString()));
-            }
-        }
+        typedChildAttribute(element, childName, name, getter, setter, Integer::parseInt, Object::toString);
     }
 
     @Override
     public <T extends Enum<T>> void childAttributeEnum(Element element, String childName, String
             name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
+        typedChildAttribute(element, childName, name, getter, setter,
+                value -> stringToEnum(value, enumClass), IOProcessorImpl::enumToString);
+    }
+
+    /**
+     * Считать или записать атрибут элемента
+     *
+     * @param fromString преобразование значения атрибута (после разрешения плейсхолдеров) в значение
+     * @param toString   преобразование значения в строку атрибута
+     */
+    private <T> void typedAttribute(Element element, String name,
+                                    Supplier<T> getter, Consumer<T> setter,
+                                    Function<String, T> fromString, Function<T, String> toString) {
+        if (r) {
+            Attribute attribute = element.getAttribute(name);
+            if (attribute != null)
+                setter.accept(fromString.apply(process(attribute.getValue())));
+        } else {
+            T value = getter.get();
+            if (value == null) return;
+            element.setAttribute(new Attribute(name, toString.apply(value)));
+        }
+    }
+
+    /**
+     * Считать или записать атрибут дочернего элемента. При записи дочерний элемент создается, если его нет
+     */
+    private <T> void typedChildAttribute(Element element, String childName, String name,
+                                         Supplier<T> getter, Consumer<T> setter,
+                                         Function<String, T> fromString, Function<T, String> toString) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
-            if (child == null) return;
-            Attribute attribute = child.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(stringToEnum(process(attribute.getValue()), enumClass));
-            }
+            if (child != null)
+                typedAttribute(child, name, getter, setter, fromString, toString);
         } else {
             if (getter.get() == null) return;
-            Element childElement = element.getChild(childName, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(childName, element.getNamespace());
-                element.addContent(childElement);
-            }
-
-            if (N2oEnum.class.isAssignableFrom(enumClass))
-                childElement.setAttribute(new Attribute(name, ((N2oEnum) getter.get()).getId()));
-            else
-                childElement.setAttribute(new Attribute(name, getter.get().name()));
+            typedAttribute(getOrCreateChild(element, childName), name, getter, setter, fromString, toString);
         }
     }
 
@@ -878,14 +717,7 @@ public class IOProcessorImpl implements IOProcessor {
             anyAttributes(child, getter, setter);
         } else {
             if (getter.get() == null) return;
-            Element childElement = element.getChild(childName, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(childName, element.getNamespace());
-                anyAttributes(childElement, getter, setter);
-                element.addContent(childElement);
-            } else {
-                anyAttributes(childElement, getter, setter);
-            }
+            anyAttributes(getOrCreateChild(element, childName), getter, setter);
         }
     }
 
@@ -917,28 +749,12 @@ public class IOProcessorImpl implements IOProcessor {
 
     @Override
     public void attributeBoolean(Element element, String name, Supplier<Boolean> getter, Consumer<Boolean> setter) {
-        if (r) {
-            Attribute attribute = element.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(Boolean.valueOf(process(attribute.getValue())));
-            }
-        } else {
-            if (getter.get() == null) return;
-            element.setAttribute(new Attribute(name, getter.get().toString()));
-        }
+        typedAttribute(element, name, getter, setter, Boolean::valueOf, Object::toString);
     }
 
     @Override
     public void attributeInteger(Element element, String name, Supplier<Integer> getter, Consumer<Integer> setter) {
-        if (r) {
-            Attribute attribute = element.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(Integer.parseInt(process(attribute.getValue())));
-            }
-        } else {
-            if (getter.get() == null) return;
-            element.setAttribute(new Attribute(name, getter.get().toString()));
-        }
+        typedAttribute(element, name, getter, setter, Integer::parseInt, Object::toString);
     }
 
     @Override
@@ -949,7 +765,7 @@ public class IOProcessorImpl implements IOProcessor {
             if (attribute != null) {
                 String value = process(attribute.getValue());
                 if (value != null) {
-                    setter.accept(value.trim().split("\\s*" + separator + "\\s*"));
+                    setter.accept(splitBySeparator(value, separator));
                 } else {
                     setter.accept(null);
                 }
@@ -966,53 +782,42 @@ public class IOProcessorImpl implements IOProcessor {
     @Override
     public <T extends Enum<T>> void attributeEnumArray(Element element, String name, String separator,
                                                        Supplier<T[]> getter, Consumer<T[]> setter, Class<T> enumClass) {
-        if (r) {
-            Attribute attribute = element.getAttribute(name);
-            if (attribute != null && attribute.getValue() != null && !attribute.getValue().trim().isEmpty()) {
-                String[] values = attribute.getValue().trim().split("\\s*" + separator + "\\s*");
-                List<T> enumList = Arrays.stream(values)
-                        .filter(value -> value != null && !value.trim().isEmpty())
-                        .map(value -> stringToEnum(value.trim(), enumClass))
-                        .filter(Objects::nonNull)
-                        .toList();
-                if (!enumList.isEmpty())
-                    setter.accept(enumList.toArray((T[]) Array.newInstance(enumClass, enumList.size())));
-                else
-                    setter.accept(null);
-            } else {
-                setter.accept(null);
-            }
-        } else {
-            T[] values = getter.get();
-            if (values == null || values.length == 0) return;
-            StringJoiner str = new StringJoiner(separator);
-            for (T value : values) {
-                if (N2oEnum.class.isAssignableFrom(enumClass)) {
-                    str.add(((N2oEnum) value).getId());
-                } else {
-                    str.add(value.name());
-                }
-            }
-            element.setAttribute(new Attribute(name, str.toString()));
+        if (r)
+            readAttributeEnumArray(element, name, separator, setter, enumClass);
+        else
+            persistAttributeEnumArray(element, name, separator, getter);
+    }
+
+    private <T extends Enum<T>> void readAttributeEnumArray(Element element, String name, String separator,
+                                                            Consumer<T[]> setter, Class<T> enumClass) {
+        Attribute attribute = element.getAttribute(name);
+        if (attribute == null || attribute.getValue() == null || attribute.getValue().trim().isEmpty()) {
+            setter.accept(null);
+            return;
         }
+        List<T> enumList = Arrays.stream(splitBySeparator(attribute.getValue(), separator))
+                .filter(value -> value != null && !value.trim().isEmpty())
+                .map(value -> stringToEnum(value.trim(), enumClass))
+                .filter(Objects::nonNull)
+                .toList();
+        setter.accept(enumList.isEmpty() ? null : toArray(enumList, enumClass));
+    }
+
+    private <T extends Enum<T>> void persistAttributeEnumArray(Element element, String name, String separator,
+                                                               Supplier<T[]> getter) {
+        T[] values = getter.get();
+        if (values == null || values.length == 0) return;
+        StringJoiner str = new StringJoiner(separator);
+        for (T value : values)
+            str.add(enumToString(value));
+        element.setAttribute(new Attribute(name, str.toString()));
     }
 
     @Override
     public <T extends Enum<T>> void attributeEnum(Element element, String
             name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
-        if (r) {
-            Attribute attribute = element.getAttribute(name);
-            if (attribute != null) {
-                setter.accept(stringToEnum(process(attribute.getValue()), enumClass));
-            }
-        } else {
-            if (getter.get() == null) return;
-            if (N2oEnum.class.isAssignableFrom(enumClass)) {
-                element.setAttribute(new Attribute(name, ((N2oEnum) getter.get()).getId()));
-            } else {
-                element.setAttribute(new Attribute(name, getter.get().name()));
-            }
-        }
+        typedAttribute(element, name, getter, setter,
+                value -> stringToEnum(value, enumClass), IOProcessorImpl::enumToString);
     }
 
     @Override
@@ -1024,14 +829,7 @@ public class IOProcessorImpl implements IOProcessor {
             }
         } else {
             if (getter.get() == null || getter.get().isEmpty()) return;
-            Element childElement = element.getChild(name, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(name, element.getNamespace());
-                childElement.setText(getter.get());
-                element.addContent(childElement);
-            } else {
-                childElement.setText(getter.get());
-            }
+            getOrCreateChild(element, name).setText(getter.get());
         }
     }
 
@@ -1042,10 +840,7 @@ public class IOProcessorImpl implements IOProcessor {
             setter.accept(child != null);
         } else {
             if (!getter.getAsBoolean()) return;
-            if (element.getChild(name, element.getNamespace()) == null) {
-                Element childElement = new Element(name, element.getNamespace());
-                element.addContent(childElement);
-            }
+            getOrCreateChild(element, name);
         }
     }
 
@@ -1141,19 +936,9 @@ public class IOProcessorImpl implements IOProcessor {
     private static <T extends Enum<T>> T stringToEnum(String value, Class<T> enumClass) {
         if (value == null) return null;
         T res = null;
-        if (N2oEnum.class.isAssignableFrom(enumClass)) {
-            for (Enum enumValue : enumClass.getEnumConstants()) {
-                N2oEnum idEnum = (N2oEnum) enumValue;
-                if (idEnum.getId().equalsIgnoreCase(value)) {
-                    res = (T) enumValue;
-                }
-            }
-        } else {
-            for (Enum enumValue : enumClass.getEnumConstants()) {
-                if (enumValue.name().equalsIgnoreCase(value)) {
-                    res = (T) enumValue;
-                }
-            }
+        for (T enumValue : enumClass.getEnumConstants()) {
+            if (enumToString(enumValue).equalsIgnoreCase(value))
+                res = enumValue;
         }
         return res;
     }
@@ -1175,8 +960,7 @@ public class IOProcessorImpl implements IOProcessor {
             P extends TypedElementPersister<? super T>> T read(ElementIOFactory<T, R, P> factory, Element element) {
         R reader = factory.produce(element);
         if (reader != null) {
-            if (reader instanceof IOProcessorAware ioProcessorAware)
-                ioProcessorAware.setIOProcessor(this);
+            injectIOProcessor(reader);
             return reader.read(element);
         } else
             return null;
@@ -1188,8 +972,7 @@ public class IOProcessorImpl implements IOProcessor {
             entity, Namespace namespace) {
         P persister = factory.produce(entity);
         if (persister != null) {
-            if (persister instanceof IOProcessorAware ioProcessorAware)
-                ioProcessorAware.setIOProcessor(this);
+            injectIOProcessor(persister);
             return persister.persist(entity, namespace);
         } else
             return null;
@@ -1206,8 +989,7 @@ public class IOProcessorImpl implements IOProcessor {
             reader = factory.produce(element, parentNamespace);
         }
         if (reader != null) {
-            if (reader instanceof IOProcessorAware ioProcessorAware)
-                ioProcessorAware.setIOProcessor(this);
+            injectIOProcessor(reader);
             T model = reader.read(element);
             model.setNamespaceUri(element.getNamespaceURI());
             model.setNamespacePrefix(element.getNamespacePrefix());
@@ -1228,8 +1010,7 @@ public class IOProcessorImpl implements IOProcessor {
             persister = factory.produce(entity);
 
         if (persister != null) {
-            if (persister instanceof IOProcessorAware ioProcessorAware)
-                ioProcessorAware.setIOProcessor(this);
+            injectIOProcessor(persister);
             Element element = persister.persist(entity, parentNamespace);
             installNamespace(element, entity.getNamespace(), element.getNamespace());
             return element;
@@ -1243,39 +1024,95 @@ public class IOProcessorImpl implements IOProcessor {
         return nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
     }
 
-    private Element initSequenceElement(Element parent, String seqName) {
-        Element seqE = parent.getChild(seqName, parent.getNamespace());
-        if (seqE == null) {
-            seqE = new Element(seqName, parent.getNamespace());
-            parent.addContent(seqE);
+    /**
+     * Получить дочерний элемент с заданным именем, создав и добавив его, если он отсутствует
+     */
+    private Element getOrCreateChild(Element parent, String childName) {
+        Element childE = parent.getChild(childName, parent.getNamespace());
+        if (childE == null) {
+            childE = new Element(childName, parent.getNamespace());
+            parent.addContent(childE);
         }
-        return seqE;
+        return childE;
+    }
+
+    /**
+     * Внедрить текущий процессор, если объект в нем нуждается
+     */
+    private void injectIOProcessor(Object o) {
+        if (o instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this);
+    }
+
+    /**
+     * Найти элемент-обертку sequences, либо вернуть сам element, если sequences не задан.
+     * Возвращает null, если обертка задана, но отсутствует
+     */
+    private Element findSequenceElement(Element element, String sequences) {
+        return sequences != null ? element.getChild(sequences, element.getNamespace()) : element;
+    }
+
+    /**
+     * Добавить дочерний элемент в родительский, установив ему пространство имен
+     */
+    private void addChildElement(Element parent, Element childE, Namespace namespace) {
+        if (childE != null) {
+            installNamespace(childE, namespace);
+            parent.addContent(childE);
+        }
+    }
+
+    /**
+     * Получить значение дочернего элемента: его текст, если valueName не задан, иначе значение атрибута valueName
+     */
+    private String getChildValue(Element childE, String valueName) {
+        return valueName == null ? childE.getValue() : childE.getAttribute(valueName).getValue();
+    }
+
+    /**
+     * Получить строковое значение перечисления: id для N2oEnum, иначе имя константы
+     */
+    private static String enumToString(Enum<?> en) {
+        return en instanceof N2oEnum n2oEnum ? n2oEnum.getId() : en.name();
+    }
+
+    /**
+     * Разбить строку по разделителю, отбрасывая пробелы вокруг него
+     */
+    private String[] splitBySeparator(String value, String separator) {
+        return value.trim().split("\\s*" + separator + "\\s*");
+    }
+
+    /**
+     * Преобразовать список в массив с заданным типом элементов
+     */
+    @SuppressWarnings("unchecked")
+    private <T> T[] toArray(List<T> list, Class<?> elementClass) {
+        return list.toArray((T[]) Array.newInstance(elementClass, list.size()));
     }
 
     private void text(Element element, Supplier<String> getter, Consumer<String> setter, Function<String, String> function) {
-        if (r) {
-            checkCDataContent(element);
-            String text = element.getText();
-            if (text != null && !text.isEmpty()) {
-                setter.accept(function.apply(text));
-            }
-        } else {
+        if (r)
+            readText(element, setter, function);
+        else
             setterText(element, getter);
-        }
     }
 
     private void childrenText(Element element, String childName, Supplier<String> getter, Consumer<String> setter, Function<String, String> function) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
-            if (child == null) return;
-            checkCDataContent(child);
-            String text = child.getText();
-            if (text != null && !text.isEmpty()) {
-                setter.accept(function.apply(text));
-            }
+            if (child != null)
+                readText(child, setter, function);
         } else {
             setterChildText(element, childName, getter);
         }
+    }
+
+    private void readText(Element element, Consumer<String> setter, Function<String, String> function) {
+        checkCDataContent(element);
+        String text = element.getText();
+        if (text != null && !text.isEmpty())
+            setter.accept(function.apply(text));
     }
 
 
@@ -1287,15 +1124,7 @@ public class IOProcessorImpl implements IOProcessor {
 
     private void setterChildText(Element element, String childName, Supplier<String> getter) {
         if (getter.get() == null) return;
-        Element childElement = element.getChild(childName, element.getNamespace());
-        if (childElement == null) {
-            childElement = new Element(childName, element.getNamespace());
-            childElement.setText(getter.get());
-            element.addContent(childElement);
-        } else {
-            childElement.setText(getter.get());
-        }
-
+        getOrCreateChild(element, childName).setText(getter.get());
     }
 
     private void checkCDataContent(Element element) {
