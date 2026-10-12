@@ -79,4 +79,12 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре элемента \"<sub-page>\" 'page1'", exception.getMessage());
     }
+
+    @Test
+    void testEmptyPages() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testEmptyPages.page.xml"));
+        assertEquals("В регионе \"<sub-page>\" не задано ни одной вложенной страницы \"<page>\"", exception.getMessage());
+    }
 }
