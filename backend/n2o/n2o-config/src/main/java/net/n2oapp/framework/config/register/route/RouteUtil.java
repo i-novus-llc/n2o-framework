@@ -102,13 +102,13 @@ public abstract class RouteUtil {
         if (queryMapping == null || queryMapping.isEmpty())
             return route;
         StringBuilder params = new StringBuilder();
-        queryMapping.keySet().stream().forEach(k -> {
+        queryMapping.keySet().forEach(k -> {
             ModelLink link = queryMapping.get(k);
-            params.append(params.length() > 0 ? "&" : "")
+            params.append(!params.isEmpty() ? "&" : "")
                     .append(link.getParam() == null ? k : link.getParam()).append("=")
                     .append(link.isConst() ? link.getValue() : ":" + k);
         });
-        if (params.length() == 0) {
+        if (params.isEmpty()) {
             return route;
         }
         if (route.contains("?")) {
@@ -305,36 +305,53 @@ public abstract class RouteUtil {
             return childRoute;
         if (parentRoute == null)
             return normalizeUrl(childRoute, mode);
-        if (childRoute.startsWith("./")) {
-            if (parentRoute.endsWith("/"))
-                return normalizeUrl(parentRoute + childRoute.substring(2), mode);
-            else
-                return normalizeUrl(parentRoute + childRoute.substring(1), mode);
-        }
+        if (childRoute.startsWith("./"))
+            return joinDotSlash(parentRoute, childRoute, mode);
 
+        int parentRefs = countParentRefs(childRoute);
+        String joined = parentRefs > 0
+                ? joinWithParentRefs(parentRoute, childRoute.substring(parentRefs * 3), parentRefs, childRoute)
+                : parentRoute + normalizeUrl(childRoute, mode);
+        return normalizeUrl(joined, mode);
+    }
 
-        int k = 0;
+    /**
+     * Присоединить к родительскому маршруту дочерний вида {@code "./..."}.
+     * Если родительский маршрут заканчивается на {@code "/"}, у ребёнка отбрасывается
+     * {@code "./"}, иначе отбрасывается только {@code "."}.
+     */
+    private static String joinDotSlash(String parentRoute, String childRoute, RoutingModeEnum mode) {
+        int skip = parentRoute.endsWith("/") ? 2 : 1;
+        return normalizeUrl(parentRoute + childRoute.substring(skip), mode);
+    }
+
+    /**
+     * Считает количество ведущих {@code "../"} в дочернем маршруте.
+     */
+    private static int countParentRefs(String childRoute) {
+        int count = 0;
         String child = childRoute;
         while (child.startsWith("../")) {
-            child = child.substring(child.indexOf("../") + 3);
-            k++;
+            child = child.substring(3);
+            count++;
         }
-        child = "/" + child;
+        return count;
+    }
+
+    /**
+     * Соединить родительский маршрут с дочерним, поднявшись предварительно на {@code count} уровней.
+     * Бросает {@link IncorrectRouteException}, если родительский маршрут короче {@code count}.
+     */
+    private static String joinWithParentRefs(String parentRoute, String child, int count, String childRoute) {
+        String[] parent = parentRoute.split("/");
+        if (parent.length <= count)
+            throw new IncorrectRouteException(childRoute);
         StringBuilder result = new StringBuilder();
-        if (k > 0) {
-            String[] parent = parentRoute.split("/");
-            if (parent.length <= k) {
-                throw new IncorrectRouteException(childRoute);
-            }
-            for (int i = 0; i < parent.length - k; i++) {
-                if (!parent[i].isEmpty())
-                    result.append("/").append(parent[i]);
-            }
-            result.append(child);
-        } else {
-            result.append(parentRoute).append(normalizeUrl(childRoute, mode));
+        for (int i = 0; i < parent.length - count; i++) {
+            if (!parent[i].isEmpty())
+                result.append("/").append(parent[i]);
         }
-        return normalizeUrl(result.toString(), mode);
+        return result.append("/").append(child).toString();
     }
 
     /**
