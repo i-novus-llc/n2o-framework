@@ -212,7 +212,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         if (isNull(routeParams) || routeParams.isEmpty())
             throw new N2oException(String.format("Параметр пути '%s' не используется в маршруте", pathParams[0].getName()));
         if (isNull(pathParams) || pathParams.length == 0)
-            throw new N2oException(String.format("Параметр пути '%s' для маршрута '%s' не установлен", route, routeParams.get(0)));
+            throw new N2oException(String.format("Параметр пути '%s' для маршрута '%s' не установлен", routeParams.get(0), route));
 
         for (N2oParam pathParam : pathParams) {
             String paramName = pathParam.getName();
@@ -234,7 +234,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
     }
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
-        if (source.getClearOnSuccess())
+        if (Boolean.TRUE.equals(source.getClearOnSuccess()))
             meta.setClear(getClientDatasourceId(getLocalDatasourceId(p), p));
     }
 
