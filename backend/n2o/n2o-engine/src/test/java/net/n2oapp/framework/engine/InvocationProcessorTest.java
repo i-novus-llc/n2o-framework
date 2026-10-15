@@ -42,7 +42,7 @@ class InvocationProcessorTest {
     private JavaDataProviderEngine javaDataProviderEngine;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         N2oInvocationFactory actionInvocationFactory = mock(N2oInvocationFactory.class);
         javaDataProviderEngine = new JavaDataProviderEngine();
         when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(javaDataProviderEngine);

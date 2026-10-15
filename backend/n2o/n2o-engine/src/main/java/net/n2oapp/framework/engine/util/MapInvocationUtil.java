@@ -33,31 +33,44 @@ public class MapInvocationUtil {
     public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, FieldMapping> mapping) {
         validateMapping(mapping);
         Map<String, Object> result = new DataSet();
+        for (Map.Entry<String, FieldMapping> entry : mapping.entrySet())
+            mapEntry(entry, dataSet, result);
+        return result;
+    }
 
-        for (Map.Entry<String, FieldMapping> entry : mapping.entrySet()) {
-            Object value = dataSet.get(entry.getKey());
-            if (entry.getValue() != null) {
-                if (!isMappingEnabled(entry.getValue().getEnabled(), dataSet))
-                    continue;
-                String fieldMapping = entry.getValue().getMapping() != null ?
-                        entry.getValue().getMapping() :
-                        Placeholders.spel(entry.getKey());
+    private static void mapEntry(Map.Entry<String, FieldMapping> entry, DataSet dataSet, Map<String, Object> result) {
+        FieldMapping fieldMapping = entry.getValue();
+        Object value = dataSet.get(entry.getKey());
 
-                if (entry.getValue().getChildMapping() != null && value != null) {
-                    if (value instanceof Collection collection) {
-                        DataList list = new DataList();
-                        for (Object obj : collection)
-                            list.add(mapToMap((DataSet) obj, entry.getValue().getChildMapping()));
-                        MappingProcessor.inMap(result, entry.getKey(), fieldMapping, list);
-                    } else if (value instanceof DataSet set)
-                        MappingProcessor.inMap(result, entry.getKey(), fieldMapping, mapToMap(set, entry.getValue().getChildMapping()));
-                } else
-                    MappingProcessor.inMap(result, entry.getKey(), fieldMapping, value);
-            } else {
-                MappingProcessor.inMap(result, entry.getKey(), Placeholders.spel(entry.getKey()), value);
+        if (fieldMapping == null) {
+            MappingProcessor.inMap(result, entry.getKey(), Placeholders.spel(entry.getKey()), value);
+            return;
+        }
+        if (!isMappingEnabled(fieldMapping.getEnabled(), dataSet))
+            return;
+
+        String mapping = fieldMapping.getMapping() != null
+                ? fieldMapping.getMapping()
+                : Placeholders.spel(entry.getKey());
+
+        if (fieldMapping.getChildMapping() == null || value == null) {
+            MappingProcessor.inMap(result, entry.getKey(), mapping, value);
+            return;
+        }
+
+        switch (value) {
+            case Collection<?> collection -> {
+                DataList list = new DataList();
+                for (Object obj : collection)
+                    list.add(mapToMap((DataSet) obj, fieldMapping.getChildMapping()));
+                MappingProcessor.inMap(result, entry.getKey(), mapping, list);
+            }
+            case DataSet childDataSet -> MappingProcessor.inMap(result, entry.getKey(), mapping,
+                    mapToMap(childDataSet, fieldMapping.getChildMapping()));
+            default -> {
+                // value не Collection и не DataSet — как и в исходном коде, ничего не кладём
             }
         }
-        return result;
     }
 
     /**

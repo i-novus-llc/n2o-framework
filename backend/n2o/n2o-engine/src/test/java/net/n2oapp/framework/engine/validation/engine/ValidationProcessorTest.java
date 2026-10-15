@@ -25,6 +25,8 @@ import java.util.*;
 import static net.n2oapp.framework.api.exception.SeverityTypeEnum.*;
 import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMomentEnum.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -47,7 +49,7 @@ class ValidationProcessorTest {
         ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setId("id");
         inParam.setRequired(true);
-        List<AbstractParameter> inParamList = Arrays.asList(inParam);
+        List<AbstractParameter> inParamList = List.of(inParam);
 
         Validation dfm = mandatoryValidation("id", DANGER, BEFORE_OPERATION);
         Validation dfCond = conditionValidation(null, "id", DANGER, BEFORE_OPERATION, "id != null");
@@ -73,7 +75,6 @@ class ValidationProcessorTest {
         Validation iwCond = conditionValidation(null, null, INFO, BEFORE_OPERATION, "id != null");
         Validation iwConstr = constraintValidation(null, INFO, BEFORE_OPERATION, inParamList);
 
-
         Validation sfm = mandatoryValidation("id", SUCCESS, BEFORE_OPERATION);
         Validation sfCond = conditionValidation(null, "id", SUCCESS, BEFORE_OPERATION, "id != null");
         Validation sfConstr = constraintValidation("id", SUCCESS, BEFORE_OPERATION, inParamList);
@@ -82,116 +83,116 @@ class ValidationProcessorTest {
         Validation swCond = conditionValidation(null, null, SUCCESS, BEFORE_OPERATION, "id != null");
         Validation swConstr = constraintValidation(null, SUCCESS, BEFORE_OPERATION, inParamList);
 
-
-        List<Validation> validations = Arrays.asList(
+        List<Validation> validations = new ArrayList<>(List.of(
                 dfm, dfCond, dfConstr, dwm, dwCond, dwConstr,
                 wfm, wfCond, wfConstr, wwm, wwCond, wwConstr,
                 ifm, ifCond, ifConstr, iwm, iwCond, iwConstr,
                 sfm, sfCond, sfConstr, swm, swCond, swConstr
-        );
+        ));
 
         Collections.shuffle(validations);
 
         Iterator<Validation> iterator = Validator.newBuilder().addValidations(validations).build().iterator();
 
-        Validation validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.WARNING));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.WARNING));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.WARNING));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.WARNING));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.WARNING));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.WARNING));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.INFO));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.INFO));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.INFO));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.INFO));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.INFO));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.INFO));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.SUCCESS));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.SUCCESS));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.SUCCESS));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(true));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.SUCCESS));
-        assertThat(validation.getType(), is("required"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.SUCCESS));
-        assertThat(validation.getType(), is("condition"));
-        assertThat(validation.isForField(), is(false));
-        validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityTypeEnum.SUCCESS));
-        assertThat(validation.getType(), is("constraint"));
-        assertThat(validation.isForField(), is(false));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(DANGER)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(DANGER)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(DANGER)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(DANGER)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(DANGER)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(DANGER)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(false))));
 
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(WARNING)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(WARNING)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(WARNING)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(WARNING)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(WARNING)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(WARNING)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(false))));
 
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(INFO)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(INFO)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(INFO)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(INFO)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(INFO)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(INFO)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(false))));
+
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(SUCCESS)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(SUCCESS)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(SUCCESS)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(true))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(SUCCESS)),
+                hasProperty("type", is("required")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(SUCCESS)),
+                hasProperty("type", is("condition")),
+                hasProperty("forField", is(false))));
+        assertThat(iterator.next(), allOf(
+                hasProperty("severity", is(SUCCESS)),
+                hasProperty("type", is("constraint")),
+                hasProperty("forField", is(false))));
     }
 
     /**
