@@ -11,7 +11,6 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
@@ -26,24 +25,33 @@ public class ConfirmActionValidator implements SourceValidator<N2oConfirmAction>
 
     @Override
     public void validate(N2oConfirmAction source, SourceProcessor p) {
-        if (source.getConfirmButtons() != null && source.getConfirmButtons().length > 0) {
-            if (source.getConfirmButtons().length == 1)
-                if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton)
-                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указана кнопка \"<ok>\", но не указана кнопка \"<cancel>\"");
-                else
-                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указана кнопка \"<cancel>\", но не указана кнопка \"<ok>\"");
-
-            else if (source.getConfirmButtons().length == 2) {
-                if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton && source.getConfirmButtons()[1] instanceof N2oConfirmAction.OkButton) {
-                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указаны две кнопки \"<ok>\"");
-                } else if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.CancelButton && source.getConfirmButtons()[1] instanceof N2oConfirmAction.CancelButton) {
-                    throw new N2oMetadataValidationException("В действии \"<confirm>\" указаны две кнопки \"<cancel>\"");
-                } else
-                    Arrays.stream(source.getConfirmButtons()).forEach(b -> checkColor(b.getColor()));
-
-            } else
-                throw new N2oMetadataValidationException("В действии \"<confirm>\" указано более двух кнопок");
+        var buttons = source.getConfirmButtons();
+        if (buttons == null || buttons.length == 0)
+            return;
+        switch (buttons.length) {
+            case 1 -> validateOneButton(source);
+            case 2 -> validateTwoButtons(source);
+            default -> throw new N2oMetadataValidationException(
+                    "В действии \"<confirm>\" указано более двух кнопок");
         }
+    }
+
+    private void validateOneButton(N2oConfirmAction source) {
+        if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton)
+            throw new N2oMetadataValidationException(
+                    "В действии \"<confirm>\" указана кнопка \"<ok>\", но не указана кнопка \"<cancel>\"");
+        throw new N2oMetadataValidationException(
+                "В действии \"<confirm>\" указана кнопка \"<cancel>\", но не указана кнопка \"<ok>\"");
+    }
+
+    private void validateTwoButtons(N2oConfirmAction source) {
+        var buttons = source.getConfirmButtons();
+        if (buttons[0] instanceof N2oConfirmAction.OkButton && buttons[1] instanceof N2oConfirmAction.OkButton)
+            throw new N2oMetadataValidationException("В действии \"<confirm>\" указаны две кнопки \"<ok>\"");
+        if (buttons[0] instanceof N2oConfirmAction.CancelButton && buttons[1] instanceof N2oConfirmAction.CancelButton)
+            throw new N2oMetadataValidationException("В действии \"<confirm>\" указаны две кнопки \"<cancel>\"");
+        checkColor(buttons[0].getColor());
+        checkColor(buttons[1].getColor());
     }
 
     /**

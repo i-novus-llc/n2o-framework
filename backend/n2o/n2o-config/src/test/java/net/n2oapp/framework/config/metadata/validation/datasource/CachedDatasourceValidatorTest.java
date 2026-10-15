@@ -100,7 +100,7 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testRequiredReferenceForPrefiltersQueryField.page.xml"));
-        assertEquals("В выборке ''utDs'' нет поля 'notExist'!", exception.getMessage());
+        assertEquals("В выборке 'utDs' нет поля 'notExist'!", exception.getMessage());
     }
 
     /**
@@ -111,7 +111,7 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testQueryFieldsFilterExistence.page.xml"));
-        assertEquals("В выборке ''utDs'' поле 'id' не содержит фильтров!", exception.getMessage());
+        assertEquals("В выборке 'utDs' поле 'id' не содержит фильтров!", exception.getMessage());
     }
 
     /**
@@ -122,7 +122,7 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testRequiredReferenceForPrefiltersQueryFieldFilterType.page.xml"));
-        assertEquals("В выборке ''utDs'' поле 'name' не содержит фильтр типа 'notEq'!", exception.getMessage());
+        assertEquals("В выборке 'utDs' поле 'name' не содержит фильтр типа 'notEq'!", exception.getMessage());
     }
 
     /**
