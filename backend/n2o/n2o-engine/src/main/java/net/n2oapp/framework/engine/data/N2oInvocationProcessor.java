@@ -90,29 +90,41 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
      * @param resultDataSet Исходящие данные вызова
      */
     protected void resolveOutValues(Collection<AbstractParameter> parameters, DataSet resultDataSet, DataSet parentDataSet) {
-        if (parameters == null) return;
+        if (parameters == null)
+            return;
         for (AbstractParameter parameter : parameters) {
-            Object value = resultDataSet.get(parameter.getId());
-            if (parameter instanceof ObjectReferenceField referenceField) {
-                if (value != null) {
-                    if (value instanceof Collection collection) {
-                        for (Object obj : collection)
-                            resolveOutValues(List.of(referenceField.getFields()), (DataSet) obj, resultDataSet);
-                    } else if (value instanceof DataSet dataSet) {
-                        resolveOutValues(List.of(referenceField.getFields()),dataSet, resultDataSet);
-                    }
-                    if (parameter.getNormalize() != null) {
-                        value = tryToNormalize(value, parameter, resultDataSet, parentDataSet, applicationContext);
-                        resultDataSet.put(parameter.getId(), value);
-                    }
-                }
-            } else {
-                ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
-                resolveOutField(simpleField, resultDataSet, parentDataSet, value);
-                if (simpleField.getN2oSwitch() != null)
-                    applySwitch(resultDataSet, simpleField);
-            }
+            if (parameter instanceof ObjectReferenceField referenceField)
+                resolveOutReference(referenceField, resultDataSet, parentDataSet);
+            else
+                resolveOutSimple((ObjectSimpleField) parameter, resultDataSet, parentDataSet);
         }
+    }
+
+    private void resolveOutReference(ObjectReferenceField parameter, DataSet resultDataSet, DataSet parentDataSet) {
+        Object value = resultDataSet.get(parameter.getId());
+        if (value == null)
+            return;
+        resolveOutReferenceChildren(parameter, value, resultDataSet);
+        if (parameter.getNormalize() != null) {
+            Object normalized = tryToNormalize(value, parameter, resultDataSet, parentDataSet, applicationContext);
+            resultDataSet.put(parameter.getId(), normalized);
+        }
+    }
+
+    private void resolveOutReferenceChildren(ObjectReferenceField parameter, Object value, DataSet resultDataSet) {
+        if (value instanceof Collection collection) {
+            for (Object obj : collection)
+                resolveOutValues(List.of(parameter.getFields()), (DataSet) obj, resultDataSet);
+        } else if (value instanceof DataSet dataSet) {
+            resolveOutValues(List.of(parameter.getFields()), dataSet, resultDataSet);
+        }
+    }
+
+    private void resolveOutSimple(ObjectSimpleField parameter, DataSet resultDataSet, DataSet parentDataSet) {
+        Object value = resultDataSet.get(parameter.getId());
+        resolveOutField(parameter, resultDataSet, parentDataSet, value);
+        if (parameter.getN2oSwitch() != null)
+            applySwitch(resultDataSet, parameter);
     }
 
     private void resolveOutField(ObjectSimpleField simpleField, DataSet resultDataSet, DataSet parentData, Object value) {
@@ -196,33 +208,38 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             return;
 
         for (AbstractParameter parameter : parameters) {
-            if (parameter instanceof ObjectSimpleField simpleField) {
-                Object value = inDataSet.get(simpleField.getId());
-                if (value == null)
-                    value = simpleField.getDefaultValue();
-                value = contextProcessor.resolve(value);
-                value = domainProcessor.deserialize(value, simpleField.getDomain());
-                inDataSet.put(simpleField.getId(), value);
-            } else if (parameter instanceof ObjectReferenceField) {
-                Object value = inDataSet.get(parameter.getId());
-                if (value == null)
-                    continue;
-
-                if (parameter.getClass().equals(ObjectReferenceField.class))
-                    prepareComplexInValues(parameter, value, "<reference>");
-                else {
-                    // auto cast to collection if not collection
-                    if (!(value instanceof Collection)) {
-                        DataList list = new DataList();
-                        list.add(value);
-                        inDataSet.put(parameter.getId(), list);
-                    }
-
-                    for (Object dataSet : (Collection<?>) inDataSet.get(parameter.getId()))
-                        prepareComplexInValues(parameter, dataSet, "<list>");
-                }
-            }
+            if (parameter instanceof ObjectSimpleField simpleField)
+                prepareSimpleInValue(simpleField, inDataSet);
+            else if (parameter instanceof ObjectReferenceField referenceField)
+                prepareReferenceInValue(referenceField, inDataSet);
         }
+    }
+
+    private void prepareSimpleInValue(ObjectSimpleField field, DataSet inDataSet) {
+        Object value = inDataSet.get(field.getId());
+        if (value == null)
+            value = field.getDefaultValue();
+        value = contextProcessor.resolve(value);
+        value = domainProcessor.deserialize(value, field.getDomain());
+        inDataSet.put(field.getId(), value);
+    }
+
+    private void prepareReferenceInValue(ObjectReferenceField field, DataSet inDataSet) {
+        Object value = inDataSet.get(field.getId());
+        if (value == null)
+            return;
+        if (field.getClass().equals(ObjectReferenceField.class)) {
+            prepareComplexInValues(field, value, "<reference>");
+            return;
+        }
+        // auto cast to collection if not collection
+        if (!(value instanceof Collection)) {
+            DataList list = new DataList();
+            list.add(value);
+            inDataSet.put(field.getId(), list);
+        }
+        for (Object dataSet : (Collection<?>) inDataSet.get(field.getId()))
+            prepareComplexInValues(field, dataSet, "<list>");
     }
 
     private void prepareComplexInValues(AbstractParameter parameter, Object dataSet, String parameterType) {
