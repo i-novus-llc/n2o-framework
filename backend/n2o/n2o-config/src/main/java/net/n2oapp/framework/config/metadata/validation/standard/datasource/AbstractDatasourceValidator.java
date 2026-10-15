@@ -63,57 +63,59 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
      * @param query        Запрос за данными
      */
     public void checkPrefilters(String datasourceId, N2oPreFilter[] preFilters, N2oQuery query, SourceProcessor p) {
-        if (preFilters != null) {
-            if (query == null)
-                throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но не задана выборка",
-                                getIdOrEmptyString(datasourceId)));
-            if (query.getFilters() == null)
-                throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но в выборке %s нет \"<filters>\"!",
-                                getIdOrEmptyString(datasourceId),
-                                getIdOrEmptyString(query.getId())));
+        if (preFilters == null)
+            return;
+        checkPrefiltersQuery(datasourceId, query);
+        for (N2oPreFilter preFilter : preFilters)
+            checkPrefilter(datasourceId, preFilter, query, p);
+    }
 
-            for (N2oPreFilter preFilter : preFilters) {
-                if (preFilter.getFieldId() == null) {
-                    throw new N2oMetadataValidationException(
-                            String.format("Источник данных %s содержит префильтр без указанного 'field-id'!",
-                                    getIdOrEmptyString(datasourceId)));
-                }
+    private void checkPrefiltersQuery(String datasourceId, N2oQuery query) {
+        if (query == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Источник данных %s имеет префильтры, но не задана выборка",
+                            getIdOrEmptyString(datasourceId)));
+        if (query.getFilters() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Источник данных %s имеет префильтры, но в выборке %s нет \"<filters>\"!",
+                            getIdOrEmptyString(datasourceId),
+                            getIdOrEmptyString(query.getId())));
+    }
 
-                String queryId = getIdOrEmptyString(query.getId());
-                if (preFilter.getDatasourceId() != null)
-                    ValidationUtils.checkDatasourceExistence(preFilter.getDatasourceId(), p,
-                            String.format("В префильтре по полю %s указан несуществующий источник данных %s",
-                                    getIdOrEmptyString(preFilter.getFieldId()),
-                                    getIdOrEmptyString(preFilter.getDatasourceId())));
-                AbstractField exField = query.getSimpleFieldByAbsoluteId(preFilter.getFieldId());
-                if (exField == null)
-                    throw new N2oMetadataValidationException(
-                            String.format("В выборке %s нет поля %s!",
-                                    getIdOrEmptyString(queryId),
-                                    getIdOrEmptyString(preFilter.getFieldId())));
+    private void checkPrefilter(String datasourceId, N2oPreFilter preFilter, N2oQuery query, SourceProcessor p) {
+        if (preFilter.getFieldId() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Источник данных %s содержит префильтр без указанного 'field-id'!",
+                            getIdOrEmptyString(datasourceId)));
 
-                if (ArrayUtils.isEmpty(query.getFiltersList(exField.getAbsoluteId())))
-                    throw new N2oMetadataValidationException(
-                            String.format("В выборке %s поле %s не содержит фильтров!",
-                                    getIdOrEmptyString(queryId),
-                                    getIdOrEmptyString(preFilter.getFieldId())));
+        String queryId = getIdOrEmptyString(query.getId());
+        if (preFilter.getDatasourceId() != null)
+            ValidationUtils.checkDatasourceExistence(preFilter.getDatasourceId(), p,
+                    String.format("В префильтре по полю %s указан несуществующий источник данных %s",
+                            getIdOrEmptyString(preFilter.getFieldId()),
+                            getIdOrEmptyString(preFilter.getDatasourceId())));
 
-                N2oQuery.Filter exFilter = null;
-                for (N2oQuery.Filter filter : query.getFiltersList(exField.getAbsoluteId())) {
-                    if (preFilter.getType() == filter.getType()) {
-                        exFilter = filter;
-                        break;
-                    }
-                }
-                if (exFilter == null)
-                    throw new N2oMetadataValidationException(
-                            String.format("В выборке %s поле %s не содержит фильтр типа %s!",
-                                    getIdOrEmptyString(queryId),
-                                    getIdOrEmptyString(preFilter.getFieldId()),
-                                    getIdOrEmptyString(preFilter.getType().getId())));
-            }
+        AbstractField exField = query.getSimpleFieldByAbsoluteId(preFilter.getFieldId());
+        if (exField == null)
+            throw new N2oMetadataValidationException(
+                    String.format("В выборке %s нет поля %s!",
+                            queryId,
+                            getIdOrEmptyString(preFilter.getFieldId())));
+
+        if (ArrayUtils.isEmpty(query.getFiltersList(exField.getAbsoluteId())))
+            throw new N2oMetadataValidationException(
+                    String.format("В выборке %s поле %s не содержит фильтров!",
+                            queryId,
+                            getIdOrEmptyString(preFilter.getFieldId())));
+
+        for (N2oQuery.Filter filter : query.getFiltersList(exField.getAbsoluteId())) {
+            if (preFilter.getType() == filter.getType())
+                return;
         }
+        throw new N2oMetadataValidationException(
+                String.format("В выборке %s поле %s не содержит фильтр типа %s!",
+                        queryId,
+                        getIdOrEmptyString(preFilter.getFieldId()),
+                        getIdOrEmptyString(preFilter.getType().getId())));
     }
 }
