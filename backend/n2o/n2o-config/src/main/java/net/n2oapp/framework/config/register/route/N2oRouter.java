@@ -100,7 +100,8 @@ public class N2oRouter implements MetadataRouter {
             return;
         CompileContext<Page, ?> result = findRoute(url, Page.class);
         if (result != null) {
-            pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
+            // warm up
+            pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params)));
         }
     }
 
@@ -121,8 +122,10 @@ public class N2oRouter implements MetadataRouter {
         if (result instanceof PageContext pageContext && pageContext.getSubRoutes() != null && pageContext.getSubRoutes().containsKey(subUrl)) {
             CompileContext<Page, ?> subContext = findRoute(pageContext.getSubRoutes().get(subUrl), Page.class);
             if (subContext != null)
+                // warm up subPage
                 pipeline.get(subContext, new N2oCompileProcessor(environment, subContext, subContext.getParams(url, params)));
         } else {
+            // warm up
             pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params)));
         }
     }
