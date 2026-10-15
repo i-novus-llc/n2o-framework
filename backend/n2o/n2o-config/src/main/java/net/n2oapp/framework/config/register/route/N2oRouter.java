@@ -13,8 +13,6 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -113,38 +111,52 @@ public class N2oRouter implements MetadataRouter {
      * @param url Часть маршрута
      */
     private void tryToFindDeep(String url, Map<String, String[]> params) {
-        if (url.length() > 1) {
-            String subUrl;
-            int idx = url.endsWith(ROOT_ROUTE) ? url.substring(0, url.length() - 1).lastIndexOf(ROOT_ROUTE)
-                    : url.lastIndexOf(ROOT_ROUTE);
-            if (idx > 0)
-                subUrl = url.substring(0, idx + 1);
-            else
-                subUrl = ROOT_ROUTE;
-
-            CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
-            if (result == null && !subUrl.endsWith(ROOT_ROUTE))
-                result = findRoute(subUrl + ROOT_ROUTE, Page.class);
-            if (result == null) {
-                tryToFindDeep(subUrl, params);
-                result = findRoute(subUrl, Page.class);
-                if (result == null && !subUrl.endsWith(ROOT_ROUTE))
-                    result = findRoute(subUrl + ROOT_ROUTE, Page.class);
-            }
-            
-            if (result != null) {
-                if (result instanceof PageContext pageContext && pageContext.getSubRoutes() != null && pageContext.getSubRoutes().containsKey(subUrl)) {
-                    CompileContext<Page, ?> subPageMetadataContext = findRoute(pageContext.getSubRoutes().get(subUrl), Page.class);
-                    if (subPageMetadataContext != null) {
-                        pipeline.get(subPageMetadataContext, new N2oCompileProcessor(environment, subPageMetadataContext, subPageMetadataContext.getParams(url, params))); //warm up subPage
-                    }
-                } else {
-                    pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
-                }
-            }
-        } else {
+        if (url.length() <= 1) {
             warmUpRootRoutes();
+            return;
         }
+        String subUrl = parentUrl(url);
+        CompileContext<Page, ?> result = findParentContext(subUrl, params);
+        if (result == null) return;
+        if (result instanceof PageContext pageContext && pageContext.getSubRoutes() != null && pageContext.getSubRoutes().containsKey(subUrl)) {
+            CompileContext<Page, ?> subContext = findRoute(pageContext.getSubRoutes().get(subUrl), Page.class);
+            if (subContext != null)
+                pipeline.get(subContext, new N2oCompileProcessor(environment, subContext, subContext.getParams(url, params)));
+        } else {
+            pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params)));
+        }
+    }
+
+    /**
+     * Отрезать от url последний сегмент. Если после этого остаётся что-то больше корня,
+     * вернуть этот префикс, иначе — корневой маршрут.
+     */
+    private String parentUrl(String url) {
+        int lastSlash = url.endsWith(ROOT_ROUTE)
+                ? url.substring(0, url.length() - 1).lastIndexOf(ROOT_ROUTE)
+                : url.lastIndexOf(ROOT_ROUTE);
+        return lastSlash > 0 ? url.substring(0, lastSlash + 1) : ROOT_ROUTE;
+    }
+
+    /**
+     * Найти контекст родительского маршрута
+     */
+    private CompileContext<Page, ?> findParentContext(String subUrl, Map<String, String[]> params) {
+        CompileContext<Page, ?> result = findRouteWithTrailingSlash(subUrl);
+        if (result != null)
+            return result;
+        tryToFindDeep(subUrl, params);
+        return findRouteWithTrailingSlash(subUrl);
+    }
+
+    /**
+     * Найти маршрут по url, при неудаче — с добавленным завершающим слэшем.
+     */
+    private CompileContext<Page, ?> findRouteWithTrailingSlash(String subUrl) {
+        CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
+        if (result == null && !subUrl.endsWith(ROOT_ROUTE))
+            result = findRoute(subUrl + ROOT_ROUTE, Page.class);
+        return result;
     }
 
     /**
