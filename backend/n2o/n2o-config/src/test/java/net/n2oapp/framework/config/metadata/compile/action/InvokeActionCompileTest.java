@@ -276,7 +276,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
                         .get(new PageContext("emptyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("Параметр пути '/:main_id/' для маршрута 'main_id' не установлен"))
+                e -> assertThat(e.getMessage(), is("Параметр пути 'main_id' для маршрута '/:main_id/' не установлен"))
         );
     }
 

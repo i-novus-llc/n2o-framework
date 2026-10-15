@@ -46,8 +46,8 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                     .orElseThrow(() -> new N2oMetadataValidationException(
                             String.format("Действие открытия страницы %s ссылается на несуществующую в объекте '%s' операцию '%s'",
                                     getIdOrEmptyString(source.getId()),
-                                    source.getSubmitOperationId(),
-                                    source.getObjectId())));
+                                    source.getObjectId(),
+                                    source.getSubmitOperationId())));
         }
         PageScope pageScope = p.getScope(PageScope.class);
         checkRouteUniqueness(source, p);
@@ -115,7 +115,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         if (routesScope == null)
             return;
         if (routesScope.contains(route)) {
-            logger.warn(String.format("Маршрут '%s' действия открытия страницы '%s' уже используется на странице. Рекомендуется вынести действие в блок \"<actions/>\"", route, source.getPageId()));
+            logger.warn("Маршрут '{}' действия открытия страницы '{}' уже используется на странице. Рекомендуется вынести действие в блок \"<actions/>\"", route, source.getPageId());
         }
         routesScope.add(route);
     }
