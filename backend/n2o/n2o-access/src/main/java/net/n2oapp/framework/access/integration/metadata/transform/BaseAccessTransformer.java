@@ -25,6 +25,9 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,42 +59,19 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                         || nonNull(security.getFirst().get(CUSTOM)))) return;
 
         // Проверка точек доступа с использованием вынесенных методов
-        if (nonNull(schema.getPermitAllPoints()) && hasObjectAccessPoint(schema.getPermitAllPoints(), objectId, operationId)) {
+        if (hasObjectAccessPoint(schema.getPermitAllPoints(), objectId, operationId)) {
             securityObject.setPermitAll(true);
         }
 
-        if (nonNull(schema.getAuthenticatedPoints()) && hasObjectAccessPoint(schema.getAuthenticatedPoints(), objectId, operationId)) {
+        if (hasObjectAccessPoint(schema.getAuthenticatedPoints(), objectId, operationId)) {
             securityObject.setAuthenticated(true);
         }
 
-        if (nonNull(schema.getAnonymousPoints()) && hasObjectAccessPoint(schema.getAnonymousPoints(), objectId, operationId)) {
+        if (hasObjectAccessPoint(schema.getAnonymousPoints(), objectId, operationId)) {
             securityObject.setAnonymous(true);
         }
 
-        List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oObjectAccessPoint.class,
-                OBJECT_ACCESS.apply(objectId, operationId), schema);
-        if (!CollectionUtils.isEmpty(userAccesses)) {
-            securityObject.setUsernames(userAccesses
-                    .stream()
-                    .map(N2oUserAccess::getId)
-                    .collect(Collectors.toSet()));
-        }
-        List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oObjectAccessPoint.class,
-                OBJECT_ACCESS.apply(objectId, operationId), schema);
-        if (!CollectionUtils.isEmpty(permissions)) {
-            securityObject.setPermissions(permissions
-                    .stream()
-                    .map(N2oPermission::getId)
-                    .collect(Collectors.toSet()));
-        }
-        List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oObjectAccessPoint.class,
-                OBJECT_ACCESS.apply(objectId, operationId), schema);
-        if (!CollectionUtils.isEmpty(roles)) {
-            securityObject.setRoles(roles
-                    .stream()
-                    .map(N2oRole::getId)
-                    .collect(Collectors.toSet()));
-        }
+        collectAccessList(securityObject, N2oObjectAccessPoint.class, OBJECT_ACCESS.apply(objectId, operationId), schema);
 
         if (securityObject.isEmpty()) {
             Boolean defaultObjectAccessDenied = p.resolve(property(DEFAULT_OBJECT_ACCESS_DENIED), Boolean.class);
@@ -107,6 +87,18 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         security.getFirst().put("object", securityObject);
     }
 
+    private <A extends AccessPoint> void collectAccessList(SecurityObject securityObject, Class<A> type,
+                                                           Predicate<A> predicate, SimpleCompiledAccessSchema schema) {
+        setIds(PermissionAndRoleCollector.collectUsers(type, predicate, schema), N2oUserAccess::getId, securityObject::setUsernames);
+        setIds(PermissionAndRoleCollector.collectPermission(type, predicate, schema), N2oPermission::getId, securityObject::setPermissions);
+        setIds(PermissionAndRoleCollector.collectRoles(type, predicate, schema), N2oRole::getId, securityObject::setRoles);
+    }
+
+    private static <T> void setIds(List<T> items, Function<T, String> idGetter, Consumer<Set<String>> setter) {
+        if (!CollectionUtils.isEmpty(items))
+            setter.accept(items.stream().map(idGetter).collect(Collectors.toSet()));
+    }
+
     protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema,
                                      CompileProcessor p) {
         if (isNull(pageId))
@@ -119,50 +111,19 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         SecurityObject securityObject = new SecurityObject();
 
-        if (nonNull(schema.getPermitAllPoints()) && hasPageAccessPoint(schema.getPermitAllPoints(), originPageId)) {
+        if (hasPageAccessPoint(schema.getPermitAllPoints(), originPageId)) {
             securityObject.setPermitAll(true);
         }
 
-        if (nonNull(schema.getAuthenticatedPoints()) && hasPageAccessPoint(schema.getAuthenticatedPoints(), originPageId)) {
+        if (hasPageAccessPoint(schema.getAuthenticatedPoints(), originPageId)) {
             securityObject.setAuthenticated(true);
         }
 
-        if (nonNull(schema.getAnonymousPoints()) && hasPageAccessPoint(schema.getAnonymousPoints(), originPageId)) {
+        if (hasPageAccessPoint(schema.getAnonymousPoints(), originPageId)) {
             securityObject.setAnonymous(true);
         }
 
-        List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oPageAccessPoint.class,
-                PAGE_ACCESS.apply(originPageId), schema);
-        if (!CollectionUtils.isEmpty(roles)) {
-            securityObject.setRoles(
-                    roles
-                            .stream()
-                            .map(N2oRole::getId)
-                            .collect(Collectors.toSet())
-            );
-        }
-
-        List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oPageAccessPoint.class,
-                PAGE_ACCESS.apply(originPageId), schema);
-        if (!CollectionUtils.isEmpty(permissions)) {
-            securityObject.setPermissions(
-                    permissions
-                            .stream()
-                            .map(N2oPermission::getId)
-                            .collect(Collectors.toSet())
-            );
-        }
-
-        List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oPageAccessPoint.class,
-                PAGE_ACCESS.apply(originPageId), schema);
-        if (!CollectionUtils.isEmpty(userAccesses)) {
-            securityObject.setUsernames(
-                    userAccesses
-                            .stream()
-                            .map(N2oUserAccess::getId)
-                            .collect(Collectors.toSet())
-            );
-        }
+        collectAccessList(securityObject, N2oPageAccessPoint.class, PAGE_ACCESS.apply(originPageId), schema);
 
         if (securityObject.isEmpty()) {
             Boolean defaultPageAccessDenied = p.resolve(property(DEFAULT_PAGE_ACCESS_DENIED), Boolean.class);
@@ -189,50 +150,19 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         SecurityObject securityObject = new SecurityObject();
 
-        if (nonNull(schema.getPermitAllPoints()) && hasUrlAccessPoint(schema.getPermitAllPoints(), url)) {
+        if (hasUrlAccessPoint(schema.getPermitAllPoints(), url)) {
             securityObject.setPermitAll(true);
         }
 
-        if (nonNull(schema.getAuthenticatedPoints()) && hasUrlAccessPoint(schema.getAuthenticatedPoints(), url)) {
+        if (hasUrlAccessPoint(schema.getAuthenticatedPoints(), url)) {
             securityObject.setAuthenticated(true);
         }
 
-        if (nonNull(schema.getAnonymousPoints()) && hasUrlAccessPoint(schema.getAnonymousPoints(), url)) {
+        if (hasUrlAccessPoint(schema.getAnonymousPoints(), url)) {
             securityObject.setAnonymous(true);
         }
 
-        List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oUrlAccessPoint.class,
-                URL_ACCESS.apply(url), schema);
-        if (!CollectionUtils.isEmpty(roles)) {
-            securityObject.setRoles(
-                    roles
-                            .stream()
-                            .map(N2oRole::getId)
-                            .collect(Collectors.toSet())
-            );
-        }
-
-        List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oUrlAccessPoint.class,
-                URL_ACCESS.apply(url), schema);
-        if (!CollectionUtils.isEmpty(permissions)) {
-            securityObject.setPermissions(
-                    permissions
-                            .stream()
-                            .map(N2oPermission::getId)
-                            .collect(Collectors.toSet())
-            );
-        }
-
-        List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oUrlAccessPoint.class,
-                URL_ACCESS.apply(url), schema);
-        if (!CollectionUtils.isEmpty(userAccesses)) {
-            securityObject.setUsernames(
-                    userAccesses
-                            .stream()
-                            .map(N2oUserAccess::getId)
-                            .collect(Collectors.toSet())
-            );
-        }
+        collectAccessList(securityObject, N2oUrlAccessPoint.class, URL_ACCESS.apply(url), schema);
 
         if (securityObject.isEmpty()) {
             Boolean defaultUrlAccessDenied = p.resolve(property(DEFAULT_URL_ACCESS_DENIED), Boolean.class);
@@ -280,20 +210,20 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
     // Вспомогательные методы для проверки наличия точек доступа
 
     private boolean hasObjectAccessPoint(List<AccessPoint> points, String objectId, String operationId) {
-        return points.stream()
+        return nonNull(points) && points.stream()
                 .anyMatch(ap -> ap instanceof N2oObjectAccessPoint n2oObjectAccessPoint
                         && StringUtils.maskMatch(n2oObjectAccessPoint.getObjectId(), objectId)
                         && (isNull(operationId) || StringUtils.maskMatch(n2oObjectAccessPoint.getAction(), operationId)));
     }
 
     private boolean hasPageAccessPoint(List<AccessPoint> points, String pageId) {
-        return points.stream()
+        return nonNull(points) && points.stream()
                 .anyMatch(ap -> ap instanceof N2oPageAccessPoint n2oPageAccessPoint
                         && n2oPageAccessPoint.getPage().equals(pageId));
     }
 
     private boolean hasUrlAccessPoint(List<AccessPoint> points, String url) {
-        return points.stream()
+        return nonNull(points) && points.stream()
                 .anyMatch(ap -> ap instanceof N2oUrlAccessPoint n2oUrlAccessPoint
                         && n2oUrlAccessPoint.getMatcher().matches(url));
     }
