@@ -178,19 +178,7 @@ public class TableAccessTransformer extends BaseAccessTransformer<Table, Compile
             if (button.getProperties() == null) continue;
             Security buttonSecurity = (Security) button.getProperties().get(SECURITY_PROP_NAME);
             if (buttonSecurity == null) continue;
-            Set<String> deniedKeysOfButton = new HashSet<>();
-            for (Map<String, SecurityObject> map : buttonSecurity) {
-                for (Map.Entry<String, SecurityObject> entry : map.entrySet()) {
-                    String key = entry.getKey();
-                    SecurityObject so = entry.getValue();
-                    perKey.computeIfAbsent(key, k -> new MergeAccumulator()).mergeSecurityObject(so);
-                    if (so.getBehavior() == BehaviorEnum.DISABLE) anyDisable = true;
-                    if (Boolean.TRUE.equals(so.getDenied())) deniedKeysOfButton.add(key);
-                }
-            }
-            for (String key : deniedKeysOfButton) {
-                deniedButtonsPerKey.merge(key, 1, Integer::sum);
-            }
+            if (mergeButtonSecurity(buttonSecurity, perKey, deniedButtonsPerKey)) anyDisable = true;
         }
 
         BehaviorEnum behavior = anyDisable ? BehaviorEnum.DISABLE : BehaviorEnum.HIDE;
@@ -202,6 +190,30 @@ public class TableAccessTransformer extends BaseAccessTransformer<Table, Compile
             result.put(key, entry.getValue().build(deniedForKey, behavior));
         }
         return result;
+    }
+
+    /**
+     * Сливает security одной кнопки в общие аккумуляторы по ключам
+     *
+     * @return true, если у кнопки есть ключ с поведением DISABLE
+     */
+    private boolean mergeButtonSecurity(Security buttonSecurity, Map<String, MergeAccumulator> perKey,
+                                        Map<String, Integer> deniedButtonsPerKey) {
+        boolean anyDisable = false;
+        Set<String> deniedKeysOfButton = new HashSet<>();
+        for (Map<String, SecurityObject> map : buttonSecurity) {
+            for (Map.Entry<String, SecurityObject> entry : map.entrySet()) {
+                String key = entry.getKey();
+                SecurityObject so = entry.getValue();
+                perKey.computeIfAbsent(key, k -> new MergeAccumulator()).mergeSecurityObject(so);
+                if (so.getBehavior() == BehaviorEnum.DISABLE) anyDisable = true;
+                if (Boolean.TRUE.equals(so.getDenied())) deniedKeysOfButton.add(key);
+            }
+        }
+        for (String key : deniedKeysOfButton) {
+            deniedButtonsPerKey.merge(key, 1, Integer::sum);
+        }
+        return anyDisable;
     }
 
     private static final class MergeAccumulator {
