@@ -32,6 +32,8 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
 
     @Override
     public void validate(N2oAbstractPageAction source, SourceProcessor p) {
+        checkPageId(source);
+
         ValidationUtils.checkForExistsObject(source.getObjectId(),
                 String.format("Действие открытия страницы %s", getIdOrEmptyString(source.getId())), p);
 
@@ -65,6 +67,18 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         }
         checkDatasourceInParam(source, p);
         checkEmptyToolbar(source);
+    }
+
+    /**
+     * Проверка обязательности атрибута page-id
+     */
+    private static void checkPageId(N2oAbstractPageAction source) {
+        String pageId = source.getPageId();
+        if (pageId == null || pageId.isBlank()) {
+            throw new N2oMetadataValidationException(
+                    "В одном из действий открытия страницы (<open-page>, <show-modal>, <open-drawer>) не указан обязательный атрибут 'page-id'"
+            );
+        }
     }
 
     private static void checkEmptyToolbar(N2oAbstractPageAction source) {
