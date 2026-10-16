@@ -68,30 +68,28 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             throw new IllegalArgumentException(ERROR_KEY_MUST_BE_STRING + oKey);
         KeyInfo info = getKeyInfo(key);
         Object value = super.get(info.getProperty());
-        if (value == null)
-            return null;
-        if (!info.isNesting()) {
+        if (value == null || !info.isNesting())
             return value;
-        } else {
-            if (!info.isSpread()) {
-                if (applicableFor(value, info.getRight(), Map.class))
-                    return ((Map) value).get(info.getRight());//case: "foo.bar"
-                if (applicableFor(value, info.getRight(), NestedList.class))
-                    return ((NestedList) value).get(info.getRight());//case: "foo[0]"
-                return resolveObjectValue(info.getRight(), value);
-            } else {
-                if (!(value instanceof List array))
-                    return null;//case: "foo*.bar", but "foo" isn't list
-                List<Object> result = new ArrayList<>(array.size());
-                for (Object o : array) {
-                    Object child = null;
-                    if (o instanceof Map mapValue)
-                        child = mapValue.get(info.getRight());
-                    result.add(child);
-                }
-                return Collections.unmodifiableList(result);
-            }
-        }
+        if (info.isSpread())
+            return getSpreadValue(value, info.getRight());
+        return getNestedValue(value, info.getRight());
+    }
+
+    private Object getNestedValue(Object value, String right) {
+        if (applicableFor(value, right, Map.class))
+            return ((Map) value).get(right);//case: "foo.bar"
+        if (applicableFor(value, right, NestedList.class))
+            return ((NestedList) value).get(right);//case: "foo[0]"
+        return resolveObjectValue(right, value);
+    }
+
+    private static Object getSpreadValue(Object value, String right) {
+        if (!(value instanceof List array))
+            return null;//case: "foo*.bar", but "foo" isn't list
+        List<Object> result = new ArrayList<>(array.size());
+        for (Object o : array)
+            result.add(o instanceof Map mapValue ? mapValue.get(right) : null);
+        return Collections.unmodifiableList(result);
     }
 
 
@@ -102,43 +100,41 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             //case: "foo"
             return super.put(info.getProperty(), NestedUtils.wrapValue(value,
                     this::createNestedMap, this::createNestedList));
-        } else {
-            if (!info.isSpread()) {
-                //case: "foo.bar"
-                Object rightValue = super.get(info.getProperty());
-                if (!applicableFor(rightValue, info.getRight())) {
-                    rightValue = NestedUtils.createApplicableCollection(info.getRight(),
-                            this::createNestedMap, this::createNestedList);
-                    super.put(info.getProperty(), rightValue);
-                }
-                if (applicableFor(rightValue, info.getRight(), Map.class)) {
-                    //case: "foo.bar"
-                    return ((Map) rightValue).put(info.getRight(), value);
-                } else {
-                    //case: "foo[0]"
-                    return ((NestedList) rightValue).put(info.getRight(), value);
-                }
-            } else {
-                //case: "foo*.bar"
-                if (value == null) {
-                    return super.put(info.getProperty(), null);
-                } else if (value instanceof Iterable array) {
-                    List<Object> res = new ArrayList<>();
-                    Object rightValue = super.get(info.getProperty());
-                    if (!(rightValue instanceof NestedList)) {
-                        rightValue = createNestedList(null);
-                        super.put(info.getProperty(), rightValue);
-                    }
-                    int i = 0;
-                    for (Object o : array) {
-                        res.add(((NestedList) rightValue).put("[" + i + "]" + "." + info.getRight(), o));
-                        i++;
-                    }
-                    return res;
-                } else
-                    throw new IllegalArgumentException("Value must be iterable or array, but was " + value);
-            }
         }
+        if (info.isSpread())
+            return putSpreadValue(info, value);
+        return putNestedValue(info, value);
+    }
+
+    private Object putNestedValue(KeyInfo info, Object value) {
+        Object rightValue = super.get(info.getProperty());
+        if (!applicableFor(rightValue, info.getRight())) {
+            rightValue = NestedUtils.createApplicableCollection(info.getRight(),
+                    this::createNestedMap, this::createNestedList);
+            super.put(info.getProperty(), rightValue);
+        }
+        if (applicableFor(rightValue, info.getRight(), Map.class))
+            return ((Map) rightValue).put(info.getRight(), value);//case: "foo.bar"
+        return ((NestedList) rightValue).put(info.getRight(), value);//case: "foo[0]"
+    }
+
+    private Object putSpreadValue(KeyInfo info, Object value) {
+        //case: "foo*.bar"
+        if (value == null)
+            return super.put(info.getProperty(), null);
+        if (!(value instanceof Iterable array))
+            throw new IllegalArgumentException("Value must be iterable or array, but was " + value);
+        Object rightValue = super.get(info.getProperty());
+        if (!(rightValue instanceof NestedList)) {
+            rightValue = createNestedList(null);
+            super.put(info.getProperty(), rightValue);
+        }
+        NestedList list = (NestedList) rightValue;
+        List<Object> res = new ArrayList<>();
+        int i = 0;
+        for (Object o : array)
+            res.add(list.put("[" + i++ + "]" + "." + info.getRight(), o));
+        return res;
     }
 
     @Override
@@ -190,51 +186,50 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         if (key.isEmpty())
             throw new IllegalArgumentException("Key must not be empty");
         String left;
-        String right = null;
-        boolean spread = false;
-        int endLeft = -1;
+        int endLeft;
         if (key.startsWith("[")) {
             //case: "['a']"
-            char quote = key.charAt(1);
-            if (quote != '\'' && quote != '"') {
-                throw new IllegalArgumentException("Key in brackets must be in quotes, but was " + key);
-            }
-            int endQuote = key.indexOf(quote, 2);
-            if (endQuote < 0) {
-                throw new IllegalArgumentException("Key in brackets must started and finished in same quotes, but was " + key);
-            }
-            endLeft = key.indexOf(']', endQuote);
-            if (endLeft < 0) {
-                throw new IllegalArgumentException("Key must contain ']', but was " + key);
-            }
-            left = decodeKey(key.substring(2, endLeft - 1));//['abc'] -> abc
-            endLeft = endLeft + 1;
+            int closeBracket = getCloseBracketIndex(key);
+            left = decodeKey(key.substring(2, closeBracket - 1));//['abc'] -> abc
+            endLeft = closeBracket + 1;
         } else {
             endLeft = getEndOfWord(key);
-            if (endLeft < 0) {
-                left = key;//case: "abc"
-            } else {
-                left = key.substring(0, endLeft);//case: "ab.cd", "ab*.cd"
-            }
+            left = endLeft < 0 ? key : key.substring(0, endLeft);//case: "abc" or "ab.cd", "ab*.cd"
             if (!NestedUtils.isJavaVariable(left))
                 throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, key));
         }
         if (endLeft < 0 || key.length() <= endLeft)
             return new KeyInfo(left);
-        right = key.substring(endLeft);
-        if (right.startsWith("*.")) {
-            spread = true;
-            right = right.substring(2);
-            if (!isFirstJavaVariable(right))
-                throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, right));
-        } else if (right.startsWith(".")) {
-            right = right.substring(1);
-            if (!isFirstJavaVariable(right))
-                throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, right));
-        } else if (!right.startsWith("[")) {
+        return getNestedKeyInfo(left, key.substring(endLeft));
+    }
+
+    private static int getCloseBracketIndex(String key) {
+        char quote = key.charAt(1);
+        if (quote != '\'' && quote != '"')
+            throw new IllegalArgumentException("Key in brackets must be in quotes, but was " + key);
+        int endQuote = key.indexOf(quote, 2);
+        if (endQuote < 0)
+            throw new IllegalArgumentException("Key in brackets must started and finished in same quotes, but was " + key);
+        int closeBracket = key.indexOf(']', endQuote);
+        if (closeBracket < 0)
+            throw new IllegalArgumentException("Key must contain ']', but was " + key);
+        return closeBracket;
+    }
+
+    private static KeyInfo getNestedKeyInfo(String left, String right) {
+        if (right.startsWith("*."))
+            return new KeyInfo(left, checkFirstJavaVariable(right.substring(2)), true);
+        if (right.startsWith("."))
+            return new KeyInfo(left, checkFirstJavaVariable(right.substring(1)), false);
+        if (!right.startsWith("["))
             throw new IllegalArgumentException("Key must start with '[', but was " + right);
-        }
-        return new KeyInfo(left, right, spread);
+        return new KeyInfo(left, right, false);
+    }
+
+    private static String checkFirstJavaVariable(String key) {
+        if (!isFirstJavaVariable(key))
+            throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, key));
+        return key;
     }
 
     private static class KeyInfo {
