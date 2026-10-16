@@ -187,4 +187,14 @@ class PageActionValidatorTest extends SourceValidationTestBase {
         assertEquals("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет 'ds2'",
                 exception.getMessage());
     }
+
+    @Test
+    void testPageActionWithoutPageId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionWithoutPageId.page.xml")
+        );
+        assertEquals("В одном из действий открытия страницы (<open-page>, <show-modal>, <open-drawer>) не указан обязательный атрибут 'page-id'",
+                exception.getMessage());
+    }
 }
