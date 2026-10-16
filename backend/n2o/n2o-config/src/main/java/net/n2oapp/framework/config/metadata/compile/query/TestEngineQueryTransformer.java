@@ -27,30 +27,34 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
     public N2oQuery transform(N2oQuery source, SourceProcessor p) {
         if (!isTest(source))
             return source;
-        if (source.getFields() != null) {
-            for (AbstractField field : source.getFields()) {
-                if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
-                    field.setSelectExpression(field.getId());
-                if (field instanceof QuerySimpleField querySimpleField)
-                    transformSimpleField(querySimpleField);
-            }
-        }
-        if (source.getFilters() != null) {
-            for (N2oQuery.Filter filter : source.getFilters()) {
-                if (filter.getMapping() != null) {
-                    if (isBlank(filter.getText())) {
-                        String mapping = unwrapSpel(filter.getMapping());
-                        filter.setText(mapping + " " + colon(filter.getType().getId()) + " " + colon(mapping));
-                    }
-                } else {
-                    if (filter.getFilterId() == null)
-                        filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()));
-                    if (isBlank(filter.getText()))
-                        filter.setText(filter.getFieldId() + " " + colon(filter.getType().getId()) + " " + colon(filter.getFilterId()));
-                }
-            }
-        }
+        if (source.getFields() != null)
+            for (AbstractField field : source.getFields())
+                transformField(field);
+        if (source.getFilters() != null)
+            for (N2oQuery.Filter filter : source.getFilters())
+                transformFilter(filter);
         return source;
+    }
+
+    private void transformField(AbstractField field) {
+        if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
+            field.setSelectExpression(field.getId());
+        if (field instanceof QuerySimpleField querySimpleField)
+            transformSimpleField(querySimpleField);
+    }
+
+    private void transformFilter(N2oQuery.Filter filter) {
+        if (filter.getMapping() != null) {
+            if (isBlank(filter.getText())) {
+                String mapping = unwrapSpel(filter.getMapping());
+                filter.setText(mapping + " " + colon(filter.getType().getId()) + " " + colon(mapping));
+            }
+            return;
+        }
+        if (filter.getFilterId() == null)
+            filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()));
+        if (isBlank(filter.getText()))
+            filter.setText(filter.getFieldId() + " " + colon(filter.getType().getId()) + " " + colon(filter.getFilterId()));
     }
 
     private void transformSimpleField(QuerySimpleField field) {

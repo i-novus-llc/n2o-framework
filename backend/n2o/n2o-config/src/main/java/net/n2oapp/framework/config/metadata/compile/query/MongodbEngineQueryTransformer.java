@@ -66,45 +66,31 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
 
     private void transformFilters(N2oQuery.Filter[] filters) {
         for (N2oQuery.Filter filter : filters) {
-            String domain = getDomain(filter);
             if (filter.getFilterId() == null)
                 filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
-            if (filter.getText() == null) {
-                if ("id".equals(filter.getFieldId())) {
-                    if (filter.getType().equals(FilterTypeEnum.EQ))
-                        filter.setText("{ _id: new ObjectId('#" + filter.getFilterId() + "') }");
-                } else {
-                    switch (filter.getType()) {
-                        case EQ:
-                            filter.setText("{ '" + filter.getFieldId() + "': " + getFilterField(filter, domain) + " }");
-                            break;
-                        case NOT_EQ:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$ne: " + getFilterField(filter, domain) + " }}");
-                            break;
-                        case LIKE:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}");
-                            break;
-                        case LIKE_START:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}");
-                            break;
-                        case MORE:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$gte: " + getFilterField(filter, domain) + "}}");
-                            break;
-                        case LESS:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$lte: " + getFilterField(filter, domain) + "}}");
-                            break;
-                        case IN:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$in: " + getFilterField(filter, domain) + "}}");
-                            break;
-                        case NOT_IN:
-                            filter.setText("{ '" + filter.getFieldId()  + "': {$nin: " + getFilterField(filter, domain) + "}}");
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+            if (filter.getText() == null)
+                filter.setText(buildFilterText(filter));
         }
+    }
+
+    private String buildFilterText(N2oQuery.Filter filter) {
+        if ("id".equals(filter.getFieldId()))
+            return filter.getType().equals(FilterTypeEnum.EQ)
+                    ? "{ _id: new ObjectId('#" + filter.getFilterId() + "') }"
+                    : null;
+
+        String domain = getDomain(filter);
+        return switch (filter.getType()) {
+            case EQ -> "{ '" + filter.getFieldId() + "': " + getFilterField(filter, domain) + " }";
+            case NOT_EQ -> "{ '" + filter.getFieldId() + "': {$ne: " + getFilterField(filter, domain) + " }}";
+            case LIKE -> "{ '" + filter.getFieldId() + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}";
+            case LIKE_START -> "{ '" + filter.getFieldId() + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}";
+            case MORE -> "{ '" + filter.getFieldId() + "': {$gte: " + getFilterField(filter, domain) + "}}";
+            case LESS -> "{ '" + filter.getFieldId() + "': {$lte: " + getFilterField(filter, domain) + "}}";
+            case IN -> "{ '" + filter.getFieldId() + "': {$in: " + getFilterField(filter, domain) + "}}";
+            case NOT_IN -> "{ '" + filter.getFieldId() + "': {$nin: " + getFilterField(filter, domain) + "}}";
+            default -> null;
+        };
     }
 
     private String getFilterField(N2oQuery.Filter filter, String domain) {
