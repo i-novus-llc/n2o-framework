@@ -77,53 +77,38 @@ public class SecurityProvider {
             return Collections.emptyList();
         Set<N2oObjectFilter> filters = new HashSet<>();
         Set<String> removeFilters = new HashSet<>();
-        if (securityFilters.getPermitAllFilters() != null) {
-            filters.addAll(securityFilters.getPermitAllFilters());
-        }
-        if (securityFilters.getRemovePermitAllFilters() != null) {
-            removeFilters.addAll(securityFilters.getRemovePermitAllFilters());
-        }
+        addIfNotNull(filters, securityFilters.getPermitAllFilters());
+        addIfNotNull(removeFilters, securityFilters.getRemovePermitAllFilters());
         if (permissionApi.hasAuthentication(userContext)) {
-            if (securityFilters.getAuthenticatedFilters() != null) {
-                filters.addAll(securityFilters.getAuthenticatedFilters());
-            }
-            if (securityFilters.getRemoveAuthenticatedFilters() != null) {
-                removeFilters.addAll(securityFilters.getRemoveAuthenticatedFilters());
-            }
+            addIfNotNull(filters, securityFilters.getAuthenticatedFilters());
+            addIfNotNull(removeFilters, securityFilters.getRemoveAuthenticatedFilters());
         } else {
-            if (securityFilters.getAnonymousFilters() != null) {
-                filters.addAll(securityFilters.getAnonymousFilters());
-            }
-            if (securityFilters.getRemoveAnonymousFilters() != null) {
-                removeFilters.addAll(securityFilters.getRemoveAnonymousFilters());
-            }
+            addIfNotNull(filters, securityFilters.getAnonymousFilters());
+            addIfNotNull(removeFilters, securityFilters.getRemoveAnonymousFilters());
         }
-        if (securityFilters.getRoleFilters() != null) {
-            securityFilters.getRoleFilters().keySet().stream().filter(r -> permissionApi.hasRole(userContext, r))
-                    .forEach(r -> filters.addAll(securityFilters.getRoleFilters().get(r)));
-        }
-        if (securityFilters.getRemoveRoleFilters() != null) {
-            securityFilters.getRemoveRoleFilters().keySet().stream().filter(r -> permissionApi.hasRole(userContext, r))
-                    .forEach(r -> removeFilters.addAll(securityFilters.getRemoveRoleFilters().get(r)));
-        }
-        if (securityFilters.getPermissionFilters() != null) {
-            securityFilters.getPermissionFilters().keySet().stream().filter(p -> permissionApi.hasPermission(userContext, p))
-                    .forEach(p -> filters.addAll(securityFilters.getPermissionFilters().get(p)));
-        }
-        if (securityFilters.getRemovePermissionFilters() != null) {
-            securityFilters.getRemovePermissionFilters().keySet().stream().filter(p -> permissionApi.hasPermission(userContext, p))
-                    .forEach(p -> removeFilters.addAll(securityFilters.getRemovePermissionFilters().get(p)));
-        }
-        if (securityFilters.getUserFilters() != null) {
-            securityFilters.getUserFilters().keySet().stream().filter(u -> permissionApi.hasUsername(userContext, u))
-                    .forEach(u -> filters.addAll(securityFilters.getUserFilters().get(u)));
-        }
-        if (securityFilters.getRemoveUserFilters() != null) {
-            securityFilters.getRemoveUserFilters().keySet().stream().filter(u -> permissionApi.hasUsername(userContext, u))
-                    .forEach(u -> removeFilters.addAll(securityFilters.getRemoveUserFilters().get(u)));
-        }
+        addAccessible(filters, securityFilters.getRoleFilters(), userContext, permissionApi::hasRole);
+        addAccessible(removeFilters, securityFilters.getRemoveRoleFilters(), userContext, permissionApi::hasRole);
+        addAccessible(filters, securityFilters.getPermissionFilters(), userContext, permissionApi::hasPermission);
+        addAccessible(removeFilters, securityFilters.getRemovePermissionFilters(), userContext, permissionApi::hasPermission);
+        addAccessible(filters, securityFilters.getUserFilters(), userContext, permissionApi::hasUsername);
+        addAccessible(removeFilters, securityFilters.getRemoveUserFilters(), userContext, permissionApi::hasUsername);
         filters.removeIf(f -> removeFilters.contains(f.getId()));
         return filters.stream().map(this::restriction).toList();
+    }
+
+    private static <T> void addIfNotNull(Set<T> target, Collection<T> source) {
+        if (source != null)
+            target.addAll(source);
+    }
+
+    private static <T> void addAccessible(Set<T> target, Map<String, ? extends Collection<T>> source,
+                                          UserContext userContext, BiPredicate<UserContext, String> access) {
+        if (source == null)
+            return;
+        source.forEach((key, values) -> {
+            if (access.test(userContext, key))
+                target.addAll(values);
+        });
     }
 
     private Restriction restriction(N2oObjectFilter filter) {
@@ -207,21 +192,20 @@ public class SecurityProvider {
      * Вызывает исключение, если доступ ограничен
      */
     private void check(UserContext userContext, SecurityObject securityObject) {
-        if (securityObject.getDenied() != null && securityObject.getDenied())
+        if (Boolean.TRUE.equals(securityObject.getDenied()))
             throw new UnauthorizedException();
-        if (securityObject.getPermitAll() != null && securityObject.getPermitAll())
+        if (Boolean.TRUE.equals(securityObject.getPermitAll()))
             return;
 
         if (!permissionApi.hasAuthentication(userContext)) {
-            if (securityObject.getAnonymous() != null && securityObject.getAnonymous())
+            if (Boolean.TRUE.equals(securityObject.getAnonymous()))
                 return;
             throw new UnauthorizedException();
-        } else {
-            if (securityObject.getAuthenticated() != null && securityObject.getAuthenticated())
-                return;
-            if (securityObject.getAnonymous() != null && securityObject.getAnonymous())
-                throw new AccessDeniedException();
         }
+        if (Boolean.TRUE.equals(securityObject.getAuthenticated()))
+            return;
+        if (Boolean.TRUE.equals(securityObject.getAnonymous()))
+            throw new AccessDeniedException();
 
         if (!(checkAccessList(userContext, securityObject.getRoles(), permissionApi::hasRole)
                 || checkAccessList(userContext, securityObject.getPermissions(), permissionApi::hasPermission)
