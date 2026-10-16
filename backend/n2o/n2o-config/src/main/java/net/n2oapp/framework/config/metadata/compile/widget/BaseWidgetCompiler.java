@@ -88,28 +88,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * Инициализация источника данных виджета
      */
     protected N2oAbstractDatasource initDatasource(D compiled, S source, CompileProcessor p) {
-        N2oAbstractDatasource datasource;
-        if (isNull(source.getDatasourceId())) {
-            if (isNull(source.getDatasource())) {
-                datasource = new N2oStandardDatasource();
-                ((N2oStandardDatasource) datasource).setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
-            } else {
-                datasource = source.getDatasource();
-                source.setDatasource(null);
-            }
-            datasource.setId(Objects.nonNull(datasource.getId()) ? datasource.getId() : source.getId());
-            source.setDatasourceId(datasource.getId());
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            if (nonNull(dataSourcesScope)) {
-                if (dataSourcesScope.containsKey(datasource.getId()) && dataSourcesScope.get(datasource.getId()) instanceof N2oStandardDatasource)
-                    dataSourcesScope.put(datasource.getId(), p.merge(datasource, dataSourcesScope.get(datasource.getId())));
-                else
-                    dataSourcesScope.put(datasource.getId(), datasource);
-            }
-        } else {
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            datasource = dataSourcesScope.get(source.getDatasourceId());
-        }
+        N2oAbstractDatasource datasource = isNull(source.getDatasourceId())
+                ? initInlineDatasource(source, p)
+                : p.getScope(DataSourcesScope.class).get(source.getDatasourceId());
         PageScope pageScope = p.getScope(PageScope.class);
         if (nonNull(pageScope)) {
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasource.getId());
@@ -118,6 +99,27 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (datasource instanceof N2oStandardDatasource standardDatasource)
             compiled.setObjectId(standardDatasource.getObjectId());
         compiled.setDatasource(getClientDatasourceId(datasource.getId(), p));
+        return datasource;
+    }
+
+    private N2oAbstractDatasource initInlineDatasource(S source, CompileProcessor p) {
+        N2oAbstractDatasource datasource;
+        if (isNull(source.getDatasource())) {
+            N2oStandardDatasource defaultDatasource = new N2oStandardDatasource();
+            defaultDatasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
+            datasource = defaultDatasource;
+        } else {
+            datasource = source.getDatasource();
+            source.setDatasource(null);
+        }
+        datasource.setId(castDefault(datasource.getId(), source.getId()));
+        source.setDatasourceId(datasource.getId());
+
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if (nonNull(dataSourcesScope)) {
+            dataSourcesScope.compute(datasource.getId(),
+                    (k, existing) -> existing instanceof N2oStandardDatasource ? p.merge(datasource, existing) : datasource);
+        }
         return datasource;
     }
 
@@ -148,20 +150,18 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
-        if (nonNull(paramScope) && !CollectionUtils.isEmpty(paramScope.getQueryMapping())) {
-            PageRoutes routes = p.getScope(PageRoutes.class);
-            Models models = p.getScope(Models.class);
-            paramScope.getQueryMapping().forEach((k, v) -> {
-                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)) {
-                    if (nonNull(routes))
-                        routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
-                } else {
-                    if (nonNull(models) && v.getOnSet() instanceof ModelLink link) {
-                        models.add(link, link);
-                    }
-                }
-            });
-        }
+        if (isNull(paramScope) || CollectionUtils.isEmpty(paramScope.getQueryMapping()))
+            return;
+        PageRoutes routes = p.getScope(PageRoutes.class);
+        Models models = p.getScope(Models.class);
+        Map<String, ModelLink> pathRouteMapping = context.getPathRouteMapping();
+        paramScope.getQueryMapping().forEach((k, v) -> {
+            boolean isPathParam = pathRouteMapping != null && pathRouteMapping.containsKey(k);
+            if (!isPathParam && nonNull(routes))
+                routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
+            else if (isPathParam && nonNull(models) && v.getOnSet() instanceof ModelLink link)
+                models.add(link, link);
+        });
     }
 
     private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
@@ -197,28 +197,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
         List<Dependency> visibleConditions = new ArrayList<>();
-        if (nonNull(source.getVisible())) {
-            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
-            if (StringUtils.isJs(condition)) {
-                Dependency visibilityCondition = new Dependency();
-                visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
-                visibleConditions.add(visibilityCondition);
-            } else if (condition instanceof Boolean conditionBoolean) {
-                compiled.setVisible(conditionBoolean);
-            }
-        }
+        if (nonNull(source.getVisible()))
+            compileVisibleAttribute(compiled, source, visibleConditions, p);
         if (nonNull(source.getDependencies())) {
             List<Dependency> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
-                Dependency condition = new Dependency();
                 String unwrapped = ScriptProcessor.resolveFunction(StringUtils.unwrapJs(dep.getValue()));
-                condition.setCondition(unwrapped);
-                String datasourceId = dep.getDatasource() == null ? compiled.getDatasource() :
-                        getClientDatasourceId(dep.getDatasource(), p);
-                ModelLink link = new ModelLink(
-                        castDefault(dep.getModel(), ReduxModelEnum.RESOLVE),
-                        datasourceId);
-                condition.setOn(link.getLink());
+                Dependency condition = compileDependency(dep, unwrapped, compiled, p);
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
                     visibleConditions.add(condition);
@@ -236,6 +221,29 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (dependency.isNotEmpty()) {
             compiled.setDependency(dependency);
         }
+    }
+
+    private void compileVisibleAttribute(D compiled, S source, List<Dependency> visibleConditions, CompileProcessor p) {
+        Object condition = p.resolveJS(source.getVisible(), Boolean.class);
+        if (StringUtils.isJs(condition)) {
+            Dependency visibilityCondition = new Dependency();
+            visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
+            visibleConditions.add(visibilityCondition);
+        } else if (condition instanceof Boolean conditionBoolean) {
+            compiled.setVisible(conditionBoolean);
+        }
+    }
+
+    private Dependency compileDependency(N2oDependency dep, String condition, D compiled, CompileProcessor p) {
+        Dependency dependency = new Dependency();
+        dependency.setCondition(condition);
+        String datasourceId = dep.getDatasource() == null ? compiled.getDatasource() :
+                getClientDatasourceId(dep.getDatasource(), p);
+        ModelLink link = new ModelLink(
+                castDefault(dep.getModel(), ReduxModelEnum.RESOLVE),
+                datasourceId);
+        dependency.setOn(link.getLink());
+        return dependency;
     }
 
     /**
