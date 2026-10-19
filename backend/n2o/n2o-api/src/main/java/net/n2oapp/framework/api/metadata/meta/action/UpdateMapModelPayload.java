@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -23,7 +24,7 @@ public class UpdateMapModelPayload extends PerformActionPayload {
     @JsonProperty
     private String field;
     @JsonProperty
-    private Object value;
+    private Serializable value;
     @JsonProperty
     private String map;
 

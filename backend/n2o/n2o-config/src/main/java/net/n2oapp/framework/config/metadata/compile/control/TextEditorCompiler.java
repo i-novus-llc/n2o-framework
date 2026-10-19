@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -50,9 +50,9 @@ public class TextEditorCompiler extends StandardFieldCompiler<TextEditor, N2oTex
         if (toolbarUrl == null) return;
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         ObjectMapper mapper = new ObjectMapper();
-        Map toolbarConfig;
+        LinkedHashMap toolbarConfig;
         try (InputStream is = r.getResource(PathUtil.convertPathToClasspathUri(toolbarUrl)).getInputStream()) {
-            toolbarConfig = mapper.readValue(is, Map.class);
+            toolbarConfig = mapper.readValue(is, LinkedHashMap.class);
         } catch (IOException e) {
             throw new N2oException(e);
         }

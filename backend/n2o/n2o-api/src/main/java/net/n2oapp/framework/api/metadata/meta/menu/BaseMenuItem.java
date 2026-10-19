@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -38,9 +39,9 @@ public class BaseMenuItem extends Component implements Compiled, PropertiesAware
     @JsonProperty
     private ReduxModelEnum model;
     @JsonProperty
-    private Object visible;
+    private Serializable visible;
     @JsonProperty
-    private Object enabled;
+    private Serializable enabled;
 
     @Override
     public void collectWidgets(List<Widget<?>> compiledWidgets) {

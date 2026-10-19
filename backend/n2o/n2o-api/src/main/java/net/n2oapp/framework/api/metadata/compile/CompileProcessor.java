@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -137,7 +138,7 @@ public interface CompileProcessor {
      * @param clazz Тип значения, если это не JS код
      * @return JS код или объект типа clazz
      */
-    Object resolveJS(String text, Class<?> clazz);
+    Serializable resolveJS(String text, Class<? extends Serializable> clazz);
 
     /**
      * Превратить текст с ссылками в JS код

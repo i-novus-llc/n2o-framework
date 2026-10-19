@@ -17,6 +17,7 @@ import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -116,11 +117,11 @@ class N2oSubModelsProcessorTest {
         assertThat(((List) dataSet.get("gender")).isEmpty(), is(true));
 
         //компонент с <options>
-        Map<String, Object> optionsMap = new HashMap<>();
+        Map<String, Serializable> optionsMap = new HashMap<>();
         optionsMap.put("id", 1);
         optionsMap.put("name", "test");
         optionsMap.put("type", "1");
-        List<Map<String, Object>> options = Collections.singletonList(optionsMap);
+        List<Map<String, Serializable>> options = Collections.singletonList(optionsMap);
         subModelQuery = new SubModelQuery("gender", null, "id", "name", true, options);
         dataSet = new DataSet("gender[0].id", "1");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);

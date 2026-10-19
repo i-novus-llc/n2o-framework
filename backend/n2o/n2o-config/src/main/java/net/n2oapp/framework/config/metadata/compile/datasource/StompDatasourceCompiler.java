@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,13 +40,13 @@ public class StompDatasourceCompiler extends AbstractDatasourceCompiler<N2oStomp
         return provider;
     }
 
-    private List<Map<String, Object>> initValues(N2oStompDatasource source) {
+    private List<Map<String, Serializable>> initValues(N2oStompDatasource source) {
         if (source.getValues() == null)
             return null;
-        List<Map<String, Object>> values = new ArrayList<>();
+        List<Map<String, Serializable>> values = new ArrayList<>();
         for (Map.Entry<String, Object> entry : source.getValues().entrySet()) {
-            Map<String, Object> value = new HashMap<>();
-            value.put(entry.getKey(), entry.getValue());
+            Map<String, Serializable> value = new HashMap<>();
+            value.put(entry.getKey(), (Serializable) entry.getValue());
             values.add(value);
         }
         return values;

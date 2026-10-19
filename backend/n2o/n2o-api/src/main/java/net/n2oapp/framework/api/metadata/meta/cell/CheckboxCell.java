@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель ячейки с чекбоксом
  */
@@ -11,5 +13,5 @@ import lombok.Setter;
 @Setter
 public class CheckboxCell extends ActionCell {
     @JsonProperty
-    private Object disabled;
+    private Serializable disabled;
 }

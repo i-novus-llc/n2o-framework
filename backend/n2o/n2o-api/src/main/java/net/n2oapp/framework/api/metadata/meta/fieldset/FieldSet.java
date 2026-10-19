@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -34,15 +35,15 @@ public abstract class FieldSet extends Component implements Compiled {
     @JsonProperty
     private LabelPositionEnum labelPosition;
     @JsonProperty
-    private Object labelWidth;
+    private Serializable labelWidth;
     @JsonProperty
     private LabelAlignmentEnum labelAlignment;
     @JsonProperty
     private List<Row> rows;
     @JsonProperty
-    private Object visible;
+    private Serializable visible;
     @JsonProperty
-    private Object enabled;
+    private Serializable enabled;
     @JsonProperty
     private ControlDependency[] dependency;
     @JsonProperty
@@ -70,7 +71,7 @@ public abstract class FieldSet extends Component implements Compiled {
         @JsonProperty
         private Integer size;
         @JsonProperty
-        private Object visible;
+        private Serializable visible;
         @JsonProperty
         private List<FieldSet> fieldsets;
         @JsonProperty

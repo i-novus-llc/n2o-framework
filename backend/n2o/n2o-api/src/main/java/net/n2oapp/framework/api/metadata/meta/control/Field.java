@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class Field extends Component {
     @JsonProperty
     private String label;
     @JsonProperty
-    private Object noLabel;
+    private Serializable noLabel;
     @JsonProperty
-    private Object noLabelBlock;
+    private Serializable noLabelBlock;
     @JsonProperty
     private String labelClass;
     @JsonProperty

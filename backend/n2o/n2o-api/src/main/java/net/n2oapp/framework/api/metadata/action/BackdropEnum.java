@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
+import java.io.Serializable;
+
 /**
  * Наличие фона модального окна
  */
@@ -24,7 +26,7 @@ public enum BackdropEnum implements N2oEnum {
      *
      * @return {@link Boolean} для TRUE и FALSE, {@link String} "static" для STATIC
      */
-    public Object getClientValue() {
+    public Serializable getClientValue() {
         return this == STATIC ? id : Boolean.valueOf(id);
     }
 }
