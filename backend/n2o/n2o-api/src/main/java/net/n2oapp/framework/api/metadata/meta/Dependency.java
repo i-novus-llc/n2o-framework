@@ -16,7 +16,7 @@ public class Dependency implements Compiled {
     @JsonProperty
     private String on;
     @JsonProperty
-    private Object condition;
+    private String condition;
     @JsonProperty
     private DependencyTypeEnum type;
 }

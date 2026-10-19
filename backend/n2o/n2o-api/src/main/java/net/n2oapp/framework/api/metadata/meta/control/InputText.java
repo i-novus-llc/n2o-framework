@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель поля для ввода текста
  */
@@ -13,9 +15,9 @@ public class InputText extends Control {
     @JsonProperty
     private Integer length;
     @JsonProperty
-    private Object min;
+    private Serializable min;
     @JsonProperty
-    private Object max;
+    private Serializable max;
     @JsonProperty
     private String step;
     @JsonProperty

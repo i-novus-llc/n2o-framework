@@ -35,10 +35,11 @@ public class StylesResolver {
      * @return карта стилей в camelCase или {@code null}, если вход пуст
      * @throws IllegalArgumentException если формат строки некорректен
      */
-    public static Map<String, String> resolveStyles(String input) {
-        if (input == null || input.isBlank()) return null;
+    public static HashMap<String, String> resolveStyles(String input) {
+        if (input == null || input.isBlank())
+            return null;
 
-        Map<String, String> result = new HashMap<>();
+        HashMap<String, String> result = new HashMap<>();
 
         for (String declaration : splitTopLevel(input.strip(), ';')) {
             String trimmed = declaration.strip();
@@ -76,8 +77,11 @@ public class StylesResolver {
      */
     private static List<String> splitTopLevel(String source, char separator) {
         List<String> parts = new ArrayList<>();
-        boolean inSingle = false, inDouble = false;
-        int depth = 0, start = 0;
+        boolean inSingle = false;
+        boolean inDouble = false;
+        int depth = 0;
+        int start = 0;
+
         for (int i = 0; i < source.length(); i++) {
             char c = source.charAt(i);
             if (inSingle) {

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель редактора текста
  */
@@ -13,5 +15,5 @@ public class TextEditor extends InputText {
     @JsonProperty
     private String name;
     @JsonProperty
-    private Object toolbarConfig;
+    private Serializable toolbarConfig;
 }

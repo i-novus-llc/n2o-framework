@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +24,9 @@ public class SubModelQuery implements Compiled {
     private String labelFieldId;
     //multi выбор
     private boolean multi = false;
-    private List<Map<String, Object>> options;
+    private List<Map<String, Serializable>> options;
 
-    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, boolean multi, List<Map<String, Object>> options) {
+    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, boolean multi, List<Map<String, Serializable>> options) {
         this.subModel = subModel;
         this.queryId = queryId;
         this.valueFieldId = valueFieldId;
@@ -34,7 +35,7 @@ public class SubModelQuery implements Compiled {
         this.options = options;
     }
 
-    public SubModelQuery(String multisetPrefix, String subModel, String queryId, String valueFieldId, String labelFieldId, boolean multi, List<Map<String, Object>> options) {
+    public SubModelQuery(String multisetPrefix, String subModel, String queryId, String valueFieldId, String labelFieldId, boolean multi, List<Map<String, Serializable>> options) {
         this(subModel, queryId, valueFieldId, labelFieldId, multi, options);
         this.multisetPrefix = multisetPrefix;
     }

@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -48,9 +49,9 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private Badge badge;
     @JsonProperty
-    private Object visible;
+    private Serializable visible;
     @JsonProperty
-    private Object enabled;
+    private Serializable enabled;
     @JsonProperty
     private Map<String, ModelLink> pathMapping;
     @JsonProperty

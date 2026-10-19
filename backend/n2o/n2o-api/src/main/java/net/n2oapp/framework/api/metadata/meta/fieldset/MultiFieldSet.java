@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель филдсета с динамическим числом полей
  */
@@ -21,15 +23,15 @@ public class MultiFieldSet extends FieldSet {
     @JsonProperty
     private String removeAllButtonLabel;
     @JsonProperty
-    private Object needAddButton;
+    private Serializable needAddButton;
     @JsonProperty
-    private Object needCopyButton;
+    private Serializable needCopyButton;
     @JsonProperty
-    private Object needRemoveButton;
+    private Serializable needRemoveButton;
     @JsonProperty
-    private Object needRemoveAllButton;
+    private Serializable needRemoveAllButton;
     @JsonProperty
-    private Object canRemoveFirstItem;
+    private Serializable canRemoveFirstItem;
     @JsonProperty
     private String primaryKey;
     @JsonProperty

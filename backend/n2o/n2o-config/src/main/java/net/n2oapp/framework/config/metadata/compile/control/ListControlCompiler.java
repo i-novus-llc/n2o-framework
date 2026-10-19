@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -25,6 +24,7 @@ import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -62,10 +62,10 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             listControl.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
             listControl.setQuickSearchParam(source.getDatasourceId() + "_" + castDefault(source.getSearchFilterId(), listControl.getLabelFieldId()));
         } else if (source.getOptions() != null) {
-            List<Map<String, Object>> list = new ArrayList<>();
+            List<Map<String, Serializable>> list = new ArrayList<>();
             for (Map<String, String> option : source.getOptions()) {
-                DataSet dataItem = new DataSet();
-                option.forEach((f, v) -> dataItem.put(f, p.resolve(p.resolveJS(v))));
+                Map<String, Serializable> dataItem = new LinkedHashMap<>();
+                option.forEach((f, v) -> dataItem.put(f, (Serializable) p.resolve(p.resolveJS(v))));
                 list.add(dataItem);
             }
             listControl.setData(list);
@@ -141,7 +141,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         return field;
     }
 
-    private void initSubModel(S source, List<Map<String, Object>> data, CompileProcessor p) {
+    private void initSubModel(S source, List<Map<String, Serializable>> data, CompileProcessor p) {
         SubModelsScope scope = p.getScope(SubModelsScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (scope == null || widgetScope == null)
@@ -150,7 +150,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             scope.add(createSubModel(source, data, p), widgetScope.getDatasourceId());
     }
 
-    protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data, CompileProcessor p) {
+    protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Serializable>> data, CompileProcessor p) {
         MultiFieldSetScope multiFieldSetScope = p.getScope(MultiFieldSetScope.class);
         return new SubModelQuery(
                 multiFieldSetScope == null ? null : multiFieldSetScope.getPathWithIndexes(),

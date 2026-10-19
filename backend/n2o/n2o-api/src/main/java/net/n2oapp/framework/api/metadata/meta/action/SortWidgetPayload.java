@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ public class SortWidgetPayload extends PerformActionPayload {
     @JsonProperty
     private String fieldKey;
     @JsonProperty
-    private Object sortDirection;
+    private Serializable sortDirection;
 
     @Override
     public boolean equals(Object o) {

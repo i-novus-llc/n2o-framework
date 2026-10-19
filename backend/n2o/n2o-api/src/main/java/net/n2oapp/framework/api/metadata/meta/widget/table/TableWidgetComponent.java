@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEn
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class TableWidgetComponent extends WidgetComponent {
         @JsonProperty
         private RowOverlay overlay;
         @JsonProperty
-        private Map<String, Object> elementAttributes = new HashMap<>();
+        private Map<String, Serializable> elementAttributes = new HashMap<>();
         private Map<String, Object> properties;
     }
 }

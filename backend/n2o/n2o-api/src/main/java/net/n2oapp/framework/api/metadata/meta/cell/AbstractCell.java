@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +22,10 @@ public abstract class AbstractCell implements Cell, JsonPropertiesAware {
     @JsonProperty
     private String src;
     @JsonProperty
-    private Object visible;
+    private Serializable visible;
     private Map<String, Object> properties;
     @JsonProperty
     private String tooltipFieldId;
     @JsonProperty
-    private Map<String, Object> elementAttributes = new HashMap<>();
+    private Map<String, Serializable> elementAttributes = new HashMap<>();
 }

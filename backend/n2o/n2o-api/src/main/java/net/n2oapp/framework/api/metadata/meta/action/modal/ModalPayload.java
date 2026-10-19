@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class ModalPayload implements ActionPayload {
     @Deprecated
     private String name;
     @JsonProperty
-    private Object backdrop;
+    private Serializable backdrop;
     @JsonProperty
     private String pageId;
     @JsonProperty

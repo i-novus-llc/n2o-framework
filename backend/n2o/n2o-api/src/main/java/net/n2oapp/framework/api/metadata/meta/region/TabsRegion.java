@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +55,9 @@ public class TabsRegion extends Region implements CompiledRegionItem {
         @JsonProperty
         private String datasource;
         @JsonProperty
-        private Object visible;
+        private Serializable visible;
         @JsonProperty
-        private Object enabled;
+        private Serializable enabled;
         @JsonProperty
         private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
         private Map<String, Object> properties;

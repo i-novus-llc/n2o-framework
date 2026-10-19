@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель редактируемой ячейки таблицы
  */
@@ -16,5 +18,5 @@ public class EditCell extends ActionCell {
     @JsonProperty
     private String format;
     @JsonProperty("editable")
-    private Object enabled;
+    private Serializable enabled;
 }

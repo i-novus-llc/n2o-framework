@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +26,9 @@ public class MenuItem extends Component implements IdAware {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Object visible;
+    private Serializable visible;
     @JsonProperty
-    private Object enabled;
+    private Serializable enabled;
     @JsonProperty
     private Action action;
     @JsonProperty

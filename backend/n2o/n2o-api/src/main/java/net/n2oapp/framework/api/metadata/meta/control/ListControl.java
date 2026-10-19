@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public abstract class ListControl extends Control {
     private Badge badge;
 
     @JsonProperty
-    private List<Map<String, Object>> data;
+    private List<Map<String, Serializable>> data;
     @JsonProperty
     private ClientDataProvider dataProvider;
     @JsonProperty

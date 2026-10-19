@@ -24,6 +24,7 @@ import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
@@ -326,9 +327,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
-    public Object resolveJS(String text, Class<?> clazz) {
+    public Serializable resolveJS(String text, Class<? extends Serializable> clazz) {
         String value = ScriptProcessor.resolveLinks(text);
-        return env.getDomainProcessor().deserialize(value, clazz);
+        return (Serializable) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override

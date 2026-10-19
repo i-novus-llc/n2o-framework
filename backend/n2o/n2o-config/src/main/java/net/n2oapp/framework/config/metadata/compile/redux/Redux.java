@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -132,7 +133,7 @@ public abstract class Redux {
      * @param value    Значение
      * @return Redux действие
      */
-    public static ReduxAction dispatchUpdateModel(String widgetId, ReduxModelEnum model, String field, Object value) {
+    public static ReduxAction dispatchUpdateModel(String widgetId, ReduxModelEnum model, String field, Serializable value) {
         UpdateModelPayload payload = new UpdateModelPayload(model.getId(), widgetId, field, value);
         return new ReduxAction("n2o/models/UPDATE", payload);
     }
@@ -145,7 +146,7 @@ public abstract class Redux {
      * @param direction Направление сортировки
      * @return Redux действие
      */
-    public static ReduxAction dispatchSortWidget(String widgetId, String field, Object direction) {
+    public static ReduxAction dispatchSortWidget(String widgetId, String field, Serializable direction) {
         SortWidgetPayload payload = new SortWidgetPayload(widgetId, field, direction);
         return new ReduxAction("n2o/widgets/SORT_BY", payload);
     }

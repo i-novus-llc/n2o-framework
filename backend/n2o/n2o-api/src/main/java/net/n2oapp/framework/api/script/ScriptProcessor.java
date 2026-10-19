@@ -19,6 +19,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -171,7 +172,7 @@ public class ScriptProcessor {
      * @param text выражение, содержащее ссылки
      * @return js код
      */
-    public static Object resolveExpression(String text) {
+    public static Serializable resolveExpression(String text) {
         String expression = resolveLinks(text);
         if (expression == null)
             return null;
@@ -192,8 +193,8 @@ public class ScriptProcessor {
      * @param text JS выражение или текст
      * @return Обратное JS выражение или объект
      */
-    public static Object invertExpression(String text) {
-        Object result = resolveExpression(text);
+    public static Serializable invertExpression(String text) {
+        Serializable result = resolveExpression(text);
         if (result == null)
             return null;
         if (result instanceof Boolean bool)

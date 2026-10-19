@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -19,7 +20,7 @@ public class SelectedWidgetPayload extends PerformActionPayload {
     @JsonProperty
     private String widgetId;
     @JsonProperty
-    private Object value;
+    private Serializable value;
 
     @Override
     public boolean equals(Object o) {
