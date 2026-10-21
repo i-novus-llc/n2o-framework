@@ -90,6 +90,9 @@ deploy stable stand:
     K8S_NAMESPACE: "n2o-framework-c"
     K8S_INGRESS_HOST: "n2o.i-novus.ru"
     HELM_RELEASE: "n2o-framework-7-29"
+  tags:
+    - stable
+    - n2o-framework-c
 
 scheduled build:
   variables:
