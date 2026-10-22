@@ -12,6 +12,8 @@ springServices:
       requests:
         memory: 100M
         cpu: 10m
+    env:
+      JAVA_TOOL_OPTIONS: "-Xmx420m"
     replicaCount: 1
     contextPath: demo
     startupProbe:
@@ -28,3 +30,5 @@ springServices:
       requests:
         memory: 200M
         cpu: 10m
+    env:
+      JAVA_TOOL_OPTIONS: "-Xmx540m"

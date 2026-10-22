@@ -1,4 +1,4 @@
-FROM openjdk:21-ea-jdk-oracle
+FROM eclipse-temurin:21-jre
 
 EXPOSE 8080
 
