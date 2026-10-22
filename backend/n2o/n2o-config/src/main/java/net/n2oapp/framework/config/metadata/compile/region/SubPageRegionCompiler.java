@@ -78,20 +78,7 @@ public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oS
             pages.add(page);
         }
         compiled.setPages(pages);
-        if (((PageContext) context).getRouteBeforeSubPages() == null || ((PageContext) context).getRouteBeforeSubPages().equals(parentRoute)) {
-            ((PageContext) context).setSubRoutes(subRoutes);
-        } else {
-            String routeBeforeSubPages = ((PageContext) context).getRouteBeforeSubPages();
-            PageContext rootContext = (PageContext) p.getRoute(routeBeforeSubPages, Page.class);
-            if (rootContext != null) {
-                if (rootContext.getSubRoutes() == null) {
-                    rootContext.setSubRoutes(subRoutes);
-                } else {
-                    //todo подумать над перерегистрацией контекста, вместо того чтобы менять контекст из RouteRegister
-                    rootContext.getSubRoutes().putAll(subRoutes);
-                }
-            }
-        }
+        registerSubRoutes((PageContext) context, subRoutes, parentRoute, p);
 
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null) {
@@ -100,6 +87,23 @@ public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oS
             );
             pageRoutes.setPath(subPageRoute);
         }
+    }
+
+    private void registerSubRoutes(PageContext context, Map<String, String> subRoutes,
+                                   String parentRoute, CompileProcessor p) {
+        String routeBeforeSubPages = context.getRouteBeforeSubPages();
+        if (routeBeforeSubPages == null || routeBeforeSubPages.equals(parentRoute)) {
+            context.setSubRoutes(subRoutes);
+            return;
+        }
+        PageContext rootContext = (PageContext) p.getRoute(routeBeforeSubPages, Page.class);
+        if (rootContext == null)
+            return;
+        if (rootContext.getSubRoutes() == null)
+            rootContext.setSubRoutes(subRoutes);
+        else
+            //todo подумать над перерегистрацией контекста, вместо того чтобы менять контекст из RouteRegister
+            rootContext.getSubRoutes().putAll(subRoutes);
     }
 
     private String compileDefaultPageId(String defaultPageId,
