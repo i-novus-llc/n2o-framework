@@ -139,66 +139,89 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                   ClientDatasourceIdsScope clientDatasourceIdsScope,
                                                   DataSourcesScope datasourcesScope,
                                                   PageContext context, CompileProcessor p) {
-
-        Set<String> parentDatasourceIds = new HashSet<>();
-
-        if (nonNull(source.getDatasources()))
-            for (N2oAbstractDatasource ds : source.getDatasources()) {
-                if (ds instanceof N2oApplicationDatasource appDatasource && !clientDatasourceIdsScope.containsKey(appDatasource.getId()))
-                    clientDatasourceIdsScope.put(ds.getId(), castDefault(appDatasource.getSourceDatasource(), appDatasource.getId()));
-                else if (ds instanceof N2oParentDatasource) {
-                    parentDatasourceIds.add(ds.getId());
-                    if (context.getParentDatasourceIdsMap() != null
-                            && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {
-                        throw new N2oException("Элемент \"<parent-datasource>\" ссылается на несуществующий источник родительской страницы");
-                    }
-                }
-                if (datasourcesScope.containsKey(ds.getId()))
-                    datasourcesScope.put(ds.getId(), p.merge(ds, datasourcesScope.get(ds.getId())));
-                else
-                    datasourcesScope.put(ds.getId(), ds);
-            }
+        Set<String> parentDatasourceIds = addSourceDatasourcesToScope(source, clientDatasourceIdsScope,
+                datasourcesScope, context, p);
 
         if (!parentDatasourceIds.isEmpty() && isNull(context.getParentClientPageId()))
             throw new N2oException("На странице задан \"<parent-datasource>\", при этом она не имеет родительской страницы");
 
         addInlineDatasourcesToScope(sourceWidgets, datasourcesScope, p);
+        addParentPageDatasourcesToScope(parentDatasourceIds, clientDatasourceIdsScope, datasourcesScope, context);
+    }
 
-        // add datasources from parent page as N2oParentDatasource
-        if (nonNull(context.getParentDatasourceIdsMap()))
-            for (String dsId : context.getParentDatasourceIdsMap().keySet()) {
-                if (datasourcesScope.containsKey(dsId) && !parentDatasourceIds.contains(dsId))
-                    continue;
+    /**
+     * Добавление источников данных страницы в scope
+     *
+     * @return Идентификаторы источников, заданных через {@code <parent-datasource>}
+     */
+    private Set<String> addSourceDatasourcesToScope(S source, ClientDatasourceIdsScope clientDatasourceIdsScope,
+                                                    DataSourcesScope datasourcesScope,
+                                                    PageContext context, CompileProcessor p) {
+        Set<String> parentDatasourceIds = new HashSet<>();
+        if (isNull(source.getDatasources()))
+            return parentDatasourceIds;
 
-                if (!datasourcesScope.containsKey(dsId))
-                    datasourcesScope.put(dsId, new N2oParentDatasource(dsId, context.getParentDatasourceIdsMap().get(dsId), true));
-                if (!clientDatasourceIdsScope.containsKey(dsId))
-                    clientDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(dsId));
+        for (N2oAbstractDatasource ds : source.getDatasources()) {
+            if (ds instanceof N2oApplicationDatasource appDatasource)
+                clientDatasourceIdsScope.putIfAbsent(ds.getId(), castDefault(appDatasource.getSourceDatasource(), appDatasource.getId()));
+            else if (ds instanceof N2oParentDatasource) {
+                checkParentDatasourceExists(ds.getId(), context);
+                parentDatasourceIds.add(ds.getId());
             }
+            datasourcesScope.putOrMerge(ds, p);
+        }
+        return parentDatasourceIds;
+    }
+
+    private void checkParentDatasourceExists(String datasourceId, PageContext context) {
+        if (context.getParentDatasourceIdsMap() != null
+                && !context.getParentDatasourceIdsMap().containsKey(datasourceId))
+            throw new N2oException("Элемент \"<parent-datasource>\" ссылается на несуществующий источник родительской страницы");
+    }
+
+    /**
+     * Добавление источников данных родительской страницы в scope
+     */
+    private void addParentPageDatasourcesToScope(Set<String> parentDatasourceIds,
+                                                 ClientDatasourceIdsScope clientDatasourceIdsScope,
+                                                 DataSourcesScope datasourcesScope, PageContext context) {
+        Map<String, String> parentDatasourceIdsMap = context.getParentDatasourceIdsMap();
+        if (isNull(parentDatasourceIdsMap))
+            return;
+
+        for (Map.Entry<String, String> entry : parentDatasourceIdsMap.entrySet()) {
+            String dsId = entry.getKey();
+            if (datasourcesScope.containsKey(dsId) && !parentDatasourceIds.contains(dsId))
+                continue;
+
+            datasourcesScope.computeIfAbsent(dsId, id -> new N2oParentDatasource(id, entry.getValue(), true));
+            clientDatasourceIdsScope.putIfAbsent(dsId, entry.getValue());
+        }
     }
 
     @Deprecated
     private void addInlineDatasourcesToScope(List<N2oWidget> sourceWidgets, DataSourcesScope dataSourcesScope, CompileProcessor p) {
         for (N2oWidget widget : sourceWidgets) {
-            if (isNull(widget.getDatasourceId()) && (isNull(widget.getRefId()) || !DynamicUtil.isDynamic(widget.getRefId()))) {
-                N2oStandardDatasource datasource;
-                String datasourceId = widget.getId();
-                if (isNull(widget.getDatasource())) {
-                    datasource = new N2oStandardDatasource();
-                    datasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
-                } else {
-                    datasource = widget.getDatasource();
-                    datasourceId = nonNull(datasource.getId()) ? datasource.getId() : datasourceId;
-                    widget.setDatasource(null);
-                }
-                datasource.setId(datasourceId);
-                widget.setDatasourceId(datasourceId);
-                if (dataSourcesScope.containsKey(datasourceId))
-                    dataSourcesScope.put(datasourceId, p.merge(datasource, dataSourcesScope.get(datasourceId)));
-                else
-                    dataSourcesScope.put(datasourceId, datasource);
-            }
+            if (isNull(widget.getDatasourceId()) && (isNull(widget.getRefId()) || !DynamicUtil.isDynamic(widget.getRefId())))
+                addInlineDatasourceToScope(widget, dataSourcesScope, p);
         }
+    }
+
+    @Deprecated
+    private void addInlineDatasourceToScope(N2oWidget widget, DataSourcesScope dataSourcesScope, CompileProcessor p) {
+        N2oStandardDatasource datasource;
+        String datasourceId = widget.getId();
+        if (isNull(widget.getDatasource())) {
+            datasource = new N2oStandardDatasource();
+            datasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
+        } else {
+            datasource = widget.getDatasource();
+            datasourceId = nonNull(datasource.getId()) ? datasource.getId() : datasourceId;
+            widget.setDatasource(null);
+        }
+        datasource.setId(datasourceId);
+        widget.setDatasourceId(datasourceId);
+        dataSourcesScope.putOrMerge(datasource, p);
     }
 
     private PageScope initPageScope(S source, String pageId, List<N2oWidget> sourceWidgets,
