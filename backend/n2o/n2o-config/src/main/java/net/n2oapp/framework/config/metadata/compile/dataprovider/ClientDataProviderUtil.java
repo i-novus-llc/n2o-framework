@@ -147,70 +147,80 @@ public class ClientDataProviderUtil {
 
     public static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
                                          String url, CompileProcessor p) {
-        if (source.getActionContextData() != null) {
-            N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
-            ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);
+         N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
+        if (actionContextData == null)
+            return;
+        ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);
 
-            Map<String, ModelLink> routePathMapping = new HashMap<>();
-            Map<String, ModelLink> routeQueryMapping = new LinkedHashMap<>();
+        initRouteMappings(actionContext, pathMapping, p);
+        initValidations(actionContext, source, p);
 
-            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-            if (routeScope != null) {
-                routePathMapping.putAll(routeScope.getPathMapping());
-                routePathMapping.putAll(pathMapping);
-                routeQueryMapping.putAll(routeScope.getQueryMapping());
-            }
-            actionContext.setPathRouteMapping(routePathMapping);
-            actionContext.setQueryRouteMapping(routeQueryMapping);
-            ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope == null
-                    || componentScope.unwrap(N2oButton.class) == null
-                    || componentScope.unwrap(N2oButton.class).getValidate()) {
-                ValidationScope validationScope = p.getScope(ValidationScope.class);
-                if (validationScope != null)
-                    actionContext.setValidations(validationScope.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
-            }
-
-            actionContext.setRedirect(actionContextData.getRedirect());
-            actionContext.setRefresh(actionContextData.getRefresh());
-            actionContext.setLoading(actionContextData.getLoading());
-            actionContext.setClearDatasource(actionContextData.getClearDatasource());
-            if (actionContextData.getPolling() != null) {
-                actionContext.setPolling(actionContextData.getPolling());
-                actionContext.setPollingEndCondition(actionContextData.getPolling().getResult());
-            }
-
-            PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope != null)
-                actionContext.setParentPageId(pageScope.getPageId());
-            actionContext.setParentClientWidgetId(actionContextData.getParentWidgetId());
-            actionContext.setParentSourceDatasourceId(source.getDatasourceId());
-            actionContext.setMessagesForm(actionContextData.getMessagesForm());
-            actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
-            actionContext.setMessageOnFail(castDefault(actionContextData.isMessageOnFail(), true));
-            actionContext.setUseFailOut(actionContextData.isUseFailOut());
-            actionContext.setCallValidation(actionContextData.isCallValidation());
-            actionContext.setMessagePosition(castDefault(actionContextData.getMessagePosition(),
-                    () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
-            actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlace(),
-                    () -> p.resolve(property("n2o.api.message.place"), MessagePlaceEnum.class)));
-
-            Set<String> formParams = new HashSet<>();
-            if (source.getFormParams() != null)
-                Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getName()));
-
-            Map<String, String> operationMapping = new HashMap<>();
-            for (AbstractParameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
-                if (inParameter instanceof ObjectSimpleField objectSimpleField) {
-                    String param = objectSimpleField.getParam();
-                    // form params from this source should be ignored in operationMapping
-                    if (param != null && !formParams.contains(param))
-                        operationMapping.put(param, inParameter.getId());
-                }
-            }
-            actionContext.setOperationMapping(operationMapping);
-            p.addRoute(actionContext);
+        actionContext.setRedirect(actionContextData.getRedirect());
+        actionContext.setRefresh(actionContextData.getRefresh());
+        actionContext.setLoading(actionContextData.getLoading());
+        actionContext.setClearDatasource(actionContextData.getClearDatasource());
+        if (actionContextData.getPolling() != null) {
+            actionContext.setPolling(actionContextData.getPolling());
+            actionContext.setPollingEndCondition(actionContextData.getPolling().getResult());
         }
+
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope != null)
+            actionContext.setParentPageId(pageScope.getPageId());
+        actionContext.setParentClientWidgetId(actionContextData.getParentWidgetId());
+        actionContext.setParentSourceDatasourceId(source.getDatasourceId());
+        actionContext.setMessagesForm(actionContextData.getMessagesForm());
+        actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
+        actionContext.setMessageOnFail(castDefault(actionContextData.isMessageOnFail(), true));
+        actionContext.setUseFailOut(actionContextData.isUseFailOut());
+        actionContext.setCallValidation(actionContextData.isCallValidation());
+        actionContext.setMessagePosition(castDefault(actionContextData.getMessagePosition(),
+                () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
+        actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlace(),
+                () -> p.resolve(property("n2o.api.message.place"), MessagePlaceEnum.class)));
+
+        actionContext.setOperationMapping(initOperationMapping(source, actionContextData));
+        p.addRoute(actionContext);
+    }
+
+    private static void initRouteMappings(ActionContext actionContext, Map<String, ModelLink> pathMapping, CompileProcessor p) {
+        Map<String, ModelLink> routePathMapping = new HashMap<>();
+        Map<String, ModelLink> routeQueryMapping = new LinkedHashMap<>();
+        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+        if (routeScope != null) {
+            routePathMapping.putAll(routeScope.getPathMapping());
+            routePathMapping.putAll(pathMapping);
+            routeQueryMapping.putAll(routeScope.getQueryMapping());
+        }
+        actionContext.setPathRouteMapping(routePathMapping);
+        actionContext.setQueryRouteMapping(routeQueryMapping);
+    }
+
+    private static void initValidations(ActionContext actionContext, N2oClientDataProvider source, CompileProcessor p) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        boolean needValidate = componentScope == null
+                || componentScope.unwrap(N2oButton.class) == null
+                || componentScope.unwrap(N2oButton.class).getValidate();
+        ValidationScope validationScope = p.getScope(ValidationScope.class);
+        if (needValidate && validationScope != null)
+            actionContext.setValidations(validationScope.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
+    }
+
+    private static Map<String, String> initOperationMapping(N2oClientDataProvider source,
+                                                            N2oClientDataProvider.ActionContextData actionContextData) {
+        Set<String> formParams = new HashSet<>();
+        if (source.getFormParams() != null)
+            Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getName()));
+
+        Map<String, String> operationMapping = new HashMap<>();
+        for (AbstractParameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
+            // form params from this source should be ignored in operationMapping
+            if (inParameter instanceof ObjectSimpleField objectSimpleField
+                    && objectSimpleField.getParam() != null
+                    && !formParams.contains(objectSimpleField.getParam()))
+                operationMapping.put(objectSimpleField.getParam(), inParameter.getId());
+        }
+        return operationMapping;
     }
 
     /**

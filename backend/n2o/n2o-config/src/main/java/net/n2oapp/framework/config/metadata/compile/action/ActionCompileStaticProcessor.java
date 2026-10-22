@@ -223,24 +223,19 @@ public class ActionCompileStaticProcessor {
     public static void initMappings(N2oParam[] pathParams, N2oParam[] queryParams,
                                     Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                     CompileProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String defaultClientWidgetId = p.getScope(WidgetScope.class) != null ? getDefaultClientWidgetId(p) : null;
         ReduxModelEnum defaultModel = getModelFromComponentScope(p);
-        if (widgetScope != null) {
-            String defaultClientWidgetId = getDefaultClientWidgetId(p);
-            if (pathParams != null)
-                for (N2oParam pathParam : pathParams)
-                    pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, defaultClientWidgetId, defaultModel, p));
-            if (queryParams != null)
-                for (N2oParam queryParam : queryParams)
-                    queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, defaultClientWidgetId, defaultModel, p));
-        } else {
-            if (pathParams != null)
-                for (N2oParam pathParam : pathParams)
-                    pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, null, defaultModel, p));
-            if (queryParams != null)
-                for (N2oParam queryParam : queryParams)
-                    queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, null, defaultModel, p));
-        }
+        putParamModelLinks(pathParams, pathMapping, defaultClientWidgetId, defaultModel, p);
+        putParamModelLinks(queryParams, queryMapping, defaultClientWidgetId, defaultModel, p);
+    }
+
+    private static void putParamModelLinks(N2oParam[] params, Map<String, ModelLink> mapping,
+                                           String defaultClientWidgetId, ReduxModelEnum defaultModel,
+                                           CompileProcessor p) {
+        if (params == null)
+            return;
+        for (N2oParam param : params)
+            mapping.put(param.getName(), initParamModelLink(param, defaultClientWidgetId, defaultModel, p));
     }
 
     /**
