@@ -159,46 +159,18 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
-        if (source.getDatasources() != null) {
-            if (pageContext.getDatasources() == null)
-                pageContext.setDatasources(new ArrayList<>());
-            pageContext.getDatasources().addAll(Arrays.asList(source.getDatasources()));
-        }
-        if (source.getToolbars() != null)
-            pageContext.setToolbars(new ArrayList<>(List.of(source.getToolbars())));
-        if (source.getActions() != null)
-            pageContext.setActions(Arrays.stream(source.getActions())
-                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
+        initSourceComponents(source, pageContext);
 
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasourceId(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
-        if (context instanceof PageContext ctx) {
-            pageContext.addParentRoute(pageContext.getParentRoute(), ctx);
-            pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(ctx, p));
-            String ctxRoute = ctx.getRoute((N2oCompileProcessor) p);
-            if (ctx.getRouteBeforeSubPages() != null && !ctx.getRouteBeforeSubPages().equals(ctxRoute)) {
-                pageContext.setRouteBeforeSubPages(ctx.getRouteBeforeSubPages());
-            } else {
-                pageContext.setRouteBeforeSubPages(route);
-            }
-        }
+        if (context instanceof PageContext ctx)
+            initFromParentPageContext(pageContext, ctx, route, p);
         pageContext.setRefreshOnClose(castDefault(source.getRefreshOnClose(), false));
-        if ((!Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose())
-                && (source.getRefreshDatasourceIds() != null || localDatasourceId != null)) {
-            String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null
-                    ? new String[]{localDatasourceId}
-                    : source.getRefreshDatasourceIds();
-            if (pageScope != null) {
-                pageContext.setRefreshClientDataSourceIds(
-                        Arrays.stream(refreshDatasourceIds)
-                                .map(d -> getClientDatasourceId(d, p))
-                                .toList()
-                );
-            }
-        }
+        if (pageScope != null)
+            initRefreshDatasources(source, pageContext, localDatasourceId, p);
         pageContext.setUnsavedDataPromptOnClose(
                 castDefault(source.getUnsavedDataPromptOnClose(),
                         () -> p.resolve(property("n2o.api.action.unsaved_data_prompt"), Boolean.class))
@@ -212,6 +184,43 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         p.addRoute(pageContext);
 
         return pageContext;
+    }
+
+    private void initSourceComponents(S source, PageContext pageContext) {
+        if (source.getDatasources() != null) {
+            if (pageContext.getDatasources() == null)
+                pageContext.setDatasources(new ArrayList<>());
+            pageContext.getDatasources().addAll(Arrays.asList(source.getDatasources()));
+        }
+        if (source.getToolbars() != null)
+            pageContext.setToolbars(new ArrayList<>(List.of(source.getToolbars())));
+        if (source.getActions() != null)
+            pageContext.setActions(Arrays.stream(source.getActions())
+                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
+    }
+
+    private void initFromParentPageContext(PageContext pageContext, PageContext ctx, String route, CompileProcessor p) {
+        pageContext.addParentRoute(pageContext.getParentRoute(), ctx);
+        pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(ctx, p));
+        String ctxRoute = ctx.getRoute((N2oCompileProcessor) p);
+        if (ctx.getRouteBeforeSubPages() != null && !ctx.getRouteBeforeSubPages().equals(ctxRoute))
+            pageContext.setRouteBeforeSubPages(ctx.getRouteBeforeSubPages());
+        else
+            pageContext.setRouteBeforeSubPages(route);
+    }
+
+    private void initRefreshDatasources(S source, PageContext pageContext, String localDatasourceId, CompileProcessor p) {
+        boolean needRefresh = !Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose();
+        if (!needRefresh || (source.getRefreshDatasourceIds() == null && localDatasourceId == null))
+            return;
+        String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null
+                ? new String[]{localDatasourceId}
+                : source.getRefreshDatasourceIds();
+        pageContext.setRefreshClientDataSourceIds(
+                Arrays.stream(refreshDatasourceIds)
+                        .map(d -> getClientDatasourceId(d, p))
+                        .toList()
+        );
     }
 
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
@@ -329,94 +338,107 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      */
     @Deprecated
     protected void initToolbarBySubmitOperation(S source, PageContext context, CompileProcessor p) {
-        if (!StringUtils.isBlank(source.getSubmitOperationId()) || SubmitActionTypeEnum.COPY.equals(source.getSubmitActionType())) {
-            N2oToolbar n2oToolbar = new N2oToolbar();
-            if (context.getToolbars() == null) {
-                context.setToolbars(new ArrayList<>());
-            }
-            ToolbarItem[] items = new ToolbarItem[2];
-            n2oToolbar.setItems(items);
-            context.getToolbars().add(n2oToolbar);
+        if (StringUtils.isBlank(source.getSubmitOperationId()) && !SubmitActionTypeEnum.COPY.equals(source.getSubmitActionType()))
+            return;
 
-            //create submit button
-            N2oButton saveButton = new N2oButton();
-            saveButton.setId(GenerateTypeEnum.SUBMIT.getId());
-            saveButton.setColor("primary");
-            N2oAction[] actions = null;
-            SubmitActionTypeEnum submitActionType = castDefault(source.getSubmitActionType(), SubmitActionTypeEnum.INVOKE);
-            Boolean closeOnSuccess = castDefault(source.getCloseAfterSubmit(), true);
-            Boolean refreshOnSuccessSubmit = castDefault(source.getRefreshAfterSubmit(), true);
+        N2oToolbar n2oToolbar = new N2oToolbar();
+        if (context.getToolbars() == null) {
+            context.setToolbars(new ArrayList<>());
+        }
+        ToolbarItem[] items = new ToolbarItem[2];
+        n2oToolbar.setItems(items);
+        context.getToolbars().add(n2oToolbar);
 
-            if (submitActionType == SubmitActionTypeEnum.COPY) {
-                N2oCopyAction copyAction = new N2oCopyAction();
-                copyAction.setSourceModel(source.getCopyModel());
-                copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
-                copyAction.setSourceFieldId(source.getCopyFieldId());
-                copyAction.setTargetModel(source.getTargetModel());
-                copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
-                copyAction.setTargetFieldId(source.getTargetFieldId());
-                copyAction.setMode(source.getCopyMode());
-                copyAction.setCloseOnSuccess(closeOnSuccess);
-                actions = new N2oAction[]{copyAction};
-            } else if (submitActionType == SubmitActionTypeEnum.INVOKE) {
-                List<N2oAction> actionList = new ArrayList<>();
-                N2oInvokeAction invokeAction = new N2oInvokeAction();
-                actionList.add(invokeAction);
-                if (refreshOnSuccessSubmit) {
-                    if (closeOnSuccess) {
-                        invokeAction.setCloseOnSuccess(false);
-                        invokeAction.setRefreshOnSuccess(false);
-                        String[] refreshDatasourceIds = getRefreshDatasourceId(source, p);
-                        for (String refreshDatasourceId : refreshDatasourceIds) {
-                            // добавляем refresh action для каждого датасурса
-                            N2oRefreshAction refreshAction = new N2oRefreshAction();
-                            refreshAction.setDatasourceId("parent_" + refreshDatasourceId);
-                            actionList.add(refreshAction);
-                            // добавляем parent-datasource чтобы в модалке был этот датасурс
-                            if (context.getDatasources() == null)
-                                context.setDatasources(new ArrayList<>());
-                            N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
-                            context.getDatasources().add(parentDatasource);
-                        }
-                        N2oCloseAction closeAction = new N2oCloseAction();
-                        closeAction.setPrompt(false);
-                        actionList.add(closeAction);
-                    } else {
-                        invokeAction.setRefreshOnSuccess(true);
-                        invokeAction.setCloseOnSuccess(false);
-                        invokeAction.setRefreshDatasourceIds(source.getRefreshDatasourceIds());
-                    }
-                } else {
-                    invokeAction.setCloseOnSuccess(closeOnSuccess);
-                    invokeAction.setRefreshOnSuccess(false);
-                }
+        items[0] = createSubmitButton(source, context, p);
+        items[1] = createCloseButton(source, p);
+    }
 
-                if (source.getRedirectUrlAfterSubmit() != null) {
-                    invokeAction.setRedirectTarget(castDefault(source.getRedirectTargetAfterSubmit(),
-                            () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.APPLICATION : TargetEnum.SELF)));
-                    invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
-                }
+    private N2oButton createSubmitButton(S source, PageContext context, CompileProcessor p) {
+        N2oButton saveButton = new N2oButton();
+        saveButton.setId(GenerateTypeEnum.SUBMIT.getId());
+        saveButton.setColor("primary");
+        N2oAction[] actions = null;
+        SubmitActionTypeEnum submitActionType = castDefault(source.getSubmitActionType(), SubmitActionTypeEnum.INVOKE);
+        if (submitActionType == SubmitActionTypeEnum.COPY)
+            actions = new N2oAction[]{createCopyAction(source, p)};
+        else if (submitActionType == SubmitActionTypeEnum.INVOKE)
+            actions = createInvokeActions(source, context, p);
+        saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
+        saveButton.setActions(actions);
+        saveButton.setValidate(true);
+        return saveButton;
+    }
 
-                invokeAction.setOperationId(source.getSubmitOperationId());
-                invokeAction.setModel(source.getSubmitModel());
-                actions = actionList.toArray(N2oAction[]::new);
-            }
-            saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
-            saveButton.setActions(actions);
-            saveButton.setValidate(true);
-            items[0] = saveButton;
+    private N2oButton createCloseButton(S source, CompileProcessor p) {
+        N2oButton closeButton = new N2oButton();
+        closeButton.setId(GenerateTypeEnum.CLOSE.getId());
+        closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
+        N2oCloseAction cancelAction = new N2oCloseAction();
+        cancelAction.setId(GenerateTypeEnum.CLOSE.getId());
+        closeButton.setModel(ReduxModelEnum.FILTER);
+        cancelAction.setRefresh(source.getRefreshOnClose());
+        closeButton.setActions(new N2oCloseAction[]{cancelAction});
+        closeButton.setValidate(false);
+        return closeButton;
+    }
 
-            //create close button
-            N2oButton closeButton = new N2oButton();
-            closeButton.setId(GenerateTypeEnum.CLOSE.getId());
-            closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
-            N2oCloseAction cancelAction = new N2oCloseAction();
-            cancelAction.setId(GenerateTypeEnum.CLOSE.getId());
-            closeButton.setModel(ReduxModelEnum.FILTER);
-            cancelAction.setRefresh(source.getRefreshOnClose());
-            closeButton.setActions(new N2oCloseAction[]{cancelAction});
-            closeButton.setValidate(false);
-            items[1] = closeButton;
+    private N2oCopyAction createCopyAction(S source, CompileProcessor p) {
+        N2oCopyAction copyAction = new N2oCopyAction();
+        copyAction.setSourceModel(source.getCopyModel());
+        copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
+        copyAction.setSourceFieldId(source.getCopyFieldId());
+        copyAction.setTargetModel(source.getTargetModel());
+        copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
+        copyAction.setTargetFieldId(source.getTargetFieldId());
+        copyAction.setMode(source.getCopyMode());
+        copyAction.setCloseOnSuccess(castDefault(source.getCloseAfterSubmit(), true));
+        return copyAction;
+    }
+
+    private N2oAction[] createInvokeActions(S source, PageContext context, CompileProcessor p) {
+        boolean closeOnSuccess = castDefault(source.getCloseAfterSubmit(), true);
+        boolean refreshOnSuccessSubmit = castDefault(source.getRefreshAfterSubmit(), true);
+        List<N2oAction> actionList = new ArrayList<>();
+        N2oInvokeAction invokeAction = new N2oInvokeAction();
+        actionList.add(invokeAction);
+        if (!refreshOnSuccessSubmit) {
+            invokeAction.setCloseOnSuccess(closeOnSuccess);
+            invokeAction.setRefreshOnSuccess(false);
+        } else if (closeOnSuccess) {
+            invokeAction.setCloseOnSuccess(false);
+            invokeAction.setRefreshOnSuccess(false);
+            addParentRefreshActions(actionList, source, context, p);
+            N2oCloseAction closeAction = new N2oCloseAction();
+            closeAction.setPrompt(false);
+            actionList.add(closeAction);
+        } else {
+            invokeAction.setRefreshOnSuccess(true);
+            invokeAction.setCloseOnSuccess(false);
+            invokeAction.setRefreshDatasourceIds(source.getRefreshDatasourceIds());
+        }
+
+        if (source.getRedirectUrlAfterSubmit() != null) {
+            invokeAction.setRedirectTarget(castDefault(source.getRedirectTargetAfterSubmit(),
+                    () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.APPLICATION : TargetEnum.SELF)));
+            invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
+        }
+
+        invokeAction.setOperationId(source.getSubmitOperationId());
+        invokeAction.setModel(source.getSubmitModel());
+        return actionList.toArray(N2oAction[]::new);
+    }
+
+    private void addParentRefreshActions(List<N2oAction> actionList, S source, PageContext context, CompileProcessor p) {
+        for (String refreshDatasourceId : getRefreshDatasourceId(source, p)) {
+            // добавляем refresh action для каждого датасурса
+            N2oRefreshAction refreshAction = new N2oRefreshAction();
+            refreshAction.setDatasourceId("parent_" + refreshDatasourceId);
+            actionList.add(refreshAction);
+            // добавляем parent-datasource чтобы в модалке был этот датасурс
+            if (context.getDatasources() == null)
+                context.setDatasources(new ArrayList<>());
+            N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
+            context.getDatasources().add(parentDatasource);
         }
     }
 
