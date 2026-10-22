@@ -106,25 +106,41 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         N2oObject refObject = p.getSource(refField.getReferenceObjectId(), N2oObject.class);
         refField.setEntityClass(castDefault(refField.getEntityClass(), refObject.getEntityClass()));
 
-        if (isNotEmpty(refField.getFields())) {
-            if (isNotEmpty(refObject.getObjectFields())) {
-                for (int i = 0; i < refField.getFields().length; i++) {
-                    AbstractParameter parameter = refField.getFields()[i];
-                    Optional<AbstractParameter> objectRefField = Arrays.stream(refObject.getObjectFields())
-                            .filter(f -> f.getId().equals(parameter.getId())).findFirst();
-                    if (objectRefField.isPresent() && objectRefField.get().getClass().equals(parameter.getClass()))
-                        refField.getFields()[i] = p.merge(objectRefField.get(), parameter);
-                }
-            }
-        } else
+        if (isNotEmpty(refField.getFields()))
+            mergeWithObjectFields(refField, refObject, p);
+        else
             refField.setFields(refObject.getObjectFields());
         refField.setReferenceObjectId(null);
 
-        // рекурсивная инициализация внутренних вложенных полей
-        if (isNotEmpty(refField.getFields()))
-            for (AbstractParameter field : refField.getFields())
-                if (field instanceof ObjectReferenceField objRefField&& objRefField.getReferenceObjectId() != null)
-                    initReferenceFieldByObjectId(objRefField, p, currentDepth++);
+        initNestedReferenceFields(refField, p, currentDepth);
+    }
+
+    /**
+     * Слияние полей ссылочного поля с одноименными полями объекта, на который оно ссылается
+     */
+    private void mergeWithObjectFields(ObjectReferenceField refField, N2oObject refObject, CompileProcessor p) {
+        if (!isNotEmpty(refObject.getObjectFields()))
+            return;
+        AbstractParameter[] fields = refField.getFields();
+        for (int i = 0; i < fields.length; i++) {
+            AbstractParameter parameter = fields[i];
+            Optional<AbstractParameter> objectRefField = Arrays.stream(refObject.getObjectFields())
+                    .filter(f -> f.getId().equals(parameter.getId())).findFirst();
+            if (objectRefField.isPresent() && objectRefField.get().getClass().equals(parameter.getClass()))
+                fields[i] = p.merge(objectRefField.get(), parameter);
+        }
+    }
+
+    /**
+     * Рекурсивная инициализация внутренних вложенных полей
+     */
+    private void initNestedReferenceFields(ObjectReferenceField refField, CompileProcessor p, int currentDepth) {
+        if (!isNotEmpty(refField.getFields()))
+            return;
+        int depth = currentDepth;
+        for (AbstractParameter field : refField.getFields())
+            if (field instanceof ObjectReferenceField objRefField && objRefField.getReferenceObjectId() != null)
+                initReferenceFieldByObjectId(objRefField, p, depth++);
     }
 
     /**
@@ -195,52 +211,64 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private void initOperationValidations(CompiledObject.Operation compiledOperation, N2oObject source,
                                           CompiledObject compiled, C context, CompileProcessor p) {
-        if (compiledOperation.getValidations() != null) {
-            boolean activateAll = false;
-            if (compiledOperation.getValidations().getBlackList() == null &&
-                    compiledOperation.getValidations().getWhiteList() == null &&
-                    source.getN2oValidations() != null) {
-                String[] whiteList = Arrays.stream(source.getN2oValidations())
-                        .map(N2oValidation::getId).toArray(String[]::new);
-                compiledOperation.getValidations().setWhiteList(whiteList);
-                activateAll = true;
-            } else if (compiledOperation.getValidations().getBlackList() != null &&
-                    compiledOperation.getValidations().getWhiteList() != null)
-                throw new N2oException("Атрибут 'whitelist' несовместим с атрибутом 'blacklist'");
-            List<Validation> validationList = new ArrayList<>();
-            List<Validation> whiteListValidationList = new ArrayList<>();
-
-            if (compiledOperation.getValidations().getWhiteList() != null)
-                whiteListValidationList = getWhiteListValidations(compiledOperation.getValidations().getWhiteList(),
-                        compiled.getValidationsMap(), validationList, activateAll);
-            else if (compiledOperation.getValidations().getBlackList() != null)
-                validationList.addAll(getBlackListValidations(
-                        compiledOperation.getValidations().getBlackList(), compiled.getValidationsMap()));
-
-            List<Validation> inlineValidations = getInlineValidations(
-                    compiledOperation.getValidations().getInlineValidations(), source, compiled, context, p);
-            if (inlineValidations != null) {
-                validationList.addAll(inlineValidations);
-                whiteListValidationList.addAll(inlineValidations);
-            }
-
-            compiledOperation.setValidationList(validationList);
-            compiledOperation.setValidationsMap(initValidationsMap(validationList));
-            compiledOperation.setWhiteListValidationsMap(initValidationsMap(whiteListValidationList));
-        }
+        if (compiledOperation.getValidations() != null)
+            initDeclaredValidations(compiledOperation, source, compiled, context, p);
 
         List<Validation> requiredParamValidations = getRequiredParamValidations(compiledOperation.getInParametersMap(), p);
-        if (!requiredParamValidations.isEmpty()) {
-            if (compiledOperation.getValidationList() == null)
-                compiledOperation.setValidationList(new ArrayList<>());
-            compiledOperation.getValidationList().addAll(requiredParamValidations);
+        if (!requiredParamValidations.isEmpty())
+            getOrCreateValidationList(compiledOperation).addAll(requiredParamValidations);
+
+        if (context instanceof ActionContext actionContext && actionContext.getValidations() != null)
+            mergeValidations(getOrCreateValidationList(compiledOperation), actionContext.getValidations());
+    }
+
+    /**
+     * Инициализация валидаций, заданных в операции (whitelist, blacklist, inline)
+     */
+    private void initDeclaredValidations(CompiledObject.Operation compiledOperation, N2oObject source,
+                                         CompiledObject compiled, C context, CompileProcessor p) {
+        N2oObject.Operation.Validations validations = compiledOperation.getValidations();
+        boolean activateAll = initDefaultWhiteList(validations, source);
+        List<Validation> validationList = new ArrayList<>();
+        List<Validation> whiteListValidationList = new ArrayList<>();
+
+        if (validations.getWhiteList() != null)
+            whiteListValidationList = getWhiteListValidations(validations.getWhiteList(),
+                    compiled.getValidationsMap(), validationList, activateAll);
+        else if (validations.getBlackList() != null)
+            validationList.addAll(getBlackListValidations(validations.getBlackList(), compiled.getValidationsMap()));
+
+        List<Validation> inlineValidations = getInlineValidations(
+                validations.getInlineValidations(), source, compiled, context, p);
+        if (inlineValidations != null) {
+            validationList.addAll(inlineValidations);
+            whiteListValidationList.addAll(inlineValidations);
         }
 
-        if (context instanceof ActionContext actionContext && actionContext.getValidations() != null) {
-            if (compiledOperation.getValidationList() == null)
-                compiledOperation.setValidationList(new ArrayList<>());
-            mergeValidations(compiledOperation.getValidationList(), actionContext.getValidations());
-        }
+        compiledOperation.setValidationList(validationList);
+        compiledOperation.setValidationsMap(initValidationsMap(validationList));
+        compiledOperation.setWhiteListValidationsMap(initValidationsMap(whiteListValidationList));
+    }
+
+    /**
+     * Если не заданы ни whitelist, ни blacklist, в whitelist попадают все валидации объекта
+     *
+     * @return true, если whitelist был заполнен по умолчанию (все валидации активируются)
+     */
+    private boolean initDefaultWhiteList(N2oObject.Operation.Validations validations, N2oObject source) {
+        if (validations.getBlackList() != null && validations.getWhiteList() != null)
+            throw new N2oException("Атрибут 'whitelist' несовместим с атрибутом 'blacklist'");
+        if (validations.getBlackList() != null || validations.getWhiteList() != null || source.getN2oValidations() == null)
+            return false;
+        validations.setWhiteList(Arrays.stream(source.getN2oValidations())
+                .map(N2oValidation::getId).toArray(String[]::new));
+        return true;
+    }
+
+    private List<Validation> getOrCreateValidationList(CompiledObject.Operation compiledOperation) {
+        if (compiledOperation.getValidationList() == null)
+            compiledOperation.setValidationList(new ArrayList<>());
+        return compiledOperation.getValidationList();
     }
 
     /**
@@ -459,18 +487,23 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (parameter instanceof ObjectSimpleField parameterSimpleField && field instanceof ObjectSimpleField fieldSimpleField) {
             resolveSimpleFieldDefault(parameterSimpleField, fieldSimpleField);
         } else if (parameter instanceof ObjectReferenceField refParam && field instanceof ObjectReferenceField refField) {
-            if (refParam.getReferenceObjectId() != null)
-                initReferenceFieldByObjectId(refParam, p, 1);
-            resolveReferenceFieldDefault(refParam, refField);
-            if (isNotEmpty(refParam.getFields())) {
-                Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(
-                        refField.getFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
-                for (AbstractParameter refParamField : refParam.getFields())
-                    if (nestedFieldsMap.containsKey(refParamField.getId()))
-                        prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()), p);
-            } else if (isNotEmpty(refField.getFields())) {
-                refParam.setFields(refField.getFields());
-            }
+            prepareOperationInReferenceParameter(refParam, refField, p);
+        }
+    }
+
+    private void prepareOperationInReferenceParameter(ObjectReferenceField refParam, ObjectReferenceField refField,
+                                                      CompileProcessor p) {
+        if (refParam.getReferenceObjectId() != null)
+            initReferenceFieldByObjectId(refParam, p, 1);
+        resolveReferenceFieldDefault(refParam, refField);
+        if (isNotEmpty(refParam.getFields())) {
+            Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(
+                    refField.getFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
+            for (AbstractParameter refParamField : refParam.getFields())
+                if (nestedFieldsMap.containsKey(refParamField.getId()))
+                    prepareOperationInParameter(refParamField, nestedFieldsMap.get(refParamField.getId()), p);
+        } else if (isNotEmpty(refField.getFields())) {
+            refParam.setFields(refField.getFields());
         }
     }
 
