@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Контроллер внешнего сервиса экспорта для автотестов.
@@ -21,6 +22,13 @@ import java.util.List;
 public class ExternalExportController {
 
     private static final String DELIMITER = ";";
+    private static final String[][] TEST_DATA = {
+            {"1", "ey88ee-rugh34-asd4", "РМИС Республика Адыгея(СТП)", "Республика Адыгея"},
+            {"2", "ey88ee-ruqah34-54eqw", "РМИС Республика Татарстан(тестовая для ПСИ)", "Республика Татарстан"},
+            {"3", "ey88ea-ruaah34-54eqw", "ТМК", ""},
+            {"4", "ey88ee-asd52a-54eqw", "МИС +МЕД", "Республика Адыгея"},
+            {"5", "ey88fe-asd52a-54eqb", "РМИС Комстромской области", "Комстромская область"}
+    };
 
     @GetMapping("/external/export/health")
     public ResponseEntity<String> health() {
@@ -44,57 +52,41 @@ public class ExternalExportController {
     }
 
     private String generateCsv(ExternalRequest request) {
-        StringBuilder sb = new StringBuilder();
-
-        // Header row
         List<ExternalRequest.ExportField> fields = request.getFields();
-        if (fields != null && !fields.isEmpty()) {
-            for (int i = 0; i < fields.size(); i++) {
-                if (i > 0) sb.append(DELIMITER);
-                sb.append("\"").append(escapeQuotes(fields.get(i).getTitle())).append("\"");
-            }
-            sb.append("\n");
+        if (fields == null)
+            return "";
+
+        StringBuilder sb = new StringBuilder();
+        if (!fields.isEmpty())
+            appendRow(sb, fields.stream().map(ExternalRequest.ExportField::getTitle).toList());
+
+        String nameFilter = findNameFilterValue(request.getFilters());
+        for (String[] row : TEST_DATA) {
+            if (matchesNameFilter(row, nameFilter))
+                appendRow(sb, fields.stream().map(f -> getValueByFieldId(row, f.getId())).toList());
         }
-
-        // Data rows - generate test data based on filters
-        List<ExternalRequest.ExportFilter> filters = request.getFilters();
-        boolean hasNameFilter = false;
-        String nameFilterValue = null;
-        if (filters != null) {
-            for (ExternalRequest.ExportFilter filter : filters) {
-                if ("name".equals(filter.getId()) && filter.getValue() != null) {
-                    hasNameFilter = true;
-                    nameFilterValue = filter.getValue();
-                    break;
-                }
-            }
-        }
-
-        // Generate test data
-        String[][] testData = {
-                {"1", "ey88ee-rugh34-asd4", "РМИС Республика Адыгея(СТП)", "Республика Адыгея"},
-                {"2", "ey88ee-ruqah34-54eqw", "РМИС Республика Татарстан(тестовая для ПСИ)", "Республика Татарстан"},
-                {"3", "ey88ea-ruaah34-54eqw", "ТМК", ""},
-                {"4", "ey88ee-asd52a-54eqw", "МИС +МЕД", "Республика Адыгея"},
-                {"5", "ey88fe-asd52a-54eqb", "РМИС Комстромской области", "Комстромская область"}
-        };
-
-        for (String[] row : testData) {
-            if (hasNameFilter && !row[2].toLowerCase().contains(nameFilterValue.toLowerCase())) {
-                continue;
-            }
-            if (fields != null) {
-                for (int i = 0; i < fields.size(); i++) {
-                    if (i > 0) sb.append(DELIMITER);
-                    String fieldId = fields.get(i).getId();
-                    String value = getValueByFieldId(row, fieldId);
-                    sb.append("\"").append(escapeQuotes(value)).append("\"");
-                }
-                sb.append("\n");
-            }
-        }
-
         return sb.toString();
+    }
+
+    private void appendRow(StringBuilder sb, List<String> values) {
+        sb.append(values.stream()
+                        .map(v -> "\"" + escapeQuotes(v) + "\"")
+                        .collect(Collectors.joining(DELIMITER)))
+                .append("\n");
+    }
+
+    private String findNameFilterValue(List<ExternalRequest.ExportFilter> filters) {
+        if (filters == null)
+            return null;
+        return filters.stream()
+                .filter(f -> "name".equals(f.getId()) && f.getValue() != null)
+                .map(ExternalRequest.ExportFilter::getValue)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private boolean matchesNameFilter(String[] row, String nameFilter) {
+        return nameFilter == null || row[2].toLowerCase().contains(nameFilter.toLowerCase());
     }
 
     private String getValueByFieldId(String[] row, String fieldId) {
