@@ -72,48 +72,33 @@ public class ScriptProcessor {
     private static final Pattern BRACE_PATTERN = Pattern.compile("\\{[^{}]*}");
 
     public static String resolveLinks(String text) {
-        if (text == null)
-            return null;
-        if (hasLink(text)) {
-            String expr = text;
-            if (TERNARY_IN_LINK_PATTERN.matcher(expr).matches()) {
-                expr = expr.replace("{", "{(").replace("}", ")}");
-            }
-            if (expr.contains("${")) {
-                while (expr.contains("${")) {
-                    int idx = expr.indexOf("}", expr.indexOf("${"));
-                    boolean notEnd = idx < expr.length() - 1;
-                    expr = PROPERTY_PLACEHOLDER_PREFIX.matcher(expr).replaceFirst("\\$<");
-                    if (notEnd) {
-                        expr = expr.substring(0, idx) + ">>" + expr.substring(idx + 1);
-                    } else {
-                        expr = expr.substring(0, idx) + ">>";
-                    }
-
-                }
-            }
-            if (expr.contains("#{")) {
-                while (expr.contains("#{")) {
-                    int idx = expr.indexOf("}", expr.indexOf("#{"));
-                    boolean notEnd = idx < expr.length() - 1;
-                    expr = CONTEXT_PLACEHOLDER_PREFIX.matcher(expr).replaceFirst("#<");
-                    if (notEnd) {
-                        expr = expr.substring(0, idx) + ">>" + expr.substring(idx + 1);
-                    } else {
-                        expr = expr.substring(0, idx) + ">>";
-                    }
-                }
-            }
-            if (hasLink(expr)) {
-                expr = resolveToJsString(expr);
-                return toJsExpression(restorePlaceholders(expr));
-            } else {
-                if (text.startsWith("{") && text.endsWith("}"))
-                    return toJsExpression(restorePlaceholders(expr));
-                return restorePlaceholders(expr);
-            }
+        if (text == null || !hasLink(text))
+            return text;
+        String expr = text;
+        if (TERNARY_IN_LINK_PATTERN.matcher(expr).matches()) {
+            expr = expr.replace("{", "{(").replace("}", ")}");
         }
-        return text;
+        expr = maskPlaceholders(expr, "${", PROPERTY_PLACEHOLDER_PREFIX, "\\$<");
+        expr = maskPlaceholders(expr, "#{", CONTEXT_PLACEHOLDER_PREFIX, "#<");
+        if (hasLink(expr))
+            return toJsExpression(restorePlaceholders(resolveToJsString(expr)));
+        if (text.startsWith("{") && text.endsWith("}"))
+            return toJsExpression(restorePlaceholders(expr));
+        return restorePlaceholders(expr);
+    }
+
+    /**
+     * Временно заменяет плейсхолдеры вида {@code ${...}} / {@code #{...}} на {@code $<...>>} / {@code #<...>>},
+     * чтобы их фигурные скобки не принимались за ссылки. Обратная замена - {@link #restorePlaceholders(String)}
+     */
+    private static String maskPlaceholders(String expr, String prefix, Pattern prefixPattern, String replacement) {
+        String result = expr;
+        while (result.contains(prefix)) {
+            int idx = result.indexOf("}", result.indexOf(prefix));
+            result = prefixPattern.matcher(result).replaceFirst(replacement);
+            result = result.substring(0, idx) + ">>" + result.substring(idx + 1);
+        }
+        return result;
     }
 
     private static String restorePlaceholders(String expr) {
@@ -244,68 +229,46 @@ public class ScriptProcessor {
 
     private static String resolveToJsString(String text) {
         if (text == null) return null;
-        StringBuilder sb = new StringBuilder();
+        List<String> parts = new ArrayList<>();
 
         int pos = 0;
-        boolean first = true;
-
         while (pos < text.length()) {
             int openBrace = text.indexOf('{', pos);
             if (openBrace == -1) {
-                String remaining = text.substring(pos);
-                if (!remaining.isEmpty()) {
-                    if (first) {
-                        sb.append("'").append(remaining).append("'");
-                    } else {
-                        sb.append("+'").append(remaining).append("'");
-                    }
-                }
+                parts.add(toJsStringLiteral(text.substring(pos)));
                 break;
             }
 
-            if (openBrace > pos) {
-                String before = text.substring(pos, openBrace);
-                if (first) {
-                    sb.append("'").append(before).append("'");
-                    first = false;
-                } else {
-                    sb.append("+'").append(before).append("'");
-                }
-            }
+            if (openBrace > pos)
+                parts.add(toJsStringLiteral(text.substring(pos, openBrace)));
 
             int closeBrace = findMatchingBrace(text, openBrace);
             if (closeBrace == -1) {
-                String rest = text.substring(openBrace);
-                if (first) {
-                    sb.append("'").append(rest).append("'");
-                } else {
-                    sb.append("+'").append(rest).append("'");
-                }
+                parts.add(toJsStringLiteral(text.substring(openBrace)));
                 break;
             }
 
-            // Извлекаем содержимое между скобками (исходное, до обработки spread)
-            String rawInner = text.substring(openBrace + 1, closeBrace);
-
-            // Обрабатываем spread-оператор
-            String inner = processSpreadOperatorInExpression(rawInner);
-
-            // Если это функция, оборачиваем в само-вызывающуюся функцию
-            if (isFunction("{" + rawInner + "}")) {
-                inner = String.format("(function(){%s}).call(this)", inner);
-            }
-
-            if (first) {
-                sb.append(inner);
-                first = false;
-            } else {
-                sb.append("+").append(inner);
-            }
-
+            parts.add(toJsInnerExpression(text.substring(openBrace + 1, closeBrace)));
             pos = closeBrace + 1;
         }
 
-        return sb.toString();
+        return String.join("+", parts);
+    }
+
+    private static String toJsStringLiteral(String text) {
+        return "'" + text + "'";
+    }
+
+    /**
+     * Преобразует содержимое фигурных скобок в JS-выражение
+     *
+     * @param rawInner Содержимое между скобками (исходное, до обработки spread)
+     */
+    private static String toJsInnerExpression(String rawInner) {
+        String inner = processSpreadOperatorInExpression(rawInner);
+        if (isFunction("{" + rawInner + "}"))
+            return String.format("(function(){%s}).call(this)", inner);
+        return inner;
     }
 
     /**
@@ -313,32 +276,24 @@ public class ScriptProcessor {
      */
     private static int findMatchingBrace(String text, int openPos) {
         int braceCount = 1;
-        boolean inString = false;
         char stringChar = 0;
 
         for (int i = openPos + 1; i < text.length(); i++) {
             char c = text.charAt(i);
 
-            if (c == '\'' || c == '"') {
-                if (!inString) {
-                    inString = true;
-                    stringChar = c;
-                } else if (c == stringChar && text.charAt(i - 1) != '\\') {
-                    inString = false;
-                }
-                continue;
+            if (stringChar != 0) {
+                if (c == stringChar && text.charAt(i - 1) != '\\')
+                    stringChar = 0;
+            } else if (c == '\'' || c == '"') {
+                stringChar = c;
+            } else if (c == '{') {
+                braceCount++;
+            } else if (c == '}') {
+                braceCount--;
             }
 
-            if (!inString) {
-                if (c == '{') {
-                    braceCount++;
-                } else if (c == '}') {
-                    braceCount--;
-                    if (braceCount == 0) {
-                        return i;
-                    }
-                }
-            }
+            if (braceCount == 0)
+                return i;
         }
         return -1;
     }
@@ -387,29 +342,28 @@ public class ScriptProcessor {
      * @param str строка для анализа
      */
     private static int findEndOfProperty(String str) {
-        // Находим конец идентификатора
         int bracketCount = 0;
+        // закрывающая скобка для открытой на верхнем уровне
         char bracketType = 0;
-        int i = 0;
-        while (i < str.length()) {
+        for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             if (c == '[' || c == '(') {
                 if (bracketCount == 0)
-                    bracketType = (c == '[') ? ']' : ')';
+                    bracketType = closingBracket(c);
                 bracketCount++;
-            } else if (bracketCount > 0 && c == bracketType) {
-                bracketCount--;
-                if (bracketCount == 0)
-                    bracketType = 0;
-                i++;
-                continue; // Продолжаем, если внутри скобок
-            }
-            // Если не внутри скобок и символ не является частью идентификатора
-            if (bracketCount == 0 && !Character.isJavaIdentifierPart(c))
+            } else if (bracketCount > 0) {
+                // внутри скобок всё считается частью идентификатора
+                if (c == bracketType)
+                    bracketCount--;
+            } else if (!Character.isJavaIdentifierPart(c)) {
                 return i;
-            i++;
+            }
         }
         return str.length();
+    }
+
+    private static char closingBracket(char openBracket) {
+        return openBracket == '[' ? ']' : ')';
     }
 
     public static String createFunctionCall(String funcName, Object... args) {
