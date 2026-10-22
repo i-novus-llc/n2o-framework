@@ -72,6 +72,44 @@ class DomainProcessorTest {
     }
 
     @Test
+    void testAutoCastString() {
+        DomainProcessor proc = new DomainProcessor();
+        assertEquals(true, proc.deserialize("TRUE"));
+        assertEquals(false, proc.deserialize("False"));
+        assertEquals(123, proc.deserialize("000123"));
+        assertEquals(999999, proc.deserialize("999999"));
+        assertEquals("1234567", proc.deserialize("1234567"));
+        assertEquals("-1", proc.deserialize("-1"));
+        assertEquals("12a", proc.deserialize("12a"));
+        assertEquals("1.5", proc.deserialize("1.5"));
+    }
+
+    @Test
+    void testAutoCastCollection() {
+        DomainProcessor proc = new DomainProcessor();
+        assertEquals(List.of(), proc.deserialize(List.of()));
+        assertEquals(List.of(1, 2), proc.deserialize(List.of("1", "2")));
+        assertEquals(List.of(true, false), proc.deserialize(List.of("true", "false")));
+        assertEquals(List.of("abc"), proc.deserialize(List.of("abc")));
+        assertEquals(List.of(1L, 2L), proc.deserialize(List.of(1L, 2L)));
+        // домен определяется по первому непустому элементу
+        assertEquals(Arrays.asList(null, 5), proc.deserialize(Arrays.asList(null, "5")));
+        // домен не определён - значение возвращается как есть
+        List<Object> nullsOnly = Arrays.asList(null, null);
+        assertSame(nullsOnly, proc.deserialize(nullsOnly));
+        List<Object> unknownElements = List.of(new Object());
+        assertSame(unknownElements, proc.deserialize(unknownElements));
+    }
+
+    @Test
+    void testAutoCastByClass() {
+        DomainProcessor proc = new DomainProcessor();
+        assertEquals(new BigDecimal("1.5"), proc.deserialize(new BigDecimal("1.5")));
+        Object unknown = new Object();
+        assertSame(unknown, proc.deserialize(unknown));
+    }
+
+    @Test
     void testEscapeString() {
         DomainProcessor proc = new DomainProcessor();
         assertThat(proc.deserialize("'true'"), is("true"));
