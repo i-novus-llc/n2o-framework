@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.compile.*;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
@@ -449,57 +450,46 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public ModelLink resolveSubModels(ModelLink link) {
-        if (link == null) return null;
-        if (link.getSubModelQuery() == null) return link;
-        if (link.getValue() == null) return link;
-        if (link.getValue() instanceof Collection) {
-            if (!link.getSubModelQuery().isMulti())
-                throw new N2oException(String.format("Вложенная модель '%s' должна поддерживать множественные значения для значения '%s'", link.getSubModelQuery().getFullName(), link.getValue()));
+        if (link == null || link.getSubModelQuery() == null || link.getValue() == null)
+            return link;
+        SubModelQuery subModelQuery = link.getSubModelQuery();
+        DataSet dataSet = prepareSubModelData(subModelQuery, link.getValue());
+        if (subModelsProcessor != null)
+            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
+        ModelLink resolvedLink = link.getSubModelLink();
+        resolvedLink.setValue(extractSubModelValue(subModelQuery, dataSet));
+        return resolvedLink;
+    }
+
+    private DataSet prepareSubModelData(SubModelQuery subModelQuery, Object value) {
+        String subModel = subModelQuery.getSubModel();
+        if (value instanceof Collection) {
+            if (!subModelQuery.isMulti())
+                throw new N2oException(String.format("Вложенная модель '%s' должна поддерживать множественные значения для значения '%s'", subModelQuery.getFullName(), value));
             List<DataSet> dataList = new ArrayList<>();
-            for (Object o : (List<?>) link.getValue()) {
-                if (o instanceof DefaultValues defaultValues) {
-                    dataList.add(new DataSet(defaultValues.getValues()));
-                } else {
-                    dataList.add(new DataSet("id", o));
-                }
-            }
-            DataSet dataSet = new DataSet(link.getSubModelQuery().getSubModel(), dataList);
-            if (subModelsProcessor != null)
-                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-            ModelLink resolvedLink = link.getSubModelLink();
-            List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
-            resolvedLink.setValue(valueList.stream().map(DefaultValues::new).toList());
-            return resolvedLink;
-        } else if (link.getValue() instanceof DefaultValues defaultValues) {
-            if (link.getSubModelQuery().isMulti())
-                throw new N2oException(String.format("Вложенная модель '%s' не должна поддерживать множественные значения для значения '%s'", link.getSubModelQuery().getSubModel(), link.getValue()));
-            DataSet dataSet = new DataSet();
-            dataSet.put(link.getSubModelQuery().getSubModel(), defaultValues.getValues());
-            if (subModelsProcessor != null)
-                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-            ModelLink resolvedLink = link.getSubModelLink();
-            resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
-            return resolvedLink;
-        } else {
-            DataSet dataSet = new DataSet();
-            if (link.getSubModelQuery().isMulti()) {
-                ArrayList<DataSet> list = new ArrayList<>();
-                list.add(new DataSet("id", link.getValue()));
-                dataSet.put(link.getSubModelQuery().getSubModel(), list);
-            } else {
-                dataSet.put(link.getSubModelQuery().getSubModel() + ".id", link.getValue());
-            }
-            if (subModelsProcessor != null)
-                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
-            ModelLink resolvedLink = link.getSubModelLink();
-            if (link.getSubModelQuery().isMulti()) {
-                List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
-                resolvedLink.setValue(valueList.stream().map(DefaultValues::new).toList());
-            } else {
-                resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
-            }
-            return resolvedLink;
+            for (Object o : (List<?>) value)
+                dataList.add(o instanceof DefaultValues defaultValues ? new DataSet(defaultValues.getValues()) : new DataSet("id", o));
+            return new DataSet(subModel, dataList);
         }
+        DataSet dataSet = new DataSet();
+        if (value instanceof DefaultValues defaultValues) {
+            if (subModelQuery.isMulti())
+                throw new N2oException(String.format("Вложенная модель '%s' не должна поддерживать множественные значения для значения '%s'", subModel, value));
+            dataSet.put(subModel, defaultValues.getValues());
+        } else if (subModelQuery.isMulti()) {
+            dataSet.put(subModel, new ArrayList<>(List.of(new DataSet("id", value))));
+        } else {
+            dataSet.put(subModel + ".id", value);
+        }
+        return dataSet;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Object extractSubModelValue(SubModelQuery subModelQuery, DataSet dataSet) {
+        Object subModelValue = dataSet.get(subModelQuery.getSubModel());
+        if (subModelQuery.isMulti())
+            return ((List<DataSet>) subModelValue).stream().map(DefaultValues::new).toList();
+        return new DefaultValues((Map<String, Object>) subModelValue);
     }
 
     @Override
