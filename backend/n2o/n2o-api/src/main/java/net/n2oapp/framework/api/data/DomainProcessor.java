@@ -134,22 +134,13 @@ public class DomainProcessor {
             return null;
         if (enumClass.isAssignableFrom(value.getClass()))
             return (T) value;
-        if (value instanceof String strValue) {
-            boolean idAware = IdAware.class.isAssignableFrom(enumClass);
-            if (idAware) {
-                for (Enum enumValue : enumClass.getEnumConstants()) {
-                    IdAware idEnum = (IdAware) enumValue;
-                    if (idEnum.getId().equalsIgnoreCase(strValue)) {
-                        return (T) enumValue;
-                    }
-                }
-            } else {
-                for (Enum enumValue : enumClass.getEnumConstants()) {
-                    if (enumValue.name().equalsIgnoreCase(strValue)) {
-                        return (T) enumValue;
-                    }
-                }
-            }
+        if (!(value instanceof String strValue))
+            return null;
+        boolean idAware = IdAware.class.isAssignableFrom(enumClass);
+        for (T enumValue : enumClass.getEnumConstants()) {
+            String key = idAware ? ((IdAware) enumValue).getId() : enumValue.name();
+            if (key.equalsIgnoreCase(strValue))
+                return enumValue;
         }
         return null;
     }
@@ -295,31 +286,32 @@ public class DomainProcessor {
     }
 
     private String findDomain(Object value) {
-        if (value instanceof Collection collectionValue) {
-            if (((Collection<?>) value).isEmpty())
-                return "integer[]"; // неважно, какой тип элементов списка, если он пустой
-            Optional<Object> firstElement = collectionValue.stream().filter(Objects::nonNull).findFirst();
-            if (firstElement.isEmpty())
-                return null;
-            String elementsDomain = (findDomain(firstElement.get()));
-            if (elementsDomain == null) return null;
-            return elementsDomain + "[]";
-        }
-        if (value instanceof String strValue) {
-            String val = strValue.toLowerCase();
-            if (val.equals("true") || val.equals("false")) return DomainEnum.BOOLEAN.getName();
-            if (val.length() <= 6 && val.chars().allMatch(Character::isDigit)) {
-                try {
-                    Integer.parseInt(val);
-                } catch (NumberFormatException e) {
-                    throw new N2oException(String.format("Значение '%s' не является целым числом. Укажите атрибут 'domain' явно!", val), e);
-                }
-                return DomainEnum.INTEGER.getName();
-            }
-            return DomainEnum.STRING.getName();
-        }
+        if (value instanceof Collection<?> collectionValue)
+            return findCollectionDomain(collectionValue);
+        if (value instanceof String strValue)
+            return findStringDomain(strValue);
         DomainEnum domain = DomainEnum.getByClass(value.getClass());//подбираем домен по классу значения
         return domain != null ? domain.getName() : null;
+    }
+
+    private String findCollectionDomain(Collection<?> collectionValue) {
+        if (collectionValue.isEmpty())
+            return "integer[]"; // неважно, какой тип элементов списка, если он пустой
+        Optional<?> firstElement = collectionValue.stream().filter(Objects::nonNull).findFirst();
+        if (firstElement.isEmpty())
+            return null;
+        String elementsDomain = findDomain(firstElement.get());
+        if (elementsDomain == null) return null;
+        return elementsDomain + "[]";
+    }
+
+    private String findStringDomain(String strValue) {
+        String val = strValue.toLowerCase();
+        if (val.equals("true") || val.equals("false")) return DomainEnum.BOOLEAN.getName();
+        // не более 6 цифр всегда помещается в int
+        if (val.length() <= 6 && val.chars().allMatch(Character::isDigit))
+            return DomainEnum.INTEGER.getName();
+        return DomainEnum.STRING.getName();
     }
 
     private Object toObject(String domain, String value) throws ParseException, IOException {
