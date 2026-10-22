@@ -117,21 +117,25 @@ public class FilterChecker {
     }
 
     private static Object castToRealType(Object filterValue, Object realValue) {
-        if (filterValue instanceof String strValue && !(realValue instanceof String)) {
-            if (realValue instanceof Boolean realValueBoolean && (strValue.equals("true") || strValue.equals("false")))
-                return realValueBoolean;
-            if (realValue instanceof Number && strValue.matches("([\\d]+)")) {
-                try {
-                    return Long.parseLong(strValue);
-                } catch (NumberFormatException e) {
-                    return filterValue;
-                }
-            }
-            if (realValue instanceof UUID)
-                return UUID.fromString(strValue);
-        } else if (filterValue != null && !(filterValue instanceof String) && realValue instanceof String) {
+        if (filterValue instanceof String strValue && !(realValue instanceof String))
+            return castStringToRealType(strValue, realValue);
+        if (filterValue != null && !(filterValue instanceof String) && realValue instanceof String)
             return filterValue.toString();
-        }
         return filterValue;
+    }
+
+    private static Object castStringToRealType(String strValue, Object realValue) {
+        if (realValue instanceof Boolean realValueBoolean && (strValue.equals("true") || strValue.equals("false")))
+            return realValueBoolean;
+        if (realValue instanceof Number && strValue.matches("([\\d]+)")) {
+            try {
+                return Long.parseLong(strValue);
+            } catch (NumberFormatException e) {
+                return strValue;
+            }
+        }
+        if (realValue instanceof UUID)
+            return UUID.fromString(strValue);
+        return strValue;
     }
 }
