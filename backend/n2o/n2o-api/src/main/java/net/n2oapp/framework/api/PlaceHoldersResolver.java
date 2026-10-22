@@ -226,37 +226,30 @@ public class PlaceHoldersResolver {
         if (split.length <= 1)
             return text;
         sb.append(split[0]);
-        for (int i = 1; i < split.length; i++) {
-            int idxSuffix;
-            int idxNext;
-            if (suffix != null && !suffix.isEmpty()) {
-                idxSuffix = split[i].indexOf(suffix);
-                idxNext = idxSuffix + 1;
-                if (idxSuffix == 0) {
-                    sb.append(prefix).append(suffix);
-                    sb.append(split[i].substring(idxNext));
-                }
+        for (int i = 1; i < split.length; i++)
+            appendResolvedPart(sb, split[i], callback);
+        return sb.toString();
+    }
+
+    private void appendResolvedPart(StringBuilder sb, String part, Function<String, Object> callback) {
+        boolean hasSuffix = suffix != null && !suffix.isEmpty();
+        int idxSuffix = hasSuffix ? part.indexOf(suffix) : defaultSuffixIdx.applyAsInt(part);
+        int idxNext = hasSuffix ? idxSuffix + 1 : idxSuffix;
+        if (idxSuffix == 0) {
+            sb.append(prefix);
+            if (hasSuffix)
+                sb.append(suffix);
+            sb.append(part.substring(idxNext));
+        } else if (idxSuffix > 0) {
+            String placeholder = part.substring(0, idxSuffix);
+            if (onlyJavaVariable && !NestedUtils.isJavaVariable(placeholder)) {
+                sb.append(prefix);
+                sb.append(part);
             } else {
-                idxSuffix = defaultSuffixIdx.applyAsInt(split[i]);
-                idxNext = idxSuffix;
-                if (idxSuffix == 0) {
-                    sb.append(prefix);
-                    sb.append(split[i].substring(idxNext));
-                }
-            }
-            if (idxSuffix > 0) {
-                String placeholder = split[i].substring(0, idxSuffix);
-                if (onlyJavaVariable && !NestedUtils.isJavaVariable(placeholder)) {
-                    sb.append(prefix);
-                    sb.append(split[i]);
-                } else {
-                    Object value = callback.apply(placeholder);
-                    sb.append(value);
-                    sb.append(split[i].substring(idxNext));
-                }
+                sb.append(callback.apply(placeholder));
+                sb.append(part.substring(idxNext));
             }
         }
-        return sb.toString();
     }
 
     private JsonNode resolvePlaceholders(JsonNode json, Function<String, Object> callback) {
@@ -266,23 +259,10 @@ public class PlaceHoldersResolver {
             Iterator<Map.Entry<String, JsonNode>> fields = root.fields();
             while (fields.hasNext()) {
                 Map.Entry<String, JsonNode> field = fields.next();
-                if (field.getValue().isTextual()) {
-                    String value = field.getValue().textValue();
-                    if (isPlaceHolder(value)) {
-                        Object result = safeResolveValue(value, callback);
-                        field.setValue(new POJONode(result));
-                    } else if (hasPlaceHolders(value)) {
-                        String result = safeResolve(value, callback);
-                        field.setValue(new TextNode(result));
-                    }
-                } else if (field.getValue().isObject()) {
+                if (field.getValue().isTextual())
+                    resolveTextField(field, callback);
+                else if (field.getValue().isContainerNode())
                     resolvePlaceholders(field.getValue(), callback);
-                } else if (field.getValue().isArray()) {
-                    ArrayNode array = (ArrayNode) field.getValue();
-                    for (JsonNode jsonNode : array) {
-                        resolvePlaceholders(jsonNode, callback);
-                    }
-                }
             }
             return root;
         } else if (json.isArray()) {
@@ -293,6 +273,14 @@ public class PlaceHoldersResolver {
             return array;
         }
         return null;
+    }
+
+    private void resolveTextField(Map.Entry<String, JsonNode> field, Function<String, Object> callback) {
+        String value = field.getValue().textValue();
+        if (isPlaceHolder(value))
+            field.setValue(new POJONode(safeResolveValue(value, callback)));
+        else if (hasPlaceHolders(value))
+            field.setValue(new TextNode(safeResolve(value, callback)));
     }
 
     private Object safeResolveValue(Object placeholder, Function<String, Object> func) {
