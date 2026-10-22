@@ -17,6 +17,7 @@ springServices:
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
+      JAVA_TOOL_OPTIONS: "-Xmx600m"
       SPRING_CONFIG_IMPORT: "consul:"
     replicaCount: 1
     contextPath: sandbox

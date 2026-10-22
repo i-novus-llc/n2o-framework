@@ -12,6 +12,8 @@ springServices:
       requests:
         memory: 300M
         cpu: 10m
+    env:
+      JAVA_TOOL_OPTIONS: "-Xmx600m"
     replicaCount: 1
     contextPath: demo
     startupProbe:
@@ -31,6 +33,7 @@ springServices:
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
+      JAVA_TOOL_OPTIONS: "-Xmx480m"
       SPRING_CONFIG_IMPORT: "consul:"
       N2O_SANDBOX_TEMPLATE_CATEGORIES: "/menu/tests.json"
       N2O_SANDBOX_PROJECT_SEARCH_FOLDERS: "/autotest"
