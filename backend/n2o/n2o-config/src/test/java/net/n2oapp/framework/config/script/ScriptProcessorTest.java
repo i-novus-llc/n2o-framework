@@ -95,6 +95,17 @@ class ScriptProcessorTest {
     }
 
     @Test
+    void testSpreadPropertyEndInTernary() {
+        assertThat(ScriptProcessor.resolveLinks("{c ? a*.id : b}"), is("`(c ? a.map(function(t){return t.id}) : b)`"));
+        assertThat(ScriptProcessor.resolveLinks("{c ? a*.id+1 : b}"), is("`(c ? a.map(function(t){return t.id})+1 : b)`"));
+        assertThat(ScriptProcessor.resolveLinks("{c ? b : a*.id}"), is("`(c ? b : a.map(function(t){return t.id}))`"));
+        assertThat(ScriptProcessor.resolveLinks("{c ? a*.$id_1 : b}"), is("`(c ? a.map(function(t){return t.$id_1}) : b)`"));
+        assertThat(ScriptProcessor.resolveLinks("{c ? a*.getName() : b}"), is("`(c ? a.map(function(t){return t.getName()}) : b)`"));
+        assertThat(ScriptProcessor.resolveLinks("{c ? a*.list[i + 1] : b}"), is("`(c ? a.map(function(t){return t.list[i + 1]}) : b)`"));
+        assertThat(ScriptProcessor.resolveLinks("{c ? a*.m[k[0]] : b}"), is("`(c ? a.map(function(t){return t.m[k[0]]}) : b)`"));
+    }
+
+    @Test
     void invertExpression() {
         assertThat(ScriptProcessor.invertExpression("{check}"), is("`!(check)`"));
         assertThat(ScriptProcessor.invertExpression("true"), is(false));
