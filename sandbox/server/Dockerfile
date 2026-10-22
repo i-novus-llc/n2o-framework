@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2-jdk-oracle
+FROM eclipse-temurin:17-jre
 
 EXPOSE 8080
 
