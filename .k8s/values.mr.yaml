@@ -24,3 +24,5 @@ springServices:
       requests:
         memory: 200M
         cpu: 10m
+    env:
+      JAVA_TOOL_OPTIONS: "-Xmx240m"

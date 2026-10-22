@@ -14,6 +14,7 @@ springServices:
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
+      JAVA_TOOL_OPTIONS: "-Xmx420m"
       SPRING_CONFIG_IMPORT: "consul:"
       N2O_SANDBOX_TEMPLATE_CATEGORIES: "/menu/tests.json"
       N2O_SANDBOX_PROJECT_SEARCH_FOLDERS: "/autotest"
