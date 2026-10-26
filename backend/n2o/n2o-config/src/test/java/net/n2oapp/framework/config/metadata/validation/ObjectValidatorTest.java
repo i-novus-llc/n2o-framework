@@ -54,22 +54,6 @@ class ObjectValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testCheckForReferenceObjectExistsInFields() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject.object.xml"));
-        assertEquals("Поле 'ref2' в объекте 'checkForExistsReferenceObject' ссылается на несуществующий объект 'nonExistantObject'", exception.getMessage());
-    }
-
-    @Test
-    void testCheckForReferenceObjectExists2InOperationsFields() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject2.object.xml"));
-        assertEquals("Поле 'inRef2' в объекте 'checkForExistsReferenceObject2' ссылается на несуществующий объект 'nonExistantObject'", exception.getMessage());
-    }
-
-    @Test
     void testCheckValidationSide() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

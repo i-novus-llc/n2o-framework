@@ -90,8 +90,8 @@
 | Change | Before (3.0) | After (4.0) |
 |---|---|---|
 | Field mapping | `<field id="name" mapping="body.name"/>` | `<field id="name" mapping="['body.name']"/>` |
-| Nested fields | Flat with complex mapping | `<reference id="addr" object-id="address">` |
-| List fields | Not supported | `<list id="contacts" object-id="contact">` |
+| Nested fields | Flat with complex mapping | `<reference id="addr">` |
+| List fields | Not supported | `<list id="contacts">` |
 | Validation groups | `<validations activate="whiteList">` | `<validations white-list="v1,v2"/>` |
 
 ---

@@ -7,7 +7,10 @@
         <field id="name" domain="string"/>
         <field id="patrName" domain="string"/>
         <field id="birthday" domain="date"/>
-        <reference id="gender" object-id="gender"/>
+        <reference id="gender" mapping="['gender']">
+            <field id="id"/>
+            <field id="name"/>
+        </reference>
     </fields>
 
 
