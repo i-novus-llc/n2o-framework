@@ -64,7 +64,7 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldBeCleanable() {
-        clearIcon().parent().shouldNotHave(Condition.cssClass("read-only"));
+        clearIcon().parent().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("read-only"));
     }
 
     @Override

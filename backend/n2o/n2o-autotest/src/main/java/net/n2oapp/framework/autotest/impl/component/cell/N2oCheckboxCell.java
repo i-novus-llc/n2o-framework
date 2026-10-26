@@ -33,7 +33,7 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
 
     @Override
     public void shouldBeUnchecked() {
-        element().shouldNotBe(Condition.checked);
+        element().shouldBe(Condition.exist).shouldNotBe(Condition.checked);
     }
 
     @Override

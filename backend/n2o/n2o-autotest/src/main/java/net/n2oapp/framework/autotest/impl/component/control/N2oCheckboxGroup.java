@@ -43,7 +43,7 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
     public void shouldBeUnchecked(String label) {
-        inputElement(label).shouldNotBe(Condition.checked);
+        inputElement(label).shouldBe(Condition.exist).shouldNotBe(Condition.checked);
     }
 
     @Override

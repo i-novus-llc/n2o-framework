@@ -60,7 +60,7 @@ public interface DropDownTree extends Component {
 
         @Override
         default void shouldBeEnabled() {
-            element().shouldNotHave(Condition.cssClass("n2o-select-tree-tree-treenode-disabled"));
+            element().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("n2o-select-tree-tree-treenode-disabled"));
         }
 
         @Override

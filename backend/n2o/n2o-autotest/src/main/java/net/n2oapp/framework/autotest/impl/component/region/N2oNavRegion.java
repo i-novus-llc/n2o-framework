@@ -90,7 +90,7 @@ public class N2oNavRegion extends N2oRegion implements NavRegion {
 
         @Override
         public void shouldNotBeActive() {
-            element().shouldNotHave(Condition.cssClass(ACTIVE));
+            element().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass(ACTIVE));
         }
     }
 

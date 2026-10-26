@@ -55,14 +55,12 @@ class ButtonFieldAT extends AutoTestBase {
         buttonField.tooltipShouldHavePosition("top");
 
         buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле1", ButtonField.class);
-        buttonField.shouldExists();
         buttonField.shouldNotBeRounded();
         buttonField.shouldHaveColor(ColorsEnum.SUCCESS);
         buttonField.shouldHaveStyle("text-decoration: underline;");
         buttonField.shouldHaveIcon("fa fa-minus");
 
         Checkbox checkbox = fields.field("Checkbox1").control(Checkbox.class);
-        checkbox.shouldExists();
         checkbox.shouldNotBeChecked();
         checkbox.setChecked(true);
         buttonField.shouldHaveColor(ColorsEnum.DANGER);
@@ -83,7 +81,6 @@ class ButtonFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Checkbox checkbox = page.widget(FormWidget.class).fields().field("Условие доступности кнопки").control(Checkbox.class);
-        checkbox.shouldExists();
         checkbox.shouldNotBeChecked();
         ButtonField buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле", ButtonField.class);
         buttonField.shouldExists();

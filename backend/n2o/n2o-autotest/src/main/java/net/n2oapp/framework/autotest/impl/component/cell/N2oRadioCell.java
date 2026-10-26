@@ -22,7 +22,7 @@ public class N2oRadioCell extends N2oCell implements RadioCell {
 
     @Override
     public void shouldBeUnchecked() {
-        radioElement().shouldNotHave(Condition.cssClass("checked"));
+        radioElement().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("checked"));
     }
 
     protected SelenideElement radioElement() {

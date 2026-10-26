@@ -47,7 +47,7 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
 
     @Override
     public void shouldNotBeRounded() {
-        element().shouldNotHave(Condition.cssClass("btn-rounded__with-content"));
+        element().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("btn-rounded__with-content"));
     }
 
     @Override

@@ -110,7 +110,6 @@ class ButtonAT extends AutoTestBase {
     private void testRounded(ListWidget list) {
         StandardButton button;
         button = list.toolbar().topLeft().button("All");
-        button.shouldExists();
         button.shouldNotBeRounded();
         button = list.toolbar().topLeft().button("rounded");
         button.shouldExists();

@@ -39,7 +39,7 @@ public class N2oOutputText extends N2oControl implements OutputText {
 
     @Override
     public void shouldNotHaveValue(String value) {
-        element().shouldNotHave(Condition.text(value));
+        element().shouldBe(Condition.exist).shouldNotHave(Condition.text(value));
     }
 
     @Override

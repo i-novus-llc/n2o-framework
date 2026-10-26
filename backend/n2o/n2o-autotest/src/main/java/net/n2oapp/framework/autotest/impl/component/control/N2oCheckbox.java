@@ -18,7 +18,7 @@ public class N2oCheckbox extends N2oControl implements Checkbox {
 
     @Override
     public void shouldBeEmpty() {
-        element().shouldNotBe(Condition.checked);
+        element().shouldBe(Condition.exist).shouldNotBe(Condition.checked);
     }
 
     @Override
@@ -40,6 +40,6 @@ public class N2oCheckbox extends N2oControl implements Checkbox {
 
     @Override
     public void shouldNotBeChecked() {
-        element().shouldNotBe(Condition.checked);
+        element().shouldBe(Condition.exist).shouldNotBe(Condition.checked);
     }
 }
