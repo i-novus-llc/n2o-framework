@@ -6,21 +6,21 @@
         module-name="module-name" service-class="service-class"
         service-name="service-name" table-name="table-name">
     <fields>
-        <reference id="ref" object-id="utBlank" mapping="ref2"
+        <reference id="ref" mapping="ref2"
                    entity-class="ref" required="true">
             <field id="id"/>
             <field id="name"/>
-            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+            <reference id="subRef" entity-class="ref2" mapping="ref3"/>
+            <list id="addresses" mapping="['addresses']" entity-class="Address"/>
         </reference>
         <field id="test" domain="string" mapping="birth_date" required="true" default-value="test"
                normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
-        <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
+        <list id="testSet2" mapping="birth_date" entity-class="list"
               required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
-            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3" normalize="norm"/>
-            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address" normalize="norm"/>
+            <reference id="subRef" entity-class="ref2" mapping="ref3" normalize="norm"/>
+            <list id="addresses" mapping="['addresses']" entity-class="Address" normalize="norm"/>
         </list>
     </fields>
     <operations>
@@ -32,32 +32,32 @@
             <in>
                 <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string" ext:extAttr="extAttr"/>
                 <field id="testSet" param="param" enabled="type=='type1'"/>
-                <reference id="ref" object-id="utBlank" mapping="ref2" normalize="norm"
+                <reference id="ref" mapping="ref2" normalize="norm"
                            entity-class="ref" required="true" enabled="type=='type1'" ext:extAttr="extAttr">
                     <field id="id"/>
-                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address" ext:extAttr="extAttr"/>
+                    <reference id="subRef" entity-class="ref2" mapping="ref3"/>
+                    <list id="addresses" mapping="['addresses']" entity-class="Address" ext:extAttr="extAttr"/>
                 </reference>
-                <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
+                <list id="testSet2" mapping="birth_date" entity-class="list"
                       required="true" normalize="norm">
                     <field id="id" mapping="id"/>
-                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                    <reference id="subRef" entity-class="ref2" mapping="ref3"/>
+                    <list id="addresses" mapping="['addresses']" entity-class="Address"/>
                 </list>
             </in>
             <out>
                 <field id="id" mapping="mapping" default-value="val2" normalize="norm"
                        domain="boolean[]"/>
-                <reference id="ref" object-id="utBlank" mapping="ref2" normalize="norm"
+                <reference id="ref" mapping="ref2" normalize="norm"
                            entity-class="ref">
                     <field id="id"/>
-                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                    <reference id="subRef" entity-class="ref2" mapping="ref3"/>
+                    <list id="addresses" mapping="['addresses']" entity-class="Address"/>
                 </reference>
-                <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list" normalize="norm">
+                <list id="testSet2" mapping="birth_date" entity-class="list" normalize="norm">
                     <field id="id" mapping="id"/>
                     <reference id="subRef" entity-class="ref2" mapping="ref3"/>
-                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                    <list id="addresses" mapping="['addresses']" entity-class="Address"/>
                 </list>
             </out>
             <fail-out>

@@ -36,7 +36,6 @@ Contains: `<field>`, `<reference>`, `<list>`
 | Attribute | Type | Description |
 |---|---|---|
 | id | String | Reference identifier (required) |
-| object-id | String | Referenced object ID |
 | entity-class | String | Entity class of referenced object |
 | mapping | String | Provider mapping for composite field |
 | required | boolean | Required field (default: false) |
@@ -49,11 +48,11 @@ Body: `<field>`, `<reference>`, `<list>` (nested)
 <fields>
     <field id="id" domain="integer"/>
     <field id="name" domain="string"/>
-    <reference id="department" object-id="dept">
+    <reference id="department">
         <field id="id" domain="integer"/>
         <field id="name" domain="string"/>
     </reference>
-    <list id="contacts" object-id="contact">
+    <list id="contacts">
         <field id="phone" domain="string"/>
     </list>
 </fields>
@@ -107,11 +106,11 @@ Body: `<switch>` (optional)
     <field id="id" domain="integer" required="true"/>
     <field id="name" domain="string" default-value="N/A"/>
     <field id="org.id" domain="integer" mapping="['orgId']"/>
-    <reference id="address" object-id="address">
+    <reference id="address">
         <field id="city" domain="string"/>
         <field id="street" domain="string"/>
     </reference>
-    <list id="contacts" object-id="contact">
+    <list id="contacts">
         <field id="phone" domain="string"/>
     </list>
 </in>

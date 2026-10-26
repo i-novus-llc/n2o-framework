@@ -2,7 +2,17 @@
         name="Контакты">
     <fields>
         <field id="id" domain="integer" mapping="['id']"/>
-        <reference id="individual" object-id="ProtoClient" name="${client}" required="true" mapping="['indiv_id']"/>
+        <reference id="individual" name="${client}" required="true" mapping="['indiv_id']">
+            <field id="id" domain="integer"/>
+            <field id="surname" domain="string"/>
+            <field id="name" domain="string"/>
+            <field id="patrName" domain="string"/>
+            <field id="birthday" domain="date"/>
+            <reference id="gender" mapping="['gender']">
+                <field id="id"/>
+                <field id="name"/>
+            </reference>
+        </reference>
         <reference id="type" name="${contact.type}">
             <field id="id" domain="integer" mapping="['type_id']"/>
             <field id="name" domain="string"/>

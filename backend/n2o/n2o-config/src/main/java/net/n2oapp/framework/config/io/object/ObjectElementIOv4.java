@@ -124,7 +124,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void inReference(Element e, ObjectReferenceField t, IOProcessor p) {
         abstractParameter(e, t, p);
-        p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
         p.attribute(e, ENTITY_CLASS, t::getEntityClass, t::setEntityClass);
         p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
                 .add(FIELD, ObjectSimpleField.class, this::inField)
@@ -137,7 +136,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void outReference(Element e, ObjectReferenceField t, IOProcessor p) {
         abstractParameter(e, t, p);
-        p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
         p.attribute(e, ENTITY_CLASS, t::getEntityClass, t::setEntityClass);
         p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
                 .add(FIELD, ObjectSimpleField.class, this::outField)

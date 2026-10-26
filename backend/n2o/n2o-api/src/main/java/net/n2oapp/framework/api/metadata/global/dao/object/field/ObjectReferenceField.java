@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 @Setter
 @NoArgsConstructor
 public class ObjectReferenceField extends AbstractParameter {
-    private String referenceObjectId;
     private String entityClass;
     private AbstractParameter[] fields;
 

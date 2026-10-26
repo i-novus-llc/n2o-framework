@@ -10,11 +10,9 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.InvocationScope;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +41,6 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
             p.safeStreamOf(object.getObjectFields()).forEach(field ->
                     checkFieldIdExistence(field, p, String.format("В одном из полей объекта %s не указан 'id'",
                             getIdOrEmptyString(object.getId()))));
-            checkForExistsReferenceObject(object.getId(), object.getObjectFields(), p);
         }
 
         p.checkIdsUnique(object.getObjectFields(),
@@ -106,7 +103,6 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                             String.format("В одном из <in> полей операции %s объекта %s не указан 'id'",
                                     getIdOrEmptyString(operation.getId()),
                                     getIdOrEmptyString(object.getId()))));
-            checkForExistsReferenceObject(object.getId(), operation.getInFields(), p);
             checkSwitchCase(operation.getInFields());
         }
         if (operation.getOutFields() != null) {
@@ -173,27 +169,6 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                             getIdOrEmptyString(validation.getId()),
                             getIdOrEmptyString(operation.getId()),
                             getIdOrEmptyString(objectId)));
-    }
-
-    /**
-     * Проверка существования объектов, на которые могут ссылаться поля текущего объекта
-     *
-     * @param objectId Идентификатор текущего объекта
-     * @param fields   Список полей, проверяемых на наличие ссылки
-     * @param p        Процессор исходных метаданных
-     */
-    private void checkForExistsReferenceObject(String objectId, AbstractParameter[] fields, SourceProcessor p) {
-        for (AbstractParameter field : fields) {
-            if (field instanceof ObjectReferenceField refField) {
-                if (refField.getReferenceObjectId() != null)
-                    ValidationUtils.checkForExistsObject(refField.getReferenceObjectId(),
-                            String.format("Поле %s в объекте %s",
-                                    getIdOrEmptyString(refField.getId()),
-                                    getIdOrEmptyString(objectId)), p);
-                if (!ArrayUtils.isEmpty(refField.getFields()))
-                    checkForExistsReferenceObject(objectId, refField.getFields(), p);
-            }
-        }
     }
 
     /**

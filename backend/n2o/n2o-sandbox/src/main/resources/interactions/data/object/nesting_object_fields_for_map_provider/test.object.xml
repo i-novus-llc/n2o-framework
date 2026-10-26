@@ -3,7 +3,10 @@
     <fields>
         <field id="name" mapping="['name']" required="true" domain="string"
                normalize="#this.toUpperCase()"/>
-        <reference id="org" mapping="['organization']" object-id="org"/>
+        <reference id="org" mapping="['organization']">
+            <field id="id" mapping="['code']"/>
+            <field id="name" mapping="['title']"/>
+        </reference>
         <list id="departments">
             <field id="id"/>
             <field id="name"/>

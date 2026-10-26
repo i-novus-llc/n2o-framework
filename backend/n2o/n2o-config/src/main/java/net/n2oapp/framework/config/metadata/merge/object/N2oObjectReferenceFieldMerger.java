@@ -10,7 +10,6 @@ public class N2oObjectReferenceFieldMerger extends N2oObjectFieldMerger<ObjectRe
     public ObjectReferenceField merge(ObjectReferenceField ref, ObjectReferenceField source) {
         super.merge(ref, source);
         setIfNotNull(source::setEntityClass, source::getEntityClass, ref::getEntityClass);
-        setIfNotNull(source::setReferenceObjectId, source::getReferenceObjectId, ref::getReferenceObjectId);
         return source;
     }
 

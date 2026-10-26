@@ -145,6 +145,24 @@ description: ""
 | `target="self"`                  | `target="self"`                       |
 | `target="application"`           | *(default)*                           |
 
+
+- Удалён атрибут `object-id` у полей `<reference>` и `<list>` в объектах `<object>`.
+  Ранее он позволял ссылаться на другой объект и автоматически подтягивать из него структуру полей.
+  Функционал не нашёл применения и мог приводить к циклическим ссылкам и повреждению кэшированных значений.
+
+  Для миграции необходимо раскрыть структуру полей явно в самом `<reference>` или `<list>`:
+
+ ```xml title="Пример, как работало в версии 7.29 и ниже"
+  <reference id="org" mapping="['organization']" object-id="org"/>
+ ```
+
+ ```xml title="Пример, как работает сейчас"
+  <reference id="org" mapping="['organization']">
+      <field id="id" mapping="['code']"/>
+      <field id="name" mapping="['title']"/>
+  </reference>
+  ```
+
 ### Изменения поведения {#changes-behavior}
 
 - `<fetch>` и `<fetch-value>` зависимости полей теперь не выполняются, если поле или компонент,
