@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -38,6 +39,8 @@ public class XsdSchemaParser {
     private static final String XSD_EXTENSION = ".xsd";
     private static final String DEF_PREFIX_SEPARATOR = "__";
     private static final Map<String, String> startEndDefinitionTags;
+    private static final Pattern PREFIX_SEPARATOR_PATTERN = Pattern.compile(".+" + DEF_PREFIX_SEPARATOR + ".+");
+    private static final Pattern EXTERNAL_SCHEME_TYPE_PATTERN = Pattern.compile(".+(:|" + DEF_PREFIX_SEPARATOR + ").+");
 
     static {
         startEndDefinitionTags = Map.of(
@@ -75,8 +78,8 @@ public class XsdSchemaParser {
             return resourceBySchemaName.get(schemaName);
 
         Resource resource = Arrays.stream(ResourcePatternUtils
-                .getResourcePatternResolver(resourceLoader)
-                .getResources("classpath*:/**" + xsdFolder + "**/" + schemaName + XSD_EXTENSION))
+                        .getResourcePatternResolver(resourceLoader)
+                        .getResources("classpath*:/**" + xsdFolder + "**/" + schemaName + XSD_EXTENSION))
                 .findFirst().orElseThrow(() -> new FileNotFoundException("Schema " + schemaName + XSD_EXTENSION + " is not found"));
 
         try (Stream<String> lines = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)).lines()) {
@@ -109,7 +112,11 @@ public class XsdSchemaParser {
      * @param schemaDefinitions Map, которая будет заполняться определениями схемы
      */
     private void fillSchemaDefinitions(Resource schema, Map<String, List<String>> schemaDefinitions) throws IOException {
-        String prefix = getSchemaPrefix(schema.getFilename());
+        String filename = schema.getFilename();
+        if (filename == null)
+            throw new IllegalStateException("Не удалось определить имя XSD схемы: ресурс не содержит filename");
+
+        String prefix = getSchemaPrefix(filename);
 
         try (Stream<String> lines = new BufferedReader(new InputStreamReader(schema.getInputStream(), StandardCharsets.UTF_8)).lines()) {
             List<String> linesList = lines.toList();
@@ -117,8 +124,8 @@ public class XsdSchemaParser {
             while (i < linesList.size()) {
                 String trimmedStr = linesList.get(i).trim();
 
-                Optional<String> startDefTag = startEndDefinitionTags.keySet().stream().filter(trimmedStr::startsWith).findFirst();
-                if (startDefTag.isPresent()) {
+                boolean isStartDef = startEndDefinitionTags.keySet().stream().anyMatch(trimmedStr::startsWith);
+                if (isStartDef) {
                     List<String> defRows = new ArrayList<>();
                     String nameValue = getAttributeValue(trimmedStr, NAME_ATTRIBUTE);
                     if (nameValue == null) {
@@ -136,26 +143,32 @@ public class XsdSchemaParser {
                     }
 
                     // for nested definition
-                    int defCount = 1;
-                    do {
-                        i++;
-                        trimmedStr = linesList.get(i).trim();
-
-                        if (startEndDefinitionTags.keySet().stream().anyMatch(trimmedStr::startsWith))
-                            defCount++;
-                        else if (startEndDefinitionTags.values().stream().anyMatch(trimmedStr::startsWith))
-                            defCount--;
-
-                        String typeValue = getAttributeValue(trimmedStr, BASE_ATTRIBUTE, TYPE_ATTRIBUTE, REF_ATTRIBUTE);
-                        String line = linesList.get(i);
-                        if (typeValue != null && !isExternalSchemeType(typeValue))
-                            line = addPrefixToAttributeValue(line, typeValue, prefix);
-                        defRows.add(line);
-                    } while (defCount != 0);
+                    i = readNestedDefinition(i, linesList, prefix, defRows);
                 }
                 i++;
             }
         }
+    }
+
+    private int readNestedDefinition(int i, List<String> linesList, String prefix, List<String> defRows) {
+        String trimmedStr;
+        int defCount = 1;
+        do {
+            i++;
+            trimmedStr = linesList.get(i).trim();
+
+            if (startEndDefinitionTags.keySet().stream().anyMatch(trimmedStr::startsWith))
+                defCount++;
+            else if (startEndDefinitionTags.values().stream().anyMatch(trimmedStr::startsWith))
+                defCount--;
+
+            String typeValue = getAttributeValue(trimmedStr, BASE_ATTRIBUTE, TYPE_ATTRIBUTE, REF_ATTRIBUTE);
+            String line = linesList.get(i);
+            if (typeValue != null && !isExternalSchemeType(typeValue))
+                line = addPrefixToAttributeValue(line, typeValue, prefix);
+            defRows.add(line);
+        } while (defCount != 0);
+        return i;
     }
 
     /**
@@ -199,24 +212,29 @@ public class XsdSchemaParser {
         Map<String, String> schemaNamespaceByAlias = new HashMap<>();
         for (String line : linesList) {
             String trimmedStr = line.trim();
-            if (trimmedStr.startsWith(XSD_HEADER_START_TAG))
-                continue;
-
-            int idx = trimmedStr.indexOf(XSD_NAMESPACE);
-            if (idx != -1) {
-                String[] split = trimmedStr.split("=");
-                String alias = split[0].trim().substring(XSD_NAMESPACE.length() + 1);
-                String trimmedNamespace = split[1].trim();
-                int suffixLength = trimmedNamespace.endsWith(CLOSE_TAG) ? 2 : 1;
-                String extSchemaNamespace = trimmedNamespace.substring(1, trimmedNamespace.length() - suffixLength);
-                if (!extSchemaNamespace.equals(GLOBAL_SCHEMA))
-                    schemaNamespaceByAlias.put(alias, extSchemaNamespace);
+            if (!trimmedStr.startsWith(XSD_HEADER_START_TAG)) {
+                parseSchemaNamespaceLine(trimmedStr, schemaNamespaceByAlias);
+                if (trimmedStr.endsWith(CLOSE_TAG))
+                    break;
             }
-
-            if (trimmedStr.endsWith(CLOSE_TAG))
-                break;
         }
         return schemaNamespaceByAlias;
+    }
+
+    /**
+     * Разобрать одну строку XSD и, если в ней объявлен namespace внешней схемы,
+     * положить его в {@code schemaNamespaceByAlias} по псевдониму.
+     */
+    private void parseSchemaNamespaceLine(String trimmedStr, Map<String, String> schemaNamespaceByAlias) {
+        if (trimmedStr.indexOf(XSD_NAMESPACE) == -1)
+            return;
+        String[] split = trimmedStr.split("=");
+        String alias = split[0].trim().substring(XSD_NAMESPACE.length() + 1);
+        String trimmedNamespace = split[1].trim();
+        int suffixLength = trimmedNamespace.endsWith(CLOSE_TAG) ? 2 : 1;
+        String extSchemaNamespace = trimmedNamespace.substring(1, trimmedNamespace.length() - suffixLength);
+        if (!extSchemaNamespace.equals(GLOBAL_SCHEMA))
+            schemaNamespaceByAlias.put(alias, extSchemaNamespace);
     }
 
     /**
@@ -309,7 +327,7 @@ public class XsdSchemaParser {
      * @return true, если содержит, false, если - нет
      */
     private boolean isContainsPrefixSeparator(String text) {
-        return text.matches(".+" + DEF_PREFIX_SEPARATOR + ".+");
+        return PREFIX_SEPARATOR_PATTERN.matcher(text).matches();
     }
 
     /**
@@ -319,6 +337,6 @@ public class XsdSchemaParser {
      * @return true, если является, false, если - нет
      */
     private boolean isExternalSchemeType(String type) {
-        return type.matches(".+(:|" + DEF_PREFIX_SEPARATOR + ").+");
+        return EXTERNAL_SCHEME_TYPE_PATTERN.matcher(type).matches();
     }
 }

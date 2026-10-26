@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Контроллер внешнего сервиса экспорта для автотестов.
@@ -71,8 +72,12 @@ public class ExternalExportController {
                 }
             }
         }
+        generateTestData(hasNameFilter, nameFilterValue, fields, request.getSortings(), sb);
 
-        // Generate test data
+        return sb.toString();
+    }
+
+    private void generateTestData(boolean hasNameFilter, String nameFilterValue, List<ExternalRequest.ExportField> fields, Map<String, String> sortings, StringBuilder sb) {
         List<String[]> testData = Arrays.asList(
                 new String[]{"1", "ey88ee-rugh34-asd4", "РМИС Республика Адыгея(СТП)", "Республика Адыгея"},
                 new String[]{"2", "ey88ee-ruqah34-54eqw", "РМИС Республика Татарстан(тестовая для ПСИ)", "Республика Татарстан"},
@@ -82,7 +87,7 @@ public class ExternalExportController {
         );
 
         // Если sortings заполнены, данные отправляются в обратном порядке
-        if (request.getSortings() != null && !request.getSortings().isEmpty()) {
+        if (sortings != null && !sortings.isEmpty()) {
             Collections.reverse(testData);
         }
 
@@ -100,8 +105,6 @@ public class ExternalExportController {
                 sb.append("\n");
             }
         }
-
-        return sb.toString();
     }
 
     private String getValueByFieldId(String[] row, String fieldId) {

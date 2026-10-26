@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 
 /**
  * @author V. Alexeev.
@@ -22,6 +23,11 @@ public class PropertiesInfoCollector {
     private final String encode;
     private Map<String, List<PropertyInfo>> data;
     private final AtomicBoolean init = new AtomicBoolean(false);
+    private static final Pattern GROUP_PREFIX_PATTERN = Pattern.compile(GROUP_PREFIX);
+    private static final Pattern NAME_PREFIX_PATTERN = Pattern.compile(NAME_PREFIX);
+    private static final Pattern LEADING_WHITESPACE_PATTERN = Pattern.compile("\\s*");
+    private static final Pattern KEY_SEPARATOR_PATTERN = Pattern.compile("[\\s=]");
+    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
 
     public PropertiesInfoCollector(String locationPattern) {
         this.locationPattern = locationPattern;
@@ -65,41 +71,54 @@ public class PropertiesInfoCollector {
     }
 
     private Map<String, List<PropertyInfo>> calculate() throws IOException {
-        Map<String, List<PropertiesInfoCollector.PropertyInfo>> propertyMap = new HashMap<>();
-        PathMatchingResourcePatternResolver pathPatternResolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = pathPatternResolver.getResources(locationPattern);
-        if (resources.length == 0) {
+        Map<String, List<PropertyInfo>> propertyMap = new HashMap<>();
+        PathMatchingResourcePatternResolver pathResolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = pathResolver.getResources(locationPattern);
+        if (resources.length == 0)
             return Collections.unmodifiableMap(new HashMap<>());
-        }
-        Arrays.stream(resources).map(this::retrieve)
-                .forEach(file -> {
-                    final String[] group = {""};
-                    final String[] name = {null};
-                    final String[] description = {""};
-                    file.forEach(str -> {
-                        for (String line : str.split("\n")) {
-                            line = clean(line);
-                            if (!line.isEmpty()) {
-                                if (isGroup(line)) {
-                                    group[0] = line.replaceFirst("##", "").trim();
-                                } else if (name[0] == null && isNameOrDescription(line)) {
-                                    name[0] = line;
-                                } else if (name[0] != null && isNameOrDescription(line)) {
-                                    description[0] = description[0].concat(line).concat("\n");
-                                } else { //is val
-                                    propertyMap.computeIfAbsent(group[0], key -> new ArrayList<>())
-                                            .add(new PropertiesInfoCollector.PropertyInfo(getKey(line), group[0], name[0], description[0]));
-                                    name[0] = null;
-                                    description[0] = "";
-                                }
-                            }
-                        }
-                    });
-                });
 
-        Map<String, List<PropertiesInfoCollector.PropertyInfo>> propertyMapNotModified = new ConcurrentHashMap<>();
-        propertyMap.forEach((k, v) -> propertyMapNotModified.put(k, Collections.unmodifiableList(v)));
-        return Collections.unmodifiableMap(propertyMapNotModified);
+        Arrays.stream(resources).map(this::retrieve)
+                .forEach(file -> parseFile(file, propertyMap));
+
+        Map<String, List<PropertyInfo>> unmodifiable = new ConcurrentHashMap<>();
+        propertyMap.forEach((k, v) -> unmodifiable.put(k, Collections.unmodifiableList(v)));
+        return Collections.unmodifiableMap(unmodifiable);
+    }
+
+    /**
+     * Разобрать содержимое одного файла в набор свойств.
+     */
+    private void parseFile(List<String> file, Map<String, List<PropertyInfo>> propertyMap) {
+        final String[] group = {""};
+        final String[] name = {null};
+        final String[] description = {""};
+        for (String str : file) {
+            for (String line : str.split("\n"))
+                parseLine(clean(line), group, name, description, propertyMap);
+        }
+    }
+
+    /**
+     * Обработать одну строку properties-файла. Может обновить состояние
+     * (group / name / description) и добавить PropertyInfo в map, если строка — значение.
+     */
+    private void parseLine(String line, String[] group, String[] name, String[] description,
+                           Map<String, List<PropertyInfo>> propertyMap) {
+        if (line.isEmpty())
+            return;
+        if (isGroup(line)) {
+            group[0] = GROUP_PREFIX_PATTERN.matcher(line).replaceFirst("").trim();
+        } else if (isNameOrDescription(line)) {
+            if (name[0] == null)
+                name[0] = line;
+            else
+                description[0] = description[0].concat(line).concat("\n");
+        } else { //is val
+            propertyMap.computeIfAbsent(group[0], key -> new ArrayList<>())
+                    .add(new PropertyInfo(getKey(line), group[0], name[0], description[0]));
+            name[0] = null;
+            description[0] = "";
+        }
     }
 
     private List<String> retrieve(Resource resource) {
@@ -123,11 +142,11 @@ public class PropertiesInfoCollector {
     }
 
     private String getKey(String str) {
-        return str.split("[\\s=]")[0];
+        return KEY_SEPARATOR_PATTERN.split(str)[0];
     }
 
     private String clean(String str) {
-        return str.replaceFirst("\\s*", "");
+        return LEADING_WHITESPACE_PATTERN.matcher(str).replaceFirst("");
     }
 
     public static class PropertyInfo {
@@ -146,9 +165,12 @@ public class PropertiesInfoCollector {
         public PropertyInfo(String key, String group, String name, String description) {
             this.key = key;
             this.group = group;
-            this.name = name != null ? name.replaceFirst("#", "").trim() : null;
-            this.description = description != null && !description.isEmpty() ?
-                    description.replaceFirst("#", "").replace("\n#", "\n").replaceAll("\\s+", " ").trim() : null;
+            this.name = name != null ? NAME_PREFIX_PATTERN.matcher(name).replaceFirst("").trim() : null;
+            this.description = description != null && !description.isEmpty()
+                    ? WHITESPACE_PATTERN.matcher(
+                            NAME_PREFIX_PATTERN.matcher(description).replaceFirst("").replace("\n#", "\n"))
+                    .replaceAll(" ").trim()
+                    : null;
         }
     }
 
