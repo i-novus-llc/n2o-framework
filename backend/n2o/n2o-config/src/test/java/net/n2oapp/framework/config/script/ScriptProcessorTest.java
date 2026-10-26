@@ -192,6 +192,14 @@ class ScriptProcessorTest {
 
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
                 is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : 'gray'`"));
+
+        n2oSwitch.setDefaultCase("{color}");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : color`"));
+
+        n2oSwitch.setDefaultCase("{name == 'Нина' ? 'black' : 'white'}");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : (name == 'Нина' ? 'black' : 'white')`"));
     }
 
 

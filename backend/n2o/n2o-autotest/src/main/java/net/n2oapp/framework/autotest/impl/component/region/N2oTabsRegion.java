@@ -41,7 +41,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
     @Override
     public void shouldNotHaveScrollbar() {
-        getTabsContent().shouldNotHave(Condition.cssClass(SCROLL_BAR));
+        getTabsContent().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass(SCROLL_BAR));
     }
 
     @Override
@@ -100,7 +100,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public void shouldNotBeActive() {
-            element().shouldNotHave(Condition.cssClass(ACTIVE));
+            element().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass(ACTIVE));
         }
 
         @Override
@@ -110,7 +110,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public void shouldBeValid() {
-            element().shouldNotHave(Condition.cssClass("invalid"));
+            element().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("invalid"));
         }
 
         @Override
@@ -125,7 +125,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public void shouldBeEnabled() {
-            element().shouldNotHave(Condition.cssClass("disabled"));
+            element().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("disabled"));
         }
 
         @Override

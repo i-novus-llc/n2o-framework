@@ -108,11 +108,7 @@ class ObjectCompileTest extends SourceCompileTestBase {
 
     @Test
     void testCompileFields() {
-        CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectField.object.xml",
-                "net/n2oapp/framework/config/metadata/compile/object/entity.object.xml",
-                "net/n2oapp/framework/config/metadata/compile/object/entity2.object.xml",
-                "net/n2oapp/framework/config/metadata/compile/object/rating.object.xml",
-                "net/n2oapp/framework/config/metadata/compile/object/set.object.xml")
+        CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectField.object.xml")
                 .get(new ObjectContext("testObjectField"));
         assertThat(object.getObjectFields().size(), is(3));
 
@@ -135,7 +131,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 hasProperty("id", is("entity")),
                 hasProperty("mapping", is("test2")),
                 hasProperty("required", is(false)),
-                hasProperty("referenceObjectId", nullValue()),
                 hasProperty("entityClass", is("com.example.Object")),
                 hasProperty("fields", arrayWithSize(2))
         ));
@@ -210,7 +205,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 hasProperty("id", is("entity")),
                 hasProperty("mapping", is("entity2")),
                 hasProperty("required", is(false)),
-                hasProperty("referenceObjectId", nullValue()),
                 hasProperty("entityClass", is("com.example.Object")),
                 hasProperty("fields", arrayWithSize(2))
         ));
@@ -218,8 +212,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(child, allOf(
                 hasProperty("id", is("id")),
                 hasProperty("mapping", is("code")),
-                // after merged with reference object field
-                // attribute priority: in operation field -> in operation object-id field -> object field
                 hasProperty("domain", is("short")),
                 hasProperty("required", is(false)),
                 // after merged with object field
@@ -231,7 +223,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(child, allOf(
                 hasProperty("id", is("name")),
                 hasProperty("mapping", is("title")),
-                // from reference object field
                 hasProperty("domain", is("string")),
                 hasProperty("required", nullValue()),
                 hasProperty("defaultValue", nullValue()),
@@ -269,7 +260,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 hasProperty("mapping", is("test2")),
                 hasProperty("required", is(false)),
                 // define in reference object
-                hasProperty("referenceObjectId", nullValue()),
                 hasProperty("entityClass", is("com.example.Object")),
                 hasProperty("fields", arrayWithSize(2))
         ));

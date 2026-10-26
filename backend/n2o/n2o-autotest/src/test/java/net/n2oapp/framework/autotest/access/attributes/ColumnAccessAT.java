@@ -95,7 +95,6 @@ class ColumnAccessAT extends AutoTestBase {
         Cells row = rows.row(0);
         int i = 3;
         ToolbarCell toolbarCell = row.cell(i++, ToolbarCell.class);
-        toolbarCell.shouldExists();
         toolbarCell.shouldBeEnabled();
         toolbarCell.toolbar().button("Кнопка").shouldExists();
 
@@ -154,25 +153,21 @@ class ColumnAccessAT extends AutoTestBase {
         toolbarCell.toolbar().button("Кнопка").shouldExists();
 
         EditCell editCell = row.cell(i++, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(InputText.class).shouldExists();
         editCell.control(InputText.class).shouldHaveValue("test1");
 
         editCell = row.cell(i++, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(InputSelect.class).shouldExists();
         editCell.control(InputSelect.class).shouldHaveValue("Один");
 
         editCell = row.cell(i++, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(DateInput.class).shouldExists();
         editCell.control(DateInput.class).shouldHaveValue("03.01.1990");
 
         editCell = row.cell(i, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(TextArea.class).shouldExists();
         editCell.control(TextArea.class).shouldHaveValue("Текст");
@@ -187,25 +182,21 @@ class ColumnAccessAT extends AutoTestBase {
         toolbarCell.shouldBeDisabled();
 
         EditCell editCell = row.cell(i++, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(InputText.class).shouldExists();
         editCell.control(InputText.class).shouldBeEmpty();
 
         editCell = row.cell(i++, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(InputSelect.class).shouldExists();
         editCell.control(InputSelect.class).shouldBeEmpty();
 
         editCell = row.cell(i++, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(DateInput.class).shouldExists();
         editCell.control(DateInput.class).shouldBeEmpty();
 
         editCell = row.cell(i, EditCell.class);
-        editCell.shouldExists();
         editCell.shouldBeDisabled();
         editCell.control(TextArea.class).shouldExists();
         editCell.control(TextArea.class).shouldBeEmpty();

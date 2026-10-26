@@ -106,7 +106,6 @@ class MenuItemAccessAT extends AutoTestBase {
 
         // Первый пункт меню доступен всем - должен быть активен
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
-        menuItem.shouldExists();
         menuItem.shouldHaveLabel("Доступно всем пользователям");
         menuItem.shouldBeEnabled();
 
@@ -143,17 +142,14 @@ class MenuItemAccessAT extends AutoTestBase {
 
         // Все пункты меню должны быть активны для пользователя с правами
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
-        menuItem.shouldExists();
         menuItem.shouldHaveLabel("Доступно всем пользователям");
         menuItem.shouldBeEnabled();
 
         menuItem = page.header().nav().anchor(1);
-        menuItem.shouldExists();
         menuItem.shouldHaveLabel("Доступно с ролью admin");
         menuItem.shouldBeEnabled();
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(2);
-        dropdown.shouldExists();
         dropdown.shouldHaveLabel("Доступно с правом edit");
         dropdown.shouldBeEnabled();
     }

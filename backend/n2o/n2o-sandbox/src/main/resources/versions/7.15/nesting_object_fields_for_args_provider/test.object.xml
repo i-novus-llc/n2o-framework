@@ -4,7 +4,11 @@
     <fields>
         <field id="name" mapping="['employee'].name" required="true" domain="string"
                normalize="#this.toUpperCase()"/>
-        <reference id="org" mapping="['employee'].organization" object-id="org"/>
+        <reference id="org" mapping="['employee'].organization"
+                   entity-class="net.n2oapp.framework.sandbox.cases.nesting_object_fields.Organization">
+            <field id="id" mapping="['code']"/>
+            <field id="name" mapping="['title']"/>
+        </reference>
         <list id="departments" mapping="['employee'].departments"
               entity-class="net.n2oapp.framework.sandbox.cases.nesting_object_fields.Department">
             <field id="id"/>
@@ -51,12 +55,12 @@
 
         <operation id="delete">
             <invocation>
-               <java method="delete">
-                   <spring bean="employeeService"/>
-                   <arguments>
-                       <argument type="primitive"/>
-                   </arguments>
-               </java>
+                <java method="delete">
+                    <spring bean="employeeService"/>
+                    <arguments>
+                        <argument type="primitive"/>
+                    </arguments>
+                </java>
             </invocation>
             <in>
                 <field id="id"/>

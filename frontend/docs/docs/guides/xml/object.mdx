@@ -132,7 +132,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |Наименование|Тип       |Описание                                              |Значение по умолчанию                                   |Обязательность
 |------------|----------|------------------------------------------------------|--------------------------------------------------------|--------------
 |id          |Строка    |Идентификатор ссылки                                  |                                                        |!
-|object-id   |Ссылка    |Объект, в котором представлено описание поля          |                                                        |
 |entity-class|Строка    |Класс сущности, на который ссылается поле             |Определяется по атрибуту `entity-class` у объекта ссылки|
 |normalize   |Строка    |SpEL выражение, применяемое к значению перед маппингом|                                                        |
 |mapping     |Строка    |Маппинг составного поля в параметр провайдера         |                                                        |
@@ -158,7 +157,10 @@ http://n2oapp.net/framework/config/schema/object-4.0
   <reference id="person" mapping="['person']">
     <field id="id" mapping="['id']"/>
     <field id="name" mapping="['name']"/>
-    <list id="addresses" mapping="['addresses']" object-id="address"/>
+    <list id="addresses" mapping="['addresses']">
+        <field id="id" mapping=" ['id']"/>
+        <field id="address" mapping="['address']"/>
+    </list>
   </reference>
 </fields>
 ```
@@ -174,9 +176,12 @@ http://n2oapp.net/framework/config/schema/object-4.0
 ```xml
 <fields>
   <list id="statuses" mapping="['statusList']">
-    <field id="id" mapping="['id]'"/>
+    <field id="id" mapping=" ['id']"/>
     <field id="name" mapping="['name']"/>
-    <list id="codes" mapping="['codes']" object-id="code"/>
+    <list id="codes" mapping="['codes']">
+        <field id="id" mapping=" ['id']"/>
+        <field id="name" mapping="['name']"/>
+    </list>
   </list>
 </fields>
 ```
@@ -398,7 +403,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |id           |Строка|Идентификатор поля                                    |                     |!
 |normalize    |Строка|SpEL выражение, применяемое к значению после маппинга |                     |
 |mapping      |Строка|Маппинг значения в сущность или провайдер данных      |                     |
-|object-id    |      |Объект, в котором представлено описание поля          |                     |
 |entity-class |Строка|Класс сущности, на который ссылается поле             |                     |
 
 **Тело**<br/>
