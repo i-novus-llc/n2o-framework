@@ -402,9 +402,7 @@ public class ScriptProcessor {
                     .append(" : ");
         }
         if (n2oSwitch.getDefaultCase() != null) {
-            b.append("'")
-                    .append(ScriptProcessor.resolveExpression(n2oSwitch.getDefaultCase()))
-                    .append("'");
+            b.append(resolveSwitchCaseValue(n2oSwitch.getDefaultCase()));
         } else {
             b.append("null");
         }
@@ -902,14 +900,16 @@ public class ScriptProcessor {
             Object resultKey = entry.getKey();
             if (resultKey instanceof String)
                 resultKey = "'" + resultKey + "'";
-            String resultValue;
-            if (hasLink(entry.getValue())) {
-                resultValue = ScriptProcessor.resolveLinks(entry.getValue());
-                resultValue = resultValue == null ? null : resultValue.substring(1, resultValue.length() - 1);
-            } else
-                resultValue = "'" + entry.getValue() + "'";
-            result.put(resultKey, resultValue);
+            result.put(resultKey, resolveSwitchCaseValue(entry.getValue()));
         }
         return result;
+    }
+
+    private static String resolveSwitchCaseValue(String value) {
+        if (hasLink(value)) {
+            String resolved = ScriptProcessor.resolveLinks(value);
+            return resolved == null ? null : resolved.substring(1, resolved.length() - 1);
+        }
+        return "'" + value + "'";
     }
 }
