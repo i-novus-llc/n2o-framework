@@ -34,7 +34,7 @@ public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem
 
     @Override
     public void shouldBeEnabled() {
-        element().$(".dropdown-toggle").shouldNotBe(Condition.disabled);
+        element().$(".dropdown-toggle").shouldBe(Condition.exist).shouldNotBe(Condition.disabled);
     }
 
     @Override

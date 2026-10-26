@@ -55,7 +55,7 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
 
     @Override
     public void shouldBeEnabled() {
-        element().$(".nav-link").shouldNotHave(Condition.cssClass("disabled"));
+        element().$(".nav-link").shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("disabled"));
     }
 
     private void checkShape(String shape) {
