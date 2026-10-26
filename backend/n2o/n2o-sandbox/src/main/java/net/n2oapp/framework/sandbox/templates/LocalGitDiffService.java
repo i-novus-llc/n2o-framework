@@ -19,33 +19,31 @@ public class LocalGitDiffService {
                                                          Set<String> maybeDeletedPackages, Set<String> changedPackages) throws IOException, InterruptedException {
         List<String> diffOutput = runGitCommand(gitRoot, "diff", "--name-status", oldTag, newTag, "--", resourcesPath);
         for (String line : diffOutput) {
-            String path = null;
-            String changes = "";
-            if (line != null && !line.isBlank()) {
-                String[] parts = line.split("\t");
-                if (parts.length >= 2) {
-                    changes = parts[0];
-                    String candidatePath = parts[parts.length - 1];
-                    if (candidatePath.startsWith(resourcesPath)) {
-                        path = candidatePath;
-                    }
-                }
-            }
-            if (path == null) {
-                continue;
-            }
-
-            String pkg = extractDirectory(resourcesPath, path);
-            if (pkg != null && !pkg.isBlank()) {
-                if (changes.equals("D")) {
-                    maybeDeletedPackages.add(pkg);
-                } else {
-                    changedPackages.add(pkg);
-                }
-            }
+            collectPackageFromDiffLine(line, resourcesPath, maybeDeletedPackages, changedPackages);
         }
-
         changedPackages.remove("menu");
+    }
+
+    private static void collectPackageFromDiffLine(String line, String resourcesPath, Set<String> maybeDeletedPackages, Set<String> changedPackages) {
+        if (line == null || line.isBlank())
+            return;
+        String[] parts = line.split("\t");
+        if (parts.length < 2)
+            return;
+
+        String changes = parts[0];
+        String candidatePath = parts[parts.length - 1];
+        if (!candidatePath.startsWith(resourcesPath))
+            return;
+
+        String pkg = extractDirectory(resourcesPath, candidatePath);
+        if (pkg == null || pkg.isBlank())
+            return;
+
+        if (changes.startsWith("D"))
+            maybeDeletedPackages.add(pkg);
+        else
+            changedPackages.add(pkg);
     }
 
     public static List<String> runGitCommand(File workingDir, String... args) throws IOException, InterruptedException {

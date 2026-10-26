@@ -131,34 +131,38 @@ public class SandboxPropertyResolver implements PropertyResolver {
     private <T> T resolveProperty(String key, T prevValue, PropertyResolver resolver, Class<T> targetType) {
         if (prevValue != null)
             return prevValue;
-        if (resolver != null && resolver.containsProperty(key)) {
-            String value = resolver.getProperty(key);
-            if (value != null && targetType != null && !String.class.equals(targetType)) {
-                if (List.class.equals(targetType)) {
-                    List<String> list = new ArrayList<>();
-                    for (String item : value.split(",")) {
-                        list.add(item.trim());
-                    }
-                    return (T) list;
-                } else if (Set.class.equals(targetType)) {
-                    Set<String> set = new LinkedHashSet<>();
-                    for (String item : value.split(",")) {
-                        set.add(item.trim());
-                    }
-                    return (T) set;
-                } else if (Boolean.class.equals(targetType)) {
-                    return (T) Boolean.valueOf(value);
-                } else if (Integer.class.equals(targetType)) {
-                    return (T) Integer.valueOf(value);
-                } else if (Long.class.equals(targetType)) {
-                    return (T) Long.valueOf(value);
-                } else if (targetType.isEnum()) {
-                    return (T) Enum.valueOf((Class) targetType, value.toUpperCase());
-                } else
-                    throw new UnsupportedOperationException("targetType " + targetType + " is not supported");
-            } else
-                return (T) value;
-        } else
+        if (resolver == null || !resolver.containsProperty(key))
             return null;
+        String value = resolver.getProperty(key);
+        if (value == null || targetType == null || String.class.equals(targetType))
+            return (T) value;
+        return convertValue(value, targetType);
+    }
+
+    /**
+     * Приведение строкового значения к целевому типу. Поддерживает List, Set,
+     * Boolean, Integer, Long и enum.
+     */
+    private <T> T convertValue(String value, Class<T> targetType) {
+        if (List.class.equals(targetType)) {
+            List<String> list = new ArrayList<>();
+            for (String item : value.split(","))
+                list.add(item.trim());
+            return (T) list;
+        } else if (Set.class.equals(targetType)) {
+            Set<String> set = new LinkedHashSet<>();
+            for (String item : value.split(","))
+                set.add(item.trim());
+            return (T) set;
+        } else if (Boolean.class.equals(targetType)) {
+            return (T) Boolean.valueOf(value);
+        } else if (Integer.class.equals(targetType)) {
+            return (T) Integer.valueOf(value);
+        } else if (Long.class.equals(targetType)) {
+            return (T) Long.valueOf(value);
+        } else if (targetType.isEnum()) {
+            return (T) Enum.valueOf((Class) targetType, value.toUpperCase());
+        }
+        throw new UnsupportedOperationException("targetType " + targetType + " is not supported");
     }
 }

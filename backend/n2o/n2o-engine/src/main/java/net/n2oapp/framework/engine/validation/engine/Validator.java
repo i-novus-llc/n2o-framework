@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 /**
@@ -39,6 +40,8 @@ public class Validator implements Iterable<Validation> {
     private static final String MULTISET_INDEX_KEY = "index";
     private static final String MULTISET_INDEX_PREFIX = "$index_";
     private static final String MULTISET_INDEX_PREFIX_ESC = "\\$index_";
+    private static final Pattern MULTISET_INDEX_PREFIX_SPLIT = Pattern.compile(MULTISET_INDEX_PREFIX_ESC);
+    private static final Pattern MULTISET_INDEX_KEY_SPLIT = Pattern.compile("\\[" + MULTISET_INDEX_KEY + "\\].");
 
 
     public List<FailInfo> validate() {
@@ -51,39 +54,56 @@ public class Validator implements Iterable<Validation> {
     }
 
     private void handleValidation(Validation v, List<FailInfo> fails) {
-        if (checkValidation(v)) {
-            if (isMultiSet(v.getFieldId())) {
-                int maxLevel = getMaxLevel(v.getFieldId());
-                if (v.getFieldId().contains("[" + MULTISET_INDEX_KEY + "]")) {
-                    String commonFieldId = v.getFieldId();
-                    String commonMessage = StringUtils.resolveLinks(v.getMessage(), dataSet);
-                    String commonMessageTitle = StringUtils.resolveLinks(v.getMessageTitle(), dataSet);
-                    String multiSetId = getMultiSetId(v.getFieldId());
-                    int count = dataSet.containsKey(multiSetId) ? ((DataList) dataSet.get(multiSetId)).size() : 0;
-                    for (int i = 0; i < count; i++) {
-                        try {
-                            Validation copiedValidation = v.getClass().getConstructor(v.getClass()).newInstance(v);
-                            copiedValidation.setFieldId(replaceIndex(commonFieldId, MULTISET_INDEX_KEY, i));
-                            copiedValidation.setMessage(replaceIndex(commonMessage, MULTISET_INDEX_KEY, i));
-                            copiedValidation.setMessageTitle(replaceIndex(commonMessageTitle, MULTISET_INDEX_KEY, i));
-                            dataSet.put(MULTISET_INDEX_KEY, i);
-                            if (maxLevel != 0) {
-                                validateByIndex(copiedValidation, 1, maxLevel, (DataSet) ((DataList) dataSet.get(multiSetId)).get(i));
-                            } else {
-                                validateField(copiedValidation, fails);
-                            }
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                                 NoSuchMethodException e) {
-                            throw new N2oException("Ошибка при копировании валидации", e);
-                        }
-                    }
-                    dataSet.remove(MULTISET_INDEX_KEY);
-                } else {
-                    validateByIndex(v, 1, maxLevel, dataSet);
-                }
-            } else {
-                validateField(v, fails);
-            }
+        if (!checkValidation(v))
+            return;
+        if (!isMultiSet(v.getFieldId())) {
+            validateField(v, fails);
+            return;
+        }
+        handleMultiSetValidation(v);
+    }
+
+    /**
+     * Обработка валидации поля мультисета. Если в fieldId есть {@code [index]} —
+     * валидация применяется к каждому элементу мультисета, иначе — к вложенным
+     * мультисетам через {@link #validateByIndex}.
+     */
+    private void handleMultiSetValidation(Validation v) {
+        int maxLevel = getMaxLevel(v.getFieldId());
+        if (!v.getFieldId().contains("[" + MULTISET_INDEX_KEY + "]")) {
+            validateByIndex(v, 1, maxLevel, dataSet);
+            return;
+        }
+        String multiSetId = getMultiSetId(v.getFieldId());
+        String commonFieldId = v.getFieldId();
+        String commonMessage = StringUtils.resolveLinks(v.getMessage(), dataSet);
+        String commonMessageTitle = StringUtils.resolveLinks(v.getMessageTitle(), dataSet);
+        int count = dataSet.containsKey(multiSetId) ? ((DataList) dataSet.get(multiSetId)).size() : 0;
+        for (int i = 0; i < count; i++)
+            applyValidationAtIndex(v, multiSetId, i, maxLevel,
+                    commonFieldId, commonMessage, commonMessageTitle);
+        dataSet.remove(MULTISET_INDEX_KEY);
+    }
+
+    /**
+     * Скопировать валидацию, подставить в её fieldId/message реальный индекс и
+     * применить: либо к вложенным мультисетам ({@code maxLevel != 0}), либо к
+     * текущему полю мультисета.
+     */
+    private void applyValidationAtIndex(Validation v, String multiSetId, int i, int maxLevel,
+                                        String commonFieldId, String commonMessage, String commonMessageTitle) {
+        try {
+            Validation copied = v.getClass().getConstructor(v.getClass()).newInstance(v);
+            copied.setFieldId(replaceIndex(commonFieldId, MULTISET_INDEX_KEY, i));
+            copied.setMessage(replaceIndex(commonMessage, MULTISET_INDEX_KEY, i));
+            copied.setMessageTitle(replaceIndex(commonMessageTitle, MULTISET_INDEX_KEY, i));
+            dataSet.put(MULTISET_INDEX_KEY, i);
+            if (maxLevel != 0)
+                validateByIndex(copied, 1, maxLevel, (DataSet) ((DataList) dataSet.get(multiSetId)).get(i));
+            else
+                validateField(copied, fails);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new N2oException("Ошибка при копировании валидации", e);
         }
     }
 
@@ -94,7 +114,7 @@ public class Validator implements Iterable<Validation> {
      */
     private int getMaxLevel(String fieldId) {
         if (fieldId.contains(MULTISET_INDEX_PREFIX)) {
-            String[] splitByPrefix = fieldId.split(MULTISET_INDEX_PREFIX_ESC);
+            String[] splitByPrefix = MULTISET_INDEX_PREFIX_SPLIT.split(fieldId);
             return Integer.parseInt(splitByPrefix[splitByPrefix.length - 1].substring(0, splitByPrefix[splitByPrefix.length - 1].lastIndexOf("]")));
         }
         return 0;
@@ -151,7 +171,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private String getMultiSetId(String fieldId) {
-        return fieldId.split("\\[" + MULTISET_INDEX_KEY + "\\].")[0];
+        return MULTISET_INDEX_KEY_SPLIT.split(fieldId)[0];
     }
 
     private String getInnerMultiSetId(String fieldId, int index) {

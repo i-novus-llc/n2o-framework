@@ -188,66 +188,89 @@ public class WatchDir {
      * Process all events for keys queued to the watcher
      */
     void processEvents() {
-        for (; ; )
+        for (; ; ) {
             try {
                 // wait for key to be signalled
                 WatchKey key = getWatchKey();
-                if (key == null) return;
-
-                Set<Path> takeSkipSet = null;
-                synchronized (skips) {
-                    if (!skips.isEmpty()) {
-                        takeSkipSet = new HashSet<>(skips);
-                    }
-                }
-
-                Path dir = keys.get(key);
-                if (dir == null) {
-                    logger.error("WatchKey not recognized!!");
-                    continue;
-                }
-
-                for (WatchEvent<?> event : key.pollEvents()) {
-                    WatchEvent.Kind kind = event.kind();
-
-                    // TBD - provide example of how OVERFLOW event is handled
-                    if (kind == OVERFLOW) {
-                        continue;
-                    }
-
-                    // Context for directory entry event is the file name of entry
-                    WatchEvent<Path> ev = cast(event);
-                    Path name = ev.context();
-                    Path child = dir.resolve(name);
-
-                    //skip muted events
-                    if (takeSkipSet != null && takeSkipSet.contains(child)) {
-                        logger.debug("skip {}", child);
-                        continue;
-                    }
-                    // event handling
-                    handleEvent(event, child);
-
-                    // if directory is created, and watching recursively, then
-                    // register it and its subdirectories
-                    if (recursive && (kind == ENTRY_CREATE)) {
-                        tryRegisterAll(child);
-                    }
-                }
-
-                // reset key and remove from set if directory no longer accessible
-                boolean valid = key.reset();
-                if (!valid) {
-                    keys.remove(key);
-
-                    // all directories are inaccessible
-                    if (keys.isEmpty()) {
-                        break;
-                    }
-                }
+                if (key == null)
+                    return;
+                if (processKey(key))
+                    break;
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
+        }
+    }
+
+    /**
+     * Process one batch of events for the given key. Returns {@code true} if the
+     * outer loop should be terminated (all directories became inaccessible).
+     */
+    private boolean processKey(WatchKey key) {
+        Set<Path> takeSkipSet = snapshotSkips();
+
+        Path dir = keys.get(key);
+        if (dir == null) {
+            logger.error("WatchKey not recognized!!");
+            return false;
+        }
+
+        for (WatchEvent<?> event : key.pollEvents())
+            processEvent(event, dir, takeSkipSet);
+
+        return resetKey(key);
+    }
+
+    /**
+     * Take a snapshot of the current skip set so we don't hold the lock while
+     * processing events. Returns {@code null} if the set is empty.
+     */
+    private Set<Path> snapshotSkips() {
+        synchronized (skips) {
+            return skips.isEmpty() ? null : new HashSet<>(skips);
+        }
+    }
+
+    /**
+     * Process a single event. Skipped events are ignored; in recursive mode
+     * a newly created directory is additionally registered with its subdirectories.
+     */
+    private void processEvent(WatchEvent<?> event, Path dir, Set<Path> takeSkipSet) {
+        WatchEvent.Kind kind = event.kind();
+
+        // TBD - provide example of how OVERFLOW event is handled
+        if (kind == OVERFLOW)
+            return;
+
+        // Context for directory entry event is the file name of entry
+        WatchEvent<Path> ev = cast(event);
+        Path name = ev.context();
+        Path child = dir.resolve(name);
+
+        //skip muted events
+        if (takeSkipSet != null && takeSkipSet.contains(child)) {
+            logger.debug("skip {}", child);
+            return;
+        }
+
+        // event handling
+        handleEvent(event, child);
+
+        // if directory is created, and watching recursively, then
+        // register it and its subdirectories
+        if (recursive && kind == ENTRY_CREATE)
+            tryRegisterAll(child);
+    }
+
+    /**
+     * Reset the key and remove it from the map if the directory is no longer
+     * accessible. Returns {@code true} if there are no more watched keys left.
+     */
+    private boolean resetKey(WatchKey key) {
+        if (key.reset())
+            return false;
+        keys.remove(key);
+        return keys.isEmpty();
     }
 
     private void tryRegisterAll(Path child) {
