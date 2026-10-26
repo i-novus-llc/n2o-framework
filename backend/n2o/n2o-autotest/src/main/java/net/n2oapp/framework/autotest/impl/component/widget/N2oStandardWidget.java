@@ -15,7 +15,7 @@ public class N2oStandardWidget extends N2oWidget implements StandardWidget {
 
     @Override
     public void shouldBeEnabled() {
-        element().$(".n2o-standard-widget-layout").shouldNotHave(Condition.cssClass("n2o-disabled"));
+        element().$(".n2o-standard-widget-layout").shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("n2o-disabled"));
     }
 
     @Override

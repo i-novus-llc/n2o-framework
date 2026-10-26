@@ -144,7 +144,6 @@ class HeaderAccessAT extends AutoTestBase {
 
         // Первый пункт меню доступен всем - должен быть активен
         AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
-        menuItem0.shouldExists();
         menuItem0.shouldHaveLabel("Доступно всем");
         menuItem0.shouldBeEnabled();
 
@@ -162,7 +161,6 @@ class HeaderAccessAT extends AutoTestBase {
 
         // Четвертый пункт меню только для анонимов - должен быть активен
         AnchorMenuItem menuItem3 = page.header().nav().anchor(3);
-        menuItem3.shouldExists();
         menuItem3.shouldHaveLabel("Только анонимам");
         menuItem3.shouldBeEnabled();
     }
@@ -196,19 +194,16 @@ class HeaderAccessAT extends AutoTestBase {
 
         // Первый пункт меню доступен всем - должен быть активен
         AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
-        menuItem0.shouldExists();
         menuItem0.shouldHaveLabel("Доступно всем");
         menuItem0.shouldBeEnabled();
 
         // Второй пункт меню требует роли admin - должен быть активен (у пользователя есть роль admin)
         AnchorMenuItem menuItem1 = page.header().nav().anchor(1);
-        menuItem1.shouldExists();
         menuItem1.shouldHaveLabel("Требуется роль admin");
         menuItem1.shouldBeEnabled();
 
         // Третий пункт меню требует права edit - должен быть активен (у пользователя есть право edit)
         AnchorMenuItem menuItem2 = page.header().nav().anchor(2);
-        menuItem2.shouldExists();
         menuItem2.shouldHaveLabel("Требуется право edit");
         menuItem2.shouldBeEnabled();
 

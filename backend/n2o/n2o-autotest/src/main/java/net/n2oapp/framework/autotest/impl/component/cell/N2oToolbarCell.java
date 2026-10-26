@@ -21,6 +21,6 @@ public class N2oToolbarCell extends N2oCell implements ToolbarCell {
 
     @Override
     public void shouldBeEnabled() {
-        element().$(".default-cell").shouldNotHave(Condition.cssClass("n2o-disabled"));
+        element().$(".default-cell").shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("n2o-disabled"));
     }
 }

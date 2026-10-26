@@ -21,7 +21,7 @@ public class N2oEditCell extends N2oCell implements EditCell {
 
     @Override
     public void shouldBeDisabled() {
-        editableCell().shouldNotHave(Condition.cssClass("editable"));
+        editableCell().shouldBe(Condition.exist).shouldNotHave(Condition.cssClass("editable"));
     }
 
     @Override
