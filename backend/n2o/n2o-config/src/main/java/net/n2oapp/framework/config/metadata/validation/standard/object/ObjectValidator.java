@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkSimpleFieldSwitchCase;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
@@ -55,10 +56,8 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 String.format("Валидация '%s' встречается более чем один раз в объекте %s", "%s",
                         getIdOrEmptyString(object.getId())));
 
-        if (object.getOperations() != null) {
-            validateOperations(object, p, invocationScope);
-
-        }
+        p.safeStreamOf(object.getOperations())
+                .forEach(operation -> validateOperation(object, operation, p, invocationScope));
 
         if (object.getN2oValidations() != null)
             p.safeStreamOf(object.getN2oValidations()).forEach(validation -> {
@@ -78,86 +77,85 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
     }
 
     /**
-     * Проверка атрибута side в валидации операции
+     * Валидация операции объекта
      *
-     * @param object Исходная metadata объекта
-     * @param p      Процессор исходных метаданных
+     * @param object          Исходная metadata объекта
+     * @param operation       Операция текущего объекта
+     * @param p               Процессор исходных метаданных
+     * @param invocationScope Скоуп валидации провайдеров данных
      */
-    private void validateOperations(N2oObject object, SourceProcessor p, InvocationScope invocationScope) {
-        p.safeStreamOf(object.getOperations()).forEach(operation -> {
-            if (operation.getId() == null)
-                throw new N2oMetadataValidationException(
-                        String.format("В одной из операций объекта %s не указан 'id'",
-                                getIdOrEmptyString(object.getId())));
-
-            invocationScope.setOperationId(operation.getId());
-            if (operation.getInFields() != null) {
-                p.safeStreamOf(operation.getInFields()).forEach(field ->
-                        checkFieldIdExistence(field, p,
-                                String.format("В одном из <in> полей операции %s объекта %s не указан 'id'",
-                                        getIdOrEmptyString(operation.getId()),
-                                        getIdOrEmptyString(object.getId()))));
-
-                checkForExistsReferenceObject(object.getId(), operation.getInFields(), p);
-                checkSwitchCase(operation.getInFields());
-            }
-
-            if (operation.getOutFields() != null) {
-                p.safeStreamOf(operation.getOutFields()).forEach(field ->
-                        checkFieldIdExistence(field, p,
-                                String.format("В одном из <out> полей операции %s объекта %s не указан 'id'",
-                                        getIdOrEmptyString(operation.getId()),
-                                        getIdOrEmptyString(object.getId()))));
-                checkSwitchCase(operation.getOutFields());
-            }
-
-            p.checkIdsUnique(operation.getInFields(),
-                    String.format("Поле '%s' встречается более чем один раз в <in> операции %s объекта %s", "%s",
-                            getIdOrEmptyString(operation.getId()),
-                            getIdOrEmptyString(object.getId())));
-            p.checkIdsUnique(operation.getOutFields(),
-                    String.format("Поле '%s' встречается более чем один раз в <out> операции %s объекта %s", "%s",
-                            getIdOrEmptyString(operation.getId()),
+    private void validateOperation(N2oObject object, N2oObject.Operation operation, SourceProcessor p, InvocationScope invocationScope) {
+        if (operation.getId() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("В одной из операций объекта %s не указан 'id'",
                             getIdOrEmptyString(object.getId())));
 
-            if (operation.getInvocation() != null)
-                p.validate(operation.getInvocation(), invocationScope);
+        invocationScope.setOperationId(operation.getId());
+        validateOperationInOutFields(object, operation, p);
 
-            if (operation.getValidations() != null) {
-                if (operation.getValidations().getWhiteList() != null)
-                    checkValidationWhiteList(object, operation, p);
-                if (operation.getValidations().getInlineValidations() != null)
-                    p.safeStreamOf(operation.getValidations().getInlineValidations()).forEach(validation -> {
-                        p.checkIdExistence(validation, String.format("В одной из валидаций операции %s объекта %s не указан параметр 'id'",
-                                getIdOrEmptyString(operation.getId()),
-                                getIdOrEmptyString(object.getId())));
-                        if (validation instanceof N2oInvocationValidation invocationValidation) {
-                            invocationScope.setValidationId(validation.getId());
-                            p.validate(invocationValidation.getN2oInvocation(), invocationScope);
-                        }
-                    });
-            }
-            checkValidationSide(object.getId(), operation);
-        });
+        if (operation.getInvocation() != null)
+            p.validate(operation.getInvocation(), invocationScope);
+
+        validateOperationValidations(object, operation, p, invocationScope);
+    }
+
+    private void validateOperationInOutFields(N2oObject object, N2oObject.Operation operation, SourceProcessor p) {
+        if (operation.getInFields() != null) {
+            p.safeStreamOf(operation.getInFields()).forEach(field ->
+                    checkFieldIdExistence(field, p,
+                            String.format("В одном из <in> полей операции %s объекта %s не указан 'id'",
+                                    getIdOrEmptyString(operation.getId()),
+                                    getIdOrEmptyString(object.getId()))));
+            checkForExistsReferenceObject(object.getId(), operation.getInFields(), p);
+            checkSwitchCase(operation.getInFields());
+        }
+        if (operation.getOutFields() != null) {
+            p.safeStreamOf(operation.getOutFields()).forEach(field ->
+                    checkFieldIdExistence(field, p,
+                            String.format("В одном из <out> полей операции %s объекта %s не указан 'id'",
+                                    getIdOrEmptyString(operation.getId()),
+                                    getIdOrEmptyString(object.getId()))));
+            checkSwitchCase(operation.getOutFields());
+        }
+        p.checkIdsUnique(operation.getInFields(),
+                String.format("Поле '%s' встречается более чем один раз в <in> операции %s объекта %s", "%s",
+                        getIdOrEmptyString(operation.getId()),
+                        getIdOrEmptyString(object.getId())));
+        p.checkIdsUnique(operation.getOutFields(),
+                String.format("Поле '%s' встречается более чем один раз в <out> операции %s объекта %s", "%s",
+                        getIdOrEmptyString(operation.getId()),
+                        getIdOrEmptyString(object.getId())));
+    }
+
+    private void validateOperationValidations(N2oObject object, N2oObject.Operation operation,
+                                              SourceProcessor p, InvocationScope invocationScope) {
+        if (operation.getValidations() == null)
+            return;
+        if (operation.getValidations().getWhiteList() != null)
+            checkValidationWhiteList(object, operation, p);
+        p.safeStreamOf(operation.getValidations().getInlineValidations())
+                .forEach(validation -> {
+                    p.checkIdExistence(validation, String.format("В одной из валидаций операции %s объекта %s не указан параметр 'id'",
+                            getIdOrEmptyString(operation.getId()),
+                            getIdOrEmptyString(object.getId())));
+                    if (validation instanceof N2oInvocationValidation invocationValidation) {
+                        invocationScope.setValidationId(validation.getId());
+                        p.validate(invocationValidation.getN2oInvocation(), invocationScope);
+                    }
+                });
+        p.safeStreamOf(operation.getValidations().getInlineValidations())
+                .forEach(validation -> validationSideIsNotClient(object.getId(), operation, validation));
+
     }
 
     private void checkSwitchCase(AbstractParameter[] fields) {
         if (fields == null)
             return;
         for (AbstractParameter field : fields) {
-            if (field instanceof ObjectReferenceField objectReferenceField)
-                checkSwitchCase(objectReferenceField.getFields());
-            if (field instanceof ObjectSimpleField objectSimpleField && objectSimpleField.getN2oSwitch() != null) {
-                N2oSwitch n2oSwitch = objectSimpleField.getN2oSwitch();
-                if (n2oSwitch.getCases().isEmpty())
-                    throw new N2oMetadataValidationException(
-                            String.format("В элементе \"<switch>\" поля '%s' отсутствует \"<case>\"", field.getId()));
-                if (n2oSwitch.getCases().containsKey(""))
-                    throw new N2oMetadataValidationException(
-                            String.format("В \"<case>\" элемента \"<switch>\" поля '%s' атрибут 'value' пустой", field.getId()));
-                if (n2oSwitch.getCases().containsValue(""))
-                    throw new N2oMetadataValidationException(
-                            String.format("В \"<case>\" элемента \"<switch>\" поля '%s' отсутствует тело", field.getId()));
+            if (field instanceof ObjectReferenceField refField) {
+                checkSwitchCase(refField.getFields());
+            } else if (field instanceof ObjectSimpleField simpleField && simpleField.getN2oSwitch() != null) {
+                checkSimpleFieldSwitchCase(simpleField.getN2oSwitch().getCases(), field.getId());
             }
         }
     }
@@ -168,12 +166,6 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
      * @param objectId  Идентификатор текущего объекта
      * @param operation Операция текущего объекта
      */
-    private void checkValidationSide(String objectId, N2oObject.Operation operation) {
-        if (operation.getValidations() != null)
-            for (N2oValidation validation : operation.getValidations().getInlineValidations())
-                validationSideIsNotClient(objectId, operation, validation);
-    }
-
     private void validationSideIsNotClient(String objectId, N2oObject.Operation operation, N2oValidation validation) {
         if (validation.getSide() != null && validation.getSide().contains("client"))
             throw new N2oMetadataValidationException(

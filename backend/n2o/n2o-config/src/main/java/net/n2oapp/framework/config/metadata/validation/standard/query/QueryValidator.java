@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkSimpleFieldSwitchCase;
 
 /**
  * Валидатор выборки
@@ -34,7 +35,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     public void validate(N2oQuery n2oQuery, SourceProcessor p) {
         if (nonNull(n2oQuery.getObjectId()))
             ValidationUtils.checkForExistsObject(n2oQuery.getObjectId(),
-                    String.format("Выборка %s", ValidationUtils.getIdOrEmptyString(n2oQuery.getId())),p);
+                    String.format("Выборка %s", ValidationUtils.getIdOrEmptyString(n2oQuery.getId())), p);
         if (nonNull(n2oQuery.getFields())) {
             p.safeStreamOf(n2oQuery.getFields()).forEach(field -> checkFieldIdExistence(field, n2oQuery.getId(), p));
             checkForUniqueFields(n2oQuery.getFields(), n2oQuery.getId(), p);
@@ -50,13 +51,13 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     /**
      * Проверка полей на наличие id
      *
-     * @param field   Исходная metadata поля
-     * @param p       Процессор исходных метаданных
+     * @param field Исходная metadata поля
+     * @param p     Процессор исходных метаданных
      */
     public static void checkFieldIdExistence(AbstractField field, String queryId, SourceProcessor p) {
         if (field instanceof QueryReferenceField queryReferenceField)
             p.safeStreamOf(queryReferenceField.getFields()).forEach(childField -> checkFieldIdExistence(childField, queryId, p));
-        p.checkIdExistence(field,  String.format("Одно из полей выборки %s не имеет 'id'", ValidationUtils.getIdOrEmptyString(queryId)));
+        p.checkIdExistence(field, String.format("Одно из полей выборки %s не имеет 'id'", ValidationUtils.getIdOrEmptyString(queryId)));
     }
 
     /**
@@ -73,8 +74,8 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     /**
      * Проверка, что фильтруемые поля в выборке не повторяются
      *
-     * @param filters  Фильтры выборки
-     * @param queryId  Идентификатор выборки
+     * @param filters Фильтры выборки
+     * @param queryId Идентификатор выборки
      */
     private void checkForUniqueFilterFields(N2oQuery.Filter[] filters, String queryId) {
         Set<String> filterFields = new HashSet<>();
@@ -151,16 +152,10 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         if (isNull(fields))
             return;
         for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField queryReferenceField)
-                checkSwitchCase(queryReferenceField.getFields());
-            if (field instanceof QuerySimpleField querySimpleField && nonNull(querySimpleField.getN2oSwitch())) {
-                N2oSwitch n2oSwitch = querySimpleField.getN2oSwitch();
-                if (n2oSwitch.getCases().isEmpty())
-                    throw new N2oMetadataValidationException(String.format("В элементе \"<switch>\" поля '%s' отсутствует \"<case>\"", field.getId()));
-                if (n2oSwitch.getCases().containsKey(""))
-                    throw new N2oMetadataValidationException(String.format("В \"<case>\" элемента \"<switch>\" поля '%s' атрибут 'value' пустой", field.getId()));
-                if (n2oSwitch.getCases().containsValue(""))
-                    throw new N2oMetadataValidationException(String.format("В \"<case>\" элемента \"<switch>\" поля '%s' отсутствует тело", field.getId()));
+            if (field instanceof QueryReferenceField refField) {
+                checkSwitchCase(refField.getFields());
+            } else if (field instanceof QuerySimpleField simpleField && nonNull(simpleField.getN2oSwitch())) {
+                checkSimpleFieldSwitchCase(simpleField.getN2oSwitch().getCases(), field.getId());
             }
         }
     }

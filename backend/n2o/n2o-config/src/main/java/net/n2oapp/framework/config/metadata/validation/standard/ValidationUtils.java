@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.CloseTargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -25,10 +26,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -315,6 +313,24 @@ public final class ValidationUtils {
         return color != null
                 && !isLink(color)
                 && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color));
+    }
+
+    /**
+     * Проверка корректности заполнения элемента {@code <switch>} простого поля.
+     *
+     * @param cases   Содержимое элемента switch (значение case → тело)
+     * @param fieldId Идентификатор поля (для сообщения об ошибке)
+     */
+    public static void checkSimpleFieldSwitchCase(Map<String, String> cases, String fieldId) {
+        if (cases.isEmpty())
+            throw new N2oMetadataValidationException(
+                    String.format("В элементе \"<switch>\" поля '%s' отсутствует \"<case>\"", fieldId));
+        if (cases.containsKey(""))
+            throw new N2oMetadataValidationException(
+                    String.format("В \"<case>\" элемента \"<switch>\" поля '%s' атрибут 'value' пустой", fieldId));
+        if (cases.containsValue(""))
+            throw new N2oMetadataValidationException(
+                    String.format("В \"<case>\" элемента \"<switch>\" поля '%s' отсутствует тело", fieldId));
     }
 
     private static boolean isValidDateByFormat(String date, DateTimeFormatter dateFormatter) {
