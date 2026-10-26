@@ -4,6 +4,8 @@ import net.n2oapp.framework.api.StringUtils;
 import org.springframework.core.env.PropertyResolver;
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Простой шаблонизатор настроек
@@ -33,29 +35,30 @@ public class SimplePropertyResolver implements PropertyResolver {
     @Override
     public <T> T getProperty(String key, Class<T> targetType) {
         Object value = properties.get(key);
-        if (value instanceof String strValue && targetType != null && !String.class.equals(targetType)) {
-            if (List.class.equals(targetType)) {
-                List<String> list = new ArrayList<>();
-                for (String item : strValue.split(",")) {
-                    list.add(item.trim());
-                }
-                return (T) list;
-            } else if (Set.class.equals(targetType)) {
-                Set<String> set = new LinkedHashSet<>();
-                for (String item : strValue.split(",")) {
-                    set.add(item.trim());
-                }
-                return (T) set;
-            } else if (Boolean.class.equals(targetType)) {
-                return (T) Boolean.valueOf(strValue);
-            } else if (Integer.class.equals(targetType)) {
-                return (T) Integer.valueOf(strValue);
-            } else if (Long.class.equals(targetType)) {
-                return (T) Long.valueOf(strValue);
-            } else
-                throw new UnsupportedOperationException(String.format("Тип '%s' не поддерживается", targetType.getSimpleName()));
-        } else
+        if (!(value instanceof String strValue) || targetType == null || String.class.equals(targetType))
             return (T) value;
+
+        if (List.class.equals(targetType))
+            return (T) splitToCollection(strValue, ArrayList::new);
+        if (Set.class.equals(targetType))
+            return (T) splitToCollection(strValue, LinkedHashSet::new);
+        if (Boolean.class.equals(targetType))
+            return (T) Boolean.valueOf(strValue);
+        if (Integer.class.equals(targetType))
+            return (T) Integer.valueOf(strValue);
+        if (Long.class.equals(targetType))
+            return (T) Long.valueOf(strValue);
+        throw new UnsupportedOperationException(String.format("Тип '%s' не поддерживается", targetType.getSimpleName()));
+    }
+
+    /**
+     * Разбить строку по запятой, обрезать пробелы и собрать в коллекцию,
+     * создаваемую переданной фабрикой.
+     */
+    private <C extends Collection<String>> C splitToCollection(String value, Supplier<C> factory) {
+        return Arrays.stream(value.split(","))
+                .map(String::trim)
+                .collect(Collectors.toCollection(factory));
     }
 
     @Override

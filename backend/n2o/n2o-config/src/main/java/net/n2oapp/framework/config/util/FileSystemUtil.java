@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -28,23 +29,14 @@ import java.util.function.Predicate;
 public class FileSystemUtil {
 
     private static final ResourceLoader DEFAULT_RESOURCE_LOADER = new DefaultResourceLoader();
+    private static final String FILE_NOT_FOUND_MESSAGE = "Файл '%s' не найден";
 
 
-    @SuppressWarnings("unchecked")
     public static void saveContentToFile(InputStream content, File file) {
-        try {
-            File dir = file.getParentFile();
-            if (!dir.exists())
-                dir.mkdirs();
-            if (!file.exists())
-                file.createNewFile();
-        } catch (IOException e) {
-            throw new IllegalStateException(String.format("Не удалось создать файл '%s'", file.getAbsolutePath()));
-        }
         try (InputStream io = content) {
             FileUtils.copyInputStreamToFile(io, file);
         } catch (IOException e) {
-            throw new IllegalStateException(String.format("Не удалось сохранить содержимое в файл '%s'", file.getAbsolutePath()));
+            throw new IllegalStateException(String.format("Не удалось сохранить содержимое в файл '%s'", file.getAbsolutePath()), e);
         }
     }
 
@@ -59,18 +51,19 @@ public class FileSystemUtil {
 
     @SuppressWarnings("unchecked")
     public static Boolean removeContentByUri(String uri) {
-        Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
         File target;
-        boolean isDeleted;
         try {
-            target = resource.getFile();
-            isDeleted = target.delete();
+            target = DEFAULT_RESOURCE_LOADER.getResource(uri).getFile();
         } catch (IOException e) {
-            throw new IllegalStateException(String.format("Не удалось удалить файл '%s'", uri));
+            throw new IllegalStateException(String.format("Не удалось удалить файл '%s'", uri), e);
         }
-        return isDeleted;
+        try {
+            Files.delete(target.toPath());
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
-
 
     public static List<Node> getNodesByLocationPattern(String locationPattern) {
         return getNodesByLocationPattern(locationPattern, name -> true);
@@ -138,7 +131,7 @@ public class FileSystemUtil {
         Resource resource = DEFAULT_RESOURCE_LOADER.getResource(path);
         if (!resource.exists()) {
             if (isExistRequired)
-                throw new IllegalArgumentException(String.format("Файл '%s' не найден", path));
+                throw new IllegalArgumentException(String.format(FILE_NOT_FOUND_MESSAGE, path));
             else
                 return null;
         }
@@ -172,13 +165,13 @@ public class FileSystemUtil {
         if (uri.startsWith("jar:") || uri.startsWith("classpath:")) {
             Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
             if (!resource.exists()) {
-                throw new IllegalStateException(String.format("Файл '%s' не найден", uri));
+                throw new IllegalStateException(String.format(FILE_NOT_FOUND_MESSAGE, uri));
             }
             return resource.contentLength();
         } else if (uri.startsWith("file:")) {
             File file = new File(PathUtil.convertUrlToAbsolutePath(uri));
             if (!file.exists()) {
-                throw new IllegalStateException(String.format("Файл '%s' не найден", uri));
+                throw new IllegalStateException(String.format(FILE_NOT_FOUND_MESSAGE, uri));
             }
             return file.length();
         }
@@ -188,29 +181,36 @@ public class FileSystemUtil {
     private static void deleteRecursively(File dir, List<String> excludePaths) throws IOException {
         if (!dir.exists() || excludePaths.contains(PathUtil.normalize(dir.getAbsolutePath())))
             return;
-        if (dir.isDirectory()) {
-            File[] files = dir.listFiles();
-            if (files != null) {
-                IOException exception = null;
-                for (File file : files) {
-                    try {
-                        deleteRecursively(file, excludePaths);
-                    } catch (IOException ioe) {
-                        exception = ioe;
-                    }
-                }
-                if (null != exception) {
-                    throw exception;
-                }
-            }
-            if ((dir.listFiles() == null || dir.listFiles().length == 0) && !dir.delete()) {
-                throw new IOException(String.format("Не удалось удалить директорию '%s'", dir));
-            }
+        if (dir.isDirectory())
+            deleteDirectory(dir, excludePaths);
+        else
+            Files.delete(dir.toPath());
+    }
 
-        } else {
-            if (!dir.delete()) {
-                throw new IOException(String.format("Не удалось удалить файл '%s'", dir));
+    private static void deleteDirectory(File dir, List<String> excludePaths) throws IOException {
+        deleteChildren(dir.listFiles(), excludePaths);
+        File[] remaining = dir.listFiles();
+        boolean isEmpty = remaining == null || remaining.length == 0;
+        if (isEmpty)
+            Files.delete(dir.toPath());
+    }
+
+    /**
+     * Рекурсивно удалить всех детей. Если хоть один удалить не удалось — пробрасываем
+     * последнюю ошибку (поведение исходного метода).
+     */
+    private static void deleteChildren(File[] files, List<String> excludePaths) throws IOException {
+        if (files == null)
+            return;
+        IOException lastError = null;
+        for (File file : files) {
+            try {
+                deleteRecursively(file, excludePaths);
+            } catch (IOException ioe) {
+                lastError = ioe;
             }
         }
+        if (lastError != null)
+            throw lastError;
     }
 }
