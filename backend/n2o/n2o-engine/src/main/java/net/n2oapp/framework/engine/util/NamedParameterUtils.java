@@ -44,7 +44,6 @@ public class NamedParameterUtils {
     public static QueryBlank prepareQuery(String query, Map<String, Object> args, Map<String, String> literalsForReplacers) {
         final Map<String, Object> finalArgs = new HashMap<>(args);
 
-
         //заменяем плохие литералы
         for (String par : new ArrayList<>(finalArgs.keySet())) {
             for (Map.Entry<String, String> entry : literalsForReplacers.entrySet()) {
@@ -72,7 +71,6 @@ public class NamedParameterUtils {
             }
         }
 
-
         QueryBlank res = new QueryBlank();
         res.setArgs(finalArgs);
         res.setQuery(query);
@@ -83,108 +81,135 @@ public class NamedParameterUtils {
         return prepareQuery(query, args, LITERALS_FOR_REPLACE);
     }
 
-
     public static List<String> sortByLength(List<String> parameterList) {
         ArrayList<String> res = new ArrayList<>(parameterList);
         res.sort(comparingInt(String::length).reversed());
         return res;
     }
 
-
     //копипаст со спринга (просто у него все приватно)
     private static ParsedSql parseSqlStatement(final String sql) {
-
         Set<String> namedParameters = new HashSet<>();
         String sqlToUse = sql;
         List<ParameterHolder> parameterList = new ArrayList<>();
-
         char[] statement = sql.toCharArray();
+
         int namedParameterCount = 0;
         int unnamedParameterCount = 0;
         int totalParameterCount = 0;
-
         int escapes = 0;
+
         int i = 0;
         while (i < statement.length) {
-            int skipToPosition;
-            while (i < statement.length) {
-                skipToPosition = skipCommentsAndQuotes(statement, i);
-                if (i == skipToPosition) {
-                    break;
-                } else {
-                    i = skipToPosition;
-                }
-            }
-            if (i >= statement.length) {
+            i = skipToNonSkippable(statement, i);
+            if (i >= statement.length)
                 break;
-            }
+
             char c = statement[i];
             if (c == ':' || c == '&') {
-                int j = i + 1;
-                if (j < statement.length && statement[j] == ':' && c == ':') {
-                    // Postgres-style "::" casting operator - to be skipped.
-                    i = i + 2;
-                    continue;
+                ParsedParameter pp = parseParameter(statement, sql, i);
+                if (pp.hasName()) {
+                    namedParameterCount = addNewNamedParameter(namedParameters, namedParameterCount, pp.name());
+                    totalParameterCount = addNamedParameter(parameterList, totalParameterCount, escapes,
+                            pp.start(), pp.end(), pp.name());
                 }
-                String parameter = null;
-                if (j < statement.length && c == ':' && statement[j] == '{') {
-                    // :{x} style parameter
-                    while (j < statement.length && '}' != statement[j]) {
-                        j++;
-                        if (':' == statement[j] || '{' == statement[j]) {
-                            throw new IllegalStateException(String.format(
-                                    "Имя параметра содержит недопустимый символ '%s' в позиции %d в запросе: %s",
-                                    statement[j], i, sql));
-                        }
-                    }
-                    if (j >= statement.length) {
-                        throw new IllegalStateException(String.format(
-                                "Незакрытое объявление именованного параметра IllegalStateException в позиции %d в запросе: %s",
-                                i, sql));
-                    }
-                    if (j - i > 3) {
-                        parameter = sql.substring(i + 2, j);
-                        namedParameterCount = addNewNamedParameter(namedParameters, namedParameterCount, parameter);
-                        totalParameterCount = addNamedParameter(parameterList, totalParameterCount, escapes, i, j + 1, parameter);
-                    }
-                    j++;
-                } else {
-                    while (j < statement.length && !isParameterSeparator(statement[j])) {
-                        j++;
-                    }
-                    if (j - i > 1) {
-                        parameter = sql.substring(i + 1, j);
-                        namedParameterCount = addNewNamedParameter(namedParameters, namedParameterCount, parameter);
-                        totalParameterCount = addNamedParameter(parameterList, totalParameterCount, escapes, i, j, parameter);
-                    }
-                }
-                i = j - 1;
+                i = pp.nextIndex();
+            } else if (isEscapedColon(statement, i)) {
+                sqlToUse = removeEscapingBackslash(sqlToUse, i, escapes);
+                escapes++;
+                i += 2;
             } else {
-                if (c == '\\') {
-                    int j = i + 1;
-                    if (j < statement.length && statement[j] == ':') {
-                        // this is an escaped : and should be skipped
-                        sqlToUse = sqlToUse.substring(0, i - escapes) + sqlToUse.substring(i - escapes + 1);
-                        escapes++;
-                        i = i + 2;
-                        continue;
-                    }
-                }
                 if (c == '?') {
                     unnamedParameterCount++;
                     totalParameterCount++;
                 }
+                i++;
             }
-            i++;
         }
+
         ParsedSql parsedSql = new ParsedSql(sqlToUse);
-        for (ParameterHolder ph : parameterList) {
+        for (ParameterHolder ph : parameterList)
             parsedSql.addNamedParameter(ph.getParameterName(), ph.getStartIndex(), ph.getEndIndex());
-        }
         parsedSql.setNamedParameterCount(namedParameterCount);
         parsedSql.setUnnamedParameterCount(unnamedParameterCount);
         parsedSql.setTotalParameterCount(totalParameterCount);
         return parsedSql;
+    }
+
+    /**
+     * Продвинуться вперёд, пропуская комментарии и строковые литералы,
+     * пока не встретится позиция с «настоящим» текстом запроса.
+     */
+    private static int skipToNonSkippable(char[] statement, int i) {
+        while (i < statement.length) {
+            int skipTo = skipCommentsAndQuotes(statement, i);
+            if (i == skipTo)
+                break;
+            i = skipTo;
+        }
+        return i;
+    }
+
+    /**
+     * Разобрать именованный параметр: {@code :name}, {@code :{name}}, {@code ::}, {@code &name}.
+     * Возвращает новый {@code i} и, если параметр найден, его имя и границы.
+     */
+    private static ParsedParameter parseParameter(char[] statement, String sql, int i) {
+        int j = i + 1;
+        if (j < statement.length && statement[j] == ':' && statement[i] == ':')
+            return ParsedParameter.skipped(i + 2);
+        if (j < statement.length && statement[i] == ':' && statement[j] == '{')
+            return parseBracedParameter(statement, sql, i, j);
+        return parseSimpleParameter(statement, sql, i, j);
+    }
+
+    private static ParsedParameter parseBracedParameter(char[] statement, String sql, int i, int j) {
+        while (j < statement.length && '}' != statement[j]) {
+            j++;
+            if (j < statement.length && (':' == statement[j] || '{' == statement[j]))
+                throw new IllegalStateException(String.format(
+                        "Имя параметра содержит недопустимый символ '%s' в позиции %d в запросе: %s",
+                        statement[j], j, sql));
+        }
+        if (j >= statement.length)
+            throw new IllegalStateException(String.format(
+                    "Незакрытое объявление именованного параметра в позиции %d в запросе: %s",
+                    i, sql));
+        boolean hasName = j - i > 3;
+        String name = hasName ? sql.substring(i + 2, j) : null;
+        int end = hasName ? j + 1 : 0;
+        return new ParsedParameter(j + 1, name, i, end);
+    }
+
+    private static ParsedParameter parseSimpleParameter(char[] statement, String sql, int i, int j) {
+        while (j < statement.length && !isParameterSeparator(statement[j]))
+            j++;
+        boolean hasName = j - i > 1;
+        String name = hasName ? sql.substring(i + 1, j) : null;
+        int end = hasName ? j : 0;
+        return new ParsedParameter(j, name, i, end);
+    }
+
+    private static boolean isEscapedColon(char[] statement, int i) {
+        return statement[i] == '\\' && i + 1 < statement.length && statement[i + 1] == ':';
+    }
+
+    private static String removeEscapingBackslash(String sql, int i, int escapes) {
+        return sql.substring(0, i - escapes) + sql.substring(i - escapes + 1);
+    }
+
+    /**
+     * Результат разбора одного именованного параметра: новый {@code i}, имя и границы
+     * (start/end для {@link ParameterHolder}), если параметр найден.
+     */
+    private record ParsedParameter(int nextIndex, String name, int start, int end) {
+        static ParsedParameter skipped(int nextIndex) {
+            return new ParsedParameter(nextIndex, null, 0, 0);
+        }
+
+        boolean hasName() {
+            return name != null;
+        }
     }
 
     private static int addNamedParameter(
@@ -205,46 +230,37 @@ public class NamedParameterUtils {
 
     private static int skipCommentsAndQuotes(char[] statement, int position) {
         for (int i = 0; i < START_SKIP.length; i++) {
-            if (statement[position] == START_SKIP[i].charAt(0)) {
-                boolean match = true;
-                for (int j = 1; j < START_SKIP[i].length(); j++) {
-                    if (statement[position + j] != START_SKIP[i].charAt(j)) {
-                        match = false;
-                        break;
-                    }
-                }
-                if (match) {
-                    int offset = START_SKIP[i].length();
-                    for (int m = position + offset; m < statement.length; m++) {
-                        if (statement[m] == STOP_SKIP[i].charAt(0)) {
-                            boolean endMatch = true;
-                            int endPos = m;
-                            for (int n = 1; n < STOP_SKIP[i].length(); n++) {
-                                if (m + n >= statement.length) {
-                                    // last comment not closed properly
-                                    return statement.length;
-                                }
-                                if (statement[m + n] != STOP_SKIP[i].charAt(n)) {
-                                    endMatch = false;
-                                    break;
-                                }
-                                endPos = m + n;
-                            }
-                            if (endMatch) {
-                                // found character sequence ending comment or quote
-                                return endPos + 1;
-                            }
-                        }
-                    }
-                    // character sequence ending comment or quote not found
-                    return statement.length;
-                }
-
-            }
+            if (matchesAt(statement, position, START_SKIP[i]))
+                return skipUntilStop(statement, position + START_SKIP[i].length(), STOP_SKIP[i]);
         }
         return position;
     }
 
+    /**
+     * Совпадает ли {@code pattern} с участком массива начиная с {@code position}.
+     * Возвращает {@code false}, если до конца массива символов не хватает.
+     */
+    private static boolean matchesAt(char[] statement, int position, String pattern) {
+        if (position + pattern.length() > statement.length)
+            return false;
+        for (int j = 0; j < pattern.length(); j++) {
+            if (statement[position + j] != pattern.charAt(j))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Ищет закрывающую последовательность {@code stop}, начиная с {@code from}.
+     * Если не нашлась — возвращает длину массива.
+     */
+    private static int skipUntilStop(char[] statement, int from, String stop) {
+        for (int m = from; m < statement.length; m++) {
+            if (matchesAt(statement, m, stop))
+                return m + stop.length();
+        }
+        return statement.length;
+    }
 
     private static boolean isParameterSeparator(char c) {
         if (Character.isWhitespace(c)) {
@@ -257,7 +273,6 @@ public class NamedParameterUtils {
         }
         return false;
     }
-
 
     private static class ParameterHolder {
         private final String parameterName;
@@ -297,7 +312,6 @@ public class NamedParameterUtils {
 
         private int totalParameterCount;
 
-
         public ParsedSql(String originalSql) {
             this.originalSql = originalSql;
         }
@@ -335,11 +349,9 @@ public class NamedParameterUtils {
             return this.unnamedParameterCount;
         }
 
-
         public void setTotalParameterCount(int totalParameterCount) {
             this.totalParameterCount = totalParameterCount;
         }
-
 
         public int getTotalParameterCount() {
             return this.totalParameterCount;
@@ -351,7 +363,4 @@ public class NamedParameterUtils {
         }
 
     }
-
-
 }
-
