@@ -77,32 +77,34 @@ public class StylesResolver {
      */
     private static List<String> splitTopLevel(String source, char separator) {
         List<String> parts = new ArrayList<>();
-        boolean inSingle = false;
-        boolean inDouble = false;
+        char quote = 0;
         int depth = 0;
         int start = 0;
 
         for (int i = 0; i < source.length(); i++) {
             char c = source.charAt(i);
-            if (inSingle) {
-                if (c == '\'') inSingle = false;
-            } else if (inDouble) {
-                if (c == '"') inDouble = false;
-            } else if (c == '\'') {
-                inSingle = true;
-            } else if (c == '"') {
-                inDouble = true;
-            } else if (c == '(') {
-                depth++;
-            } else if (c == ')') {
-                depth = Math.max(0, depth - 1);
+            if (quote != 0) {
+                if (c == quote) quote = 0;
+            } else if (c == '\'' || c == '"') {
+                quote = c;
             } else if (c == separator && depth == 0) {
                 parts.add(source.substring(start, i));
                 start = i + 1;
+            } else {
+                depth = nextDepth(depth, c);
             }
         }
         parts.add(source.substring(start));
         return parts;
+    }
+
+    /**
+     * Вычисляет глубину вложенности круглых скобок после символа {@code c}.
+     */
+    private static int nextDepth(int depth, char c) {
+        if (c == '(') return depth + 1;
+        if (c == ')') return Math.max(0, depth - 1);
+        return depth;
     }
 
     /**
