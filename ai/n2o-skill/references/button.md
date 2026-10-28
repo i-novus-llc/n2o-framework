@@ -108,7 +108,7 @@ Optional child element for `<button>` and `<clipboard-button>`. Defines dynamic 
 | datasource | Reference | Datasource for condition evaluation |
 | model | resolve/edit/filter/multi/datasource | Model for condition evaluation |
 | message | String | Message explaining why button is disabled |
-
+| file | String | Path to a `.js` file in project resources containing the expression |
 Body: JS expression returning boolean.
 
 ### `<visibility>` — Visibility Condition
@@ -116,6 +116,7 @@ Body: JS expression returning boolean.
 |---|---|---|
 | datasource | Reference | Datasource for condition evaluation |
 | model | resolve/edit/filter/multi/datasource | Model for condition evaluation |
+| file | String | Path to a `.js` file in project resources containing the expression |
 
 Body: JS expression returning boolean.
 

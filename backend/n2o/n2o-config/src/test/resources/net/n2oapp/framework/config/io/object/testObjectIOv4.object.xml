@@ -65,12 +65,13 @@
             </fail-out>
             <validations black-list="id2">
                 <condition id="id1" severity="danger" server-moment="after-success-operation"
-                           field-id="field" message="message" on="f" src="/test" title="title">test</condition>
+                           field-id="field" message="message" on="f" title="title">test</condition>
             </validations>
         </operation>
     </operations>
     <validations>
-        <condition id="id2" severity="danger" server-moment="after-success-operation" message="message" on="f" src="" enabled="false"/>
+        <condition id="id2" severity="danger" server-moment="after-success-operation" message="message" on="f"
+                   file="condition.js" enabled="false"/>
         <constraint id="id3" severity="success" field-id="fieldId" message="message" enabled="{type=='type1'}"
                     result="#{ T(java.lang.Math).random() * 100.0 }">
             <in>

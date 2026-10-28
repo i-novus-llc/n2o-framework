@@ -36,7 +36,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testUniqueColumnsTableSetting() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testColumnsTableSetting.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testColumnsTableSetting.widget.xml")
         );
         assertEquals("В таблице 'testColumnsTableSetting' найдено несколько элементов \"<ts:columns>\". Допускается только один элемент.", exception.getMessage());
     }
@@ -45,7 +45,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testUniqueExportTableSetting() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testExportTableSetting.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testExportTableSetting.widget.xml")
         );
         assertEquals("В таблице 'testExportTableSetting' найдено несколько элементов \"<ts:export>\". Допускается только один элемент.", exception.getMessage());
     }
@@ -54,7 +54,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testExportTableSettingDefaultFormat() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testDefaultFormat.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testDefaultFormat.widget.xml")
         );
         assertEquals("В таблице 'testDefaultFormat' в элементе \"<ts:export/>\" значение 'default-format=\"xlsx\"' не содержится в списке 'format'", exception.getMessage());
     }
@@ -63,7 +63,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testDuplicateColumnIds() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testDuplicateColumnIds.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testDuplicateColumnIds.widget.xml")
         );
         assertEquals("Таблица 'testDuplicateColumnIds' содержит повторяющиеся значения 'id=\"id1\"' в \"<column>\"", exception.getMessage());
     }
@@ -72,7 +72,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testDuplicateColumnTextFieldId() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testDuplicateColumnTextFieldId.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testDuplicateColumnTextFieldId.widget.xml")
         );
         assertEquals("Таблица 'testDuplicateColumnTextFieldId' содержит повторяющиеся значения 'text-field-id=\"c1\"' в \"<column>\"", exception.getMessage());
     }
@@ -81,7 +81,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testOverlayToolbar() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/rows/testOverlayToolbar.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/rows/testOverlayToolbar.widget.xml")
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре в \"<overlay>\" таблицы 'testOverlayToolbar'", exception.getMessage());
     }
@@ -90,7 +90,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testFilterFetchOnAttributes() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testFilterFetchOnAttributes.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testFilterFetchOnAttributes.widget.xml")
         );
         assertEquals("В фильтрах таблицы 'testFilterFetchOnAttributes' заданы несочетаемые атрибуты 'fetch-on-change=\"true\"' и 'fetch-on-clear=\"false\"'",
                 exception.getMessage());
@@ -100,7 +100,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testFilterColumnFilterExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testFilterColumnFilterExistence.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testFilterColumnFilterExistence.widget.xml")
         );
         assertEquals("В \"<filter-column text-field-id='test'>\" таблицы не задан \"<filter>\"", exception.getMessage());
     }
@@ -109,7 +109,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testInvalidLeftFixedColumns() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testInvalidLeftFixed.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testInvalidLeftFixed.widget.xml")
         );
         assertEquals("В таблице 'testInvalidLeftFixed' колонка 'Возраст' c 'fixed=\"left\"' не может находиться после нефиксированных слева колонок",
                 exception.getMessage());
@@ -119,7 +119,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testInvalidRightFixedColumns() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testInvalidRightFixed.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testInvalidRightFixed.widget.xml")
         );
         assertEquals("В таблице 'testInvalidRightFixed' колонка 'Возраст' c 'fixed=\"right\"' не может находиться перед нефиксированными справа колонками",
                 exception.getMessage());
@@ -129,7 +129,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testMixedFixedColumns() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testMixedFixed.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testMixedFixed.widget.xml")
         );
         assertEquals("В таблице 'testMixedFixed' колонка 'Зарплата' c 'fixed=\"left\"' не может находиться после нефиксированных слева колонок",
                 exception.getMessage());
@@ -139,7 +139,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testFixedOnlyOnFirstLevelColumns() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testFixedOnlyOnFirstLevel.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testFixedOnlyOnFirstLevel.widget.xml")
         );
         assertEquals("В таблице 'testFixedOnlyOnFirstLevel' колонка 'Фамилия' не может иметь атрибут 'fixed', так как находится внутри <multi-column> 'ФИО'",
                 exception.getMessage());
@@ -149,7 +149,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testColumnDependencyDatasourceExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testColumnDependencyDatasourceExistence.widget.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testColumnDependencyDatasourceExistence.widget.xml"));
         assertEquals("В таблице 'testColumnDependencyDatasourceExistence' в колонке 'type' зависимость \"<visibility>\" ссылается на несуществующий источник данных 'wrong'", exception.getMessage());
     }
 
@@ -158,7 +158,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testTableEnablingDependencyDatasourceExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testTableEnablingDependencyDatasourceExistence.widget.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testTableEnablingDependencyDatasourceExistence.widget.xml"));
         assertEquals("В таблице 'testTableEnablingDependencyDatasourceExistence' зависимость \"<enabling>\" ссылается на несуществующий источник данных 'wrong'", exception.getMessage());
     }
 
@@ -166,7 +166,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testTableVisibilityDependencyDatasourceExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testTableVisibilityDependencyDatasourceExistence.widget.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testTableVisibilityDependencyDatasourceExistence.widget.xml"));
         assertEquals("В таблице 'testTableVisibilityDependencyDatasourceExistence' зависимость \"<visibility>\" ссылается на несуществующий источник данных 'wrong'", exception.getMessage());
     }
 
@@ -174,7 +174,50 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testMultiActionWithClose() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/rows/testMultiActionWithClose.page.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/rows/testMultiActionWithClose.page.xml"));
         assertEquals("После действия \"<close>\" не должно быть других действий кроме \"<close>\" или \"<on-fail>\"", exception.getMessage());
+    }
+
+    @Test
+    void testColumnVisibilityBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testColumnVisibilityBodyAndFileExistence.widget.xml"));
+        assertEquals("Для колонки 'name' таблицы 'testColumnVisibilityBodyAndFileExistence' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testTableVisibilityBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testTableVisibilityBodyAndFileExistence.widget.xml"));
+        assertEquals("Для виджета 'testTableVisibilityBodyAndFileExistence' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testTableEnablingBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/testTableEnablingBodyAndFileExistence.widget.xml"));
+        assertEquals("Для виджета 'testTableEnablingBodyAndFileExistence' в элементе \"<enabling>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testMultiColumnNestedVisibilityBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testMultiColumnNestedVisibilityBodyAndFileExistence.widget.xml"));
+        assertEquals("Для колонки 'col1' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
+    }
+
+    @Test
+    void testDndColumnNestedVisibilityBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testDndColumnNestedVisibilityBodyAndFileExistence.widget.xml"));
+        assertEquals("Для колонки 'col2' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
     }
 }

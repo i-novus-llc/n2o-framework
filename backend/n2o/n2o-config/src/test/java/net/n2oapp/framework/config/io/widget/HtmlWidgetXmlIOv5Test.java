@@ -12,4 +12,12 @@ class HtmlWidgetXmlIOv5Test {
 
         assert tester.check("net/n2oapp/framework/config/io/widget/html/testHtmlWidgetIOv5.widget.xml");
     }
+
+    @Test
+    void testHtmlWidgetXmlIOV5WithFile() {
+        ION2oMetadataTester tester = new ION2oMetadataTester();
+        tester.ios(new HtmlWidgetElementIOv5());
+
+        assert tester.check("net/n2oapp/framework/config/io/widget/html/testHtmlWidgetWithFileIOv5.widget.xml");
+    }
 }

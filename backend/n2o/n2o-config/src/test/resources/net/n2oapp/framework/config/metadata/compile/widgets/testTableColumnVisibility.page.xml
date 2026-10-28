@@ -13,6 +13,25 @@
                         </dependencies>
                         <badge/>
                     </column>
+                    <column text-field-id="visibilityTestFile">
+                        <dependencies>
+                            <visibility file="net/n2oapp/framework/config/metadata/compile/widgets/testVisibility.js"/>
+                        </dependencies>
+                    </column>
+                    <multi-column id="multi1" label="Multi">
+                        <column text-field-id="multiVisibilityTestFile">
+                            <dependencies>
+                                <visibility file="net/n2oapp/framework/config/metadata/compile/widgets/testVisibility.js"/>
+                            </dependencies>
+                        </column>
+                    </multi-column>
+                    <dnd-column>
+                        <column text-field-id="dndVisibilityTestFile">
+                            <dependencies>
+                                <visibility file="net/n2oapp/framework/config/metadata/compile/widgets/testVisibility.js"/>
+                            </dependencies>
+                        </column>
+                    </dnd-column>
                 </columns>
             </table>
         </panel>

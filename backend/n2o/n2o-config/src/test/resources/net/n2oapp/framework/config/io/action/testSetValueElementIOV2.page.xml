@@ -6,6 +6,9 @@
                 return firstName + lastName;
             </set-value>
         </action>
+        <action id="fileEdit">
+            <set-value file="edit.js"/>
+        </action>
         <action id="filter">
             <set-value to="fieldId"
                        source-datasource="list"
@@ -17,5 +20,6 @@
                 return false;
             </set-value>
         </action>
+
     </actions>
 </page>

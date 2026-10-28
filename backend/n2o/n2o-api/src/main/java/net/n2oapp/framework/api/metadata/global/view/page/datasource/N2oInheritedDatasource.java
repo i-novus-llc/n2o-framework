@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.N2oFileAware;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
@@ -12,24 +13,25 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
  */
 @Getter
 @Setter
-public class N2oInheritedDatasource extends N2oDatasource implements Submittable {
+public class N2oInheritedDatasource extends N2oDatasource implements Submittable, N2oFileAware {
 
     private String sourceDatasource;
     private ReduxModelEnum sourceModel;
     private String sourceFieldId;
     private String fetchValue;
+    private String file;
     private Submit submit;
     private N2oPreFilter[] filters;
 
     @Getter
     @Setter
-    public static class Submit implements Source {
+    public static class Submit implements Source, N2oFileAware {
         private Boolean auto;
         private ReduxModelEnum model;
         private String targetDatasource;
         private ReduxModelEnum targetModel;
         private String targetFieldId;
         private String submitValue;
+        private String file;
     }
-
 }

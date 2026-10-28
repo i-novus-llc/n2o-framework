@@ -64,5 +64,9 @@ class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w_table"));
         assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(menuItem0action.getPayload().getMode(), is(MergeModeEnum.REPLACE));
+
+        SetValueAction test3Action = (SetValueAction) table.getToolbar().getButton("test3").getAction();
+        assertThat(test3Action.getType(), is("n2o/api/models/copy"));
+        assertThat(test3Action.getPayload().getSourceMapper(), is("(function(){return 100;}).call(this)"));
     }
 }

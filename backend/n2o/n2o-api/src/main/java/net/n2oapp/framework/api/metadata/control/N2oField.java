@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oFileAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -103,9 +104,12 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     public static class Validations implements Source {
         private N2oValidation[] inlineValidations;
         private String[] whiteList;
-
     }
 
+    /**
+     * Базовый класс зависимостей поля.
+     * Поле {@code file} объявлено только в тех наследниках, тело которых — JS-выражение.
+     */
     @Getter
     @Setter
     public static class Dependency implements Source {
@@ -116,32 +120,37 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
 
     @Getter
     @Setter
-    public static class EnablingDependency extends Dependency {
+    public static class EnablingDependency extends Dependency implements N2oFileAware {
         private String message;
+        private String file;
     }
 
     @Getter
     @Setter
-    public static class VisibilityDependency extends Dependency {
+    public static class VisibilityDependency extends Dependency implements N2oFileAware {
         private Boolean reset;
+        private String file;
     }
 
     @Getter
     @Setter
-    public static class RequiringDependency extends Dependency {
+    public static class RequiringDependency extends Dependency implements N2oFileAware {
         private Boolean validate;
+        private String file;
     }
 
     @Getter
     @Setter
-    public static class SetValueDependency extends Dependency {
+    public static class SetValueDependency extends Dependency implements N2oFileAware {
         private Boolean validate;
+        private String file;
     }
 
     @Getter
     @Setter
-    public static class ResetDependency extends Dependency {
+    public static class ResetDependency extends Dependency implements N2oFileAware {
         private Boolean validate;
+        private String file;
     }
 
     @Getter

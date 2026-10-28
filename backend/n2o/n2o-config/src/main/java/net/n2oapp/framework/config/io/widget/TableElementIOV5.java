@@ -84,6 +84,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private ElementIOFactory<N2oAbstractColumn, TypedElementReader<? extends N2oAbstractColumn>, TypedElementPersister<? super N2oAbstractColumn>> columns(IOProcessor p) {

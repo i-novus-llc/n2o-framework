@@ -55,26 +55,31 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
     private void enablingDependency(Element e, N2oField.EnablingDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attribute(e, "message", t::getMessage, t::setMessage);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private void visibilityDependency(Element e, N2oField.VisibilityDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attributeBoolean(e, "reset", t::getReset, t::setReset);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private void requiringDependency(Element e, N2oField.RequiringDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private void setValueDependency(Element e, N2oField.SetValueDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private void resetDependency(Element e, N2oField.ResetDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private void fetchDependency(Element e, N2oField.FetchDependency t, IOProcessor p) {
@@ -103,5 +108,4 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
         p.attribute(e, "param", pf::getParam, pf::setParam);
     }
-
 }

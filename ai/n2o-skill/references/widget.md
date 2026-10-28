@@ -120,10 +120,30 @@ Body: `<columns>`, `<rows>`, `<filters>`, `<pagination>`, `<dependencies>`, `<da
 
 Settings: `n2o.api.widget.column.alignment=left`, `n2o.api.widget.table.column.resizable=false`
 
-Body: A Cell component + `<dependencies>` → `<visibility>`
+**Body:**
+* A Cell component (e.g., `<text>`, `<badge>`)
+* `<dependencies>` — Dynamic visibility conditions
+
+#### Column `<dependencies>` → `<visibility>`
+Controls the visibility of the column based on a JS expression.
+
+| Attribute | Type | Description |
+|---|---|---|
+| datasource | Reference | Datasource for condition evaluation |
+| model | resolve/edit/filter/multi/datasource | Model for condition evaluation |
+| file | String | Path to a `.js` file in project resources to use instead of the body |
+
+**Body:** JS expression returning boolean (if `file` is not set).
+
 ```xml
 <column text-field-id="name" label="Name" sorting-direction="asc" width="200px">
-    <dependencies><visibility on="showName">showName == true</visibility></dependencies>
+    <dependencies>
+        <!-- Using an external file -->
+        <visibility file="scripts/col-visibility.js"/>
+
+        <!-- Or using inline JS -->
+        <visibility on="showName">showName == true</visibility>
+    </dependencies>
 </column>
 ```
 
@@ -348,9 +368,32 @@ Body: `<areas>`, `<bars>`, `<lines>`, `<pie>`
 | center-y | Number | Center Y coordinate | |
 
 ## `<html>` — HTML Content Widget
+
+HTML widget for rendering raw HTML content.
+
+### `<content>` — HTML Content Container
+
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| file | String | Path to an HTML file in project resources to use instead of the element body | |
+| url | String | **Deprecated.** Path to the HTML page. Use `file` instead. | |
+
+**Body:** Raw HTML text.
+
 ```xml
-<html><content url="page.html"/></html>
-<html><content><![CDATA[<div>Hello</div>]]></content></html>
+<!-- Using an external file -->
+<html>
+    <content file="page.html"/>
+</html>
+
+<!-- Using inline HTML -->
+<html>
+<content>
+    <![CDATA[
+            <div><p>Hello</p></div>
+        ]]>
+</content>
+</html>
 ```
 
 ## `<widget>` — Custom React Widget
@@ -376,9 +419,20 @@ Body: `<button>`, `<sub-menu>`, `<group>`
 ```
 
 ## Widget `<dependencies>`
+
+Optional element to control the widget's visibility and availability.
+
+| Element | Attribute | Type | Description |
+|---|---|---|---|
+| `<visibility>` / `<enabling>` | datasource | Reference | Datasource for condition evaluation |
+| `<visibility>` / `<enabling>` | model | resolve/edit/filter/multi/datasource | Model for condition evaluation |
+| `<visibility>` / `<enabling>` | file | String | Path to a `.js` file in project resources to use instead of the body |
+
+**Body:** JS expression returning boolean (if `file` is not set).
+
 ```xml
 <dependencies>
-    <visibility datasource="ds1">type.id == 1</visibility>
+    <visibility datasource="ds1" file="scripts/widget-vis.js"/>
     <enabling datasource="ds1">status == 'active'</enabling>
 </dependencies>
 ```

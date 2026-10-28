@@ -41,6 +41,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements Actions
         p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 
     private void enablingDependency(Element e, N2oAbstractButton.EnablingDependency t, IOProcessor p) {

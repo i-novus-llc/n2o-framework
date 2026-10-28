@@ -27,7 +27,8 @@ public class ConditionValidationCompiler extends BaseValidationCompiler<Conditio
         ConditionValidation validation = new ConditionValidation();
         compileValidation(validation, source, p);
         validation.setSeverity(castDefault(source.getSeverity(), SeverityTypeEnum.DANGER));
-        validation.setExpression(ScriptProcessor.resolveFunction(castDefault(source.getExpression(), () -> p.getExternalFile(source.getSrc()))));
+        String expression = source.resolveContent(source.getExpression(), p);
+        validation.setExpression(ScriptProcessor.resolveFunction(expression));
         validation.setExpressionOn(source.getExpressionOn());
         return validation;
     }

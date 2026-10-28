@@ -52,7 +52,8 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         submit.setTargetDs(getClientDatasourceId(castDefault(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
         submit.setTargetModel(castDefault(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModelEnum.RESOLVE));
         submit.setTargetField(sourceSubmit.getTargetDatasource() != null ? sourceSubmit.getTargetFieldId() : source.getSourceFieldId());
-        submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
+        String submitValue = sourceSubmit.resolveContent(sourceSubmit.getSubmitValue(), p);
+        submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(submitValue));
         return submit;
     }
 
@@ -61,7 +62,8 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), p));
         provider.setSourceModel(castDefault(source.getSourceModel(), ReduxModelEnum.RESOLVE));
         provider.setSourceField(source.getSourceFieldId());
-        provider.setFetchValueExpression(ScriptProcessor.resolveFunction(source.getFetchValue()));
+        String fetchValue = source.resolveContent(source.getFetchValue(), p);
+        provider.setFetchValueExpression(ScriptProcessor.resolveFunction(fetchValue));
         return provider;
     }
 

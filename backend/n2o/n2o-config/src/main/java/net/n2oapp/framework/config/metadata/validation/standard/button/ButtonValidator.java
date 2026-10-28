@@ -26,7 +26,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
 
     @Override
     public void validate(N2oButton source, SourceProcessor p) {
-        checkValidateDependenciesDatasource(source, p);
+        checkValidateDependencies(source, p);
         checkOnFailAction(source.getActions());
         checkCloseInMultiAction(source.getActions());
     }
@@ -36,7 +36,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
      *
      * @param source Исходная модель кнопки
      */
-    private static void checkValidateDependenciesDatasource(N2oButton source, SourceProcessor p) {
+    private static void checkValidateDependencies(N2oButton source, SourceProcessor p) {
         if (source.getDependencies() != null) {
             for (N2oAbstractButton.Dependency dependency : source.getDependencies()) {
                 if (dependency.getDatasource() != null) {
@@ -44,8 +44,17 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
                             String.format("Атрибут 'datasource' в зависимостях кнопки %s ссылается несуществующий источник данных '%s'",
                                     getLabelOrId(source), dependency.getDatasource()));
                 }
+                ValidationUtils.checkBodyOrFile(getDependencyTag(dependency),
+                        dependency.getValue(), dependency.getFile(),
+                        "кнопки " + getLabelOrId(source));
             }
         }
+    }
+
+    private static String getDependencyTag(N2oAbstractButton.Dependency dependency) {
+        return dependency instanceof N2oAbstractButton.EnablingDependency
+                ? "<enabling>"
+                : "<visibility>";
     }
 
     private static String getLabelOrId(Button button) {

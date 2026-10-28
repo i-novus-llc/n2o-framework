@@ -182,6 +182,11 @@ Body: `<payload>` with any attributes (supports placeholders)
 | to | String | Target field (omit for whole model) | |
 | merge-mode | merge / replace / add | Merge mode | replace |
 | validate | boolean | Trigger field validation | true |
+| file | String | Path to a `.js` file in resources to use instead of the body |
+
+```xml
+<set-value to="total" target-datasource="ds1" file="scripts/calc_total.js"/>
+```
 
 Body: JS expression (fields referenced by name)
 ```xml

@@ -8,5 +8,8 @@
             <content>&lt;div class='test'&gt;&lt;p&gt;Hello&lt;/p&gt;&lt;/div&gt;</content>
         </html>
         <html/>
+        <html>
+            <content file="net/n2oapp/framework/config/metadata/compile/widgets/testHtmlWidgetCompile.html"/>
+        </html>
     </regions>
 </page>

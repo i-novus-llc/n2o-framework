@@ -202,7 +202,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (nonNull(source.getDependencies())) {
             List<Dependency> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
-                String unwrapped = ScriptProcessor.resolveFunction(StringUtils.unwrapJs(dep.getValue()));
+                String expressionValue = dep.resolveContent(dep.getValue(), p);
+                String unwrapped = ScriptProcessor.resolveFunction(StringUtils.unwrapJs(expressionValue));
                 Dependency condition = compileDependency(dep, unwrapped, compiled, p);
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);

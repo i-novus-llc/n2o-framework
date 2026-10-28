@@ -377,14 +377,37 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     void testColumnVisibility() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
+
         List<AbstractColumn> columns = ((Table<?>) page.getRegions().get("single").getFirst().getContent().getFirst()).getComponent().getHeader().getCells();
+        assertThat(columns.size(), is(7));
+
+        // 0: visible="{abc == 1}"
         assertThat(((BaseColumn) columns.getFirst()).getVisible(), nullValue());
         assertThat(((BaseColumn) columns.getFirst()).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getExpression(), is("abc == 1"));
         assertThat(((BaseColumn) columns.getFirst()).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
+
+        // 1: visible="true"
         assertThat(((BaseColumn) columns.get(1)).getVisible(), is(Boolean.TRUE));
+
+        // 2: пустая
         assertThat(((BaseColumn) columns.get(2)).getVisible(), nullValue());
+
+        // 3: visibility из тела
         assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getExpression(), is("type == 1"));
         assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
+
+        // 4: visibility из файла
+        assertThat(((BaseColumn) columns.get(4)).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getExpression(), is("type == 0"));
+
+        // 5: Вложенная колонка внутри <multi-column>
+        MultiColumn multiColumn = (MultiColumn) columns.get(5);
+        BaseColumn multiSubCol = multiColumn.getChildren().getFirst();
+        assertThat(multiSubCol.getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getExpression(), is("type == 0"));
+
+        // 6: Вложенная колонка внутри <dnd-column>
+        DndColumn dndColumn = (DndColumn) columns.get(6);
+        BaseColumn dndSubCol = dndColumn.getChildren().getFirst();
+        assertThat(dndSubCol.getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getExpression(), is("type == 0"));
     }
 
     @Test

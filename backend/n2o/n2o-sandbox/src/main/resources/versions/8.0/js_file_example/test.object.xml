@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Пример JS в файле">
+    <operations>
+        <operation id="save">
+            <invocation>
+                <test file="test.json" operation="echo"/>
+            </invocation>
+            <in>
+                <field id="total" domain="numeric"/>
+            </in>
+            <validations white-list="totalCheck"/>
+        </operation>
+    </operations>
+    <validations>
+        <condition id="totalCheck"
+                   field-id="total"
+                   message="Сумма должна быть от 0 до 100 000"
+                   file="js/check.js"/>
+    </validations>
+</object>

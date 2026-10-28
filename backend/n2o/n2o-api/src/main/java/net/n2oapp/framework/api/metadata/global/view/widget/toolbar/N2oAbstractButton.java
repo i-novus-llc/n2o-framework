@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oFileAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
@@ -40,10 +41,11 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
 
     @Getter
     @Setter
-    public static class Dependency implements Source {
+    public static class Dependency implements Source, N2oFileAware {
         private String value;
         private String datasource;
         private ReduxModelEnum model;
+        private String file;
     }
 
     @Getter

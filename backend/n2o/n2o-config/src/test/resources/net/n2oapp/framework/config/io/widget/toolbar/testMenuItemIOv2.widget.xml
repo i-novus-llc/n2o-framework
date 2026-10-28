@@ -7,18 +7,20 @@
                   badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
                   badge-image-position="right" badge-image-shape="square">
             <menu-item id="btn" datasource="table" model="resolve" icon="icon" icon-position="right" color="primary"
-                visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
-                description="desc" tooltip-position="right" disable-on-empty-model="false"
-                rounded="true" src="test" badge="badge" badge-color="color"
-                badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
-                badge-image-position="right" badge-image-shape="square">
-            <dependencies>
-                <enabling model="resolve" datasource="ref" message="Не указана дата"/>
-                <visibility model="resolve" datasource="ref"/>
-            </dependencies>
-            <copy source-model="resolve" source-datasource="table" source-field-id="id"
-                  target-model="resolve" target-datasource="form" target-field-id="dictionary.id"
-                  mode="replace"/>
+                       visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
+                       description="desc" tooltip-position="right" disable-on-empty-model="false"
+                       rounded="true" src="test" badge="badge" badge-color="color"
+                       badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
+                       badge-image-position="right" badge-image-shape="square">
+                <dependencies>
+                    <enabling model="resolve" datasource="ref" message="Не указана дата" file="enabling1.js"/>
+                    <enabling model="resolve" datasource="ref" message="Не указана дата">!_.isEmpty(this)</enabling>
+                    <visibility model="resolve" datasource="ref" file="visibility1.js"/>
+                    <visibility model="resolve" datasource="ref">status == 'active'</visibility>
+                </dependencies>
+                <copy source-model="resolve" source-datasource="table" source-field-id="id"
+                      target-model="resolve" target-datasource="form" target-field-id="dictionary.id"
+                      mode="replace"/>
             </menu-item>
         </sub-menu>
     </toolbar>

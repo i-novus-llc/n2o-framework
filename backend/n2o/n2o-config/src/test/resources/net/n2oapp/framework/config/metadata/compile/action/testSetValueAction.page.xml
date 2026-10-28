@@ -21,6 +21,9 @@
                 <button id="test2">
                     <set-value validate="false"/>
                 </button>
+                <button id="test3">
+                    <set-value file="net/n2oapp/framework/config/metadata/compile/action/testSetValue.js"/>
+                </button>
             </toolbar>
         </form>
         <form id="list"/>

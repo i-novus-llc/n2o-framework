@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasource> {
+    private static final Logger logger = LoggerFactory.getLogger(InheritedDatasourceIO.class);
 
     @Override
     public void io(Element e, N2oInheritedDatasource ds, IOProcessor p) {
@@ -21,6 +24,7 @@ public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasour
         p.attributeEnum(e, "source-model", ds::getSourceModel, ds::setSourceModel, ReduxModelEnum.class);
         p.attribute(e, "source-field-id", ds::getSourceFieldId, ds::setSourceFieldId);
         p.childrenText(e, "fetch-value", ds::getFetchValue, ds::setFetchValue);
+        p.childAttribute(e, "fetch-value", "file", ds::getFile, ds::setFile);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oInheritedDatasource.Submit::new, this::submit);
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::filters);
@@ -33,6 +37,7 @@ public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasour
         p.attributeEnum(e, "target-model", t::getTargetModel, t::setTargetModel, ReduxModelEnum.class);
         p.attribute(e, "target-field-id", t::getTargetFieldId, t::setTargetFieldId);
         p.childrenText(e, "submit-value", t::getSubmitValue, t::setSubmitValue);
+        p.childAttribute(e, "submit-value", "file", t::getFile, t::setFile);
     }
 
     @Override

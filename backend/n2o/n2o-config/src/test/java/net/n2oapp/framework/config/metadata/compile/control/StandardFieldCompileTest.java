@@ -463,15 +463,21 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("required", is(false))
         ));
         assertThat(field3.getDependencies().size(), is(3));
-        assertThat(field3.getDependencies().getFirst().getType(), is(ValidationTypeEnum.VISIBLE));
-        assertThat(field3.getDependencies().getFirst().getOn(), is(List.of("f1")));
-        assertThat(field3.getDependencies().getFirst().getExpression(), is("f1 == 'test'"));
-        assertThat(field3.getDependencies().get(1).getType(), is(ValidationTypeEnum.ENABLED));
-        assertThat(field3.getDependencies().get(1).getOn(), is(List.of("f2")));
-        assertThat(field3.getDependencies().get(1).getExpression(), is("f2 == 'test'"));
-        assertThat(field3.getDependencies().get(2).getType(), is(ValidationTypeEnum.REQUIRED));
-        assertThat(field3.getDependencies().get(2).getOn(), is(List.of("f3")));
-        assertThat(field3.getDependencies().get(2).getExpression(), is("f3 == 'test'"));
+        assertThat(field3.getDependencies().getFirst(), allOf(
+                hasProperty("type", is(ValidationTypeEnum.VISIBLE)),
+                hasProperty("on", is(List.of("f1"))),
+                hasProperty("expression", is("f1 == 'test'"))
+        ));
+        assertThat(field3.getDependencies().get(1), allOf(
+                hasProperty("type", is(ValidationTypeEnum.ENABLED)),
+                hasProperty("on", is(List.of("f2"))),
+                hasProperty("expression", is("f2 == 'test'"))
+        ));
+        assertThat(field3.getDependencies().get(2), allOf(
+                hasProperty("type", is(ValidationTypeEnum.REQUIRED)),
+                hasProperty("on", is(List.of("f3"))),
+                hasProperty("expression", is("f3 == 'test'"))
+        ));
 
         Field field4 = rows.get(3).getCols().getFirst().getFields().getFirst();
         assertThat(field4, allOf(
@@ -490,6 +496,9 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field4.getDependencies().get(2).getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(2).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
         assertThat(((RequiringDependency) field4.getDependencies().get(2)).getValidate(), is(false));
+
+        Field field5 = rows.get(4).getCols().getFirst().getFields().getFirst();
+        assertThat(field5.getDependencies().getFirst().getExpression(), is("type == 1"));
     }
 
     @Test
@@ -520,5 +529,29 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         Field field3 = rows.get(2).getCols().getFirst().getFields().getFirst();
         assertThat(field3.getRequired(), is(true));
         assertThat(validations.get("f3").getFirst().getMessage(), is("Mandatory validation"));
+    }
+
+    @Test
+    void testFileDependencyConditionsInValidations() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldFileConditions.page.xml")
+                .get(new PageContext("testStandardFieldFileConditions", "/p"));
+        Map<String, List<Validation>> validations = page.getDatasources().get("p_form").getValidations(ReduxModelEnum.RESOLVE);
+
+        // условие видимости из файла попадает в обязательность и в inline-валидацию поля
+        Validation joeMandatory = validations.get("f1").stream()
+                .filter(MandatoryValidation.class::isInstance).findFirst().orElseThrow();
+        assertThat(joeMandatory.getEnablingConditions(), is(List.of("type == 1")));
+
+        Validation joeCondition = validations.get("f1").stream()
+                .filter(ConditionValidation.class::isInstance).findFirst().orElseThrow();
+        assertThat(joeCondition.getEnablingConditions(), is(List.of("type == 1")));
+
+        // условие обязательности из файла
+        assertThat(validations.get("f2").getFirst().getEnablingConditions(), is(List.of("type == 1")));
+
+        // пустой атрибут file не заменяет тело
+        Field bob = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().get(2).getCols().getFirst().getFields().getFirst();
+        assertThat(bob.getDependencies().getFirst().getExpression(), is("result == 1"));
     }
 }

@@ -12,6 +12,11 @@
                 </dependencies>
             </input-text>
             <input-text id="f4" required="{f1 == 'test' &amp;&amp; f3 &lt; 5 || typeof(f2) === 'undefined'}" visible="{f1 == 'test' &amp;&amp; f3 &lt; 5 || typeof(f2) === 'undefined'}" enabled="{f1 == 'test' &amp;&amp; f3 &lt; 5 || typeof(f2) === 'undefined'}"/>
+            <input-text id="f5">
+                <dependencies>
+                    <visibility file="net/n2oapp/framework/config/mapping/testVisibility.js"/>
+                </dependencies>
+            </input-text>
         </fields>
     </form>
 </simple-page>

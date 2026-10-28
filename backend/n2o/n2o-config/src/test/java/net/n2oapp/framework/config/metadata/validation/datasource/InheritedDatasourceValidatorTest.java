@@ -88,4 +88,26 @@ class InheritedDatasourceValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/inherited/testDependencyOnNonExistentDatasource.page.xml"));
         assertEquals("Атрибут 'on' в зависимости источника данных 'ds1' ссылается на несуществующий источник данных 'ds3'", exception.getMessage());
     }
+
+    /**
+     * Проверяется, что нельзя одновременно задать тело и атрибут file у fetch-value
+     */
+    @Test
+    void testFetchValueAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/inherited/testFetchValueAndFileExistence.page.xml"));
+        assertEquals("Для источника данных 'ds1' в элементе \"<fetch-value>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
+    }
+
+    /**
+     * Проверяется, что нельзя одновременно задать тело и атрибут file у submit-value
+     */
+    @Test
+    void testSubmitValueAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/inherited/testSubmitValueAndFileExistence.page.xml"));
+        assertEquals("Для источника данных 'ds1' в элементе \"<submit-value>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
+    }
 }

@@ -49,6 +49,12 @@
                       submit="true" apply-on-init="true"/>
             </dependencies>
         </inherited-datasource>
+        <inherited-datasource id="ds4" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
+            <fetch-value file="fetch-test.js"/>
+            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2">
+                <submit-value file="submit-test.js"/>
+            </submit>
+        </inherited-datasource>
     </datasources>
 
     <events>

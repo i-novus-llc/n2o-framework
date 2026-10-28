@@ -153,15 +153,23 @@ description: ""
   Для миграции необходимо раскрыть структуру полей явно в самом `<reference>` или `<list>`:
 
  ```xml title="Пример, как работало в версии 7.29 и ниже"
-  <reference id="org" mapping="['organization']" object-id="org"/>
+<reference id="org" mapping="['organization']" object-id="org"/>
  ```
 
  ```xml title="Пример, как работает сейчас"
-  <reference id="org" mapping="['organization']">
-      <field id="id" mapping="['code']"/>
-      <field id="name" mapping="['title']"/>
-  </reference>
-  ```
+<reference id="org" mapping="['organization']">
+    <field id="id" mapping="['code']"/>
+    <field id="name" mapping="['title']"/>
+</reference>
+```
+
+- В целях унификации механизма выноса JS/HTML кода во внешние файлы, атрибуты `src` (у элемента `<condition>`) и `url` (у элемента `<content>` виджета `<html>`) помечены как устаревшие (deprecated).
+  Они по-прежнему поддерживаются для обеспечения обратной совместимости (при использовании в лог выводится предупреждение), однако рекомендуется перейти на использование атрибута `file`:
+
+| Элемент                  | Было               | Стало               |
+|--------------------------|--------------------|---------------------|
+| `<condition>`            | `src="rules.js"`   | `file="rules.js"`   |
+| `<content>` (в `<html>`) | `url="index.html"` | `file="index.html"` |
 
 ### Изменения поведения {#changes-behavior}
 

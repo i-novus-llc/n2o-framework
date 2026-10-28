@@ -2,6 +2,15 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "8.0",
+      "templates": [
+        {
+          "templateId": "versions/8.0/js_file_example",
+          "name": "JS выражение в отдельном файле"
+        }
+      ]
+    },
+    {
       "name": "7.29",
       "templates": [
         {

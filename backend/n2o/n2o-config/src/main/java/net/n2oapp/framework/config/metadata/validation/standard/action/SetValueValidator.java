@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SetValueValidator implements SourceValidator<N2oSetValueAction>, SourceClassAware {
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSetValueAction.class;
@@ -26,5 +27,8 @@ public class SetValueValidator implements SourceValidator<N2oSetValueAction>, So
             ValidationUtils.checkDatasourceExistence(source.getTargetDatasourceId(), p,
                     String.format("Атрибут 'target-datasource' действия \"<set-value>\" ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(source.getTargetDatasourceId())));
+
+        ValidationUtils.checkBodyOrFile("<set-value>", source.getExpression(), source.getFile(),
+                "действия " + ValidationUtils.getIdOrEmptyString(source.getId()));
     }
 }

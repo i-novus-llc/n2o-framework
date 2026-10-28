@@ -147,4 +147,12 @@ class ButtonValidatorTest extends SourceValidationTestBase {
     void testMultiActionWithCloseValid() {
         validate("net/n2oapp/framework/config/metadata/validation/button/testMultiActionWithCloseValid.page.xml");
     }
+
+    @Test
+    void testButtonDependencyBodyAndFileExistence() {
+        N2oMetadataValidationException ex = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonDependencyBodyAndFileExistence.widget.xml"));
+        assertEquals("Для кнопки 'btn' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'", ex.getMessage());
+    }
 }

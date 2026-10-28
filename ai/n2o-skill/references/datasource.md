@@ -121,13 +121,31 @@ Body: `<submit>`, `<fetch-value>`, `<filters>`, `<dependencies>`
 
 Body: `<submit-value>` (JS expression for transforming data)
 
+#### `<submit-value>`
+JS expression for transforming data when copying to inherited-datasource.
+
+| Attribute | Type | Description |
+|---|---|---|
+| file | String | Path to a `.js` file in project resources containing the expression |
+
+```xml
+<submit>
+    <submit-value file="scripts/submit-value.js"/>
+</submit>
+```
+
 ### `<fetch-value>`
 JS expression for transforming data when copying to inherited-datasource (written in element body).
+
+| Attribute | Type | Description |
+|---|---|---|
+| file | String | Path to a `.js` file in project resources containing the expression |
 
 Used for master-detail patterns without extra server calls.
 ```xml
 <datasource id="parentDs" query-id="orders" size="10"/>
 <inherited-datasource id="orderItems" source-datasource="parentDs" source-field-id="items">
+    <fetch-value file="scripts/fetch-value.js"/>
     <filters>
         <eq field-id="status" value="active"/>
     </filters>

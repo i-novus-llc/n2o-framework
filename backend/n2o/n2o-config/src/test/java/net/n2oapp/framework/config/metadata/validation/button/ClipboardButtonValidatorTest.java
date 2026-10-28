@@ -44,4 +44,13 @@ class ClipboardButtonValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testClipboardButtonData.page.xml"));
         assertEquals("В кнопке копирования 'Копировать' не задан обязательный атрибут 'data'", exception.getMessage());
     }
+
+    @Test
+    void testCheckDependenciesBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testClipboardButtonDependencyBodyAndFileExistence.page.xml"));
+        assertEquals("Для кнопки копирования 'Копировать' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
 }

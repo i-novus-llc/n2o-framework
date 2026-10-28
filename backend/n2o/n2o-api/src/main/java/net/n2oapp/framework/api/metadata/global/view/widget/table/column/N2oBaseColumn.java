@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.N2oFileAware;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
@@ -37,9 +38,10 @@ public abstract class N2oBaseColumn extends N2oAbstractColumn implements Extensi
 
     @Getter
     @Setter
-    public static class ColumnVisibility implements Source, DatasourceIdAware {
+    public static class ColumnVisibility implements Source, DatasourceIdAware, N2oFileAware {
         private String value;
         private String datasourceId;
         private ReduxModelEnum model;
+        private String file;
     }
 }

@@ -178,4 +178,31 @@ class ObjectValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyCase.object.xml"));
         assertEquals("В \"<case>\" элемента \"<switch>\" поля 'name' отсутствует тело", exception.getMessage());
     }
+
+    @Test
+    void testConditionBodyAndFileInObject() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/testConditionBodyAndFileInObject.object.xml"));
+        assertEquals("Для валидации 'cond1' в элементе \"<condition>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testConditionBodyAndFileInOperation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/testConditionBodyAndFileInOperation.object.xml"));
+        assertEquals("Для валидации 'cond2' в элементе \"<condition>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testConditionBodyAndFileInWhiteList() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/testConditionBodyAndFileInWhiteList.object.xml"));
+        assertEquals("Для валидации 'cond3' в элементе \"<condition>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
 }

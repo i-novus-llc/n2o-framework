@@ -20,6 +20,11 @@
             </fields>
             <toolbar>
                 <clipboard-button data="Текст" icon="fa fa-check" icon-position="right" color="primary"/>
+                <clipboard-button id="btn3" data="Файл" icon="fa fa-file">
+                    <dependencies>
+                        <visibility file="net/n2oapp/framework/config/metadata/compile/toolbar/testButtonVisibility.js"/>
+                    </dependencies>
+                </clipboard-button>
             </toolbar>
         </form>
     </regions>

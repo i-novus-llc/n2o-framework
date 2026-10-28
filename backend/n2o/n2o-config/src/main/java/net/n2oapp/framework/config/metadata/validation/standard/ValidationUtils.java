@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.CloseTargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -331,6 +330,20 @@ public final class ValidationUtils {
         if (cases.containsValue(""))
             throw new N2oMetadataValidationException(
                     String.format("В \"<case>\" элемента \"<switch>\" поля '%s' отсутствует тело", fieldId));
+    }
+
+    /**
+     * Проверка, что одновременно не заданы тело и атрибут 'file'
+     *
+     * @param tag   Название тега (например, "<set-value>")
+     * @param body  Тело элемента
+     * @param file  Атрибут file
+     * @param owner Владелец (например, "поля 'name'")
+     */
+    public static void checkBodyOrFile(String tag, String body, String file, String owner) {
+        if (StringUtils.hasText(body) && StringUtils.hasText(file))
+            throw new N2oMetadataValidationException(
+                    String.format("Для %s в элементе \"%s\" одновременно задано тело и атрибут 'file'", owner.trim(), tag));
     }
 
     private static boolean isValidDateByFormat(String date, DateTimeFormatter dateFormatter) {

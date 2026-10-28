@@ -34,6 +34,12 @@
                 </submit-value>
             </submit>
         </inherited-datasource>
+        <inherited-datasource id="inh5" source-datasource="ds1">
+            <fetch-value file="net/n2oapp/framework/config/metadata/compile/datasource/testFetchValue.js"/>
+            <submit>
+                <submit-value file="net/n2oapp/framework/config/metadata/compile/datasource/testSubmitValue.js"/>
+            </submit>
+        </inherited-datasource>
     </datasources>
 
 </page>

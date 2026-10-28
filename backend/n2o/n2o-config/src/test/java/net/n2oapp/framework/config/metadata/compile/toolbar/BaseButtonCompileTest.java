@@ -3,12 +3,15 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -156,6 +159,9 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
                 hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label"))),
                 hasProperty("color", is(ColorEnum.SECONDARY.getId()))
         ));
+
+        btn = page.getToolbar().getButton("btn10");
+        assertThat(btn.getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getExpression(), is("type == 1"));
     }
 
     @Test
