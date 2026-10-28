@@ -9,14 +9,16 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.ElementNameQualifier;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.Difference;
+import org.xmlunit.diff.ElementSelectors;
 
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
@@ -27,28 +29,44 @@ import java.util.stream.Stream;
  */
 public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder<XmlIOReader> {
 
-    static {
-        XMLUnit.setIgnoreComments(true);
-        XMLUnit.setIgnoreWhitespace(true);
-    }
-
     private static final Logger logger = LoggerFactory.getLogger(XmlIOReader.class);
     private static final BiPredicate<String, String> CANONICAL_COMPARATOR = (String s1, String s2) -> {
         try {
-            Diff diff = XMLUnit.compareXML(s1, s2);
-            diff.overrideElementQualifier(new ElementNameQualifier());
-            boolean similar = diff.similar();
-            logger.debug("""
-                    Comparing two xml...
-                    Source:
-                    {}
-                    Persisted:
-                    {}
-                    Similar? {}
-                    Identical? {}
-                    """, s2, s1, similar, diff.identical());
-            if (logger.isErrorEnabled())
-                logger.debug(diff.toString());
+            // similar — допускает другой порядок дочерних элементов, CDATA вместо текста, другие префиксы namespace
+            Diff similarDiff = DiffBuilder.compare(s2)
+                    .withTest(s1)
+                    .ignoreComments()
+                    .ignoreWhitespace()
+                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
+                    .checkForSimilar()
+                    .build();
+
+            boolean similar = !similarDiff.hasDifferences();
+
+            if (logger.isDebugEnabled()) {
+                // identical — любое расхождение, включая перечисленные выше; нужно только для лога
+                Diff identicalDiff = DiffBuilder.compare(s2)
+                        .withTest(s1)
+                        .ignoreComments()
+                        .ignoreWhitespace()
+                        .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
+                        .build();
+
+                boolean identical = !identicalDiff.hasDifferences();
+
+                StringBuilder logMessage = new StringBuilder()
+                        .append("Comparing two xml...\n")
+                        .append("Source:\n").append(s2).append("\n")
+                        .append("Persisted:\n").append(s1).append("\n")
+                        .append("Similar? ").append(similar).append("\n")
+                        .append("Identical? ").append(identical).append("\n");
+                if (!similar) {
+                    for (Difference d : similarDiff.getDifferences()) {
+                        logMessage.append("\t").append(d).append("\n");
+                    }
+                }
+                logger.debug(logMessage.toString());
+            }
             return similar;
         } catch (Exception e) {
             throw new IllegalStateException(e);

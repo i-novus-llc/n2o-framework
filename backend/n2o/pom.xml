@@ -53,12 +53,6 @@
 
             <!--xml-->
             <dependency>
-                <groupId>xmlunit</groupId>
-                <artifactId>xmlunit</artifactId>
-                <version>1.6</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js</artifactId>
                 <version>25.0.2</version>
