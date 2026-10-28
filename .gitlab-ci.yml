@@ -1,6 +1,6 @@
 include:
   - project: ${PIPELINE_REPOSITORY_PREFIX}devenv/gitlab/pipelines
-    ref: 3.5.0
+    ref: 4.0.3
     file:
       - dev-stand.gitlab-ci.yml
       - story.gitlab-ci.yml
@@ -11,12 +11,18 @@ include:
 build:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    JDK_VERSION: 'jdk17'
+    NODE_VERSION: 'node18'
+    MAVEN_IMAGE_VERSION: 'v5'
 
 build and verify:
   variables:
     MAVEN_GOAL: 'verify'
     MAVEN_EXTRA_GOAL: 'install:install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    JDK_VERSION: 'jdk17'
+    NODE_VERSION: 'node18'
+    MAVEN_IMAGE_VERSION: 'v5'
   artifacts:
     paths:
       - $CI_PROJECT_DIR/.m2/repository/
@@ -32,6 +38,10 @@ autotesting mr stand:
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
+    JDK_VERSION: 'jdk17'
+    NODE_VERSION: 'node18'
+    MAVEN_IMAGE_VERSION: 'v5'
+
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   dependencies:
@@ -55,8 +65,15 @@ autotesting mr stand:
 build story:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    JDK_VERSION: 'jdk17'
+    NODE_VERSION: 'node18'
+    MAVEN_IMAGE_VERSION: 'v5'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
+build stable:
+  variables:
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
 
 cleanup:
   dependencies: []
