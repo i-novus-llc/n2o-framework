@@ -4,7 +4,7 @@
     <operations>
         <operation id="save">
             <invocation>
-                <test file="test.json" operation="echo"/>
+                <test operation="echo"/>
             </invocation>
             <in>
                 <field id="total" domain="numeric"/>
@@ -14,7 +14,7 @@
     </operations>
     <validations>
         <condition id="totalCheck"
-                   field-id="total"
+                   server-moment="before-operation"
                    message="Сумма должна быть от 0 до 100 000"
                    file="js/check.js"/>
     </validations>
