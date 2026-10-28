@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0" id="testFieldInlineConditionBodyAndFileExistence">
+    <fields>
+        <input-text id="name">
+            <validations>
+                <condition id="cond1" file="test.js">type == 1</condition>
+            </validations>
+        </input-text>
+    </fields>
+</form>

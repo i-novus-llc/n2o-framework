@@ -3,12 +3,16 @@
         <input-text id="field" no-label-block="true" help="Подсказка" help-trigger="hover"
                     enabled="{type == 'test1'}" visible="{type == 'test2'}" required="{type == 'test3'}">
             <dependencies>
-                <enabling on="type" message="test message">type.id == 1</enabling>
+                <enabling on="type" message="test message" file="enabling1.js"/>
                 <enabling on="type2" message="test message2">type.id == 2</enabling>
-                <visibility on="type" reset="false">type.id == 1</visibility>
-                <set-value on="type" validate="false">if (type.id == 1) return "Test";</set-value>
-                <requiring on="type" validate="true">type.id == 1</requiring>
-                <reset on="type">type.id == 1</reset>
+                <visibility on="type" reset="false" file="visibility1.js"/>
+                <visibility on="type2" reset="true">type.id == 1</visibility>
+                <set-value on="type" validate="false" file="setValue1.js"/>
+                <set-value on="type2" validate="true">if (type.id == 1) return "Test";</set-value>
+                <requiring on="type" validate="true" file="requiring1.js"/>
+                <requiring on="type2" validate="false">type.id == 1</requiring>
+                <reset on="type" validate="true" file="reset1.js"/>
+                <reset on="type2" validate="false">type.id == 1</reset>
             </dependencies>
 
             <toolbar>
@@ -33,17 +37,20 @@
 
             <validations white-list="test1,test2,test3">
                 <constraint id="id" severity="danger" message="test message" side="client"
-                    result="#this == null" title="title">
+                            result="#this == null" title="title">
                     <invocation>
-                        <sql>
-                            select * from table
-                        </sql>
+                        <sql>select * from table</sql>
                     </invocation>
                     <in>
                         <field id="dasdf" required="true" default-value="fdsf" domain="boolean"
                                mapping="fsd" enabled="fsd" normalize="fsd"/>
                     </in>
                 </constraint>
+                <condition id="testFileCondition" field-id="fieldId" server-moment="after-success-query"
+                           severity="info" message="test message" side="client,server"
+                           file="condition1.js"/>
+                <condition id="testExpressionCondition" field-id="fieldId" server-moment="after-success-query"
+                           severity="info" message="test message" side="client,server">return age > 18;</condition>
                 <condition id="testId2" field-id="fieldId" server-moment="after-success-query"
                            severity="info" message="test message" side="client,server"/>
                 <mandatory id="testId25" severity="success" enabled="false"

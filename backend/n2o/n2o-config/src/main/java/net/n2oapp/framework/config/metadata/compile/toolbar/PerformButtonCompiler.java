@@ -196,7 +196,8 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
                                             String buttonDatasource, ReduxModelEnum buttonModel, CompileProcessor p) {
         ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.RESOLVE);
         Condition condition = new Condition();
-        condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
+        String expressionValue = dependency.resolveContent(dependency.getValue(), p);
+        condition.setExpression(ScriptProcessor.resolveFunction(expressionValue));
         String datasource = (dependency.getDatasource() != null) ?
                 getClientDatasourceId(dependency.getDatasource(), p) :
                 buttonDatasource;

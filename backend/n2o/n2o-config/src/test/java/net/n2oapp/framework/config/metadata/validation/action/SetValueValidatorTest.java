@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class SetValueValidatorTest extends SourceValidationTestBase {
 
@@ -39,5 +40,26 @@ class SetValueValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/set_value/testTargetDatasourceExistence.page.xml"));
         assertEquals("Атрибут 'target-datasource' действия \"<set-value>\" ссылается на несуществующий источник данных 'ds'", exception.getMessage());
+    }
+
+    @Test
+    void testBodyAndFileBothSet() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/set_value/testBodyAndFileExistence.page.xml"));
+        assertEquals("Для действия в элементе \"<set-value>\" одновременно задано тело и атрибут 'file'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testOnlyFileSet() {
+        assertDoesNotThrow(() -> validate(
+                "net/n2oapp/framework/config/metadata/validation/action/set_value/testOnlyFile.page.xml"));
+    }
+
+    @Test
+    void testOnlyBodySet() {
+        assertDoesNotThrow(() -> validate(
+                "net/n2oapp/framework/config/metadata/validation/action/set_value/testOnlyBody.page.xml"));
     }
 }

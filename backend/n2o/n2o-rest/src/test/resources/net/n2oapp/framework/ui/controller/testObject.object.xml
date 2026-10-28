@@ -92,7 +92,7 @@
                    field-id="id3">id3 != null
         </condition>
         <condition id="id4NotNull" severity="warning" server-moment="before-operation" message="id4 is required"
-                   field-id="id4" src="net/n2oapp/framework/ui/controller/testSrc.js"/>
+                   field-id="id4" file="net/n2oapp/framework/ui/controller/testSrc.js"/>
         <condition id="id5NotNull" severity="warning" server-moment="before-operation" message="id5 is required"
                    field-id="id5" enabled="false">id5 != null
         </condition>

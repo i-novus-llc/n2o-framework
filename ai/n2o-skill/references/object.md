@@ -204,10 +204,10 @@ Types: `<condition>`, `<constraint>`, `<mandatory>`
 Server moments: `before-operation`, `before-query`, `after-success-query`, `after-fail-query`, `after-fail-operation`, `after-success-operation`
 
 ### `<condition>` — Expression Validation
-| Attribute | Type | Description |
-|---|---|---|
-| on | String (comma-sep) | Fields that trigger validation |
-| src | String | Path to JS file with validation condition |
+| Attribute | Type | Description                                                           |
+|---|---|-----------------------------------------------------------------------|
+| on | String (comma-sep) | Fields that trigger validation                                        |
+| file | String | Path to JS file with validation condition (replaces deprecated `src`) |
 
 Body: JS or SpEL expression (must return true for valid)
 ```xml

@@ -23,6 +23,7 @@ public class SetValueElementIOV2 extends AbstractActionElementIOV2<N2oSetValueAc
         p.attributeEnum(e, "merge-mode", sv::getMergeMode, sv::setMergeMode, MergeModeEnum.class);
         p.attributeBoolean(e, "validate", sv::getValidate, sv::setValidate);
         p.text(e, sv::getExpression, sv::setExpression);
+        p.attribute(e, "file", sv::getFile, sv::setFile);
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -13,6 +14,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSour
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,12 +95,19 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
     }
 
     private void checkDependencies(T source) {
-        if (source.getDependencies() != null) {
-            Arrays.stream(source.getDependencies()).forEach(dependency ->
-                    ValidationUtils.checkEmptyDependency(dependency,
-                            String.format("Зависимость виджета %s имеет пустое тело",
-                                    getIdOrEmptyString(source.getId()))));
-        }
+        if (source.getDependencies() == null) return;
+
+        Arrays.stream(source.getDependencies()).forEach(dependency -> {
+            String tag = (dependency instanceof N2oVisibilityDependency)
+                    ? "<visibility>"
+                    : "<enabling>";
+            String owner = "виджета " + getIdOrEmptyString(source.getId());
+            ValidationUtils.checkBodyOrFile(tag, dependency.getValue(), dependency.getFile(), owner);
+            if (!StringUtils.hasText(dependency.getFile()))
+                ValidationUtils.checkEmptyDependency(dependency,
+                        String.format("Зависимость виджета %s имеет пустое тело",
+                                getIdOrEmptyString(source.getId())));
+        });
     }
 
     protected MetaActions getAllMetaActions(MetaActions pageActions, ActionBar[] widgetActions, SourceProcessor p) {

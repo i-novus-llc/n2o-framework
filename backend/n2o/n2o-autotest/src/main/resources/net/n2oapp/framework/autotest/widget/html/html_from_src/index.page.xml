@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <html>
-            <content url="public/greeting.html"/>
+            <content file="public/greeting.html"/>
         </html>
     </regions>
 </page>

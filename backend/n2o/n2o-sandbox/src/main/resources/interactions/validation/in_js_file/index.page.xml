@@ -6,7 +6,7 @@
                 <validations>
                     <condition id="checkAdult"
                             message="Запрещено для детей. Ваш возраст {age}, что меньше 18."
-                            field-id="age" src="condition.js"/>
+                            field-id="age" file="condition.js"/>
                 </validations>
             </input-text>
         </fields>

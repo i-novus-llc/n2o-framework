@@ -4,5 +4,8 @@
         <fields>
             <input-text id="name"/>
         </fields>
+        <dependencies>
+            <visibility file="net/n2oapp/framework/config/metadata/compile/widgets/testVisibility.js"/>
+        </dependencies>
     </form>
 </simple-page>

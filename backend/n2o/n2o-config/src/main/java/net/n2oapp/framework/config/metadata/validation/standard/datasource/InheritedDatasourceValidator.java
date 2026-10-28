@@ -24,6 +24,7 @@ public class InheritedDatasourceValidator extends DatasourceValidator<N2oInherit
     public void validate(N2oInheritedDatasource source, SourceProcessor p) {
         super.validate(source, p);
         checkSourceDatasource(source, p);
+        checkBodyOrFile(source);
     }
 
     private void checkSourceDatasource(N2oInheritedDatasource source, SourceProcessor p) {
@@ -46,5 +47,15 @@ public class InheritedDatasourceValidator extends DatasourceValidator<N2oInherit
                         getIdOrEmptyString(source.getSourceDatasource())
                 )
         );
+    }
+
+    private void checkBodyOrFile(N2oInheritedDatasource source) {
+        ValidationUtils.checkBodyOrFile("<fetch-value>", source.getFetchValue(),
+                source.getFile(), "источника данных " + getIdOrEmptyString(source.getId()));
+
+        if (source.getSubmit() != null) {
+            ValidationUtils.checkBodyOrFile("<submit-value>", source.getSubmit().getSubmitValue(),
+                    source.getSubmit().getFile(), "источника данных " + getIdOrEmptyString(source.getId()));
+        }
     }
 }

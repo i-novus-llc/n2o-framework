@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       id="testColumnVisibilityBodyAndFileExistence">
+    <columns>
+        <column id="col1" text-field-id="name">
+            <dependencies>
+                <visibility file="visibility.js">type == 1</visibility>
+            </dependencies>
+        </column>
+    </columns>
+</table>

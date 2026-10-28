@@ -14,6 +14,8 @@ import net.n2oapp.framework.config.io.cell.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.nonNull;
@@ -28,6 +30,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private static final String REFERENCE = "reference";
     private static final String INVOCATION = "invocation";
     private static final String ENABLED = "enabled";
+    private static final Logger logger = LoggerFactory.getLogger(ObjectElementIOv4.class);
     private Namespace defaultNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
@@ -176,7 +179,12 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         validation(e, t, p);
         p.text(e, t::getExpression, t::setExpression);
         p.attributeArray(e, "on", ",", t::getExpressionOn, t::setExpressionOn);
-        p.attribute(e, "src", t::getSrc, t::setSrc);
+        p.attribute(e, "file", t::getFile, t::setFile);
+        p.read(e, t, (el, c) -> p.attribute(el, "src", () -> null, src -> {
+            logger.warn("Атрибут 'src' элемента \"<condition>\" устарел, используйте 'file'");
+            if (c.getFile() == null)
+                c.setFile(src);
+        }));
     }
 
     private void mandatory(Element e, N2oMandatoryValidation t, IOProcessor p) {

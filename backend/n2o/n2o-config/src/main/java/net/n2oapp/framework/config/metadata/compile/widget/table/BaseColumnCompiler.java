@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.table.BaseColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -21,6 +22,7 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 
 /**
@@ -54,6 +56,21 @@ public abstract class BaseColumnCompiler<S extends N2oBaseColumn> implements Bas
             compiled.getConditions().get(ValidationTypeEnum.VISIBLE).add(condition);
         } else {
             compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        }
+
+        if (source.getColumnVisibilities() != null) {
+            for (N2oBaseColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
+                String datasourceId = getClientDatasourceId(castDefault(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
+                ReduxModelEnum refModel = castDefault(visibility.getModel(), ReduxModelEnum.FILTER);
+                Condition condition = new Condition();
+                String expressionValue = visibility.resolveContent(visibility.getValue(), p);
+                condition.setExpression(ScriptProcessor.resolveFunction(expressionValue));
+                condition.setModelLink(new ModelLink(refModel, datasourceId).getLink());
+                if (!compiled.getConditions().containsKey(ValidationTypeEnum.VISIBLE)) {
+                    compiled.getConditions().put(ValidationTypeEnum.VISIBLE, new ArrayList<>());
+                }
+                compiled.getConditions().get(ValidationTypeEnum.VISIBLE).add(condition);
+            }
         }
 
         if (source.getSortingDirection() != null) {

@@ -51,5 +51,8 @@ class HtmlWidgetCompileTest extends SourceCompileTestBase {
         // без content и url
         htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(2);
         assertThat(htmlWidget.getHtml(), nullValue());
+
+        htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(3);
+        assertThat(htmlWidget.getHtml(), is("<div class='test'><p>From File</p></div>"));
     }
 }

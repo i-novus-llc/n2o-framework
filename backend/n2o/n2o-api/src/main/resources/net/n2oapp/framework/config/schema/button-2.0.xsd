@@ -300,6 +300,13 @@
                 <xs:documentation>Модель для вычисления условия.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Путь к файлу в ресурсах проекта, содержимое которого используется вместо тела элемента
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="enablingDependencyDefinition">

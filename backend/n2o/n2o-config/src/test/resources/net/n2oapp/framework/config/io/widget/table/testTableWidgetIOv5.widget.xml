@@ -13,6 +13,12 @@
                 routable="true"/>
         </filters>
     </datasource>
+    <dependencies>
+        <visibility datasource="ds1" model="resolve" file="widgetVisibility1.js"/>
+        <visibility datasource="ds1" model="resolve">status == 'active'</visibility>
+        <enabling datasource="ds1" model="resolve" file="widgetEnabling1.js"/>
+        <enabling datasource="ds1" model="resolve">!_.isEmpty(this)</enabling>
+    </dependencies>
     <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left"
                 src="MyTableHeader" class="my-table-header" style="color: red" alignment="center"
@@ -36,12 +42,14 @@
         <column text-field-id="testDependencies">
             <text/>
             <dependencies>
+                <visibility datasource="master" model="resolve" file="visibility1.js"/>
                 <visibility datasource="master" model="resolve">type == 1</visibility>
             </dependencies>
         </column>
-        <column text-field-id="testDependencies">
+        <column text-field-id="testDependencies2">
             <dependencies>
-                <visibility model="resolve" datasource="tableWidget"/>
+                <visibility model="resolve" datasource="tableWidget">status == 'new'</visibility>
+                <visibility model="resolve" datasource="tableWidget2" file="visibility2.js"/>
             </dependencies>
             <text/>
         </column>
@@ -79,7 +87,7 @@
         <dnd-column move-mode="settings" fixed="left">
             <column text-field-id="testDependencies">
                 <dependencies>
-                    <visibility model="resolve" datasource="tableWidget"/>
+                    <visibility model="resolve" datasource="tableWidget" file="visibility3.js"/>
                 </dependencies>
                 <text/>
             </column>
@@ -132,6 +140,10 @@
     <toolbar place="bottomLeft">
         <button action-id="test1" datasource="ds1" class="test" icon="test" tooltip-position="bottom">
             <close src="test"/>
+            <dependencies>
+                <visibility datasource="ds1" model="datasource" file="buttonVisibility1.js"/>
+                <visibility datasource="ds1" model="datasource">type==1</visibility>
+            </dependencies>
         </button>
         <button action-id="test2" class="test" icon="test">
             <close src="test"/>
@@ -175,7 +187,9 @@
         <group>
             <button action-id="test1" class="test" icon="test">
                 <dependencies>
+                    <enabling model="filter" datasource="test" file="buttonEnabling1.js"/>
                     <enabling model="filter" datasource="test">condition1</enabling>
+                    <visibility model="filter" datasource="test" file="buttonVisibility2.js"/>
                     <visibility model="filter" datasource="test">condition2</visibility>
                 </dependencies>
                 <close src="test"/>
@@ -185,7 +199,9 @@
                 <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
                     <close src="test"/>
                     <dependencies>
+                        <enabling model="resolve" file="menuEnabling1.js"/>
                         <enabling model="resolve">condition1</enabling>
+                        <visibility datasource="test" file="menuVisibility1.js"/>
                         <visibility datasource="test">condition2</visibility>
                     </dependencies>
                 </menu-item>
@@ -200,8 +216,3 @@
         </group>
     </toolbar>
 </table>
-
-
-
-
-

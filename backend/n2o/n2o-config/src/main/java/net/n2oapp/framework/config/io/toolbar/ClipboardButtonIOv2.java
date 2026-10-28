@@ -40,10 +40,11 @@ public class ClipboardButtonIOv2 extends AbstractButtonIOv2<N2oClipboardButton> 
         visibilityDependency(e, t, p);
         p.attribute(e, "message", t::getMessage, t::setMessage);
     }
+
     private void visibilityDependency(Element e, N2oAbstractButton.Dependency t, IOProcessor p) {
         p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
-
 }

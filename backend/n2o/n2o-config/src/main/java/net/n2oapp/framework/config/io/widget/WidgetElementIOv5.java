@@ -54,5 +54,6 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attribute(e, DATASOURCE, t::getDatasource, t::setDatasource);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
+        p.attribute(e, "file", t::getFile, t::setFile);
     }
 }

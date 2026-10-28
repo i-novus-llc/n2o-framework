@@ -2,18 +2,15 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
-import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oHtmlWidget;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
@@ -31,7 +28,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.RESOLVE, p);
         MetaActions widgetActions = initMetaActions(source, p);
-        String html = castDefault(source.getHtml(), () -> p.getExternalFile(RouteUtil.normalizeUrl(source.getUrl(), p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class))));
+        String html = source.resolveContent(source.getHtml(), p);
         if (html != null) {
             if (hasLink(html))
                 html = html.replace("'", "\\'");

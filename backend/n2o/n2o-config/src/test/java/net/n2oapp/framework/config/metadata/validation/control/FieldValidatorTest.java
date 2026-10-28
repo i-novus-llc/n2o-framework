@@ -126,4 +126,19 @@ class FieldValidatorTest extends SourceValidationTestBase {
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре поля 'name'", exception.getMessage());
     }
 
+    @Test
+    void testFieldDependencyBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testFieldDependencyBodyAndFileExistence.widget.xml"));
+        assertEquals("Для поля 'field' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
+    }
+
+    @Test
+    void testFieldInlineConditionBodyAndFileExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testFieldInlineConditionBodyAndFileExistence.widget.xml"));
+        assertEquals("Для валидации 'cond1' поля 'name' в элементе \"<condition>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
+    }
 }

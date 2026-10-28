@@ -8,8 +8,10 @@
                           badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
                           data="{snils}" type="text" message="Скопировано в буфер обмена">
             <dependencies>
-                <enabling model="resolve" datasource="ref" message="Не указана дата"/>
-                <visibility model="resolve" datasource="ref"/>
+                <enabling model="resolve" datasource="ref" message="Не указана дата" file="enabling1.js"/>
+                <enabling model="resolve" datasource="ref" message="Не указана дата">!_.isEmpty(this)</enabling>
+                <visibility model="resolve" datasource="ref" file="visibility1.js"/>
+                <visibility model="resolve" datasource="ref">status == 'active'</visibility>
             </dependencies>
         </clipboard-button>
     </toolbar>

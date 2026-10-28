@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oFileAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -52,6 +53,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -71,8 +73,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
                 () -> p.resolve(property("n2o.api.control.no_label_block"), String.class)));
         if (source.getRefDatasourceId() != null ||
-            source.getRefModel() != null ||
-            source.getRefFieldId() != null)
+                source.getRefModel() != null ||
+                source.getRefFieldId() != null)
             source.setUsingRef(true);
         source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> initLocalDatasourceId(p)));
         source.setRefModel(castDefault(source.getRefModel(),
@@ -190,7 +192,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     p.resolveJS(fetchValue.getEnabled(), Boolean.class),
                     () -> p.resolve(property("n2o.api.control.dependency.fetch_value.enabled"), Boolean.class)));
             return fetchValueDependency;
-        } else if (source instanceof N2oField.EnablingDependency enabling) {
+        }
+
+        String expressionValue = source instanceof N2oFileAware fileAware
+                ? fileAware.resolveContent(source.getValue(), p)
+                : source.getValue();
+
+        if (source instanceof N2oField.EnablingDependency enabling) {
             EnablingDependency enablingDependency = new EnablingDependency();
             enablingDependency.setType(ValidationTypeEnum.ENABLED);
             enablingDependency.setMessage(enabling.getMessage());
@@ -208,7 +216,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
                 reset.setType(ValidationTypeEnum.RESET);
-                reset.setEnabled(ScriptProcessor.resolveFunction(source.getValue()));
+                reset.setEnabled(ScriptProcessor.resolveFunction(expressionValue));
                 addToField(reset, field, source, p);
             }
         } else if (source instanceof N2oField.SetValueDependency setValue) {
@@ -226,13 +234,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             resetDependency.setType(ValidationTypeEnum.RESET);
             resetDependency.setValidate(castDefault(reset.getValidate(),
                     () -> p.resolve(property("n2o.api.control.dependency.reset.validate"), Boolean.class)));
-            if (source.getValue() == null) {
-                source.setValue(String.valueOf(Boolean.TRUE));
+            if (expressionValue == null) {
+                expressionValue = String.valueOf(Boolean.TRUE);
             }
-            resetDependency.setEnabled(ScriptProcessor.resolveFunction(source.getValue()));
+            resetDependency.setEnabled(ScriptProcessor.resolveFunction(expressionValue));
             return resetDependency;
         }
-        dependency.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
+        dependency.setExpression(ScriptProcessor.resolveFunction(expressionValue));
         return dependency;
     }
 
@@ -317,13 +325,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private Validation initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
         MomentScope momentScope = p.getScope(MomentScope.class);
         String requiredMessage = momentScope != null
-                                 && N2oValidation.ServerMomentEnum.BEFORE_QUERY.equals(momentScope.getMoment())
+                && N2oValidation.ServerMomentEnum.BEFORE_QUERY.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
         if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = getMandatoryValidation(fieldId, p, source.getVisible(), visibilityConditions, requiredMessage, momentScope);
             mandatory.addEnablingConditions(
                     collectConditions(
-                            source,
+                            source, p,
                             N2oField.RequiringDependency.class,
                             N2oField.EnablingDependency.class,
                             N2oField.VisibilityDependency.class
@@ -334,7 +342,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         } else if ("true".equals(source.getRequired())) {
             MandatoryValidation mandatory = getMandatoryValidation(fieldId, p, source.getVisible(), visibilityConditions, requiredMessage, momentScope);
-            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class, N2oField.EnablingDependency.class));
+            mandatory.addEnablingConditions(collectConditions(source, p, N2oField.VisibilityDependency.class, N2oField.EnablingDependency.class));
             field.setRequired(true);
             return mandatory;
         }
@@ -356,18 +364,32 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return mandatory;
     }
 
-    private List<String> collectConditions(S source, Class... types) {
+    private List<String> collectConditions(S source, CompileProcessor p, Class... types) {
         List<String> result = new ArrayList<>();
         if (source.getDependencies() != null && types != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 for (Class clazz : types) {
-                    if (dependency.getClass().equals(clazz)) {
-                        result.add(ScriptProcessor.resolveFunction(dependency.getValue()));
-                    }
+                    addConditionIfMatches(p, dependency, clazz, result);
                 }
             }
         }
         return result.isEmpty() ? null : result;
+    }
+
+    private void addConditionIfMatches(CompileProcessor p, N2oField.Dependency dependency, Class clazz, List<String> result) {
+        if (dependency.getClass().equals(clazz)) {
+            String expr = getDependencyValue(dependency, p);
+            if (hasText(expr)) {
+                result.add(ScriptProcessor.resolveFunction(expr));
+            }
+        }
+    }
+
+
+    private String getDependencyValue(N2oField.Dependency dependency, CompileProcessor p) {
+        return dependency instanceof N2oFileAware fileAware
+                ? fileAware.resolveContent(dependency.getValue(), p)
+                : dependency.getValue();
     }
 
     protected void compileCopied(S source, CompileProcessor p) {
@@ -414,7 +436,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                                       CompileContext<?, ?> context, CompileProcessor p,
                                       Set<String> visibilityConditions,
                                       N2oField.Validations validations) {
-        List<String> fieldVisibilityConditions = getFieldVisibilityConditions(source);
+        List<String> fieldVisibilityConditions = getFieldVisibilityConditions(source, p);
 
         for (N2oValidation v : validations.getInlineValidations()) {
             if (v.getFieldId() == null)
@@ -431,13 +453,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private List<String> getFieldVisibilityConditions(S source) {
+    private List<String> getFieldVisibilityConditions(S source, CompileProcessor p) {
         List<String> fieldVisibilityConditions = new ArrayList<>();
         if (source.getDependencies() != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 if (dependency.getClass().equals(N2oField.VisibilityDependency.class) ||
-                    dependency.getClass().equals(N2oField.EnablingDependency.class))
-                    fieldVisibilityConditions.add(dependency.getValue());
+                        dependency.getClass().equals(N2oField.EnablingDependency.class)) {
+                    String expr = getDependencyValue(dependency, p);
+                    if (hasText(expr)) {
+                        fieldVisibilityConditions.add(expr);
+                    }
+                }
             }
         } else if (FALSE.equals(source.getVisible()) || FALSE.equals(source.getEnabled())) {
             fieldVisibilityConditions.add(FALSE);
@@ -463,7 +489,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (validation == null)
             return null;
 
-        List<String> enablingConditions = getVisibilityDependencyConditions(source);
+        List<String> enablingConditions = getVisibilityDependencyConditions(source, p);
         validation.setFieldId(fieldId);
         validation.addEnablingConditions(enablingConditions);
         validation.addEnablingConditions(visibilityConditions);
@@ -501,12 +527,15 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return validation;
     }
 
-    private List<String> getVisibilityDependencyConditions(S source) {
+    private List<String> getVisibilityDependencyConditions(S source, CompileProcessor p) {
         List<String> enablingConditions = new ArrayList<>();
         if (source.getDependencies() != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 if (dependency instanceof N2oField.VisibilityDependency) {
-                    enablingConditions.add(dependency.getValue());
+                    String expr = getDependencyValue(dependency, p);
+                    if (org.springframework.util.StringUtils.hasText(expr)) {
+                        enablingConditions.add(expr);
+                    }
                 }
             }
         }

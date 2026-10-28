@@ -78,6 +78,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get("testFormCompile_w1");
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
         assertThat(datasource.getProvider(), nullValue());
+        assertThat(form.getDependency().getVisible().getFirst().getCondition(), is("type == 0"));
     }
 
     @Test

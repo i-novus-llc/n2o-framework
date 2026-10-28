@@ -21,12 +21,14 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Чтение/запись базовых свойств контрола версии 3.0
  */
 public abstract class StandardFieldIOv3<T extends N2oStandardField> extends FieldIOv3<T> {
-
+    private static final Logger logger = LoggerFactory.getLogger(StandardFieldIOv3.class);
     private static final Namespace dataProviderNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
@@ -66,7 +68,12 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         validation(e, t, p);
         p.text(e, t::getExpression, t::setExpression);
         p.attributeArray(e, "on", ",", t::getExpressionOn, t::setExpressionOn);
-        p.attribute(e, "src", t::getSrc, t::setSrc);
+        p.attribute(e, "file", t::getFile, t::setFile);
+        p.read(e, t, (el, c) -> p.attribute(el, "src", () -> null, src -> {
+            logger.warn("Атрибут 'src' элемента \"<condition>\" устарел, используйте 'file'");
+            if (c.getFile() == null)
+                c.setFile(src);
+        }));
     }
 
     private void mandatory(Element e, N2oMandatoryValidation t, IOProcessor p) {

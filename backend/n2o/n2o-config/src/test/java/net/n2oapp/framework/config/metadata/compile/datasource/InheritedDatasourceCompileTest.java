@@ -129,5 +129,9 @@ class InheritedDatasourceCompileTest extends SourceCompileTestBase {
                 hasProperty("targetField", nullValue()),
                 hasProperty("submitValueExpression", is("(function(){var result = target\nreturn result}).call(this)"))
         ));
+
+        InheritedDatasource inh5 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh5");
+        assertThat(inh5.getProvider().getFetchValueExpression(), is("(function(){var result = source\nreturn result}).call(this)"));
+        assertThat(inh5.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\nreturn result}).call(this)"));
     }
 }

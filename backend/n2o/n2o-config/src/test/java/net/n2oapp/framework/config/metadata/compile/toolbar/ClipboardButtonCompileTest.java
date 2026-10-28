@@ -74,9 +74,11 @@ class ClipboardButtonCompileTest extends SourceCompileTestBase {
                 hasProperty("iconPosition", is(PositionEnum.RIGHT)),
                 hasProperty("color", is("primary")),
                 hasProperty("src", is("Buttons/Clipboard"))
-
         ));
         assertThat(button.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
         assertThat(button.getConditions().get(ValidationTypeEnum.VISIBLE), is(nullValue()));
+
+        ClipboardButton btn3 = (ClipboardButton) form.getToolbar().getButton("btn3");
+        assertThat(btn3.getConditions().get(ValidationTypeEnum.VISIBLE).getFirst().getExpression(), is("type == 1"));
     }
 }

@@ -7,12 +7,14 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConditionValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.InvocationScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -66,6 +68,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                             String.format("В \"<mandatory>\" валидации %s объекта %s необходимо указать атрибут 'field-id'",
                                     getIdOrEmptyString(validation.getId()),
                                     getIdOrEmptyString(object.getId())));
+
+                validateConditionFile(validation);
+
                 if (validation instanceof N2oInvocationValidation invocationValidation) {
                     invocationScope.setValidationId(validation.getId());
                     p.validate(invocationValidation.getN2oInvocation(), invocationScope);
@@ -134,6 +139,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                     p.checkIdExistence(validation, String.format("В одной из валидаций операции %s объекта %s не указан параметр 'id'",
                             getIdOrEmptyString(operation.getId()),
                             getIdOrEmptyString(object.getId())));
+                    validateConditionFile(validation);
                     if (validation instanceof N2oInvocationValidation invocationValidation) {
                         invocationScope.setValidationId(validation.getId());
                         p.validate(invocationValidation.getN2oInvocation(), invocationScope);
@@ -194,7 +200,10 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                                 getIdOrEmptyString(operation.getId()),
                                 getIdOrEmptyString(object.getId()),
                                 getIdOrEmptyString(val)));
-            validationSideIsNotClient(object.getId(), operation, validations.get(val));
+
+            N2oValidation validation = validations.get(val);
+            validateConditionFile(validation);
+            validationSideIsNotClient(object.getId(), operation, validation);
         });
     }
 
@@ -210,5 +219,11 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
             p.safeStreamOf(refField.getFields())
                     .forEach(childField -> checkFieldIdExistence(childField, p, message));
         p.checkIdExistence(field, message);
+    }
+
+    private void validateConditionFile(N2oValidation validation) {
+        if (validation instanceof N2oConditionValidation condition)
+            ValidationUtils.checkBodyOrFile("<condition>", condition.getExpression(), condition.getFile(),
+                    "валидации " + getIdOrEmptyString(condition.getId()));
     }
 }

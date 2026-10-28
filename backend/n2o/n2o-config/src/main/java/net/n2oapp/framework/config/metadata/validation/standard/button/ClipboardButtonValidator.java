@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.button;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oClipboardButton;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -24,11 +25,21 @@ public class ClipboardButtonValidator implements SourceValidator<N2oClipboardBut
     public void validate(N2oClipboardButton source, SourceProcessor p) {
         checkDatasource(source, p);
         checkData(source);
+        checkDependencies(source);
     }
 
-    /**
-     * Проверка существования источника данных для кнопки
-     */
+    private void checkDependencies(N2oClipboardButton source) {
+        if (source.getDependencies() != null) {
+            for (N2oAbstractButton.Dependency dependency : source.getDependencies()) {
+                String tag = (dependency instanceof N2oAbstractButton.EnablingDependency)
+                        ? "<enabling>"
+                        : "<visibility>";
+                ValidationUtils.checkBodyOrFile(tag, dependency.getValue(), dependency.getFile(),
+                        "кнопки копирования " + getLabelOrId(source));
+            }
+        }
+    }
+
     private void checkDatasource(N2oClipboardButton source, SourceProcessor p) {
         if (source.getDatasourceId() != null) {
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
@@ -38,9 +49,6 @@ public class ClipboardButtonValidator implements SourceValidator<N2oClipboardBut
         }
     }
 
-    /**
-     * Проверка обязательного поля data
-     */
     private void checkData(N2oClipboardButton source) {
         if (source.getData() == null) {
             throw new N2oMetadataValidationException(

@@ -2,11 +2,14 @@ package net.n2oapp.framework.config.metadata.validation.standard.control;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.N2oFileAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConditionValidation;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -43,6 +46,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         checkDefaultValues(source);
         checkDependencies(source);
         checkRefDatasource(source, p);
+        checkInlineConditions(source);
         if (widgetScope != null)
             checkWhiteListValidation(source, widgetScope, p);
         if (source.getToolbar() != null)
@@ -107,6 +111,12 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                         !dependencyClasses.add(dependency.getClass()))
                     throw new N2oMetadataValidationException(
                             String.format("В поле %s повторяются зависимости одного типа", ValidationUtils.getIdOrEmptyString(source.getId())));
+
+                if (dependency instanceof N2oFileAware fileAware) {
+                    ValidationUtils.checkBodyOrFile(getDependencyTag(dependency),
+                            dependency.getValue(), fileAware.getFile(),
+                            "поля " + ValidationUtils.getIdOrEmptyString(source.getId()));
+                }
             }
         }
     }
@@ -185,6 +195,35 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                             ValidationUtils.getIdOrEmptyString(source.getId()),
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()),
                             ValidationUtils.getIdOrEmptyString(datasource.getId())));
+    }
+
+    private static String getDependencyTag(N2oField.Dependency dependency) {
+        return switch (dependency) {
+            case N2oField.EnablingDependency ignored -> "<enabling>";
+            case N2oField.VisibilityDependency ignored -> "<visibility>";
+            case N2oField.RequiringDependency ignored -> "<requiring>";
+            case N2oField.SetValueDependency ignored -> "<set-value>";
+            case N2oField.ResetDependency ignored -> "<reset>";
+            default -> dependency.getClass().getSimpleName();
+        };
+    }
+
+    /**
+     * Проверка валидаций <condition> внутри поля на одновременное наличие тела и file
+     *
+     * @param source Поле
+     */
+    private void checkInlineConditions(N2oField source) {
+        if (source.getValidations() == null || source.getValidations().getInlineValidations() == null)
+            return;
+
+        for (N2oValidation validation : source.getValidations().getInlineValidations()) {
+            if (validation instanceof N2oConditionValidation condition) {
+                ValidationUtils.checkBodyOrFile("<condition>", condition.getExpression(), condition.getFile(),
+                        "валидации " + ValidationUtils.getIdOrEmptyString(condition.getId())
+                                + " поля " + ValidationUtils.getIdOrEmptyString(source.getId()));
+            }
+        }
     }
 
     @Override
