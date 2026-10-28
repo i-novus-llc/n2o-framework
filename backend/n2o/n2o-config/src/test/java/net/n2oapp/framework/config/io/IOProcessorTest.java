@@ -19,8 +19,6 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
-import org.custommonkey.xmlunit.DetailedDiff;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.jdom2.*;
@@ -30,7 +28,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
-import org.xml.sax.SAXException;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelectors;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -1118,22 +1119,18 @@ class IOProcessorTest {
 
         @Override
         public boolean matches(Object item) {
-            XMLOutputter outputer = new XMLOutputter();
-            String expectedXml = outputer.outputString(expectedValue);
-            String actualXml = outputer.outputString((Element) item);
+            XMLOutputter outputter = new XMLOutputter();
+            String expectedXml = outputter.outputString(expectedValue);
+            String actualXml = outputter.outputString((Element) item);
 
-            XMLUnit.setIgnoreWhitespace(true);
-            XMLUnit.setIgnoreAttributeOrder(true);
-            XMLUnit.setIgnoreComments(true);
-            XMLUnit.setIgnoreDiffBetweenTextAndCDATA(true);
-
-            DetailedDiff diff = null;
-            try {
-                diff = new DetailedDiff(XMLUnit.compareXML(expectedXml, actualXml));
-                return diff.similar();
-            } catch (SAXException | IOException e) {
-                throw new IllegalStateException(e);
-            }
+            Diff diff = DiffBuilder.compare(expectedXml)
+                    .withTest(actualXml)
+                    .ignoreWhitespace()
+                    .ignoreComments()
+                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
+                    .checkForSimilar()
+                    .build();
+            return !diff.hasDifferences();
         }
 
         @Override
