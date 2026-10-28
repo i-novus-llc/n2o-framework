@@ -77,8 +77,6 @@ build stable:
     JDK_VERSION: 'jdk17'
     NODE_VERSION: 'node18'
     MAVEN_IMAGE_VERSION: 'v5'
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_PIPELINE_SOURCE == "web"
 
 cleanup:
   dependencies: []
