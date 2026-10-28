@@ -65,8 +65,6 @@ public class N2oSandboxConfiguration {
     private String secretKey;
     @Value("${s3.url:#{null}}")
     private String endpoint;
-    @Value("${s3.region:#{null}}")
-    private String region;
     @Value("${s3.bucket:#{null}}")
     private String bucket;
 
@@ -167,7 +165,7 @@ public class N2oSandboxConfiguration {
     public S3Client s3Client() {
         return S3Client.builder()
                 .endpointOverride(URI.create(endpoint))
-                .region(Region.of(region))
+                .region(Region.of("Stub"))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(accessKey, secretKey)))
                 .build();
