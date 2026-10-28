@@ -4,9 +4,11 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllIOPack;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.FileSystemUtil;
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.ElementNameQualifier;
-import org.custommonkey.xmlunit.XMLUnit;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.Difference;
+import org.xmlunit.diff.ElementSelectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,20 +22,35 @@ class XmlIOVersionMigratorTest extends N2oTestBase {
     private static final Logger logger = LoggerFactory.getLogger(XmlIOVersionMigratorTest.class);
     private static final BiFunction<String, String, Boolean> CANONICAL_COMPARATOR = (String s1, String s2) -> {
         try {
-            XMLUnit.setIgnoreWhitespace(true);
-            Diff diff = XMLUnit.compareXML(s1, s2);
-            diff.overrideElementQualifier(new ElementNameQualifier());
-            boolean similar = diff.similar();
-            logger.info("""
-                    Comparing two xml...
-                    Source:
-                    {}
-                    Persisted:
-                    {}
-                    Similar? {}
-                    Identical? {}
-                    """, s2, s1, similar, diff.identical());
-            logger.info(diff.toString());
+            Diff similarDiff = DiffBuilder.compare(s2)
+                    .withTest(s1)
+                    .ignoreWhitespace()
+                    .ignoreComments()
+                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
+                    .checkForSimilar()
+                    .build();
+            Diff identicalDiff = DiffBuilder.compare(s2)
+                    .withTest(s1)
+                    .ignoreWhitespace()
+                    .ignoreComments()
+                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
+                    .build();
+
+            boolean similar = !similarDiff.hasDifferences();
+            boolean identical = !identicalDiff.hasDifferences();
+
+            StringBuilder log = new StringBuilder()
+                    .append("Comparing two xml...\n")
+                    .append("Source:\n").append(s2).append("\n")
+                    .append("Persisted:\n").append(s1).append("\n")
+                    .append("Similar? ").append(similar).append("\n")
+                    .append("Identical? ").append(identical).append("\n");
+            if (!similar) {
+                for (Difference d : similarDiff.getDifferences()) {
+                    log.append("\t").append(d).append("\n");
+                }
+            }
+            logger.info(log.toString());
             return similar;
         } catch (Exception e) {
             throw new RuntimeException(e);
