@@ -75,10 +75,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String clientPageId;
     /**
-     * Соответствия идентификаторов виджета с источником данных в родительском виджете
-     */
-    private Map<String, String> parentWidgetIdDatasourceMap;
-    /**
      * Список идентификаторов таб регионов
      */
     private Set<String> parentTabIds;
@@ -156,7 +152,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
                 Objects.equals(datasources, that.datasources) &&
                 Objects.equals(parentDatasourceIdsMap, that.parentDatasourceIdsMap) &&
                 Objects.equals(clientPageId, that.clientPageId) &&
-                Objects.equals(parentWidgetIdDatasourceMap, that.parentWidgetIdDatasourceMap) &&
                 Objects.equals(parentTabIds, that.parentTabIds) &&
                 Objects.equals(parentRoutes, that.parentRoutes) &&
                 Objects.equals(toolbars, that.toolbars) &&

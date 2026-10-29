@@ -22,7 +22,5 @@ public class InvokeActionPayload implements ActionPayload {
     @JsonProperty
     private String field;
     @JsonProperty
-    private String widgetId;
-    @JsonProperty
     private String pageId;
 }

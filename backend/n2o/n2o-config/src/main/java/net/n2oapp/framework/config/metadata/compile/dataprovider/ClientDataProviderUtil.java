@@ -147,7 +147,7 @@ public class ClientDataProviderUtil {
 
     public static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
                                          String url, CompileProcessor p) {
-         N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
+        N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
         if (actionContextData == null)
             return;
         ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);
@@ -167,7 +167,6 @@ public class ClientDataProviderUtil {
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null)
             actionContext.setParentPageId(pageScope.getPageId());
-        actionContext.setParentClientWidgetId(actionContextData.getParentWidgetId());
         actionContext.setParentSourceDatasourceId(source.getDatasourceId());
         actionContext.setMessagesForm(actionContextData.getMessagesForm());
         actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
