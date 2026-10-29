@@ -37,8 +37,6 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
 
     @Override
     public void validate(N2oObject object, SourceProcessor p) {
-        InvocationScope invocationScope = new InvocationScope();
-        invocationScope.setObjectId(object.getId());
         if (!ArrayUtils.isEmpty(object.getObjectFields())) {
             p.safeStreamOf(object.getObjectFields()).forEach(field ->
                     checkFieldIdExistence(field, p, String.format("В одном из полей объекта %s не указан 'id'",
@@ -56,7 +54,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                         getIdOrEmptyString(object.getId())));
 
         p.safeStreamOf(object.getOperations())
-                .forEach(operation -> validateOperation(object, operation, p, invocationScope));
+                .forEach(operation -> validateOperation(object, operation, p));
 
         if (object.getN2oValidations() != null)
             p.safeStreamOf(object.getN2oValidations()).forEach(validation -> {
@@ -72,8 +70,10 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 validateConditionFile(validation);
 
                 if (validation instanceof N2oInvocationValidation invocationValidation) {
-                    invocationScope.setValidationId(validation.getId());
-                    p.validate(invocationValidation.getN2oInvocation(), invocationScope);
+                    InvocationScope scope = new InvocationScope();
+                    scope.setObjectId(object.getId());
+                    scope.setValidationId(validation.getId());
+                    p.validate(invocationValidation.getN2oInvocation(), scope);
                 }
             });
     }
@@ -84,21 +84,23 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
      * @param object          Исходная metadata объекта
      * @param operation       Операция текущего объекта
      * @param p               Процессор исходных метаданных
-     * @param invocationScope Скоуп валидации провайдеров данных
      */
-    private void validateOperation(N2oObject object, N2oObject.Operation operation, SourceProcessor p, InvocationScope invocationScope) {
+    private void validateOperation(N2oObject object, N2oObject.Operation operation, SourceProcessor p) {
         if (operation.getId() == null)
             throw new N2oMetadataValidationException(
                     String.format("В одной из операций объекта %s не указан 'id'",
                             getIdOrEmptyString(object.getId())));
 
-        invocationScope.setOperationId(operation.getId());
         validateOperationInOutFields(object, operation, p);
 
-        if (operation.getInvocation() != null)
-            p.validate(operation.getInvocation(), invocationScope);
+        if (operation.getInvocation() != null) {
+            InvocationScope scope = new InvocationScope();
+            scope.setObjectId(object.getId());
+            scope.setOperationId(operation.getId());
+            p.validate(operation.getInvocation(), scope);
+        }
 
-        validateOperationValidations(object, operation, p, invocationScope);
+        validateOperationValidations(object, operation, p);
     }
 
     private void validateOperationInOutFields(N2oObject object, N2oObject.Operation operation, SourceProcessor p) {
@@ -129,7 +131,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
     }
 
     private void validateOperationValidations(N2oObject object, N2oObject.Operation operation,
-                                              SourceProcessor p, InvocationScope invocationScope) {
+                                              SourceProcessor p) {
         if (operation.getValidations() == null)
             return;
         if (operation.getValidations().getWhiteList() != null)
@@ -141,8 +143,11 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                             getIdOrEmptyString(object.getId())));
                     validateConditionFile(validation);
                     if (validation instanceof N2oInvocationValidation invocationValidation) {
-                        invocationScope.setValidationId(validation.getId());
-                        p.validate(invocationValidation.getN2oInvocation(), invocationScope);
+                        InvocationScope scope = new InvocationScope();
+                        scope.setObjectId(object.getId());
+                        scope.setOperationId(operation.getId());
+                        scope.setValidationId(validation.getId());
+                        p.validate(invocationValidation.getN2oInvocation(), scope);
                     }
                 });
         p.safeStreamOf(operation.getValidations().getInlineValidations())
