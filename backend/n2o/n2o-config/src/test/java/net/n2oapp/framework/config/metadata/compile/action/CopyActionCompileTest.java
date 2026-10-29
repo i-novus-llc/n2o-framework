@@ -15,8 +15,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -44,9 +42,6 @@ class CopyActionCompileTest extends SourceCompileTestBase {
     @Test
     void testCopyAction() {
         ModalPageContext modalPageContext = new ModalPageContext("testCopyAction", "/modal");
-        HashMap<String, String> parentWidgetIdDatasourceMap = new HashMap<>();
-        parentWidgetIdDatasourceMap.put("page_form", "page_form");
-        modalPageContext.setParentWidgetIdDatasourceMap(parentWidgetIdDatasourceMap);
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyAction.page.xml")
                 .get(modalPageContext);
 

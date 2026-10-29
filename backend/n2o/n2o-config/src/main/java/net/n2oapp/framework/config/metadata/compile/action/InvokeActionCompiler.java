@@ -58,29 +58,19 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         invokeAction.getPayload().setModel(castDefault(source.getModel(), ActionCompileStaticProcessor.getModelFromComponentScope(p)));
         invokeAction.getPayload().setDatasource(getClientDatasourceId(castDefault(source.getDatasourceId(), getLocalDatasourceId(p)), p));
         invokeAction.getPayload().setField(getField(p));
-        invokeAction.getPayload().setWidgetId(getClientDatasourceId(getDatasourceIdByComponentScope(p), p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
-        invokeAction.getMeta().setSuccess(initSuccessMeta(invokeAction, source, context, p));
-        invokeAction.getMeta().setFail(initFailMeta(invokeAction, source, context));
+        invokeAction.getMeta().setSuccess(initSuccessMeta(source, context, p));
+        invokeAction.getMeta().setFail(super.initFailMeta(source, context));
         initDataProvider(invokeAction, source, context, p);
 
         return invokeAction;
     }
 
-    protected MetaSaga initSuccessMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
+    @Override
+    protected MetaSaga initSuccessMeta(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga metaSaga = super.initSuccessMeta(source, context, p);
-        metaSaga.setMessageWidgetId(
-                getMessageWidgetId(compiled, context, source.getCloseOnSuccess() || source.getDoubleCloseOnSuccess())
-        );
         initClear(source, p, metaSaga);
-
-        return metaSaga;
-    }
-
-    protected MetaSaga initFailMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context) {
-        MetaSaga metaSaga = super.initFailMeta(source, context);
-        metaSaga.setMessageWidgetId(compiled.getPayload().getWidgetId());
 
         return metaSaga;
     }
@@ -112,15 +102,6 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         source.setUseFailOut(castDefault(source.getUseFailOut(), true));
     }
 
-    private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {
-        if (closeOnSuccess && (context instanceof PageContext pageContext)) {
-            return pageContext.getParentClientWidgetId();
-        }
-
-        return compiled.getPayload().getWidgetId();
-    }
-
-
     private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source,
                                   CompileContext<?, ?> context, CompileProcessor p) {
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
@@ -141,6 +122,12 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         CompiledObject compiledObject = getObject(source, p);
         invokeAction.setObjectId(compiledObject.getId());
 
+        String failMessageWidgetId = getClientDatasourceId(getDatasourceIdByComponentScope(p), p);
+        boolean closeOnSuccess = Boolean.TRUE.equals(source.getCloseOnSuccess()) || Boolean.TRUE.equals(source.getDoubleCloseOnSuccess());
+        String successMessageWidgetId = (closeOnSuccess && context instanceof PageContext pageContext)
+                ? pageContext.getParentClientWidgetId()
+                : failMessageWidgetId;
+
         AsyncMetaSaga metaSaga = invokeAction.getMeta();
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(compiledObject.getId());
@@ -149,8 +136,9 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         actionContextData.setClearDatasource(metaSaga.getSuccess().getClear());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
         actionContextData.setRefresh(metaSaga.getSuccess().getRefresh());
-        actionContextData.setParentWidgetId(metaSaga.getSuccess().getMessageWidgetId());
-        actionContextData.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
+        actionContextData.setParentWidgetId(successMessageWidgetId);
+        actionContextData.setMessagesForm(failMessageWidgetId);
+
         actionContextData.setMessageOnSuccess(source.getMessageOnSuccess());
         actionContextData.setMessageOnFail(source.getMessageOnFail());
         actionContextData.setUseFailOut(source.getUseFailOut());

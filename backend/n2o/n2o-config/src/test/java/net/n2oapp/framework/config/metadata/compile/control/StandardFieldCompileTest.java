@@ -294,7 +294,6 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("operationId", is("update")),
                 hasProperty("messageOnFail", is(true)),
                 hasProperty("messageOnSuccess", is(false)),
-                hasProperty("parentClientWidgetId", is("testStandardFieldSubmit_form")),
                 hasProperty("messagesForm", is("testStandardFieldSubmit_form")),
                 hasProperty("refresh", hasProperty("datasources", hasItem("testStandardFieldSubmit_form")))
         ));

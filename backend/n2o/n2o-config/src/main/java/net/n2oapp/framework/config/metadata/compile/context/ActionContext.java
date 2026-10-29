@@ -27,7 +27,6 @@ public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
     private String parentPageId;
-    private String parentClientWidgetId;
     private String parentSourceDatasourceId;
     /**
      * Форма, в которой находятся валидации
@@ -87,7 +86,6 @@ public class ActionContext extends ObjectContext {
                 Objects.equals(operationId, that.operationId) &&
                 Objects.equals(validations, that.validations) &&
                 Objects.equals(parentPageId, that.parentPageId) &&
-                Objects.equals(parentClientWidgetId, that.parentClientWidgetId) &&
                 Objects.equals(parentSourceDatasourceId, that.parentSourceDatasourceId) &&
                 Objects.equals(messagesForm, that.messagesForm) &&
                 Objects.equals(clearDatasource, that.clearDatasource) &&

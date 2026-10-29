@@ -39,6 +39,4 @@ public class MenuItem extends Component implements IdAware {
     private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
     @JsonProperty
     private Boolean validate;
-    @JsonProperty
-    private String validatedWidgetId;
 }

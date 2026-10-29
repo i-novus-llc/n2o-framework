@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Arrays;
@@ -70,10 +69,6 @@ public class N2oClientDataProviderUtil {
                     queryParam.setValueList(getPrefilterValue(preFilter, p));
                     queryParam.setModel(preFilter.getModel());
                     queryParam.setDatasourceId(preFilter.getDatasourceId());
-                    if (queryParam.getDatasourceId() == null && preFilter.getDatasourceId() != null) {
-                        PageScope pageScope = p.getScope(PageScope.class);
-                        queryParam.setDatasourceId(pageScope.getWidgetIdSourceDatasourceMap().get(preFilter.getDatasourceId()));
-                    }
                 } else {
                     queryParam.setValueParam(preFilter.getParam());
                 }

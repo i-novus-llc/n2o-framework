@@ -9,7 +9,9 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
-import net.n2oapp.framework.api.metadata.meta.action.*;
+import net.n2oapp.framework.api.metadata.meta.action.RoutablePayload;
+import net.n2oapp.framework.api.metadata.meta.action.SetActiveRegionEntityPayload;
+import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 
@@ -80,18 +82,11 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static BindLink createBindLink(ReduxAction reduxAction) {
-        if (reduxAction.getType().equals("n2o/widgets/CHANGE_SELECTED_ID")) {
-            ReduxModelEnum reduxModel = ReduxModelEnum.RESOLVE;
-            //todo нужна типизация по widgetId и field
-            String widgetId = ((SelectedWidgetPayload) reduxAction.getPayload()).getWidgetId();
-            return createBindLink(widgetId, reduxModel, "id");
+        if (reduxAction.getType().equals("n2o/models/UPDATE")) {
+            UpdateModelPayload payload = (UpdateModelPayload) reduxAction.getPayload();
+            return createBindLink(payload.getKey(), ReduxModelEnum.valueOf(payload.getPrefix().toUpperCase()), payload.getField());
         } else {
-            if (reduxAction.getType().equals("n2o/models/UPDATE")) {
-                UpdateModelPayload payload = (UpdateModelPayload) reduxAction.getPayload();
-                return createBindLink(payload.getKey(), ReduxModelEnum.valueOf(payload.getPrefix().toUpperCase()), payload.getField());
-            } else {
-                throw new UnsupportedOperationException(String.format("Тип действия Redux '%s' не поддерживается", reduxAction.getType()));
-            }
+            throw new UnsupportedOperationException(String.format("Тип действия Redux '%s' не поддерживается", reduxAction.getType()));
         }
     }
 
@@ -138,18 +133,6 @@ public abstract class Redux {
         return new ReduxAction("n2o/models/UPDATE", payload);
     }
 
-    /**
-     * Вызвать сортировку виджета
-     *
-     * @param widgetId  Идентификатор виджета
-     * @param field     Поле сортировки
-     * @param direction Направление сортировки
-     * @return Redux действие
-     */
-    public static ReduxAction dispatchSortWidget(String widgetId, String field, Serializable direction) {
-        SortWidgetPayload payload = new SortWidgetPayload(widgetId, field, direction);
-        return new ReduxAction("n2o/widgets/SORT_BY", payload);
-    }
 
     /**
      * Установить активный элемент региона
