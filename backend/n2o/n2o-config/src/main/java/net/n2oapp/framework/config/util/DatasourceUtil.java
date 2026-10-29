@@ -17,12 +17,12 @@ public class DatasourceUtil {
     /**
      * Получение идентификатора клиентского виджета
      *
-     * @param widgetId Идентификатор виджета
+     * @param datasourceId Идентификатор источника данных
      * @param pageId   Идентификатор страницы
      * @return Идентификатор клиентского виджета
      */
-    public static String getClientWidgetId(String widgetId, String pageId) {
-        return getClientDatasourceId(widgetId, pageId);
+    public static String getClientWidgetId(String datasourceId, String pageId) {
+        return getClientDatasourceId(datasourceId, pageId);
     }
 
     /**

@@ -78,7 +78,7 @@ public abstract class Redux {
     /**
      * Создать ссылку на основе Redux действия
      *
-     * @param reduxAction Идентификатор виджета
+     * @param reduxAction Идентификатор источника данных
      * @return Redux действие
      */
     public static BindLink createBindLink(ReduxAction reduxAction) {
@@ -118,21 +118,19 @@ public abstract class Redux {
         return new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
     }
 
-
     /**
      * Вызвать обновление поля в модели виджета
      *
-     * @param widgetId Идентификатор виджета
-     * @param model    Модель виджета
-     * @param field    Поле виджета
-     * @param value    Значение
+     * @param datasourceId Идентификатор источника данных
+     * @param model        Модель виджета
+     * @param field        Поле виджета
+     * @param value        Значение
      * @return Redux действие
      */
-    public static ReduxAction dispatchUpdateModel(String widgetId, ReduxModelEnum model, String field, Serializable value) {
-        UpdateModelPayload payload = new UpdateModelPayload(model.getId(), widgetId, field, value);
+    public static ReduxAction dispatchUpdateModel(String datasourceId, ReduxModelEnum model, String field, Serializable value) {
+        UpdateModelPayload payload = new UpdateModelPayload(model.getId(), datasourceId, field, value);
         return new ReduxAction("n2o/models/UPDATE", payload);
     }
-
 
     /**
      * Установить активный элемент региона

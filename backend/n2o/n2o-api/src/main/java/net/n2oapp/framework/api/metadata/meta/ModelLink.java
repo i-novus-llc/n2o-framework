@@ -219,10 +219,10 @@ public class ModelLink extends BindLink {
         return first.getLink().equals(second.getLink());
     }
 
-    private static String createBindLink(ReduxModelEnum model, String widgetId, String suffix, String fieldId) {
+    private static String createBindLink(ReduxModelEnum model, String datasourceId, String suffix, String fieldId) {
         if (model == null)
             return null;
-        String link = String.format("models.%s['%s']%s", model.getId(), widgetId, Objects.toString(suffix, ""));
+        String link = String.format("models.%s['%s']%s", model.getId(), datasourceId, Objects.toString(suffix, ""));
         return fieldId == null ? link : link + "." + fieldId;
     }
 
