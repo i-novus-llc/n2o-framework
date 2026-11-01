@@ -258,11 +258,17 @@ description: ""
 - Настройка `n2o.api.message.placement` переименована в `n2o.api.message.place`.
 - Настройка `n2o.api.action.alert.placement` переименована в `n2o.api.action.alert.place`.
 - Настройка `n2o.api.action.open_drawer.placement` переименована в `n2o.api.action.open_drawer.place`.
+- Stacktrace ошибок по умолчанию больше не передаётся клиенту в сообщениях об ошибках.
+Настройка `n2o.ui.message.stacktrace` удалена: stacktrace отображается только при включённом режиме разработки
+`n2o.ui.message.dev-mode=true` (по умолчанию `false`).
 
 ### Изменения в Java API {#changes-java-api}
 
 - Удалён публичный метод `setSeparator(char)` у класса `CsvFileGenerator`. Ранее он позволял изменить разделитель колонок CSV-экспорта во время работы приложения.
   Для настройки разделителя колонок CSV-экспорта используйте настройку `n2o.api.generate.button.export.csv.columnSeparator` (по умолчанию `;`).
+- Удалён конструктор `AlertMessageBuilder(MessageSourceAccessor, PropertyResolver, boolean showStacktrace)`.
+Остался только `AlertMessageBuilder(MessageSourceAccessor, PropertyResolver)`: отображение stacktrace
+теперь определяется настройкой `n2o.ui.message.dev-mode`.
 - `N2oServlet` и его наследники переведены на внедрение через конструктор:
 удалены `init()`, `setMessageBuilder()`, `setPropertyResolver()` и сеттеры полей.
 Добавлен конструктор `N2oServlet(ObjectMapper, AlertMessagesConstructor)`.

@@ -23,19 +23,10 @@ public class AlertMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
     private PropertyResolver propertyResolver;
-    private boolean showStacktrace = true;
-    private boolean devMode;
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
-    }
-
-    public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
-                               boolean showStacktrace) {
-        this.messageSourceAccessor = messageSourceAccessor;
-        this.propertyResolver = propertyResolver;
-        this.showStacktrace = showStacktrace;
     }
 
     public ResponseMessage build(Exception e) {
@@ -68,9 +59,9 @@ public class AlertMessageBuilder {
         return message;
     }
 
-    private void initDevMode(PropertyResolver propertyResolver) {
-        Boolean activeDevMode = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : Boolean.FALSE;
-        this.devMode = Boolean.TRUE.equals(activeDevMode);
+    private boolean isDevMode() {
+        return propertyResolver != null
+                && Boolean.TRUE.equals(propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class));
     }
 
     private SeverityTypeEnum getExceptionSeverity(Exception e) {
@@ -78,13 +69,13 @@ public class AlertMessageBuilder {
     }
 
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
-        initDevMode(propertyResolver);
-        resp.setText(buildText(e));
+        boolean devMode = isDevMode();
+        resp.setText(buildText(e, devMode));
 
         if (!devMode && e instanceof N2oException n2oException && n2oException.getUserMessageTitle() != null)
             resp.setTitle(n2oException.getUserMessageTitle());
 
-        if (showStacktrace && !(e instanceof N2oUserException))
+        if (devMode && !(e instanceof N2oUserException))
             resp.setPayload(initPayload(e));
         if (e instanceof N2oException n2oException)
             resp.setField(n2oException.getField());
@@ -92,7 +83,7 @@ public class AlertMessageBuilder {
     }
 
     private List<String> initPayload(Exception e) {
-        if (devMode && e instanceof N2oQueryExecutionException n2oQueryExecutionException)
+        if (e instanceof N2oQueryExecutionException n2oQueryExecutionException)
             return Collections.singletonList("Executed query: " + n2oQueryExecutionException.getQuery());
         return getStackFrames(getStackTrace(e));
     }
@@ -141,9 +132,9 @@ public class AlertMessageBuilder {
         return list;
     }
 
-    private String buildText(Exception e) {
+    private String buildText(Exception e, boolean devMode) {
         String message = "n2o.exceptions.error.message";
-        String userMessage = initUserMessage(e);
+        String userMessage = initUserMessage(e, devMode);
         message = userMessage != null ? userMessage : message;
         String localizedMessage = messageSourceAccessor.getMessage(message, message);
         if (e instanceof N2oException n2oException)
@@ -152,7 +143,7 @@ public class AlertMessageBuilder {
             return localizedMessage;
     }
 
-    private String initUserMessage(Exception e) {
+    private String initUserMessage(Exception e, boolean devMode) {
         if (devMode && !(e instanceof N2oUserException))
             return e.getMessage();
         if (e instanceof N2oException n2oException)
