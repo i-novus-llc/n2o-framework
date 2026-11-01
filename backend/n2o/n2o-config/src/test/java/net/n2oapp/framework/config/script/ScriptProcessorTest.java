@@ -259,6 +259,21 @@ class ScriptProcessorTest {
     }
 
     @Test
+    void testEvalDoesNotExecuteDataSetKeys() throws ScriptException {
+        // ключ с js-кодом не должен исполняться
+        DataSet data = new DataSet();
+        data.putAll(Map.of("x=0;__n2oInjected=true;var y", Map.of("id", 1)));
+        assertThat(ScriptProcessor.eval("typeof __n2oInjected", data), is("undefined"));
+
+        // корректные ключи по-прежнему доступны как js-объекты
+        data = new DataSet();
+        data.put("org", Map.of("name", "Test"));
+        data.put("организация", Map.of("id", 5));
+        assertThat(ScriptProcessor.eval("org.name", data), is("Test"));
+        assertThat(ScriptProcessor.eval("организация.id", data), is(5));
+    }
+
+    @Test
     void buildIsNullExpressionTest() {
         String exp = scriptProcessor.buildIsNullExpression("indiv.gender.id");
         String str = "(typeof indiv === 'undefined') || (typeof indiv.gender === 'undefined') || (typeof indiv.gender.id === 'undefined') || (indiv.gender.id === null)";

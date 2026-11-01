@@ -70,6 +70,7 @@ public class ScriptProcessor {
     private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const|let|for|while)\\b");
     private static final Pattern QUOTE_PATTERN = Pattern.compile("'[^']*'");
     private static final Pattern BRACE_PATTERN = Pattern.compile("\\{[^{}]*}");
+    private static final Pattern JS_IDENTIFIER_PATTERN = Pattern.compile("[\\p{L}_$][\\p{L}\\p{N}_$]*");
 
     public static String resolveLinks(String text) {
         if (text == null || !hasLink(text))
@@ -688,6 +689,11 @@ public class ScriptProcessor {
             boolean needsJsonInjection = val instanceof Map
                     || (val != null && val.getClass().isArray() && val.getClass().getComponentType().isPrimitive());
             if (needsJsonInjection) {
+                if (!JS_IDENTIFIER_PATTERN.matcher(entry.getKey()).matches()) {
+                    // Ключ не является js-идентификатором
+                    bindings.put(entry.getKey(), val);
+                    continue;
+                }
                 try {
                     String json = JSON_MAPPER.writeValueAsString(val);
                     engine.eval("var " + entry.getKey() + " = " + json + ";", bindings);
