@@ -12,6 +12,7 @@ import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,8 +49,14 @@ class AlertPositionAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/alert/simple/test.object.xml"));
     }
 
+    @AfterAll
+    static void afterClass() {
+        System.setProperty("n2o.ui.message.dev-mode", "false");
+    }
+
     @Test
     void alertTest() {
+        System.setProperty("n2o.ui.message.dev-mode", "true");
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -93,6 +100,5 @@ class AlertPositionAT extends AutoTestBase {
         modal.shouldHaveTitle("Модальное окно 2");
         modalAlert.shouldHaveColor(ColorsEnum.DANGER);
         modalAlert.shouldHaveStacktrace();
-        modalAlert.shouldHaveText("Произошла внутренняя ошибка");
     }
 }

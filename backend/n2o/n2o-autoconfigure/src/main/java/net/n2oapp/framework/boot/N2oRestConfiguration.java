@@ -22,7 +22,6 @@ import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -39,10 +38,6 @@ import java.util.Map;
 @ServletComponentScan("net.n2oapp.framework")
 @ComponentScan(basePackages = "net.n2oapp.framework.ui", lazyInit = true)
 public class N2oRestConfiguration {
-
-    @Value("${n2o.ui.message.stacktrace:true}")
-    private Boolean showStacktrace;
-
 
     @Bean
     ControllerFactory controllerFactory(Map<String, SetController> setControllers,
@@ -103,7 +98,7 @@ public class N2oRestConfiguration {
 
     @Bean
     public AlertMessageBuilder messageBuilder(MetadataEnvironment environment) {
-        return new AlertMessageBuilder(environment.getMessageSource(), environment.getSystemProperties(), showStacktrace);
+        return new AlertMessageBuilder(environment.getMessageSource(), environment.getSystemProperties());
     }
 
     @Bean

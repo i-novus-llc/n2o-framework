@@ -27,9 +27,21 @@ class AlertMessageBuilderTest {
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("Internal error"));
         assertThat(message.getSeverity(), is("danger"));
+        assertThat(message.getPayload(), nullValue());
+    }
+
+    @Test
+    void testStacktraceInDevMode() {
+        MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
+        PropertyResolver propertyResolver = mock(PropertyResolver.class);
+        when(propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class)).thenReturn(true);
+        when(propertyResolver.getProperty("n2o.api.message.danger.timeout")).thenReturn("8000");
+        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, propertyResolver);
+        ResponseMessage message = builder.build(new IllegalStateException("Internal error"));
         assertThat(message.getPayload(), hasItem(containsString("AlertMessageBuilderTest")));
-        builder = new AlertMessageBuilder(messageSource, null, false);
-        message = builder.build(e);
+
+        when(propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class)).thenReturn(false);
+        message = builder.build(new IllegalStateException("Internal error"));
         assertThat(message.getPayload(), nullValue());
     }
 
