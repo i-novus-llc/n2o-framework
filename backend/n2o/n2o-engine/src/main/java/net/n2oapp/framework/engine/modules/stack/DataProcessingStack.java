@@ -24,10 +24,10 @@ public abstract class DataProcessingStack {
     }
 
     public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
-        process(requestInfo,
-                module -> {
+        processError(requestInfo, exception,
+                (module, currentException) -> {
                     logger.debug("Processing action error");
-                    module.processActionError(requestInfo, responseInfo, dataSet, exception);
+                    module.processActionError(requestInfo, responseInfo, dataSet, currentException);
                 });
     }
 
@@ -48,10 +48,10 @@ public abstract class DataProcessingStack {
     }
 
     public void processQueryError(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, N2oException exception) {
-        process(requestInfo,
-                module -> {
+        processError(requestInfo, exception,
+                (module, currentException) -> {
                     logger.debug("Processing query error");
-                    module.processQueryError(requestInfo, responseInfo, exception);
+                    module.processQueryError(requestInfo, responseInfo, currentException);
                 });
     }
 
@@ -69,6 +69,23 @@ public abstract class DataProcessingStack {
         for (final DataProcessing module : stack)
             if (module.isEnabled(requestInfo))
                 callback.process(module);
+    }
+
+    private void processError(RequestInfo requestInfo, N2oException exception, DataProcessingErrorCallback callback) {
+        if (stack == null)
+            stack = findModules();
+        N2oException currentException = exception;
+        for (final DataProcessing module : stack) {
+            if (!module.isEnabled(requestInfo))
+                continue;
+            try {
+                callback.process(module, currentException);
+                return;
+            } catch (N2oException e) {
+                currentException = e;
+            }
+        }
+        throw currentException;
     }
 
     protected abstract List<DataProcessing> findModules();
