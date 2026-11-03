@@ -104,10 +104,8 @@
 }
 
 .n2o-button-field {
-    width: max-content;
-
     .btn {
-        width: content-box;
+        width: auto;
         justify-content: center;
     }
 }
