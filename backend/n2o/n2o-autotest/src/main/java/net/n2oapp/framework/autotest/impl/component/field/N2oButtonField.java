@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class N2oButtonField extends N2oField implements ButtonField {
     @Override
     public void click() {
-        element().click();
+        buttonElement().click();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class N2oButtonField extends N2oField implements ButtonField {
 
     @Override
     public void hover() {
-        element().hover();
+        buttonElement().hover();
     }
 
     @Override
@@ -73,8 +73,15 @@ public class N2oButtonField extends N2oField implements ButtonField {
     public void tooltipShouldHavePosition(String position) {
         btn().shouldHave(Condition.attribute("hintposition", position));
     }
+
     @Override
     public void badgeShouldHavePosition(BadgePositionEnum position) {
         btn().shouldHave(Condition.cssClass(position.name("btn-badge-position--")));
+    }
+
+    private SelenideElement buttonElement() {
+        return !"button".equals(element().getTagName())
+                ? element().$("button")
+                : element();
     }
 }
