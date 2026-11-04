@@ -273,10 +273,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
         for (N2oQuery.Filter filter : filters) {
             filter.setFilterId(
-                    castDefault(
-                            filter.getFilterId(),
-                            () -> normalizeParam(filter.getFieldId())
-                    )
+                    castDefault(filter.getFilterId(), filter::getFieldId)
             );
             filter.setParam(
                     castDefault(

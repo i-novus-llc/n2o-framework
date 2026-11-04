@@ -2,8 +2,11 @@ package net.n2oapp.framework.config.metadata.validation;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
+import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +60,7 @@ class QueryValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml"));
-        assertEquals( "\"<unique>\" ссылается на несуществующий фильтр 'codeEq2' в выборке 'checkForExistsFiltersInSelections'", exception.getMessage());
+        assertEquals("\"<unique>\" ссылается на несуществующий фильтр 'codeEq2' в выборке 'checkForExistsFiltersInSelections'", exception.getMessage());
     }
 
     @Test
@@ -70,7 +73,7 @@ class QueryValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkFieldIdExistence.page.xml"));
-        assertEquals( "Одно из полей выборки 'checkFieldIdExistence' не имеет 'id'", exception.getMessage());
+        assertEquals("Одно из полей выборки 'checkFieldIdExistence' не имеет 'id'", exception.getMessage());
     }
 
     @Test
@@ -95,5 +98,20 @@ class QueryValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyCase.query.xml"));
         assertEquals("В \"<case>\" элемента \"<switch>\" поля 'name' отсутствует тело", exception.getMessage());
+    }
+
+    @Test
+    void testCheckForExistsFiltersInSelectionsWithNestedField() {
+        builder.packs(new N2oDataProvidersPack()).transformers(new TestEngineQueryTransformer());
+        CompileInfo info = new CompileInfo("net/n2oapp/framework/config/metadata/validation/query/testQueryNestedFieldFilter.query.xml");
+        assertDoesNotThrow(() -> builder.sources(info).read().transform().validate().get(info.getId(), info.getBaseSourceClass()));
+    }
+
+    @Test
+    void testMissingFilterInSelection() {
+        N2oMetadataValidationException e = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/testQueryMissingFilter.query.xml"));
+        assertEquals("\"<list>\" ссылается на несуществующий фильтр 'type.id' в выборке 'testQueryMissingFilter'", e.getMessage());
     }
 }

@@ -67,7 +67,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
     private void transformFilters(N2oQuery.Filter[] filters) {
         for (N2oQuery.Filter filter : filters) {
             if (filter.getFilterId() == null)
-                filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
+                filter.setFilterId(filter.getFieldId());
             if (filter.getText() == null)
                 filter.setText(buildFilterText(filter));
         }
