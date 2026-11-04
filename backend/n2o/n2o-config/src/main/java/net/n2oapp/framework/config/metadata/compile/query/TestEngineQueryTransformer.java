@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -52,7 +51,7 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
             return;
         }
         if (filter.getFilterId() == null)
-            filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()));
+            filter.setFilterId(filter.getFieldId());
         if (isBlank(filter.getText()))
             filter.setText(filter.getFieldId() + " " + colon(filter.getType().getId()) + " " + colon(filter.getFilterId()));
     }

@@ -444,7 +444,7 @@ class QueryProcessorTest {
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsFiltering"));
 
         assertThat(query.getInvertFiltersMap().size(), is(2));
-        assertThat(query.getInvertFiltersMap().get("organization_code").getKey(), is("organization.code"));
+        assertThat(query.getInvertFiltersMap().get("organization.code").getKey(), is("organization.code"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         Filter filter = new Filter(31, FilterTypeEnum.EQ);
@@ -615,5 +615,38 @@ class QueryProcessorTest {
         assertThat(first.get("type"), is("first_case"));
         DataSet second = iterator.next();
         assertThat(second.get("type"), is("default"));
+    }
+
+    @Test
+    void testFilterSelectionByFieldIdAndFilterId() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.transformers(new TestEngineQueryTransformer())
+                .sources(
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/filters/testFilterWithFieldId.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/filters/testFilterWithFieldIdAndFilterId.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/filters/testFilterWithDifferentFilterId.query.xml")
+                );
+
+        // Случай 1: <list filters="type.id"> + <eq field-id="type.id"/> без filter-id
+        CompiledQuery query1 = builder.read().transform().compile().get(new QueryContext("testFilterWithFieldId"));
+        checkQuery(query1);
+
+        // Случай 2: <list filters="type.id"> + <eq field-id="type.id" filter-id="type.id"/>
+        CompiledQuery query2 = builder.read().transform().compile().get(new QueryContext("testFilterWithFieldIdAndFilterId"));
+        checkQuery(query2);
+
+        // Случай 3: <list filters="type_id"> + <eq field-id="type.id" filter-id="type_id"/>
+        CompiledQuery query3 = builder.read().transform().compile().get(new QueryContext("testFilterWithDifferentFilterId"));
+        checkQuery(query3);
+    }
+
+    private void checkQuery(CompiledQuery query) {
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("type.id", 1));
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        List<DataSet> collection = result.getCollection();
+        assertThat(collection.size(), is(2));
+        assertThat(collection.getFirst().get("id"), is(1L));
+        assertThat(collection.get(1).get("id"), is(3L));
     }
 }
