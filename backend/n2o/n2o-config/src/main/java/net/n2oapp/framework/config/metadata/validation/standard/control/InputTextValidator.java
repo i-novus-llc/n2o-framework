@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.validation.standard.control;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -20,11 +21,15 @@ public class InputTextValidator implements SourceValidator<N2oInputText>, Source
     public void validate(N2oInputText source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
 
-        if (source.getDefaultValue() != null && source.getDomain() != null)
+        if (source.getDefaultValue() != null && source.getDomain() != null && !isDynamicValue(source.getDefaultValue()))
             checkDomain(source, widgetScope);
 
         if (source.getStep() != null && source.getDomain() != null)
             checkStep(source, widgetScope);
+    }
+
+    private static boolean isDynamicValue(String value) {
+        return StringUtils.hasLink(value) || StringUtils.isJs(value);
     }
 
     private void checkDomain(N2oInputText source, WidgetScope widgetScope) {
