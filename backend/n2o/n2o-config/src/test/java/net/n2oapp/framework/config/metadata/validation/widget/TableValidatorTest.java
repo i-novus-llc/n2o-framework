@@ -87,6 +87,11 @@ class TableValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testOverlayToolbarWidgetActionId() {
+        validate("net/n2oapp/framework/config/metadata/validation/widget/table/rows/testOverlayToolbarWidgetActionId.page.xml");
+    }
+
+    @Test
     void testFilterFetchOnAttributes() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
