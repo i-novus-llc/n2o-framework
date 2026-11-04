@@ -8,7 +8,9 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -80,12 +82,10 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);
         fillDataSourcesScopeByInlineDatasource(widgets, dataSourcesScope, p);
 
-        p.safeStreamOf(toolbars)
-                .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())
-                        .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope, routesScope)));
         p.safeStreamOf(toolbars).map(N2oToolbar::getItems).filter(Objects::nonNull)
-                .flatMap(Arrays::stream).forEach(button -> p.validate(button, datasourceIdsScope, dataSourcesScope,
-                        actionBarScope, new ComponentScope(page)));
+                .flatMap(Arrays::stream).flatMap(BasePageValidator::expandGroups)
+                .forEach(button -> p.validate(button, pageScope, datasourceIdsScope, dataSourcesScope,
+                        actionBarScope, routesScope, new ComponentScope(page)));
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope, routesScope));
 
@@ -94,6 +94,15 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope, routesScope));
 
         checkEmptyToolbar(toolbars);
+    }
+
+    /**
+     * Раскрытие групп кнопок, так как для групп нет отдельного валидатора
+     */
+    private static Stream<ToolbarItem> expandGroups(ToolbarItem item) {
+        if (item instanceof N2oGroup group)
+            return group.getItems() == null ? Stream.empty() : Arrays.stream(group.getItems()).flatMap(BasePageValidator::expandGroups);
+        return Stream.of(item);
     }
 
     private static void checkEmptyToolbar(N2oToolbar[] toolbars) {

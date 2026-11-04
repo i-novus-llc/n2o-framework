@@ -76,4 +76,17 @@ class SubmitActionValidatorTest extends SourceValidationTestBase {
     void testInlineWidgetDatasourceUsing() {
         validate("net/n2oapp/framework/config/metadata/validation/action/testSubmitActionInlineWidgetDatasource.page.xml");
     }
+
+    @Test
+    void testPageToolbarButtonDatasourceUsing() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testSubmitActionPageToolbarButtonDatasource.page.xml");
+    }
+
+    @Test
+    void testPageToolbarButtonDatasourceMissingSubmit() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/testSubmitActionPageToolbarButtonDatasourceMissingSubmit.page.xml"));
+        assertEquals("Действие \"<submit>\" использует источник данных 'ds1', в котором не определен 'submit'", exception.getMessage());
+    }
 }
