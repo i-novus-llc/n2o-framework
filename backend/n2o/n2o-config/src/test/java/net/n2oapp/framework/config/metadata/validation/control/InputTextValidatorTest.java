@@ -91,4 +91,9 @@ class InputTextValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/inputText/testStepDouble.page.xml"));
         assertEquals("Значение 'step' не соответствует указанному 'domain=integer' для поля 'field1' виджета 'testStepDouble'", exception.getMessage());
     }
+
+    @Test
+    void testDefaultValueLinkDomainInteger() {
+        validate("net/n2oapp/framework/config/metadata/validation/field/inputText/testDefValueLinkDomainInt.page.xml");
+    }
 }
