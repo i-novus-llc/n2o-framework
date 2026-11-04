@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -71,7 +72,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         validateFilters(source, widgetScope, p);
         checkTableDependencyDatasourceExistence(source, p);
 
-        checkRowOverlayToolbar(source, p);
+        checkRowOverlayToolbar(source, actions, p);
         checkUniqueTableSetting(source, N2oColumnsTableSetting.class, "ts:columns");
         checkUniqueTableSetting(source, N2oExportTableSetting.class, "ts:export");
         checkExportTableSettingDefaultFormat(source);
@@ -165,7 +166,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         }
     }
 
-    private void checkRowOverlayToolbar(N2oTable source, SourceProcessor p) {
+    private void checkRowOverlayToolbar(N2oTable source, MetaActions actions, SourceProcessor p) {
         if (source.getRows() != null && source.getRows().getRowOverlay() != null) {
             N2oToolbar toolbar = source.getRows().getRowOverlay().getToolbar();
             if (toolbar != null) {
@@ -174,7 +175,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                             String.format("Не заданы элементы или атрибут 'generate' в тулбаре в \"<overlay>\" таблицы %s",
                                     getIdOrEmptyString(source.getId())));
                 if (toolbar.getItems() != null)
-                    p.safeStreamOf(toolbar.getItems()).forEach(p::validate);
+                    p.safeStreamOf(toolbar.getItems()).forEach(item -> p.validate(item, new ComponentScope(source), actions));
             }
         }
     }

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <columns>
+            <column text-field-id="id"/>
+        </columns>
+        <rows>
+            <overlay>
+                <toolbar>
+                    <button label="Кнопка" action-id="act"/>
+                </toolbar>
+            </overlay>
+        </rows>
+        <actions>
+            <action id="act">
+                <alert text="Сообщение"/>
+            </action>
+        </actions>
+    </table>
+</simple-page>
