@@ -3,15 +3,16 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.exception.GenerateWithoutObjectException;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.GenerateAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.apache.commons.lang3.ArrayUtils;
@@ -54,21 +55,47 @@ public class ButtonCompileUtil {
         return castDefault(source.getValidate(), nonNull(datasource) || nonNull(source.getValidateDatasourceIds()));
     }
 
-    public static List<AbstractButton> generateButtons(GenerateAware source, N2oToolbar toolbar, ButtonGeneratorFactory buttonGeneratorFactory,
+    public static CompiledObject getCompiledObject(CompileProcessor p, String type) {
+        CompiledObject object = p.getScope(CompiledObject.class);
+        if (object == null) {
+            throw new GenerateWithoutObjectException(type);
+        }
+        return object;
+    }
+
+    public static List<AbstractButton> generateButtons(GenerateAware source, N2oToolbar toolbar,
+                                                       ButtonGeneratorFactory buttonGeneratorFactory,
                                                        CompileContext<?, ?> context, CompileProcessor p) {
         List<AbstractButton> generated = new ArrayList<>();
-        Map<N2oNamespace, Map<String, String>> extAttributes = source instanceof N2oButton btn ? btn.getExtAttributes() : new HashMap<>();
+        Map<N2oNamespace, Map<String, String>> extAttributes =
+                source instanceof N2oButton btn ? btn.getExtAttributes() : new HashMap<>();
 
-        List.of(source.getGenerate()).forEach(type ->
-            generated.addAll(
-                    buttonGeneratorFactory.generate(type, toolbar, context, p)
-                            .stream()
-                            .peek(item -> ((ExtensionAttributesAware) item).setExtAttributes(extAttributes))
-                            .map(item -> (AbstractButton)p.compile(item, context))
-                            .toList()
-            )
-        );
+        Arrays.asList(source.getGenerate()).forEach(type -> {
+            List<ToolbarItem> items;
+            try {
+                items = buttonGeneratorFactory.generate(type, toolbar, context, p);
+            } catch (GenerateWithoutObjectException e) {
+                throw new GenerateWithoutObjectException(e.getType(), describeTag(source));
+            }
+            if (items == null) {
+                throw new N2oException(String.format("Генератор '%s' вернул null для '%s'", type, describeTag(source)));
+            }
+            generated.addAll(items.stream()
+                    .peek(item -> ((ExtensionAttributesAware) item).setExtAttributes(extAttributes))
+                    .map(item -> (AbstractButton) p.compile(item, context, p))
+                    .toList());
+        });
 
         return generated;
+    }
+
+    private static String describeTag(GenerateAware source) {
+        if (source instanceof N2oSubmenu)
+            return "<sub-menu>";
+        if (source instanceof N2oButton)
+            return "<button>";
+        if (source instanceof N2oGroup)
+            return "<group>";
+        return "<toolbar>";
     }
 }

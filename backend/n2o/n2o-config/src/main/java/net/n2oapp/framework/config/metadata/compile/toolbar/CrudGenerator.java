@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActionsEnum;
 import org.springframework.stereotype.Component;
 
@@ -30,16 +29,13 @@ public class CrudGenerator implements ButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        if (p.getScope(CompiledObject.class) != null) {
-            List<ToolbarItem> items = new ArrayList<>();
-            for (DefaultActionsEnum action : DefaultActionsEnum.values()) {
-                List<ToolbarItem> toolbarItems = buttonGeneratorFactory.generate(action.getId(), toolbar, context, p);
-                if (toolbarItems != null)
-                    items.addAll(toolbarItems);
-            }
-            return items;
-        } else {
-            return null;
+        ButtonCompileUtil.getCompiledObject(p, getCode());
+        List<ToolbarItem> items = new ArrayList<>();
+        for (DefaultActionsEnum action : DefaultActionsEnum.values()) {
+            List<ToolbarItem> toolbarItems = buttonGeneratorFactory.generate(action.getId(), toolbar, context, p);
+            if (toolbarItems != null)
+                items.addAll(toolbarItems);
         }
+        return items;
     }
 }

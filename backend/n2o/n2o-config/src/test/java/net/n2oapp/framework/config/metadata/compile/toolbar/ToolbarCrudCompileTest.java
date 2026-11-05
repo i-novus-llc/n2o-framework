@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -25,6 +26,8 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ToolbarCrudCompileTest extends SourceCompileTestBase {
     @Override
@@ -38,6 +41,7 @@ class ToolbarCrudCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.widget.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
@@ -87,5 +91,16 @@ class ToolbarCrudCompileTest extends SourceCompileTestBase {
         assertThat(confirmAction.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
         assertThat(confirmAction.getPayload().getCloseButton(), is(false));
         assertThat(((InvokeAction)multiAction.getPayload().getActions().get(1)).getOperationId(), is("delete"));
+    }
+
+    @Test
+    void testGenerateCrudWithoutObjectIdThrowsMeaningfulException() {
+        N2oException exception = assertThrows(N2oException.class, () ->
+                compile("net/n2oapp/framework/config/metadata/compile/toolbar/generateWithoutObjectIdInToolbar.page.xml")
+                        .get(new PageContext("generateWithoutObjectIdInToolbar")));
+        assertEquals(
+                "Не удалось определить объект для генерации кнопок с помощью атрибута 'generate=\"crud\"' в \"<toolbar>\". Укажите 'object-id' в источнике данных или в его выборке",
+                exception.getMessage()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
@@ -25,6 +26,8 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции базовой кнопки
@@ -173,5 +176,16 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(button.getAction(), instanceOf(LinkAction.class));
         assertThat(button.getProperties().size(), is(1));
         assertThat(button.getProperties().get("label"), is("newLabel"));
+    }
+
+    @Test
+    void testGenerateWithoutObjectIdInButtonThrowsMeaningfulException() {
+        N2oException exception = assertThrows(N2oException.class, () ->
+                compile("net/n2oapp/framework/config/metadata/compile/toolbar/generateWithoutObjectIdInButton.page.xml")
+                        .get(new PageContext("generateWithoutObjectIdInButton")));
+        assertEquals(
+                "Не удалось определить объект для генерации кнопок с помощью атрибута 'generate=\"create\"' в \"<button>\". Укажите 'object-id' в источнике данных или в его выборке",
+                exception.getMessage()
+        );
     }
 }
