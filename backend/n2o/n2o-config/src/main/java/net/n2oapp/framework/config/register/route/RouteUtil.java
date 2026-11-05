@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -164,27 +166,47 @@ public abstract class RouteUtil {
 
 
     /**
-     * Парсинг части url с query параметрами
-     * name=Ivan&age=4 превращает в ["name":"Ivan", "age":4]
+     * Парсинг части url с query параметрами.
+     * <p>
+     * Особенности:
+     * <ul>
+     *     <li>значение может содержать {@code =} ({@code filter=a=b -> "a=b"});</li>
+     *     <li>значения декодируются как {@code application/x-www-form-urlencoded} (UTF-8);</li>
+     *     <li>пустое значение сохраняется ({@code id= -> ""});</li>
+     *     <li>дубли ключей сохраняются в {@code String[]};</li>
+     *     <li>если query-параметров нет, возвращается пустая map.</li>
+     * </ul>
      *
-     * @param url
-     * @return мапа с параметрами и их значениями
+     * @param url часть URL после {@code ?}
+     * @return параметры и их значения; пустая map, если параметров нет
      */
     public static Map<String, String[]> parseQueryParams(String url) {
-        if (url == null || !(url.contains("=") || url.contains("&")))
-            return null;
+        if (url == null || url.isEmpty())
+            return Collections.emptyMap();
 
-        HashMap<String, List<String>> result = new HashMap();
-        String[] params = url.split("&");
-        for (String param : params) {
-            String[] paramValue = param.split("=");
-            if (paramValue.length != 2)
+        Map<String, List<String>> collected = new LinkedHashMap<>();
+        for (String pair : url.split("&")) {
+            String[] keyValue = pair.split("=", 2);
+            if (keyValue.length != 2)
                 continue;
-            result.putIfAbsent(paramValue[0], new ArrayList<>());
-            result.get(paramValue[0]).add(paramValue[1]);
+
+            String key = decodeQueryParam(keyValue[0]);
+            String value = decodeQueryParam(keyValue[1]);
+            collected.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
         }
 
-        return result.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toArray(String[]::new)));
+        Map<String, String[]> result = LinkedHashMap.newLinkedHashMap(collected.size());
+        collected.forEach((key, values) -> result.put(key, values.toArray(String[]::new)));
+        return result;
+    }
+
+    private static String decodeQueryParam(String value) {
+        try {
+            return URLDecoder.decode(value, StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            throw new N2oException(
+                    String.format("Некорректное URL-кодирование query-параметра: '%s'", value), e);
+        }
     }
 
 

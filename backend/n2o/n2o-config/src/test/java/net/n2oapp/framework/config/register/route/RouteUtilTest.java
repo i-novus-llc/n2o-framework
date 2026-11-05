@@ -95,17 +95,58 @@ class RouteUtilTest {
 
     @Test
     void parseQueryParams() {
-        assertThat(RouteUtil.parseQueryParams("text"), nullValue());
+        // пустой ввод / без параметров — возвращается пустая map, не null
+        assertThat(RouteUtil.parseQueryParams(null), is(Collections.emptyMap()));
+        assertThat(RouteUtil.parseQueryParams(""), is(Collections.emptyMap()));
+        assertThat(RouteUtil.parseQueryParams("text"), is(Collections.emptyMap()));
+        assertThat(RouteUtil.parseQueryParams("?"), is(Collections.emptyMap()));
+
+        // простые значения
         Map<String, String[]> params = RouteUtil.parseQueryParams("id=123");
         assertThat(params.get("id"), is(new String[]{"123"}));
+
         params = RouteUtil.parseQueryParams("id=:a");
         assertThat(params.get("id"), is(new String[]{":a"}));
+
         params = RouteUtil.parseQueryParams("id=123&name=:b&surname=Ivanov");
         assertThat(params.get("id"), is(new String[]{"123"}));
         assertThat(params.get("name"), is(new String[]{":b"}));
         assertThat(params.get("surname"), is(new String[]{"Ivanov"}));
+
+        // дубли ключей сохраняются в порядке появления
         params = RouteUtil.parseQueryParams("name=:b&name=Ivan");
         assertThat(params.get("name"), is(new String[]{":b", "Ivan"}));
+
+        // значение со знаком '=' не теряется (base64/JWT/составные фильтры)
+        params = RouteUtil.parseQueryParams("filter=a=b");
+        assertThat(params.get("filter"), is(new String[]{"a=b"}));
+
+        params = RouteUtil.parseQueryParams("token=abc.def==&id=1");
+        assertThat(params.get("token"), is(new String[]{"abc.def=="}));
+        assertThat(params.get("id"), is(new String[]{"1"}));
+
+        // пустое значение сохраняется
+        params = RouteUtil.parseQueryParams("id=&name=Ivan");
+        assertThat(params.get("id"), is(new String[]{""}));
+        assertThat(params.get("name"), is(new String[]{"Ivan"}));
+
+        // URL-декодирование значений и ключей
+        params = RouteUtil.parseQueryParams(
+                "q=%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82+%D0%BC%D0%B8%D1%80&path=%2Fusers%2F1");
+        assertThat(params.get("q"), is(new String[]{"привет мир"}));
+        assertThat(params.get("path"), is(new String[]{"/users/1"}));
+
+        params = RouteUtil.parseQueryParams("na%20me=Iv%20an");
+        assertThat(params.get("na me"), is(new String[]{"Iv an"}));
+
+        // битое кодирование
+        assertThrows(N2oException.class, () -> RouteUtil.parseQueryParams("q=50%"));
+
+        // параметр без '=' игнорируется
+        params = RouteUtil.parseQueryParams("flag&id=1");
+        assertThat(params.size(), is(1));
+        assertThat(params.get("id"), is(new String[]{"1"}));
+        assertThat(params.containsKey("flag"), is(false));
     }
 
     @Test

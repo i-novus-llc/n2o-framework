@@ -157,8 +157,6 @@ public class N2oController {
         String dataPrefix = DATA_REQUEST_PREFIX;
         String path = RouteUtil.parsePath(request.getUrl().substring(request.getUrl().indexOf(dataPrefix) + dataPrefix.length()));
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(request.getUrl()));
-        if (params == null)
-            throw new N2oException("Query-параметр запроса пустой");
 
         if (request.getExternalUrl() == null || request.getExternalUrl().isEmpty()) {
             GetDataResponse dataResponse = exportController.getData(path, params, null);

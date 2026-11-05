@@ -19,7 +19,10 @@ public class MetadataParamHolder {
     }
 
     public static void setParams(Map<String, String[]> params) {
-        if (params == null) removeParams();
+        if (params == null || params.isEmpty()) {
+            removeParams();
+            return;
+        }
         threadLocalScope.set(params);
     }
 
