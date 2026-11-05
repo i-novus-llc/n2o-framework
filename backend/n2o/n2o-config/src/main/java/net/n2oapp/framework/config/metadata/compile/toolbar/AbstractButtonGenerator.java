@@ -50,7 +50,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
             break;
             case CREATE: {
                 N2oShowModal modal = new N2oShowModal();
-                CompiledObject object = p.getScope(CompiledObject.class);
+                CompiledObject object = ButtonCompileUtil.getCompiledObject(p, action.getId());
                 modal.setPageId(object.getId());
                 modal.setObjectId(object.getId());
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
@@ -67,7 +67,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
             break;
             case UPDATE: {
                 N2oShowModal modal = new N2oShowModal();
-                CompiledObject object = p.getScope(CompiledObject.class);
+                CompiledObject object = ButtonCompileUtil.getCompiledObject(p, action.getId());
                 modal.setPageId(object.getId());
                 modal.setObjectId(object.getId());
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));

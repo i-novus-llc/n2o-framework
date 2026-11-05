@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
@@ -25,6 +26,8 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции кнопки с выпадающим меню
@@ -114,5 +117,16 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         condition = conditions.get(ValidationTypeEnum.VISIBLE).get(0);
         assertThat(condition.getExpression(), is(expression));
         assertThat(condition.getModelLink(), is(modelLink));
+    }
+
+    @Test
+    void testGenerateWithoutObjectIdInSubMenuThrowsMeaningfulException() {
+        N2oException exception = assertThrows(N2oException.class, () ->
+                compile("net/n2oapp/framework/config/metadata/compile/toolbar/generateWithoutObjectIdInSubMenu.page.xml")
+                        .get(new PageContext("generateWithoutObjectIdInSubMenu")));
+        assertEquals(
+                "Не удалось определить объект для генерации кнопок с помощью атрибута 'generate=\"create\"' в \"<sub-menu>\". Укажите 'object-id' в источнике данных или в его выборке",
+                exception.getMessage()
+        );
     }
 }
