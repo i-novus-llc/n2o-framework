@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.ExportRequest;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -36,8 +35,6 @@ public class ExportServlet extends N2oServlet {
 
         String path = getPath(exportRequest.getUrl(), "/n2o/data");
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(exportRequest.getUrl()));
-        if (params == null)
-            throw new N2oException("Query-параметр запроса пустой");
 
         if (exportRequest.getExternalUrl() == null || exportRequest.getExternalUrl().isEmpty()) {
             GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
