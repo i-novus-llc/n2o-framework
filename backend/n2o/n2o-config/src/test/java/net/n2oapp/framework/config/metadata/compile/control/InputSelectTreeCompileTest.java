@@ -76,5 +76,10 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
                 hasProperty("labelFieldId", is("name")),
                 hasProperty("inputLabelFieldId", is("name"))
         ));
+
+        ist = (InputSelectTree) ((StandardField<?>) form.getComponent().getFieldsets()
+                .getFirst().getRows().get(2).getCols().getFirst().getFields().getFirst()).getControl();
+        assertThat(ist.getId(), is("defaultParent"));
+        assertThat(ist.getParentFieldId(), is("parentId"));
     }
 }

@@ -2152,7 +2152,7 @@
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                     <xs:element name="default-model" type="defaultModelDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="parent-field-id" type="xs:string" use="required">
+                <xs:attribute name="parent-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор родительского поля.</xs:documentation>
                     </xs:annotation>

@@ -1521,7 +1521,7 @@ n2o.api.control.input_select.search_side=server
 
 |Наименование         |Тип               |Описание                                                                          |Значение по умолчанию|Обязательность
 |---------------------|------------------|----------------------------------------------------------------------------------|---------------------|--------------
-|parent-field-id      |Строка            |Идентификатор родительского поля                                                  |                     |!
+|parent-field-id      |Строка            |Идентификатор родительского поля                                                  |                     |
 |has-children-field-id|Строка            |Наличие дочерних элементов.                                                       |                     |
 |master-field-id      |Строка            |Идентификатор master поля                                                         |                     |
 |detail-field-id      |Строка            |Идентификатор detail поля                                                         |                     |
@@ -1556,6 +1556,8 @@ n2o.api.control.input_select_tree.throttle_delay=300
 n2o.api.control.input_select_tree.search_min_length=0
 # Сторона фильтрации
 n2o.api.control.input_select_tree.search_side=server
+# Идентификатор родительского поля
+n2o.api.control.input_select_tree.parent_field_id=parentId
 ```
 
 **Пример**
