@@ -37,4 +37,9 @@ class ProgressValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/progress/testProgressColor.widget.xml"));
         assertEquals("В поле \"<progress>\" указано недопустимое значение атрибута 'color=\"red\"'", exception.getMessage());
     }
+
+    @Test
+    void testWithoutMax() {
+        validate("net/n2oapp/framework/config/metadata/validation/field/progress/testProgressWithoutMax.widget.xml");
+    }
 }

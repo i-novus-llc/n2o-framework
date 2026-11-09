@@ -29,7 +29,8 @@ public class ProgressCompiler extends StandardFieldCompiler<Progress, N2oProgres
     @Override
     public StandardField<Progress> compile(N2oProgress source, CompileContext<?, ?> context, CompileProcessor p) {
         Progress progress = new Progress();
-        progress.setMax(source.getMax());
+        progress.setMax(castDefault(source.getMax(),
+                () -> p.resolve(property("n2o.api.control.progress.max"), Integer.class)));
         progress.setBarText(p.resolveJS(source.getBarText()));
         progress.setAnimated(castDefault(source.getAnimated(),
                 () -> p.resolve(property("n2o.api.control.progress.animated"), Boolean.class)));
