@@ -18,7 +18,7 @@
                                   show-name="true" enabled="false"/>
                     <input-money id="inputMoney" enabled="false"/>
                     <input-text id="inputText" enabled="false"/>
-                    <masked-input id="maskedInput" enabled="false"/>
+                    <masked-input id="maskedInput" enabled="false" mask="999"/>
                     <number-picker id="numberPicker" enabled="false"/>
 
                 </col>
