@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EditCellValidatorTest extends SourceValidationTestBase {
 
@@ -35,10 +36,11 @@ class EditCellValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testOnFailAction() {
+    void testNestedFieldValidation() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/cells/edit/testOnFailAction.page.xml"));
-        assertEquals("Задано действие \"<on-fail>\" при отсутствующем действии \"<invoke>\"", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/cells/edit/testNestedFieldValidation.page.xml"));
+
+        assertTrue(exception.getMessage().contains("Значение 'default-value' не соответствует указанному 'domain=integer'"));
     }
 }
