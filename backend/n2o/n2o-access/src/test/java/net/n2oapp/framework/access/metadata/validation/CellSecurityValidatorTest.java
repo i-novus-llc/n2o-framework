@@ -73,6 +73,7 @@ class CellSecurityValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/access/metadata/validation/cellSecurityInvalidBehaviorValue.page.xml"));
-        assertEquals("Недопустимое значение атрибута 'sec:behavior=\"lala\"'. Допустимые значения: 'hide', 'disable'", exception.getMessage());
+        assertEquals("Недопустимое значение атрибута 'sec:behavior=\"lala\"'. Допустимые значения: [hide | disable]",
+                exception.getMessage());
     }
 }

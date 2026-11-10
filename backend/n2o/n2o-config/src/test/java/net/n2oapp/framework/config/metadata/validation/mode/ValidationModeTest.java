@@ -62,7 +62,7 @@ class ValidationModeTest extends SourceValidationTestBase {
                 IllegalStateException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/mode/testValidationMode.page.xml")
         );
-        assertEquals("Недопустимое значение настройки 'n2o.validation.mode'='wrong'. Допустимые значения: [on | ignore-refs | off]",
+        assertEquals("Недопустимое значение настройки 'n2o.validation.mode=wrong'. Допустимые значения: [on | ignore-refs | off]",
                 exception.getMessage());
     }
 }

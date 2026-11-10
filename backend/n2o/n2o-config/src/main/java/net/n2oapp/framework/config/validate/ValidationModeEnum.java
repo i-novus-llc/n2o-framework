@@ -28,7 +28,7 @@ public enum ValidationModeEnum {
                 .map(m -> m.value)
                 .collect(Collectors.joining(" | ", "[", "]"));
         throw new IllegalStateException(String.format(
-                "Недопустимое значение настройки 'n2o.validation.mode'='%s'. Допустимые значения: %s",
+                "Недопустимое значение настройки 'n2o.validation.mode=%s'. Допустимые значения: %s",
                 value, allowedValues));
     }
 }

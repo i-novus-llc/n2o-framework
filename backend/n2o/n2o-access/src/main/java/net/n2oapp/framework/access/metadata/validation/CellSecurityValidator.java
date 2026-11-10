@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -29,8 +28,7 @@ public class CellSecurityValidator implements SourceValidator<N2oAbstractCell>, 
     private static final String BEHAVIOR_ATTRIBUTE = "behavior";
     private static final String BEHAVIOR_VALID_IDS = Arrays.stream(BehaviorEnum.values())
             .map(BehaviorEnum::getId)
-            .map(StringUtils::quote)
-            .collect(Collectors.joining(", "));
+            .collect(Collectors.joining(" | ", "[", "]"));
 
     @Override
     public Class<? extends Source> getSourceClass() {
