@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EditCellValidator  implements SourceValidator<N2oEditCell>, SourceClassAware {
+public class EditCellValidator implements SourceValidator<N2oEditCell>, SourceClassAware {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -23,5 +23,6 @@ public class EditCellValidator  implements SourceValidator<N2oEditCell>, SourceC
         if (source.getN2oField() == null)
             throw new N2oMetadataValidationException(String.format("У ячейки \"<edit>\" виджета %s не задано поле ввода",
                     ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
+        p.validate(source.getN2oField());
     }
 }
