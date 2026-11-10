@@ -9,8 +9,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -24,6 +27,10 @@ public class CellSecurityValidator implements SourceValidator<N2oAbstractCell>, 
 
     private static final String SECURITY_NAMESPACE_URI = "http://n2oapp.net/framework/config/schema/security-1.0";
     private static final String BEHAVIOR_ATTRIBUTE = "behavior";
+    private static final String BEHAVIOR_VALID_IDS = Arrays.stream(BehaviorEnum.values())
+            .map(BehaviorEnum::getId)
+            .map(StringUtils::quote)
+            .collect(Collectors.joining(", "));
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -50,7 +57,7 @@ public class CellSecurityValidator implements SourceValidator<N2oAbstractCell>, 
         if (behavior != BehaviorEnum.DISABLE) {
             throw new N2oMetadataValidationException(
                     "Для ячейки с security атрибутами необходимо указать sec:behavior=\"disable\" " +
-                    "или поведение disable должно быть задано по умолчанию настройкой n2o.access.behavior");
+                            "или поведение disable должно быть задано по умолчанию настройкой n2o.access.behavior");
         }
     }
 
@@ -66,7 +73,13 @@ public class CellSecurityValidator implements SourceValidator<N2oAbstractCell>, 
     private BehaviorEnum resolveBehavior(Map<String, String> securityAttributes, SourceProcessor p) {
         if (securityAttributes.containsKey(BEHAVIOR_ATTRIBUTE)) {
             String behaviorValue = securityAttributes.get(BEHAVIOR_ATTRIBUTE);
-            return BehaviorEnum.valueOf(behaviorValue.toUpperCase());
+            try {
+                return BehaviorEnum.valueOf(behaviorValue.toUpperCase());
+            } catch (IllegalArgumentException | NullPointerException e) {
+                throw new N2oMetadataValidationException(
+                        String.format("Недопустимое значение атрибута 'sec:behavior=\"%s\"'. Допустимые значения: %s",
+                                behaviorValue, BEHAVIOR_VALID_IDS));
+            }
         }
         return p.resolve(property("n2o.access.behavior"), BehaviorEnum.class);
     }
