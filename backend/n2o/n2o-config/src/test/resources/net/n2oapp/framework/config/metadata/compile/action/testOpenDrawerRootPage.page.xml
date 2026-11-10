@@ -44,12 +44,12 @@
                             <datasources>
                                 <datasource>
                                     <filters>
-                                        <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                        <eq field-id="id" param="testOpenDrawerRootPage_main_id" value="{id}"/>
                                     </filters>
                                 </datasource>
                             </datasources>
                             <params>
-                                <query-param name="$widgetId_id" value="{id}"/>
+                                <query-param name="testOpenDrawerRootPage_main_id" value="{id}"/>
                             </params>
                         </open-drawer>
                     </button>
@@ -58,12 +58,12 @@
                             <datasources>
                                 <datasource>
                                     <filters>
-                                        <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                        <eq field-id="id" param="testOpenDrawerRootPage_main_id" value="{id}"/>
                                     </filters>
                                 </datasource>
                             </datasources>
                             <params>
-                                <query-param name="$widgetId_id" value="{id}"/>
+                                <query-param name="testOpenDrawerRootPage_main_id" value="{id}"/>
                             </params>
                         </open-drawer>
                     </button>

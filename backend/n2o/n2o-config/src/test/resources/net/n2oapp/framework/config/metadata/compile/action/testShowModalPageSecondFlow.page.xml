@@ -8,12 +8,12 @@
                     <datasources>
                         <datasource default-values-mode="query">
                             <filters>
-                                <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                <eq field-id="id" param="testShowModalPageSecondFlow_w1_id" value="{id}"/>
                             </filters>
                         </datasource>
                     </datasources>
                     <params>
-                        <query-param name="$widgetId_id" value="{id}"/>
+                        <query-param name="testShowModalPageSecondFlow_w1_id" value="{id}"/>
                     </params>
                 </show-modal>
             </button>
