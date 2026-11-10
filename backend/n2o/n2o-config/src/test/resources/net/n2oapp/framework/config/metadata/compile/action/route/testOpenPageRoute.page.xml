@@ -25,12 +25,12 @@
                     <datasources>
                         <datasource>
                             <filters>
-                                <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                <eq field-id="id" param="test_form_id" value="{id}"/>
                             </filters>
                         </datasource>
                     </datasources>
                     <params>
-                        <query-param name="$widgetId_id" value="{id}"/>
+                        <query-param name="test_form_id" value="{id}"/>
                     </params>
                 </open-page>
             </button>
@@ -39,12 +39,12 @@
                     <datasources>
                         <datasource>
                             <filters>
-                                <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                <eq field-id="id" param="test_form_id" value="{id}"/>
                             </filters>
                         </datasource>
                     </datasources>
                     <params>
-                        <query-param name="$widgetId_id" value="{id}"/>
+                        <query-param name="test_form_id" value="{id}"/>
                     </params>
                 </open-page>
             </button>

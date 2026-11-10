@@ -38,12 +38,12 @@
                             <datasources>
                                 <datasource>
                                     <filters>
-                                        <eq field-id="detailId" param="$widgetId_detailId" value="{id}"/>
+                                        <eq field-id="detailId" param="testOpenPageRouteMasterDetail_detail_detailId" value="{id}"/>
                                     </filters>
                                 </datasource>
                             </datasources>
                             <params>
-                                <query-param name="$widgetId_detailId" value="{id}"/>
+                                <query-param name="testOpenPageRouteMasterDetail_detail_detailId" value="{id}"/>
                             </params>
                         </open-page>
                     </button>
