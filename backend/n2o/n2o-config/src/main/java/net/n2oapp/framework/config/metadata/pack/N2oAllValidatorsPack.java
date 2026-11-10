@@ -51,6 +51,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new ConditionBranchActionValidator(), new ActionFieldValidator(), new OnFailActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new StompEventValidator(),
                 new MarkdownValidator(), new TilesValidator(), new ListWidgetValidator(),
+                new MaskedInputValidator(),
                 new CardsValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ActionCellValidator(), new ToolbarCellValidator(), new ListCellValidator(),
