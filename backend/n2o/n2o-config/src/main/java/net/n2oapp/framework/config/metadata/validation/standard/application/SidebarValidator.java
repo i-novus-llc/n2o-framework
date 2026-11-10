@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,9 +23,9 @@ public class SidebarValidator implements SourceValidator<N2oSidebar>, SourceClas
     @Override
     public void validate(N2oSidebar sidebar, SourceProcessor p) {
         if (sidebar.getNavMenu() != null)
-            p.validate(sidebar.getNavMenu(), p.getScope(ValidatorDatasourceIdsScope.class));
+            p.validate(sidebar.getNavMenu());
         if (sidebar.getExtraMenu() != null)
-            p.validate(sidebar.getExtraMenu(), p.getScope(ValidatorDatasourceIdsScope.class));
+            p.validate(sidebar.getExtraMenu());
 
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
 
@@ -36,6 +35,7 @@ public class SidebarValidator implements SourceValidator<N2oSidebar>, SourceClas
                         String.format("Сайдбар использует внутренний источник данных и ссылку на источник данных %s одновременно",
                                 ValidationUtils.getIdOrEmptyString(sidebar.getDatasourceId())));
             N2oStandardDatasource datasource = sidebar.getDatasource();
+            p.validate(datasource);
             if (dataSourcesScope != null && dataSourcesScope.containsKey(datasource.getId()))
                 throw new N2oMetadataValidationException(
                         String.format("Идентификатор %s внутреннего источника данных сайдбара уже используется другим источником данных",

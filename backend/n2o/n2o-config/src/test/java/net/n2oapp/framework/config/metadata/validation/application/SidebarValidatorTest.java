@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.application.SidebarValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Тестирование валидатора боковой панели приложения
  */
 class SidebarValidatorTest extends SourceValidationTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -29,7 +30,7 @@ class SidebarValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.ios(new ApplicationIOv3(), new SidebarIOv3(), new StandardDatasourceIO());
-        builder.validators(new ApplicationValidator(), new SidebarValidator());
+        builder.validators(new ApplicationValidator(), new SidebarValidator(), new StandardDatasourceValidator());
     }
 
     @Test
@@ -75,5 +76,21 @@ class SidebarValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/application/testLinkToNonExistentDatasource.application.xml"));
         assertEquals("Сайдбар ссылается на несуществующий источник данных 'ds'", exception.getMessage());
+    }
+
+    @Test
+    void testNonExistentQueryIdInInlineDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/nonExistentQueryId.application.xml"));
+        assertEquals("Источник данных 'ds' ссылается на несуществующую выборку 'nonExisting'", exception.getMessage());
+    }
+
+    @Test
+    void testNonExistentObjectIdInInlineDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/nonExistentObjectId.application.xml"));
+        assertEquals("Источник данных 'ds' ссылается на несуществующий объект 'nonExisting'", exception.getMessage());
     }
 }
