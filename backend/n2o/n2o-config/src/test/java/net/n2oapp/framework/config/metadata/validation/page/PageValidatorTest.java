@@ -94,4 +94,13 @@ class PageValidatorTest extends SourceValidationTestBase {
     void testMultiActionWithCloseValid() {
         validate("net/n2oapp/framework/config/metadata/validation/page/testMultiActionWithCloseValid.page.xml");
     }
+
+    @Test
+    void testBreadcrumbLabelExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testBreadcrumbLabelExistence.page.xml"));
+        assertEquals("В одном из элементов \"<crumb>\" страницы 'testBreadcrumbLabelExistence' не задан обязательный атрибут 'label'",
+                exception.getMessage());
+    }
 }
