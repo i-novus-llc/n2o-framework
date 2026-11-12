@@ -159,4 +159,12 @@ class CachedDatasourceValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testCacheExpiresWrong.page.xml"));
         assertEquals("Периодичность проверки кэша в источнике данных 'ds' указана в неверном формате", exception.getMessage());
     }
+
+    @Test
+    void testDependencyOnNonExistentDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/cached/testDependencyOnNonExistentDatasource.page.xml"));
+        assertEquals("Атрибут 'on' в зависимости источника данных 'ds1' ссылается на несуществующий источник данных 'unknownDs'", exception.getMessage());
+    }
 }
