@@ -75,6 +75,19 @@ class QueryCompileTest extends SourceCompileTestBase {
     }
 
     /**
+     * Имя вложенного поля по умолчанию равно его абсолютному идентификатору
+     */
+    @Test
+    void testNestedFieldNames() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testNestedFieldNames.query.xml")
+                .get(new QueryContext("testNestedFieldNames"));
+        assertThat(query.getSimpleFieldsMap().get("name").getName(), is("name"));
+        assertThat(query.getSimpleFieldsMap().get("org.name").getName(), is("org.name"));
+        assertThat(query.getSimpleFieldsMap().get("org.title").getName(), is("Название"));
+        assertThat(query.getSimpleFieldsMap().get("org.type.name").getName(), is("org.type.name"));
+    }
+
+    /**
      * Форма по своим полям собирает саб-модели и кладёт в QueryContext
      * проверяется, что по этому контексту получим Query с саб-моделями
      */

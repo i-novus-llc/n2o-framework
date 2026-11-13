@@ -307,7 +307,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
     private void initDefaultSimpleField(QuerySimpleField field, Boolean defaultSorted, CompileProcessor p) {
         field.setName(
-                castDefault(field.getName(), field.getId())
+                castDefault(field.getName(), field.getAbsoluteId())
         );
         field.setIsSorted(
                 castDefault(field.getIsSorted(), !isBlank(field.getSortingExpression()), defaultSorted)
