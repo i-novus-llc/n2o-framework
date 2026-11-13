@@ -449,6 +449,18 @@
           "name": "AreaChartAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/chart/bars",
+          "name": "BarChartAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/chart/lines",
+          "name": "LineChartAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/chart/pie",
+          "name": "PieChartAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/form/filter/button_click",
           "name": "FormAsFilterAT. filterByButtonClick"
         },
