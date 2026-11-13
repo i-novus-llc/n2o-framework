@@ -141,4 +141,20 @@ class FieldValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/testFieldInlineConditionBodyAndFileExistence.widget.xml"));
         assertEquals("Для валидации 'cond1' поля 'name' в элементе \"<condition>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
     }
+
+    @Test
+    void testFetchValueWithoutQueryId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testFetchValueWithoutQueryId.widget.xml"));
+        assertEquals("В поле 'name' для элемента \"<fetch-value>\" не задан обязательный атрибут 'query-id'", exception.getMessage());
+    }
+
+    @Test
+    void testFetchValueWithNonExistentQuery() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testFetchValueWithNonExistentQuery.widget.xml"));
+        assertEquals("Поле 'name' в элементе \"<fetch-value>\" ссылается на несуществующую выборку 'nonExistent'", exception.getMessage());
+    }
 }

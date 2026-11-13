@@ -44,7 +44,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             scope.put(source.getId(), source.getDependencies() != null);
         }
         checkDefaultValues(source);
-        checkDependencies(source);
+        checkDependencies(source, p);
         checkRefDatasource(source, p);
         checkInlineConditions(source);
         if (widgetScope != null)
@@ -102,21 +102,33 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * Проверка зависимостей поля
      *
      * @param source Поле
+     * @param p      Процессор исходных метаданных
      */
-    private void checkDependencies(N2oField source) {
-        if (source.getDependencies() != null) {
-            Set<Class<?>> dependencyClasses = new HashSet<>();
-            for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (!N2oField.SetValueDependency.class.equals(dependency.getClass()) &&
-                        !dependencyClasses.add(dependency.getClass()))
-                    throw new N2oMetadataValidationException(
-                            String.format("В поле %s повторяются зависимости одного типа", ValidationUtils.getIdOrEmptyString(source.getId())));
+    private void checkDependencies(N2oField source, SourceProcessor p) {
+        if (source.getDependencies() == null) {
+            return;
+        }
+        Set<Class<?>> dependencyClasses = new HashSet<>();
+        for (N2oField.Dependency dependency : source.getDependencies()) {
+            if (!N2oField.SetValueDependency.class.equals(dependency.getClass()) &&
+                    !dependencyClasses.add(dependency.getClass()))
+                throw new N2oMetadataValidationException(
+                        String.format("В поле %s повторяются зависимости одного типа", ValidationUtils.getIdOrEmptyString(source.getId())));
 
-                if (dependency instanceof N2oFileAware fileAware) {
-                    ValidationUtils.checkBodyOrFile(getDependencyTag(dependency),
-                            dependency.getValue(), fileAware.getFile(),
-                            "поля " + ValidationUtils.getIdOrEmptyString(source.getId()));
+            if (dependency instanceof N2oFileAware fileAware) {
+                ValidationUtils.checkBodyOrFile(getDependencyTag(dependency),
+                        dependency.getValue(), fileAware.getFile(),
+                        "поля " + ValidationUtils.getIdOrEmptyString(source.getId()));
+            }
+
+            if (dependency instanceof N2oField.FetchValueDependency fetchValue) {
+                if (fetchValue.getQueryId() == null || fetchValue.getQueryId().isBlank()) {
+                    throw new N2oMetadataValidationException(
+                            String.format("В поле %s для элемента \"<fetch-value>\" не задан обязательный атрибут 'query-id'",
+                                    ValidationUtils.getIdOrEmptyString(source.getId())));
                 }
+                ValidationUtils.checkQueryExists(fetchValue.getQueryId(),
+                        String.format("Поле %s в элементе \"<fetch-value>\"", ValidationUtils.getIdOrEmptyString(source.getId())), p);
             }
         }
     }
