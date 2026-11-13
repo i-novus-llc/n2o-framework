@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Group A",
+    "value": 2400,
+    "tooltip": "tooltip1"
+  },
+  {
+    "name": "Group B",
+    "value": 4567,
+    "tooltip": "tooltip2"
+  },
+  {
+    "name": "Group C",
+    "value": 1398,
+    "tooltip": "tooltip3"
+  },
+  {
+    "name": "Group D",
+    "value": 9800,
+    "tooltip": "tooltip4"
+  },
+  {
+    "name": "Group E",
+    "value": 3908,
+    "tooltip": "tooltip5"
+  },
+  {
+    "name": "Group F",
+    "value": 4800,
+    "tooltip": "tooltip6"
+  }
+]

@@ -6,9 +6,10 @@ package net.n2oapp.framework.autotest.api.component.widget.chart;
 public interface AreaChartWidget extends ChartWidget {
 
     /**
-     * Возвращает диаграму для автотестирования по номеру
-     * @param index номер диаграммы
-     * @return Область виджета диаграмма-область для автотестирования
+     * Возвращает область диаграммы по номеру
+     *
+     * @param index номер области
+     * @return область диаграммы для автотестирования
      */
     Area area(int index);
 }

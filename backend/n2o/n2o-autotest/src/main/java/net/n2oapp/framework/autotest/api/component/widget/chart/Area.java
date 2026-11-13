@@ -8,14 +8,16 @@ import net.n2oapp.framework.autotest.api.component.Component;
 public interface Area extends Component {
 
     /**
-     * Проверка ширины графика
-     * @param width ожидаемая ширина графика
+     * Проверка цвета заливки области
+     *
+     * @param color ожидаемый цвет в HEX
      */
-    void shouldHaveWidth(int width);
+    void shouldHaveColor(String color);
 
     /**
-     * Проверка высоты графика
-     * @param height ожидаемая высота графика
+     * Проверка цвета обводки области
+     *
+     * @param color ожидаемый цвет в HEX
      */
-    void shouldHaveHeight(int height);
+    void shouldHaveStrokeColor(String color);
 }
