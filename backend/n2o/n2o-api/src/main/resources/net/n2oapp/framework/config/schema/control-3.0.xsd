@@ -1277,7 +1277,7 @@
     <xs:complexType name="controlProgressDefinition">
         <xs:complexContent>
             <xs:extension base="controlDefinition">
-                <xs:attribute name="max" type="xs:integer" use="required">
+                <xs:attribute name="max" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Максимальное значение.</xs:documentation>
                     </xs:annotation>

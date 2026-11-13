@@ -50,5 +50,6 @@ class ProgressCompileTest extends SourceCompileTestBase {
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(progress.getAnimated(), is(false));
         assertThat(progress.getStriped(), is(false));
+        assertThat(progress.getMax(), is(20));
     }
 }
