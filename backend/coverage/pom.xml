@@ -99,6 +99,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-boot-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>
