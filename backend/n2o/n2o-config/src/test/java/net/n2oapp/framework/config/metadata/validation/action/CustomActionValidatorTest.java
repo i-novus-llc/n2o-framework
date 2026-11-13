@@ -31,12 +31,20 @@ class CustomActionValidatorTest extends SourceValidationTestBase {
         builder.validators(new BasePageValidator(), new CustomActionValidator());
     }
 
-
     @Test
     void testRefreshNonExistentDatasource() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/custom/testRefreshNonExistentDatasource.page.xml"));
         assertEquals("Атрибут 'refresh-datasources' действия  ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
+    }
+
+    @Test
+    void testParamTypeExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/custom/testParamTypeExistence.page.xml")
+        );
+        assertEquals("В кастомном действии \"<action>\" не указан обязательный атрибут 'type'", exception.getMessage());
     }
 }
