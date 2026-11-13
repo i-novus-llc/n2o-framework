@@ -19,7 +19,10 @@ import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaD
 import net.n2oapp.framework.config.metadata.validation.standard.menu.MenuItemValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.*;
+import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.SimplePageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.*;
@@ -49,6 +52,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new ButtonValidator(), new ClipboardButtonValidator(),
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new ConditionBranchActionValidator(), new ActionFieldValidator(), new OnFailActionValidator(),
+                new ValidateActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new StompEventValidator(),
                 new MarkdownValidator(), new TilesValidator(), new ListWidgetValidator(),
                 new MaskedInputValidator(),
@@ -56,7 +60,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ActionCellValidator(), new ToolbarCellValidator(), new ListCellValidator(),
                 new MultiColumnValidator(), new SimpleColumnValidator(), new FilterColumnValidator(), new DndColumnValidator(),
-                new BlockValidator(), new DateIntervalValidator(),new IntervalFieldValidator(),
+                new BlockValidator(), new DateIntervalValidator(), new IntervalFieldValidator(),
                 new MenuItemValidator(),
                 new NavRegionValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
                 new RowRegionValidator(), new FlexRowRegionValidator(), new ColRegionValidator(),
