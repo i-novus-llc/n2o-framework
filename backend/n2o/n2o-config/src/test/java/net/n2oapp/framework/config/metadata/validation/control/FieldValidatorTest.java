@@ -155,6 +155,6 @@ class FieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/testFetchValueWithNonExistentQuery.widget.xml"));
-        assertEquals("Поле 'name' в элементе \"<fetch-value>\" ссылается на несуществующую выборку 'nonExistent'", exception.getMessage());
+        assertEquals("Элемент \"<fetch-value>\" поля 'name' ссылается на несуществующую выборку 'nonExistent'", exception.getMessage());
     }
 }

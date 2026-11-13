@@ -128,7 +128,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                                     ValidationUtils.getIdOrEmptyString(source.getId())));
                 }
                 ValidationUtils.checkQueryExists(fetchValue.getQueryId(),
-                        String.format("Поле %s в элементе \"<fetch-value>\"", ValidationUtils.getIdOrEmptyString(source.getId())), p);
+                        String.format("Элемент \"<fetch-value>\" поля %s", ValidationUtils.getIdOrEmptyString(source.getId())), p);
             }
         }
     }
