@@ -175,13 +175,21 @@ function* pageScrolling(action: ValidateEndAction) {
     const { payload, meta } = action
     const isTriggeredByFieldChange = get(meta, 'isTriggeredByFieldChange', false)
 
-    if (isTriggeredByFieldChange || isEmpty(payload.messages)) { yield cancel() }
+    if (isTriggeredByFieldChange || isEmpty(payload?.messages)) { return }
 
-    const { id } = payload
-    const { pageId } = yield select(dataSourceByIdSelector(id))
+    const id = payload?.modelLink?.id
+
+    if (!id) { return }
+
+    const ds: State['datasource'] = yield select(dataSourceByIdSelector(id))
+
+    const pageId = ds?.pageId
+
+    if (!pageId) { return }
 
     // чтобы FailValidateAction отработал раньше и кинул error на fields
     yield delay(10)
+
     yield put(setPageScrolling(pageId, true))
 }
 
