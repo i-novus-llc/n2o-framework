@@ -141,13 +141,13 @@ export const pageSlice = createSlice({
 
         SET_PAGE_SCROLLING: {
             prepare(pageId, scroll) {
-                return ({
-                    payload: { pageId, scroll },
-                })
+                return ({ payload: { pageId, scroll } })
             },
 
             reducer(state: State, action: SetScroll) {
                 const { pageId, scroll } = action.payload
+
+                if (!pageId) { return }
 
                 if (!state[pageId]) {
                     state[pageId] = PageResolver.defaultState
