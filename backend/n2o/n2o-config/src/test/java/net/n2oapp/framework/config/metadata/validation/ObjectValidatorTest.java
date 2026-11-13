@@ -205,4 +205,12 @@ class ObjectValidatorTest extends SourceValidationTestBase {
         assertEquals("Для валидации 'cond3' в элементе \"<condition>\" одновременно задано тело и атрибут 'file'",
                 exception.getMessage());
     }
+
+    @Test
+    void testFailOutFieldIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkFailOutFieldIdExistence.page.xml"));
+        assertEquals("В одном из <fail-out> полей операции 'register' объекта 'checkFailOutFieldIdExistence' не указан 'id'", exception.getMessage());
+    }
 }

@@ -2,8 +2,8 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <progress id="progress1" max="100" bar-text="{2 + 2}" animated="true" striped="true" color="info" bar-class="class"/>
-            <progress id="progress2" max="100"/>
+            <progress id="progress1" bar-text="{2 + 2}" animated="true" striped="true" color="info" bar-class="class"/>
+            <progress id="progress2" max="20"/>
         </fields>
     </form>
 </simple-page>

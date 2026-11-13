@@ -81,9 +81,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
     /**
      * Валидация операции объекта
      *
-     * @param object          Исходная metadata объекта
-     * @param operation       Операция текущего объекта
-     * @param p               Процессор исходных метаданных
+     * @param object    Исходная metadata объекта
+     * @param operation Операция текущего объекта
+     * @param p         Процессор исходных метаданных
      */
     private void validateOperation(N2oObject object, N2oObject.Operation operation, SourceProcessor p) {
         if (operation.getId() == null)
@@ -119,6 +119,14 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                                     getIdOrEmptyString(operation.getId()),
                                     getIdOrEmptyString(object.getId()))));
             checkSwitchCase(operation.getOutFields());
+        }
+        if (operation.getFailOutFields() != null) {
+            p.safeStreamOf(operation.getFailOutFields()).forEach(field ->
+                    checkFieldIdExistence(field, p,
+                            String.format("В одном из <fail-out> полей операции %s объекта %s не указан 'id'",
+                                    getIdOrEmptyString(operation.getId()),
+                                    getIdOrEmptyString(object.getId()))));
+            checkSwitchCase(operation.getFailOutFields());
         }
         p.checkIdsUnique(operation.getInFields(),
                 String.format("Поле '%s' встречается более чем один раз в <in> операции %s объекта %s", "%s",
