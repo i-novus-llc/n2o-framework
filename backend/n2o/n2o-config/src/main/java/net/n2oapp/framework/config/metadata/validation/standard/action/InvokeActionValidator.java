@@ -29,5 +29,10 @@ public class InvokeActionValidator extends AbstractMetaActionValidator<N2oInvoke
 
         ValidationUtils.checkForExistsObject(source.getObjectId(),
                 String.format("Действие \"<invoke operation-id=%s>\"", getIdOrEmptyString(source.getOperationId())), p);
+
+        String owner = "действии \"<invoke>\"";
+        ValidationUtils.checkParamAttribute(source.getPathParams(), owner, "<path-param>");
+        ValidationUtils.checkParamAttribute(source.getHeaderParams(), owner, "<header-param>");
+        ValidationUtils.checkParamAttribute(source.getFormParams(), owner, "<form-param>", "id");
     }
 }

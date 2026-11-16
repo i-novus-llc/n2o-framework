@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.CloseTargetEnum;
@@ -32,6 +33,7 @@ import java.util.stream.Stream;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Утилиты проверки метаданных
@@ -344,6 +346,34 @@ public final class ValidationUtils {
         if (StringUtils.hasText(body) && StringUtils.hasText(file))
             throw new N2oMetadataValidationException(
                     String.format("Для %s в элементе \"%s\" одновременно задано тело и атрибут 'file'", owner.trim(), tag));
+    }
+
+    /**
+     * Проверка обязательного атрибута у параметров.
+     * <p>
+     * Значение XML-атрибута ({@code name} или {@code id} для {@code <form-param>})
+     * всегда читается в {@link N2oParam#getName()}, поэтому проверяется именно оно,
+     * а {@code attributeName} используется только для текста сообщения.
+     *
+     * @param params        массив параметров (может быть {@code null})
+     * @param owner         владелец (например, {@code "действии \"<print>\""})
+     * @param tag           имя XML-элемента для сообщения, например {@code "<path-param>"}
+     * @param attributeName имя атрибута для сообщения: {@code "name"} для path-param/query-param/header-param,
+     *                      {@code "id"} для form-param
+     */
+    public static void checkParamAttribute(N2oParam[] params, String owner, String tag, String attributeName) {
+        if (params == null)
+            return;
+        for (N2oParam param : params) {
+            if (isBlank(param.getName()))
+                throw new N2oMetadataValidationException(String.format(
+                        "В %s для элемента \"%s\" не задан обязательный атрибут '%s'",
+                        owner, tag, attributeName));
+        }
+    }
+
+    public static void checkParamAttribute(N2oParam[] params, String owner, String tag) {
+        checkParamAttribute(params, owner, tag, "name");
     }
 
     private static boolean isValidDateByFormat(String date, DateTimeFormatter dateFormatter) {

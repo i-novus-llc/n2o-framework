@@ -23,6 +23,10 @@ public class AnchorActionValidator implements SourceValidator<N2oAnchor>, Source
         if (source.getHref() == null)
             throw new N2oMetadataValidationException("Для действия \"<a>\" не задан 'href'");
 
+        String owner = "действии \"<a>\"";
+        ValidationUtils.checkParamAttribute(source.getPathParams(), owner, "<path-param>");
+        ValidationUtils.checkParamAttribute(source.getQueryParams(), owner, "<query-param>");
+
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
                     String.format("Действие \"<a>\" ссылается на несуществующий источник данных %s в атрибуте 'datasource'",
