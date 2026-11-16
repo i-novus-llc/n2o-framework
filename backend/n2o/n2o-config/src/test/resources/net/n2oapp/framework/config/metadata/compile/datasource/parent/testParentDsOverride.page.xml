@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Переопределение parent-datasource открываемой страницы">
+    <datasources>
+        <datasource id="master"/>
+        <datasource id="detail"/>
+    </datasources>
+
+    <regions>
+        <table datasource="detail">
+            <columns>
+                <column text-field-id="id"/>
+            </columns>
+            <toolbar>
+                <button label="Создать: обновление текущего виджета">
+                    <show-modal page-id="testParentDsOverrideModal" route="/create2">
+                        <datasources>
+                            <parent-datasource id="parentDs" source-datasource="detail"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+                <button label="Создать: обновление master виджета" datasource="master">
+                    <show-modal page-id="testParentDsOverrideModal" route="/create">
+                        <datasources>
+                            <parent-datasource id="parentDs" source-datasource="master"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

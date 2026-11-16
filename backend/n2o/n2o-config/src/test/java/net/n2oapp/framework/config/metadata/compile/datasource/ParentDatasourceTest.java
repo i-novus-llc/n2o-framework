@@ -8,6 +8,9 @@ import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.editlist.EditListAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
+import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
+import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
+import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -179,6 +182,39 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(((InheritedDatasource) datasources.get("p_modal2_modal_ds3")).getProvider().getSourceDs(), is("p_ds3"));
         assertThat(((EditListAction) ((MultiAction) modalPage.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction())
                 .getPayload().getActions().get(0)).getPayload().getList().getDatasource(), is("p_ds3"));
+    }
+
+    /**
+     * На открываемой странице задан {@code <parent-datasource>}, а действие открытия
+     * переопределяет его источник через source-datasource
+     */
+    @Test
+    void testParentDatasourceOverriddenBySourceDatasource() {
+        PageContext pageContext = new PageContext("testParentDsOverride", "/p");
+        compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testParentDsOverride.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/datasource/parent/testParentDsOverrideModal.page.xml")
+                .get(pageContext);
+
+        StandardPage modalPage = (StandardPage) routeAndGet("/p/create2/", Page.class);
+        assertThat(modalPage.getDatasources().size(), is(1));
+        assertThat(getRefreshDatasource(modalPage), is("p_detail"));
+
+        modalPage = (StandardPage) routeAndGet("/p/create/", Page.class);
+        assertThat(modalPage.getDatasources().size(), is(1));
+        assertThat(getRefreshDatasource(modalPage), is("p_master"));
+
+        // parent-datasource доступен и на странице, открытой из модального окна
+        PageContext nestedContext = (PageContext) route("/p/create/nested/", Page.class);
+        assertThat(nestedContext.getParentDatasourceIdsMap().get("parentDs"), is("p_master"));
+        StandardPage nestedPage = (StandardPage) routeAndGet("/p/create/nested/", Page.class);
+        assertThat(getRefreshDatasource(nestedPage), is("p_master"));
+    }
+
+    private static String getRefreshDatasource(StandardPage page) {
+        Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
+        MultiAction action = (MultiAction) form.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction();
+        RefreshAction refresh = (RefreshAction) action.getPayload().getActions().get(0);
+        return ((RefreshPayload) refresh.getPayload()).getDatasource();
     }
 
     @Test

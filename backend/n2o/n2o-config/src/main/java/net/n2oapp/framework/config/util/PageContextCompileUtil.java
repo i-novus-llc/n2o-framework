@@ -20,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 public class PageContextCompileUtil {
@@ -85,7 +86,8 @@ public class PageContextCompileUtil {
                 if (!(entry.getValue() instanceof N2oParentDatasource parentDatasource)) {
                     parentDatasourceIdsMap.put(entry.getKey(), getClientDatasourceId(entry.getKey(), p));
                 } else if (!parentDatasource.isFromParentPage()) {
-                    parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(entry.getKey()));
+                    String sourceDatasourceId = castDefault(parentDatasource.getSourceDatasource(), entry.getKey());
+                    parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(sourceDatasourceId));
                 }
             }
         }
