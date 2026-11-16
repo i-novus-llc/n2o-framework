@@ -213,4 +213,12 @@ class ObjectValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkFailOutFieldIdExistence.page.xml"));
         assertEquals("В одном из <fail-out> полей операции 'register' объекта 'checkFailOutFieldIdExistence' не указан 'id'", exception.getMessage());
     }
+
+    @Test
+    void testMandatoryValidationFieldIdExistenceInOperation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/testMandatoryValidationFieldIdExistence.page.xml"));
+        assertEquals("В \"<mandatory>\" валидации 'requiredName' операции 'create' объекта 'testMandatoryValidationFieldIdExistence' необходимо указать атрибут 'field-id'", exception.getMessage());
+    }
 }

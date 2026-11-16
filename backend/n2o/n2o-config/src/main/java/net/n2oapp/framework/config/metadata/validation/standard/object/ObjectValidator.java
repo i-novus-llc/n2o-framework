@@ -149,6 +149,14 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                     p.checkIdExistence(validation, String.format("В одной из валидаций операции %s объекта %s не указан параметр 'id'",
                             getIdOrEmptyString(operation.getId()),
                             getIdOrEmptyString(object.getId())));
+
+                    if (validation instanceof N2oMandatoryValidation && validation.getFieldId() == null)
+                        throw new N2oMetadataValidationException(
+                                String.format("В \"<mandatory>\" валидации %s операции %s объекта %s необходимо указать атрибут 'field-id'",
+                                        getIdOrEmptyString(validation.getId()),
+                                        getIdOrEmptyString(operation.getId()),
+                                        getIdOrEmptyString(object.getId())));
+
                     validateConditionFile(validation);
                     if (validation instanceof N2oInvocationValidation invocationValidation) {
                         InvocationScope scope = new InvocationScope();
@@ -160,7 +168,6 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 });
         p.safeStreamOf(operation.getValidations().getInlineValidations())
                 .forEach(validation -> validationSideIsNotClient(object.getId(), operation, validation));
-
     }
 
     private void checkSwitchCase(AbstractParameter[] fields) {
