@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <parent-datasource id="parentDs"/>
+    </datasources>
+    <regions>
+        <form>
+            <fields>
+                <input-text id="name"/>
+            </fields>
+            <toolbar place="bottomRight">
+                <button label="Сохранить">
+                    <refresh datasource="parentDs"/>
+                    <close/>
+                </button>
+                <button label="Открыть">
+                    <show-modal page-id="testParentDsOverrideModal" route="/nested"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>
