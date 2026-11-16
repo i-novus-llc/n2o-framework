@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.validation.standard.control;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -9,6 +8,8 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
+
+import static net.n2oapp.framework.api.StringUtils.isDynamicValue;
 
 @Component
 public class InputTextValidator implements SourceValidator<N2oInputText>, SourceClassAware {
@@ -20,59 +21,58 @@ public class InputTextValidator implements SourceValidator<N2oInputText>, Source
     @Override
     public void validate(N2oInputText source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String widgetId = widgetScope != null ? widgetScope.getWidgetId() : null;
 
         if (source.getDefaultValue() != null && source.getDomain() != null && !isDynamicValue(source.getDefaultValue()))
-            checkDomain(source, widgetScope);
+            checkDomain(source, widgetId);
 
-        if (source.getStep() != null && source.getDomain() != null)
-            checkStep(source, widgetScope);
+        if (source.getStep() != null && source.getDomain() != null && !isDynamicValue(source.getStep()))
+            checkStep(source, widgetId);
+
+        ValidationUtils.checkMinMax(source.getMin(), source.getMax(), source.getId(),
+                widgetId, ValidationUtils::compareNumeric);
     }
 
-    private static boolean isDynamicValue(String value) {
-        return StringUtils.hasLink(value) || StringUtils.isJs(value);
-    }
-
-    private void checkDomain(N2oInputText source, WidgetScope widgetScope) {
+    private void checkDomain(N2oInputText source, String widgetId) {
         String message = "Значение 'default-value' не соответствует указанному 'domain=%s' для поля '%s' виджета %s";
         String domain = source.getDomain();
         if ("integer".equals(domain)) {
             ValidationUtils.checkInteger(source.getDefaultValue(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
         if ("short".equals(domain)) {
             ValidationUtils.checkShort(source.getDefaultValue(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
         if ("byte".equals(domain)) {
             ValidationUtils.checkByte(source.getDefaultValue(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
         if ("numeric".equals(domain)) {
             ValidationUtils.checkDouble(source.getDefaultValue(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
     }
 
-
-    private void checkStep(N2oInputText source, WidgetScope widgetScope) {
+    private void checkStep(N2oInputText source, String widgetId) {
         String message = "Значение 'step' не соответствует указанному 'domain=%s' для поля %s виджета %s";
         String domain = source.getDomain();
         if ("integer".equals(domain)) {
             ValidationUtils.checkInteger(source.getStep(), String.format(message, domain,
                     ValidationUtils.getIdOrEmptyString(source.getId()),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
         if ("short".equals(domain)) {
             ValidationUtils.checkShort(source.getStep(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
         if ("byte".equals(domain)) {
             ValidationUtils.checkByte(source.getStep(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
         if ("numeric".equals(domain)) {
             ValidationUtils.checkDouble(source.getStep(), String.format(message, domain, source.getId(),
-                    ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+                    ValidationUtils.getIdOrEmptyString(widgetId)));
         }
     }
 }

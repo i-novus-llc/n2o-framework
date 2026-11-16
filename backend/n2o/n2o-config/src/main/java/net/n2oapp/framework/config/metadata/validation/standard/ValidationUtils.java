@@ -30,6 +30,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.StringUtils.isDynamicValue;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
@@ -346,6 +347,30 @@ public final class ValidationUtils {
         if (StringUtils.hasText(body) && StringUtils.hasText(file))
             throw new N2oMetadataValidationException(
                     String.format("Для %s в элементе \"%s\" одновременно задано тело и атрибут 'file'", owner.trim(), tag));
+    }
+
+    /**
+     * Проверка, что min не больше max.
+     *
+     * @param comparator стратегия сравнения: {@link #compareNumeric(String, String)} для чисел,
+     *                   {@link String#compareTo(String)} для дат и других сравнимых строк
+     */
+    public static void checkMinMax(String min, String max, String fieldId, String widgetId,
+                                   Comparator<String> comparator) {
+        if (min != null && max != null && !isDynamicValue(min) && !isDynamicValue(max)
+                && comparator.compare(min, max) > 0) {
+            throw new N2oMetadataValidationException(String.format(
+                    "Значение 'min' не может быть больше 'max' для поля %s виджета %s",
+                    getIdOrEmptyString(fieldId), getIdOrEmptyString(widgetId)));
+        }
+    }
+
+    public static int compareNumeric(String min, String max) {
+        try {
+            return Double.compare(Double.parseDouble(min), Double.parseDouble(max));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     /**
