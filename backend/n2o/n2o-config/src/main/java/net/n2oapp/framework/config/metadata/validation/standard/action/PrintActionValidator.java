@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PrintActionValidator implements SourceValidator<N2oPrintAction>, SourceClassAware {
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oPrintAction.class;

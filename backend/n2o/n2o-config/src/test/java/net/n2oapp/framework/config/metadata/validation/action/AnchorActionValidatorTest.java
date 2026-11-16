@@ -40,4 +40,20 @@ class AnchorActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/anchor/testTarget.page.xml"));
         assertEquals("Для действия \"<a>\" при абсолютном пути (http\\https) не может быть задан 'target=\"application\"'", exception.getMessage());
     }
+
+    @Test
+    void testPathParamName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/anchor/testPathParamName.page.xml"));
+        assertEquals("В действии \"<a>\" для элемента \"<path-param>\" не задан обязательный атрибут 'name'", exception.getMessage());
+    }
+
+    @Test
+    void testQueryParamName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/anchor/testQueryParamName.page.xml"));
+        assertEquals("В действии \"<a>\" для элемента \"<query-param>\" не задан обязательный атрибут 'name'", exception.getMessage());
+    }
 }

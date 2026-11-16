@@ -69,4 +69,28 @@ class InvokeActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testObjectIdExistence.page.xml"));
         assertEquals("Действие \"<invoke operation-id='test'>\" ссылается на несуществующий объект 'test'", exception.getMessage());
     }
+
+    @Test
+    void testFormParamName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testFormParamName.page.xml"));
+        assertEquals("В действии \"<invoke>\" для элемента \"<form-param>\" не задан обязательный атрибут 'id'", exception.getMessage());
+    }
+
+    @Test
+    void testHeaderParamName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testHeaderParamName.page.xml"));
+        assertEquals("В действии \"<invoke>\" для элемента \"<header-param>\" не задан обязательный атрибут 'name'", exception.getMessage());
+    }
+
+    @Test
+    void testPathParamName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testPathParamName.page.xml"));
+        assertEquals("В действии \"<invoke>\" для элемента \"<path-param>\" не задан обязательный атрибут 'name'", exception.getMessage());
+    }
 }
