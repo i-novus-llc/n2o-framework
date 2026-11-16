@@ -28,5 +28,9 @@ public class StatusValidator implements SourceValidator<N2oStatus>, SourceClassA
                     String.format("В поле \"<status>\" указано недопустимое значение атрибута 'color=\"%s\"'",
                             source.getColor()));
         }
+
+        if (source.getText() == null || source.getText().isBlank())
+            throw new N2oMetadataValidationException(
+                    "В поле \"<status>\" не задан обязательный атрибут 'text'");
     }
 }
