@@ -225,4 +225,12 @@ class TableValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/columns/testDndColumnNestedVisibilityBodyAndFileExistence.widget.xml"));
         assertEquals("Для колонки 'col2' в элементе \"<visibility>\" одновременно задано тело и атрибут 'file'", exception.getMessage());
     }
+
+    @Test
+    void testClickActionIdNotExist() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/rows/testClickActionIdNotExist.widget.xml"));
+        assertEquals("Таблица с 'action-id=\"missingAction\"' в элементе \"<click>\" ссылается на несуществующее действие 'missingAction'", exception.getMessage());
+    }
 }

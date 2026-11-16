@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
@@ -47,11 +48,21 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         MetaActions actions = getAllMetaActions(p.getScope(MetaActions.class), source.getActions(), p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), source.getDatasource(), actions);
 
-        if (source.getRows() != null && source.getRows().getRowClick() != null && source.getRows().getRowClick().getActions() != null) {
-            N2oAction[] rowClickActions = source.getRows().getRowClick().getActions();
-            Arrays.stream(rowClickActions).forEach(item -> p.validate(item, widgetScope));
-            checkOnFailAction(rowClickActions);
-            checkCloseInMultiAction(rowClickActions);
+        if (source.getRows() != null && source.getRows().getRowClick() != null) {
+            N2oRowClick rowClick = source.getRows().getRowClick();
+
+            if (rowClick.getActionId() != null) {
+                checkActionExistence(rowClick.getActionId(), actions,
+                        String.format("Таблица с 'action-id=\"%s\"' в элементе \"<click>\" ссылается на несуществующее действие '%s'",
+                                rowClick.getActionId(), rowClick.getActionId()));
+            }
+
+            if (rowClick.getActions() != null) {
+                N2oAction[] rowClickActions = rowClick.getActions();
+                Arrays.stream(rowClickActions).forEach(item -> p.validate(item, widgetScope));
+                checkOnFailAction(rowClickActions);
+                checkCloseInMultiAction(rowClickActions);
+            }
         }
 
         if (source.getColumns() != null) {
