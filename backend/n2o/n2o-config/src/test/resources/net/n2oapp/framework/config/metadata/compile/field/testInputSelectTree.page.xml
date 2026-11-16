@@ -10,6 +10,7 @@
                                has-children-field-id="testHasChildrenFieldId"
                                search-min-length="2" throttle-delay="100"/>
             <input-select-tree id="defaults" parent-field-id="testId"/>
+            <input-select-tree id="defaultParent"/>
         </fields>
     </form>
 </simple-page>

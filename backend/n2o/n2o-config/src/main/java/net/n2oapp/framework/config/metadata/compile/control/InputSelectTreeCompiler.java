@@ -33,7 +33,8 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
     @Override
     public StandardField<InputSelectTree> compile(N2oInputSelectTree source, CompileContext<?, ?> context, CompileProcessor p) {
         InputSelectTree control = new InputSelectTree();
-        control.setParentFieldId(p.resolveJS(source.getParentFieldId()));
+        control.setParentFieldId(castDefault(p.resolveJS(source.getParentFieldId()),
+                () -> p.resolve(property("n2o.api.control.input_select_tree.parent_field_id"), String.class)));
         control.setHasChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
         control.setHasCheckboxes(castDefault(source.getCheckboxes(),
                 () -> p.resolve(property("n2o.api.control.input_select_tree.checkboxes"), Boolean.class)));
