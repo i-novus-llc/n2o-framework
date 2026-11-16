@@ -67,4 +67,12 @@ class DateIntervalValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateInterval/testMaxDateInterval.page.xml"));
         assertEquals("Значение 'max' поля 'test' виджета 'testMaxDateInterval' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
     }
+
+    @Test
+    void testMinMoreThanMax() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateInterval/testMinMoreThanMax.page.xml"));
+        assertEquals("Значение 'min' не может быть больше 'max' для поля 'field1' виджета 'testMinMoreThanMax'", exception.getMessage());
+    }
 }

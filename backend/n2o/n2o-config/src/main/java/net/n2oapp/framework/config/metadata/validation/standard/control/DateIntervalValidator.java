@@ -21,10 +21,15 @@ public class DateIntervalValidator implements SourceValidator<N2oDateInterval>, 
     @Override
     public void validate(N2oDateInterval source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        checkDate(source.getBegin(), "begin", source.getId(), widgetScope.getWidgetId());
-        checkDate(source.getEnd(), "end", source.getId(), widgetScope.getWidgetId());
-        checkDate(source.getMin(), "min", source.getId(), widgetScope.getWidgetId());
-        checkDate(source.getMax(), "max", source.getId(), widgetScope.getWidgetId());
+        String widgetId = widgetScope != null ? widgetScope.getWidgetId() : null;
+
+        checkDate(source.getBegin(), "begin", source.getId(), widgetId);
+        checkDate(source.getEnd(), "end", source.getId(), widgetId);
+        checkDate(source.getMin(), "min", source.getId(), widgetId);
+        checkDate(source.getMax(), "max", source.getId(), widgetId);
+
+        ValidationUtils.checkMinMax(source.getMin(), source.getMax(), source.getId(),
+                widgetId, String::compareTo);
     }
 
     private void checkDate(String date, String attribute, String sourceId, String widgetId) {

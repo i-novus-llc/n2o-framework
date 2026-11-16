@@ -1,0 +1,5 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <input-text id="field1" domain="integer" min="5" max="3"/>
+    </fields>
+</form>

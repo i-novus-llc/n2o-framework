@@ -21,9 +21,14 @@ public class DateTimeValidator implements SourceValidator<N2oDatePicker>, Source
     @Override
     public void validate(N2oDatePicker source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        checkDate(source.getDefaultValue(), "default-value", source.getId(), widgetScope.getWidgetId());
-        checkDate(source.getMin(), "min", source.getId(), widgetScope.getWidgetId());
-        checkDate(source.getMax(), "max", source.getId(), widgetScope.getWidgetId());
+        String widgetId = widgetScope != null ? widgetScope.getWidgetId() : null;
+
+        checkDate(source.getDefaultValue(), "default-value", source.getId(), widgetId);
+        checkDate(source.getMin(), "min", source.getId(), widgetId);
+        checkDate(source.getMax(), "max", source.getId(), widgetId);
+
+        ValidationUtils.checkMinMax(source.getMin(), source.getMax(), source.getId(),
+                widgetId, String::compareTo);
     }
 
     private void checkDate(String date, String attribute, String sourceId, String widgetId) {

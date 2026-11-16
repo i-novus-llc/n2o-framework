@@ -96,4 +96,12 @@ class InputTextValidatorTest extends SourceValidationTestBase {
     void testDefaultValueLinkDomainInteger() {
         validate("net/n2oapp/framework/config/metadata/validation/field/inputText/testDefValueLinkDomainInt.page.xml");
     }
+
+    @Test
+    void testMinMoreThanMax() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/inputText/testMinMoreThanMax.page.xml"));
+        assertEquals("Значение 'min' не может быть больше 'max' для поля 'field1' виджета 'testMinMoreThanMax'", exception.getMessage());
+    }
 }

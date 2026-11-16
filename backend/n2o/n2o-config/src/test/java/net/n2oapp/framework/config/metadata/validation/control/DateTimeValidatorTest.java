@@ -59,4 +59,12 @@ class DateTimeValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateTime/testMaxDateTime.page.xml"));
         assertEquals("Значение 'max' поля 'test' виджета 'testMaxDateTime' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
     }
+
+    @Test
+    void testMinMoreThanMax() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateTime/testMinMoreThanMax.page.xml"));
+        assertEquals("Значение 'min' не может быть больше 'max' для поля 'field1' виджета 'testMinMoreThanMax'", exception.getMessage());
+    }
 }
