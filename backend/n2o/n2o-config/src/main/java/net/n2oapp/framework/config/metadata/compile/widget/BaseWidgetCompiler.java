@@ -91,10 +91,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         N2oAbstractDatasource datasource = isNull(source.getDatasourceId())
                 ? initInlineDatasource(source, p)
                 : p.getScope(DataSourcesScope.class).get(source.getDatasourceId());
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (nonNull(pageScope)) {
-            pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasource.getId());
-        }
 
         if (datasource instanceof N2oStandardDatasource standardDatasource)
             compiled.setObjectId(standardDatasource.getObjectId());

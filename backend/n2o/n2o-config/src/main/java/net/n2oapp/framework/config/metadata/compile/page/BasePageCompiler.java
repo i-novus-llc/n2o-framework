@@ -136,9 +136,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void initDataSourcesScope(S source, List<N2oWidget> sourceWidgets,
-                                                  ClientDatasourceIdsScope clientDatasourceIdsScope,
-                                                  DataSourcesScope datasourcesScope,
-                                                  PageContext context, CompileProcessor p) {
+                                      ClientDatasourceIdsScope clientDatasourceIdsScope,
+                                      DataSourcesScope datasourcesScope,
+                                      PageContext context, CompileProcessor p) {
         Set<String> parentDatasourceIds = addSourceDatasourcesToScope(source, clientDatasourceIdsScope,
                 datasourcesScope, context, p);
 
@@ -235,9 +235,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             pageScope.setTabIds(new HashSet<>(context.getParentTabIds()));
         pageScope.setObjectId(source.getObjectId());
         pageScope.setResultWidgetId(isNull(resultWidget) ? null : resultWidget.getId());
-        pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
-                .collect(Collectors.toMap(N2oMetadata::getId,
-                        w -> isNull(w.getDatasourceId()) ? w.getId() : w.getDatasourceId())));
+        pageScope.setWidgetCount(sourceWidgets.size());
         return pageScope;
     }
 

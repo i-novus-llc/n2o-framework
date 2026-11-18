@@ -87,7 +87,8 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         String pageIndex;
         String sizeIndex;
-        if (p.getScope(PageScope.class).getWidgetIdSourceDatasourceMap().size() > 1) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope != null && pageScope.getWidgetCount() > 1) {
             pageIndex = widgetScope.getWidgetId().concat("_page");
             sizeIndex = widgetScope.getWidgetId().concat("_size");
         } else {

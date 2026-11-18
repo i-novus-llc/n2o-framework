@@ -22,8 +22,6 @@ import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -113,9 +111,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         pageScope.setResultWidgetId(widget.getId());
         if (widget.getDatasource() != null)
             pageScope.setObjectId(widget.getDatasource().getObjectId());
-        pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
-        pageScope.getWidgetIdSourceDatasourceMap().put(widget.getId(),
-                widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId());
+        pageScope.setWidgetCount(1);
         return pageScope;
     }
 
