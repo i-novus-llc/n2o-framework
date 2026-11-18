@@ -22,7 +22,6 @@ import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.action.condition.ConditionBranchesScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
@@ -35,7 +34,6 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getDatasourceIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
@@ -223,19 +221,17 @@ public class ActionCompileStaticProcessor {
     public static void initMappings(N2oParam[] pathParams, N2oParam[] queryParams,
                                     Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                     CompileProcessor p) {
-        String defaultClientWidgetId = p.getScope(WidgetScope.class) != null ? getDefaultClientWidgetId(p) : null;
         ReduxModelEnum defaultModel = getModelFromComponentScope(p);
-        putParamModelLinks(pathParams, pathMapping, defaultClientWidgetId, defaultModel, p);
-        putParamModelLinks(queryParams, queryMapping, defaultClientWidgetId, defaultModel, p);
+        putParamModelLinks(pathParams, pathMapping, defaultModel, p);
+        putParamModelLinks(queryParams, queryMapping, defaultModel, p);
     }
 
     private static void putParamModelLinks(N2oParam[] params, Map<String, ModelLink> mapping,
-                                           String defaultClientWidgetId, ReduxModelEnum defaultModel,
-                                           CompileProcessor p) {
+                                           ReduxModelEnum defaultModel, CompileProcessor p) {
         if (params == null)
             return;
         for (N2oParam param : params)
-            mapping.put(param.getName(), initParamModelLink(param, defaultClientWidgetId, defaultModel, p));
+            mapping.put(param.getName(), initParamModelLink(param, defaultModel, p));
     }
 
     /**
@@ -261,41 +257,18 @@ public class ActionCompileStaticProcessor {
     /**
      * Инициализация модели ссылки параметра
      *
-     * @param param                 Исходная модель параметра
-     * @param defaultClientWidgetId Идентификатор виджета по умолчанию
-     * @param defaultModel          Модель по умолчанию
-     * @param p                     Процессор сборки метаданных
+     * @param param                     Исходная модель параметра
+     * @param defaultModel              Модель по умолчанию
+     * @param p                         Процессор сборки метаданных
      * @return Модель ссылки параметра
      */
-    public static ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModelEnum defaultModel, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        String widgetId = castDefault(getClientDatasourceId(param.getDatasourceId(), p), defaultClientWidgetId);
-
-        String clientDatasourceId;
-        if (pageScope == null) {
-            clientDatasourceId = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
-            if (clientDatasourceId == null)
-                clientDatasourceId = getLocalDatasourceId(p);
-        } else {
-            clientDatasourceId = getClientDatasourceId(
-                    param.getDatasourceId() != null ? param.getDatasourceId() : getLocalDatasourceId(p), p);
-        }
+    public static ModelLink initParamModelLink(N2oParam param, ReduxModelEnum defaultModel, CompileProcessor p) {
+        String sourceDatasourceId = param.getDatasourceId() != null ? param.getDatasourceId() : getLocalDatasourceId(p);
+        String clientDatasourceId = getClientDatasourceId(sourceDatasourceId, p);
 
         ModelLink link = ModelLinkUtil.createModelLink(p, param.getModel(), clientDatasourceId, defaultModel);
         link.setValue(p.resolveJS(param.getValue()));
         return link;
-    }
-
-    /**
-     * Получение идентификатора клиентского виджета по умолчанию
-     *
-     * @param p Процессор сборки метаданных
-     * @return Идентификатор клиентского виджета по умолчанию
-     */
-    public static String getDefaultClientWidgetId(CompileProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String widgetIdByComponentScope = getClientDatasourceId(getDatasourceIdByComponentScope(p), p);
-        return widgetIdByComponentScope != null ? widgetIdByComponentScope : widgetScope.getClientWidgetId();
     }
 
     public static ReduxModelEnum getModelFromComponentScope(CompileProcessor p) {
