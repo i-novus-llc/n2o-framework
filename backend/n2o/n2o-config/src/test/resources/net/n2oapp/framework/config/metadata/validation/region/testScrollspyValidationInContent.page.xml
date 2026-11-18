@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <scrollspy>
+            <menu-item id="mi1" title="Форма">
+                <tabs>
+                    <tab name="Один">
+                        <form>
+                            <fields>
+                                <button label="Кнопка" datasource="ds"/>
+                            </fields>
+                        </form>
+                    </tab>
+                </tabs>
+            </menu-item>
+        </scrollspy>
+    </regions>
+</page>

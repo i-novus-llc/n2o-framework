@@ -19,10 +19,17 @@ public class ScrollspyValidator extends AbstractRegionValidator<N2oScrollspyRegi
     @Override
     public void validate(N2oScrollspyRegion source, SourceProcessor p) {
         N2oScrollspyRegion.AbstractMenuItem[] items = source.getMenu();
+        List<N2oScrollspyRegion.AbstractMenuItem> allItems = collectItems(items, p);
+
         p.checkIdsUnique(
-                collectItems(items, p),
+                allItems,
                 String.format("Меню '%s' встречается более одного раза в <scrollspy> '%s'", "%s", source.getId())
         );
+
+        allItems.stream()
+                .filter(N2oScrollspyRegion.MenuItem.class::isInstance)
+                .map(N2oScrollspyRegion.MenuItem.class::cast)
+                .forEach(menuItem -> p.safeStreamOf(menuItem.getContent()).forEach(p::validate));
 
         super.validate(source, p);
     }
