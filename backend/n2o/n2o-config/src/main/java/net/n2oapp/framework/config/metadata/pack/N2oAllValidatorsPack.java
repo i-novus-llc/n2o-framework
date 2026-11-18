@@ -37,7 +37,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new ListFieldValidator(), new SetFieldSetValidator(),
                 new FieldSetColValidator(), new FieldSetRowValidator(), new FormValidator(), new MultiFormValidator(),
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new SetValueValidator(),
-                new HtmlWidgetValidator(),
+                new HtmlWidgetValidator(), new ChartValidator(),
                 new AlertActionValidator(), new ClearActionValidator(), new CopyActionValidator(), new ConfirmActionValidator(),
                 new PrintActionValidator(), new AnchorActionValidator(), new StandardPageValidator(), new RefreshActionValidator(),
                 new SimplePageValidator(), new BasePageValidator(),
