@@ -18,9 +18,16 @@ public class FormatUtil {
     }
 
     private static final Pattern NON_DIGIT_PATTERN = Pattern.compile("\\D");
-    private static final Pattern MASK_CHARS_PATTERN = Pattern.compile(".*[+()\\-].*");
-    private static final Pattern DIGIT_PATTERN = Pattern.compile(".*\\d.*");
+    private static final Pattern MASK_CHARS_PATTERN = Pattern.compile("[+()\\-]");
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("\\d");
     private static final Pattern OPTIONAL_ZEROS_PATTERN = Pattern.compile("\\[0+]");
+    private static final Pattern ZERO_SEQUENCE_PATTERN = Pattern.compile("0+");
+
+    /**
+     * Символы, с которых начинается потенциально опасная для Excel/LibreOffice ячейка:
+     * формула (=), знак числа (+/-), @-функция, табуляция и CR.
+     */
+    private static final String DANGEROUS_PREFIXES = "=+-@\t\r";
 
     public static String maskPassword(String value) {
         return "*".repeat(value.length());
@@ -62,7 +69,7 @@ public class FormatUtil {
             digits = NON_DIGIT_PATTERN.matcher(value.toString()).replaceAll("");
         }
 
-        if (MASK_CHARS_PATTERN.matcher(pattern).matches() && DIGIT_PATTERN.matcher(pattern).matches()) {
+        if (MASK_CHARS_PATTERN.matcher(pattern).find() && DIGIT_PATTERN.matcher(pattern).find()) {
             return applyMask(digits, pattern);
         }
 
@@ -154,10 +161,10 @@ public class FormatUtil {
             if (dotIndex > 0) {
                 String intPart = result.substring(0, dotIndex);
                 String decPart = result.substring(dotIndex);
-                intPart = intPart.replace(" ", "").replaceAll("0+", "0");
+                intPart = ZERO_SEQUENCE_PATTERN.matcher(intPart.replace(" ", "")).replaceAll("0");
                 result = intPart + decPart;
             } else {
-                result = result.replace(" ", "").replaceAll("0+", "0");
+                result = ZERO_SEQUENCE_PATTERN.matcher(result.replace(" ", "")).replaceAll("0");
             }
         }
 
@@ -188,5 +195,24 @@ public class FormatUtil {
         }
 
         return value.toString();
+    }
+
+    /**
+     * Единый санитайзер CSV/Formula injection.
+     * <p>
+     * Если строковое значение начинается с одного из опасных символов
+     * ({@code = + - @}, табуляция, CR), добавляет в начало апостроф, чтобы
+     * Excel/LibreOffice трактовали ячейку как текст, а не как формулу.
+     *
+     * @param value исходное значение
+     * @return безопасное значение (с префиксом {@code '} при необходимости)
+     */
+    public static String sanitizeFormula(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        return DANGEROUS_PREFIXES.indexOf(value.charAt(0)) >= 0
+                ? "'" + value
+                : value;
     }
 }
