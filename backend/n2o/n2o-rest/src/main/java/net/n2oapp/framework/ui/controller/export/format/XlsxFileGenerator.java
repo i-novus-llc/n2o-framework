@@ -262,15 +262,19 @@ public class XlsxFileGenerator implements FileGenerator {
      * Конвертирует различные типы дат в java.util.Date для Excel.
      */
     private Date convertToDate(Object value) {
-        return switch (value) {
-            case Date date -> date;
-            case LocalDateTime localDateTime -> Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-            case LocalDate localDate -> Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            case ZonedDateTime zonedDateTime -> Date.from(zonedDateTime.toInstant());
-            case Instant instant -> Date.from(instant);
-            case String str -> parseStringToDate(str);
-            default -> null;
-        };
+        try {
+            return switch (value) {
+                case Date date -> date;
+                case LocalDateTime localDateTime -> Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                case LocalDate localDate -> Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                case ZonedDateTime zonedDateTime -> Date.from(zonedDateTime.toInstant());
+                case Instant instant -> Date.from(instant);
+                case String str -> parseStringToDate(str);
+                default -> null;
+            };
+        } catch (IllegalArgumentException | DateTimeException e) {
+            return null;
+        }
     }
 
     private Date parseStringToDate(String value) {
