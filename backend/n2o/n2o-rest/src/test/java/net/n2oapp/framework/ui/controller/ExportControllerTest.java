@@ -8,6 +8,8 @@ import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.export.format.XlsxFileGenerator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +20,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ExportControllerTest extends DataControllerTestBase {
 
@@ -49,8 +51,8 @@ class ExportControllerTest extends DataControllerTestBase {
         assertThat(export.getCharacterEncoding(), is("UTF-8"));
         assertThat(export.getContentType(), is("text/csv"));
         assertThat(export.getContentDisposition()
-                .equals("attachment; filename=\"=?UTF-8?Q?=D0=9F=D0=B0=D1=86=D0=B8=D0=B5=D0=BD=D1=82=D1=8B.csv?=\"; " +
-                        "filename*=UTF-8''%D0%9F%D0%B0%D1%86%D0%B8%D0%B5%D0%BD%D1%82%D1%8B.csv"),
+                        .equals("attachment; filename=\"=?UTF-8?Q?=D0=9F=D0=B0=D1=86=D0=B8=D0=B5=D0=BD=D1=82=D1=8B.csv?=\"; " +
+                                "filename*=UTF-8''%D0%9F%D0%B0%D1%86%D0%B8%D0%B5%D0%BD%D1%82%D1%8B.csv"),
                 is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
 
@@ -99,6 +101,97 @@ class ExportControllerTest extends DataControllerTestBase {
                                 "filename*=UTF-8''%D0%9F%D0%B0%D1%86%D0%B8%D0%B5%D0%BD%D1%82%D1%8B.xlsx"),
                 is(true));
         assertThat(export.getContentLength(), is(export.getFile().length));
+    }
+
+    /**
+     * CSV/Formula injection
+     * Проверяет, что значения, начинающиеся с любого опасного символа
+     * (=, +, -, @, табуляция, CR), получают префикс-апостроф и не попадают
+     * в выгрузку в «опасном» виде.
+     */
+    @ParameterizedTest(name = "Injection: [{0}]")
+    @ValueSource(strings = {
+            "=cmd|'/c calc'!A1",
+            "=1+1",
+            "+1+1",
+            "-1+1",
+            "@SUM(1,1)",
+            "\t=1+1",
+            "\r=1+1"
+    })
+    void testCsvExportNeutralizesFormulaInjection(String malicious) {
+        List<DataSet> data = List.of(
+                new DataSet(Map.of("id", 1, "name", malicious, "desc", "safe")));
+        List<ExportRequest.ExportField> headers = List.of(
+                createExportField("id", "ID", null),
+                createExportField("name", "Name", null),
+                createExportField("desc", "Desc", null));
+
+        ExportController controller = new ExportController(builder.getEnvironment(), null, factory);
+        ExportResponse response = controller.export(data, "csv", "UTF-8", headers, "test");
+        String csv = new String(response.getFile(), StandardCharsets.UTF_8);
+
+        // Нейтрализованный вариант присутствует
+        assertTrue(csv.contains("\"'" + malicious + "\""),
+                "Значение должно быть нейтрализовано апострофом. Actual:\n" + csv);
+        // Небезопасный вариант отсутствует
+        assertFalse(csv.contains("\"" + malicious + "\""),
+                "Опасное значение не должно появляться без апострофа. Actual:\n" + csv);
+    }
+
+    /**
+     * Значения, начинающиеся с безопасных символов, не должны модифицироваться,
+     * а уже экранированные апострофом — не должны получить второй апостроф.
+     */
+    @Test
+    void testCsvExportKeepsSafeValuesIntact() {
+        List<DataSet> data = List.of(
+                new DataSet(Map.of("id", 1, "name", "safe")),
+                new DataSet(Map.of("id", 2, "name", "123-456-789 01")),
+                new DataSet(Map.of("id", 3, "name", "'already-safe")));
+        List<ExportRequest.ExportField> headers = List.of(
+                createExportField("id", "ID", null),
+                createExportField("name", "Name", null));
+
+        ExportController controller = new ExportController(builder.getEnvironment(), null, factory);
+        String csv = new String(
+                controller.export(data, "csv", "UTF-8", headers, "test").getFile(),
+                StandardCharsets.UTF_8);
+
+        assertTrue(csv.contains("\"safe\""), csv);
+        assertTrue(csv.contains("\"123-456-789 01\""), csv);
+        // Уже с апострофом — не должно стать "''already-safe"
+        assertTrue(csv.contains("\"'already-safe\""), csv);
+        assertFalse(csv.contains("\"''already-safe\""), csv);
+    }
+
+    /**
+     * Двойная кавычка внутри значения не должна закрывать поле и порождать
+     * новую ячейку с формулой без апострофа.
+     */
+    @Test
+    void testCsvExportEscapesQuotesInsideValue() {
+        List<DataSet> data = List.of(
+                new DataSet(Map.of("id", 1, "name", "x\";=cmd|'/c calc'!A1;\"")));
+        List<ExportRequest.ExportField> headers = List.of(
+                createExportField("id", "ID", null),
+                createExportField("name", "Name", null));
+
+        ExportController controller = new ExportController(builder.getEnvironment(), null, factory);
+        String csv = new String(
+                controller.export(data, "csv", "UTF-8", headers, "test").getFile(),
+                StandardCharsets.UTF_8);
+
+        // Кавычки внутри значения должны быть удвоены (RFC 4180),
+        // а само значение обернуто в кавычки, чтобы не разорвать ячейку.
+        String expectedSafeCell = "1;\"x\"\";=cmd|'/c calc'!A1;\"\"\"";
+        assertTrue(csv.contains(expectedSafeCell),
+                "Значение с внутренними кавычками должно быть правильно экранировано. Actual:\n" + csv);
+
+        // Проверяем, что значение не разорвало ячейку, и формула не "выпала" в отдельную колонку
+        String unsafeCell = "1;\"x\";=cmd|'/c calc'!A1;\"";
+        assertFalse(csv.contains(unsafeCell),
+                "Опасное значение не должно разрывать ячейку. Actual:\n" + csv);
     }
 
     private List<DataSet> testData() {

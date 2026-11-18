@@ -33,8 +33,8 @@ public class XlsxFileGenerator implements FileGenerator {
                              List<DataSet> data,
                              List<ExportRequest.ExportField> headers) {
         byte[] fileBytes = null;
-
         try (Workbook workbook = new XSSFWorkbook()) {
+
             Sheet sheet = workbook.createSheet();
             CellStyle headerStyle = createHeaderStyle(workbook);
             Map<Integer, ColumnStyle> columnStyles = createColumnStyles(workbook, headers);
@@ -69,11 +69,9 @@ public class XlsxFileGenerator implements FileGenerator {
                 workbook.write(baos);
                 fileBytes = baos.toByteArray();
             }
-
         } catch (IOException e) {
             log.error("Failed to generate XLSX file", e);
         }
-
         return fileBytes;
     }
 
@@ -81,7 +79,12 @@ public class XlsxFileGenerator implements FileGenerator {
         if (entry.getFormat() != null) {
             String formatLower = entry.getFormat().toLowerCase().trim();
             if (formatLower.startsWith("date") || formatLower.startsWith("number")) {
-                setCellWithStyle(cell, datum.get(entry.getId()), columnStyles.get(c));
+                ColumnStyle columnStyle = columnStyles.get(c);
+                if (columnStyle == null) {
+                    setCellValue(cell, datum.get(entry.getId()));
+                } else {
+                    setCellWithStyle(cell, datum.get(entry.getId()), columnStyle);
+                }
             } else {
                 setCellValue(cell, applyFormat(datum.get(entry.getId()), entry.getFormat()));
             }
@@ -215,29 +218,26 @@ public class XlsxFileGenerator implements FileGenerator {
             return;
         }
 
-        try {
-            switch (columnStyle.type) {
-                case DATE -> {
-                    Date date = convertToDate(value);
-                    if (date != null) {
-                        cell.setCellValue(date);
-                        cell.setCellStyle(columnStyle.style);
-                    } else {
-                        cell.setCellValue(value.toString());
-                    }
-                }
-                case NUMBER -> {
-                    Double number = convertToNumber(value);
-                    if (number != null) {
-                        cell.setCellValue(number);
-                        cell.setCellStyle(columnStyle.style);
-                    } else {
-                        cell.setCellValue(value.toString());
-                    }
+        switch (columnStyle.type()) {
+            case DATE -> {
+                Date date = convertToDate(value);
+                if (date != null) {
+                    cell.setCellValue(date);
+                    cell.setCellStyle(columnStyle.style());
+                } else {
+                    cell.setCellValue(value.toString());
                 }
             }
-        } catch (Exception e) {
-            cell.setCellValue(value.toString());
+            case NUMBER -> {
+                Double number = convertToNumber(value);
+                if (number != null) {
+                    cell.setCellValue(number);
+                    cell.setCellStyle(columnStyle.style());
+                } else {
+                    cell.setCellValue(value.toString());
+                }
+            }
+            default -> cell.setCellValue(value.toString());
         }
     }
 

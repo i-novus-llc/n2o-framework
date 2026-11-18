@@ -29,6 +29,8 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -39,6 +41,27 @@ import static org.mockito.Mockito.mock;
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 class SandboxExportTest {
+
+    private static final String SAFE_JSON = """
+            [
+              {"id": 1, "name": "test1"},
+              {"id": 2, "name": "test2"},
+              {"id": 3, "name": "test3"},
+              {"id": 4, "name": "test4"}
+            ]
+            """;
+
+    private static final String INJECTION_JSON = """
+            [
+              {"id": 1, "name": "=cmd|'/c calc'!A1"},
+              {"id": 2, "name": "+1+1"},
+              {"id": 3, "name": "-1+1"},
+              {"id": 4, "name": "@SUM(1,1)"},
+              {"id": 5, "name": "\\t=1+1"},
+              {"id": 6, "name": "\\r=1+1"},
+              {"id": 7, "name": "safe"}
+            ]
+            """;
 
     @Value("${n2o.sandbox.api.host}")
     private String host;
@@ -63,30 +86,16 @@ class SandboxExportTest {
                 4;"test4"
                 """;
 
-        ExportRequest request = new ExportRequest();
-        request.setFormat("csv");
-        request.setCharset("UTF-8");
-        request.setUrl("/n2o/data/_w1/?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
-        List<ExportRequest.ExportField> requestHeaders = new ArrayList<>();
-        ExportRequest.ExportField idField = new ExportRequest.ExportField();
-        idField.setId("id");
-        idField.setTitle("id");
-        requestHeaders.add(idField);
-        ExportRequest.ExportField nameField = new ExportRequest.ExportField();
-        nameField.setId("name");
-        nameField.setTitle("name");
-        requestHeaders.add(nameField);
-        request.setFields(requestHeaders);
-        request.setFilename("export_data");
+        ExportRequest request = buildRequest("export_data", "id", "name");
 
-        mockFileStorage();
+        mockFileStorage(SAFE_JSON);
 
         ResponseEntity<byte[]> response = viewController.export("myProjectId", request, mock(HttpServletRequest.class));
         assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();
         assertThat(headers.getContentDisposition().toString()
-                .equals("attachment; filename=\"=?UTF-8?Q?export=5Fdata.csv?=\"; filename*=UTF-8''export_data.csv"),
+                        .equals("attachment; filename=\"=?UTF-8?Q?export=5Fdata.csv?=\"; filename*=UTF-8''export_data.csv"),
                 is(true));
 
         Optional<MediaType> contentType = Optional.ofNullable(headers.getContentType());
@@ -98,7 +107,58 @@ class SandboxExportTest {
         assertThat(headers.getContentLength(), is(Integer.toUnsignedLong(expectedBody.getBytes(StandardCharsets.UTF_8).length)));
     }
 
-    private void mockFileStorage() {
+    /**
+     * Сквозной тест: данные с опасными префиксами, пройдя через ViewController.export,
+     * должны получить апостроф и не попасть в CSV в виде, пригодном для исполнения
+     * Excel/LibreOffice.
+     */
+    @SneakyThrows
+    @Test
+    void export_sanitizesFormulaInjection() {
+        ExportRequest request = buildRequest("injection_data", "id", "name");
+
+        mockFileStorage(INJECTION_JSON);
+
+        ResponseEntity<byte[]> response = viewController.export("myProjectId", request, mock(HttpServletRequest.class));
+        assertThat(response.getStatusCode().value(), is(200));
+
+        String actual = new String(response.getBody(), StandardCharsets.UTF_8);
+
+        // Опасные значения — с апострофом
+        assertTrue(actual.contains("\"'=cmd|'/c calc'!A1\""), actual);
+        assertTrue(actual.contains("\"'+1+1\""), actual);
+        assertTrue(actual.contains("\"'-1+1\""), actual);
+        assertTrue(actual.contains("\"'@SUM(1,1)\""), actual);
+
+        // Безопасное значение осталось как есть
+        assertTrue(actual.contains("\"safe\""), actual);
+
+        // Ни одно опасное значение не попало без апострофа
+        assertFalse(actual.contains("\"=cmd|'/c calc'!A1\""), actual);
+        assertFalse(actual.contains("\"+1+1\""), actual);
+        assertFalse(actual.contains("\"-1+1\""), actual);
+        assertFalse(actual.contains("\"@SUM(1,1)\""), actual);
+    }
+
+    private ExportRequest buildRequest(String filename, String... fieldIds) {
+        ExportRequest request = new ExportRequest();
+        request.setFormat("csv");
+        request.setCharset("UTF-8");
+        request.setUrl("/n2o/data/_w1/?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
+
+        List<ExportRequest.ExportField> requestHeaders = new ArrayList<>();
+        for (String fieldId : fieldIds) {
+            ExportRequest.ExportField field = new ExportRequest.ExportField();
+            field.setId(fieldId);
+            field.setTitle(fieldId);
+            requestHeaders.add(field);
+        }
+        request.setFields(requestHeaders);
+        request.setFilename(filename);
+        return request;
+    }
+
+    private void mockFileStorage(String jsonData) {
         List<FileModel> fileModels = new ArrayList<>();
 
         FileModel fileModel = getFileModel();
@@ -106,26 +166,7 @@ class SandboxExportTest {
 
         FileModel testJson = new FileModel();
         testJson.setFile("test.json");
-        testJson.setSource("""
-                [
-                  {
-                    "id": 1,
-                    "name": "test1"
-                  },
-                  {
-                    "id": 2,
-                    "name": "test2"
-                  },
-                  {
-                    "id": 3,
-                    "name": "test3"
-                  },
-                  {
-                    "id": 4,
-                    "name": "test4"
-                  }
-                ]
-                """);
+        testJson.setSource(jsonData);
         fileModels.add(testJson);
 
         FileModel testQuery = getTestQuery();
@@ -135,26 +176,7 @@ class SandboxExportTest {
         doReturn(fileModels).when(fileStorage).getProjectFiles(myProjectId);
         doReturn("").when(fileStorage).getFileContent(myProjectId, "application.properties");
         doReturn("").when(fileStorage).getFileContent(myProjectId, "user.properties");
-        doReturn("""
-                [
-                  {
-                    "id": 1,
-                    "name": "test1"
-                  },
-                  {
-                    "id": 2,
-                    "name": "test2"
-                  },
-                  {
-                    "id": 3,
-                    "name": "test3"
-                  },
-                  {
-                    "id": 4,
-                    "name": "test4"
-                  }
-                ]
-                """).when(fileStorage).getFileContent(myProjectId, "test.json");
+        doReturn(jsonData).when(fileStorage).getFileContent(myProjectId, "test.json");
     }
 
     private static FileModel getTestQuery() {
