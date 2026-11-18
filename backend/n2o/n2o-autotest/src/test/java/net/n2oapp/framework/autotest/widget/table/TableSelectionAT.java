@@ -76,7 +76,7 @@ class TableSelectionAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
+    @Disabled("Причина отключения не задокументирована, требует ревизии")
     void testNoneSelection() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/none");
         builder.sources(
