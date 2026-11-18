@@ -3,8 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,7 +16,7 @@ public class PageScope {
     private String resultWidgetId;
     @Deprecated
     private Set<String> widgetIds;
-    private Map<String, String> widgetIdSourceDatasourceMap = new HashMap<>();
+    private int widgetCount;
     /**
      * Список идентификаторов таб регионов
      */

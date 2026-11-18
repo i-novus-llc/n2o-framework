@@ -38,7 +38,6 @@ import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.SaveSettingsDatasourcesScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.table.SortingsScope;
 import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -223,11 +222,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private void passSortingToDatasource(Map<String, String> sortings, N2oTable source, CompileProcessor p) {
-        String sourceDatasourceId = p.getScope(PageScope.class)
-                .getWidgetIdSourceDatasourceMap()
-                .get(source.getId());
-
-        getDataSourcesScope(p).ifPresent(sc -> sc.get(sourceDatasourceId).setSorting(sortings));
+        getDataSourcesScope(p)
+                .map(sc -> sc.get(source.getDatasourceId()))
+                .ifPresent(ds -> ds.setSorting(sortings));
     }
 
     private AbstractTable.Filter initFilter(Table<?> compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
