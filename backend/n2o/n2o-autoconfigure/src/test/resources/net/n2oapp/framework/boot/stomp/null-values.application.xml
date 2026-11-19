@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <events>
+        <stomp-event id="ev1" destination="/alert/">
+            <alert title="{caption}" text="{text}"/>
+        </stomp-event>
+        <stomp-event id="ev2" destination="/interpolated-alert/">
+            <alert title="Notification: {caption}" text="{text}"/>
+        </stomp-event>
+        <stomp-event id="ev3" destination="/set-value/">
+            <set-value target-datasource="ds">
+                return {value};
+            </set-value>
+        </stomp-event>
+    </events>
+</application>
