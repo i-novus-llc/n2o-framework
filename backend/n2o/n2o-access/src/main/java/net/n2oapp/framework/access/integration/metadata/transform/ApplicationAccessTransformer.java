@@ -26,8 +26,7 @@ public class ApplicationAccessTransformer extends BaseAccessTransformer<Applicat
 
     @Override
     public Application transform(Application compiled, ApplicationContext context, CompileProcessor p) {
-        SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
-                p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
+        SimpleCompiledAccessSchema accessSchema = getAccessSchema(p);
         transformHeader(compiled.getHeader(), accessSchema, p);
         if (compiled.getSidebars() != null) {
             for (Sidebar sidebar : compiled.getSidebars())

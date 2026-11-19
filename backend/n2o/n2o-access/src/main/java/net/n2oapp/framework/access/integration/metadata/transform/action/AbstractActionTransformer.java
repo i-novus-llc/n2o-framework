@@ -14,8 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 public abstract class AbstractActionTransformer<D extends Action> extends BaseAccessTransformer<D, CompileContext<?, ?>> {
 
     protected void mapSecurity(AbstractAction compiled, String pageId, String objectId, String operationId, String url, CompileProcessor p) {
-        SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
-                p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
+        SimpleCompiledAccessSchema accessSchema = getAccessSchema(p);
         if (objectId == null && pageId != null && !StringUtils.hasLink(pageId))
             objectId = p.getSource(pageId, N2oPage.class).getObjectId();
         collectObjectAccess(compiled, objectId, operationId, accessSchema, p);

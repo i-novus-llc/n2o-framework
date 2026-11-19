@@ -24,8 +24,7 @@ public class ObjectAccessTransformer extends BaseAccessTransformer<CompiledObjec
 
     @Override
     public CompiledObject transform(CompiledObject compiled, ObjectContext context, CompileProcessor p) {
-        SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
-                p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
+        SimpleCompiledAccessSchema accessSchema = getAccessSchema(p);
         mapSecurity(accessSchema, compiled, p);
         return compiled;
     }

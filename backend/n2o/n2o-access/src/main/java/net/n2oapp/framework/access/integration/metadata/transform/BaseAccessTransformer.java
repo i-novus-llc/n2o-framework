@@ -7,6 +7,7 @@ import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.*;
+import net.n2oapp.framework.access.metadata.schema.AccessContext;
 import net.n2oapp.framework.access.metadata.schema.permission.N2oPermission;
 import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
@@ -19,15 +20,14 @@ import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -273,6 +273,125 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         collectRemoveFilters(objectId, operationId, schema, securityFilters);
     }
 
+    protected SimpleCompiledAccessSchema getAccessSchema(CompileProcessor p) {
+        String schemaIdsProperty = p.resolve(Placeholders.property("n2o.access.schema.id"), String.class);
+
+        if (schemaIdsProperty == null || schemaIdsProperty.isBlank()) {
+            return (SimpleCompiledAccessSchema) p.getCompiled(new AccessContext(schemaIdsProperty));
+        }
+        List<String> ids = Arrays.stream(schemaIdsProperty.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+
+        if (ids.isEmpty()) {
+            throw new IllegalArgumentException("Свойство n2o.access.schema.id должно содержать хотя бы один идентификатор схемы доступа");
+        }
+
+        if (ids.size() == 1) {
+            return (SimpleCompiledAccessSchema) p.getCompiled(new AccessContext(ids.getFirst()));
+        }
+
+        List<SimpleCompiledAccessSchema> schemas = ids.stream()
+                .map(id -> (SimpleCompiledAccessSchema) p.getCompiled(new AccessContext(id)))
+                .filter(Objects::nonNull)
+                .toList();
+
+        return mergeSchemas(schemas);
+    }
+
+    /**
+     * Слияние нескольких схем в одну
+     */
+    private SimpleCompiledAccessSchema mergeSchemas(List<SimpleCompiledAccessSchema> schemas) {
+        SimpleCompiledAccessSchema merged = new SimpleCompiledAccessSchema();
+        mergeAccessEntries(merged, schemas);
+        merged.setAuthenticatedPoints(mergePoints(schemas, SimpleCompiledAccessSchema::getAuthenticatedPoints));
+        merged.setAnonymousPoints(mergePoints(schemas, SimpleCompiledAccessSchema::getAnonymousPoints));
+        merged.setPermitAllPoints(mergePoints(schemas, SimpleCompiledAccessSchema::getPermitAllPoints));
+
+        return merged;
+    }
+
+    private void mergeAccessEntries(SimpleCompiledAccessSchema merged, List<SimpleCompiledAccessSchema> schemas) {
+        merged.setN2oPermissions(mergeById(schemas, SimpleCompiledAccessSchema::getN2oPermissions,
+                N2oPermission::getId, this::copyPermission,
+                N2oPermission::getAccessPoints, N2oPermission::setAccessPoints));
+
+        merged.setN2oRoles(mergeById(schemas, SimpleCompiledAccessSchema::getN2oRoles,
+                N2oRole::getId, this::copyRole,
+                N2oRole::getAccessPoints, N2oRole::setAccessPoints));
+
+        merged.setN2oUserAccesses(mergeById(schemas, SimpleCompiledAccessSchema::getN2oUserAccesses,
+                N2oUserAccess::getId, this::copyUser,
+                N2oUserAccess::getAccessPoints, N2oUserAccess::setAccessPoints));
+    }
+
+    /**
+     * Сливает элементы всех схем по ID.
+     * Точки доступа объединяются в один массив.
+     */
+    private <T> List<T> mergeById(List<SimpleCompiledAccessSchema> schemas,
+                                  Function<SimpleCompiledAccessSchema, List<T>> getter,
+                                  Function<T, String> getId,
+                                  UnaryOperator<T> copyItem,
+                                  Function<T, AccessPoint[]> getAccessPoints,
+                                  BiConsumer<T, AccessPoint[]> setAccessPoints) {
+
+        Map<String, List<T>> grouped = schemas.stream()
+                .map(getter)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
+                .filter(Objects::nonNull)
+                .filter(item -> nonNull(getId.apply(item)))
+                .collect(Collectors.groupingBy(getId, LinkedHashMap::new, Collectors.toList()));
+
+        List<T> result = new ArrayList<>(grouped.size());
+        grouped.values().forEach(items -> {
+            T copy = copyItem.apply(items.get(0));
+            List<AccessPoint> buffer = new ArrayList<>();
+            for (T item : items) {
+                AccessPoint[] points = getAccessPoints.apply(item);
+                if (nonNull(points) && points.length > 0) Collections.addAll(buffer, points);
+            }
+            setAccessPoints.accept(copy, buffer.toArray(new AccessPoint[0]));
+            result.add(copy);
+        });
+        return result;
+    }
+
+    private List<AccessPoint> mergePoints(List<SimpleCompiledAccessSchema> schemas,
+                                          Function<SimpleCompiledAccessSchema, List<AccessPoint>> getter) {
+        return schemas.stream()
+                .map(getter)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    private N2oPermission copyPermission(N2oPermission original) {
+        N2oPermission copy = new N2oPermission();
+        copy.setId(original.getId());
+        copy.setName(original.getName());
+        copy.setAccessPoints(new AccessPoint[0]);
+        return copy;
+    }
+
+    private N2oRole copyRole(N2oRole original) {
+        N2oRole copy = new N2oRole();
+        copy.setId(original.getId());
+        copy.setName(original.getName());
+        copy.setAccessPoints(new AccessPoint[0]);
+        return copy;
+    }
+
+    private N2oUserAccess copyUser(N2oUserAccess original) {
+        N2oUserAccess copy = new N2oUserAccess();
+        copy.setId(original.getId());
+        copy.setAccessPoints(new AccessPoint[0]);
+        return copy;
+    }
+
     private void collectRemoveFilters(String objectId, String operationId, SimpleCompiledAccessSchema schema, SecurityFilters securityFilters) {
         //removeRoleFilters
         if (nonNull(schema.getN2oRoles())) {
@@ -388,7 +507,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
     private void collectFiltersFromAccessPoints(String objectId, Map<String, List<N2oObjectFilter>> filters, AccessPoint[] accessPoints, String id) {
         for (AccessPoint ap : accessPoints) {
             if (checkByObject(objectId, ap)) {
-                filters.put(id, Arrays.asList(((N2oObjectFiltersAccessPoint) ap).getFilters()));
+                filters.computeIfAbsent(id, key -> new ArrayList<>())
+                        .addAll(Arrays.asList(((N2oObjectFiltersAccessPoint) ap).getFilters()));
             }
         }
     }

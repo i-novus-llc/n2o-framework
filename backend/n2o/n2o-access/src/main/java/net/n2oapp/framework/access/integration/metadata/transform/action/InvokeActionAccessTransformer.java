@@ -23,8 +23,7 @@ public class InvokeActionAccessTransformer extends BaseAccessTransformer<InvokeA
 
     @Override
     public InvokeAction transform(InvokeAction compiled, CompileContext context, CompileProcessor p) {
-        SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
-                p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
+        SimpleCompiledAccessSchema accessSchema = getAccessSchema(p);
         mapSecurity(accessSchema, compiled, p);
         return compiled;
     }
