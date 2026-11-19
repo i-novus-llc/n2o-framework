@@ -37,4 +37,27 @@ class PrintActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/print/testEmptyUrl.page.xml"));
         assertEquals("В действии \"<print>\" не задан адрес документа для печати 'url'", exception.getMessage());
     }
+
+    @Test
+    void testPathParamWithoutName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/print/testPathParamWithoutName.page.xml"));
+        assertEquals("В действии \"<print>\" для элемента \"<path-param>\" не задан обязательный атрибут 'name'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testQueryParamWithoutName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/print/testQueryParamWithoutName.page.xml"));
+        assertEquals("В действии \"<print>\" для элемента \"<query-param>\" не задан обязательный атрибут 'name'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testAllParamsFilled() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/print/testAllParamsFilled.page.xml");
+    }
 }

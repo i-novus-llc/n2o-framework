@@ -3,9 +3,9 @@
     <form>
         <toolbar>
             <button>
-                <open-page page-id="utBlank"  route="test/:id">
+                <open-page page-id="utBlank" route="test/:id">
                     <params>
-                        <path-param  value="{id}"/>
+                        <path-param value="{id}"/>
                     </params>
                 </open-page>
             </button>

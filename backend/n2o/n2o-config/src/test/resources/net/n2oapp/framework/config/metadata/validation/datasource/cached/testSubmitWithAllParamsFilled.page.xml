@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <cached-datasource id="ds1" object-id="utDsSubmit">
+            <submit operation-id="update">
+                <path-param name="id" value="{id}"/>
+                <header-param name="X-Token" value="abc"/>
+                <form-param id="user.login" value="admin"/>
+            </submit>
+        </cached-datasource>
+    </datasources>
+</page>

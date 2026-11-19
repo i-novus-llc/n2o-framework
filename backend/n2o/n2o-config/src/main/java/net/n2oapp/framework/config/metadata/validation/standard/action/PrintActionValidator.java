@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +22,9 @@ public class PrintActionValidator implements SourceValidator<N2oPrintAction>, So
     public void validate(N2oPrintAction source, SourceProcessor p) {
         if (StringUtils.isBlank(source.getUrl()))
             throw new N2oMetadataValidationException("В действии \"<print>\" не задан адрес документа для печати 'url'");
+
+        String owner = "действии \"<print>\"";
+        ValidationUtils.checkParamAttribute(source.getPathParams(),  owner, "<path-param>",  "name");
+        ValidationUtils.checkParamAttribute(source.getQueryParams(), owner, "<query-param>", "name");
     }
 }
