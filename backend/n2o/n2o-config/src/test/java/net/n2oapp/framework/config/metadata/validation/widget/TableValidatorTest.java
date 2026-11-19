@@ -227,6 +227,14 @@ class TableValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testButtonInOverlayGroupValidation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/table/rows/testOverlayGroupMissingData.widget.xml"));
+        assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
+    }
+
+    @Test
     void testClickActionIdNotExist() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

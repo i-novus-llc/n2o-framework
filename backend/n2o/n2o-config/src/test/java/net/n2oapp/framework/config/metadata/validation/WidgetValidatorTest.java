@@ -3,6 +3,9 @@ package net.n2oapp.framework.config.metadata.validation;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.validation.standard.button.BaseButtonValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.ClipboardButtonValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.ListWidgetValidator;
@@ -40,7 +43,10 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 new StandardPageValidator(),
                 new FormValidator(),
                 new TableValidator(),
-                new ListWidgetValidator()
+                new ListWidgetValidator(),
+                new BaseButtonValidator(),
+                new ClipboardButtonValidator(),
+                new SubMenuValidator()
         );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
@@ -181,5 +187,53 @@ class WidgetValidatorTest extends SourceValidationTestBase {
     @Test
     void testMultiActionWithCloseValid() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testMultiActionWithCloseValid.page.xml");
+    }
+
+    @Test
+    void testClipboardButtonInWidgetToolbarMissingData() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testClipboardButtonInWidgetMissingData.page.xml"));
+        assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
+    }
+
+    @Test
+    void testClipboardButtonInWidgetToolbarDatasourceExists() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testClipboardButtonInWidgetDatasource.page.xml"));
+        assertEquals("Кнопка копирования 'test' ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
+    }
+
+    @Test
+    void testSubMenuInWidgetToolbarEmptyGenerate() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testSubMenuInWidgetEmptyGenerate.page.xml"));
+        assertEquals("Атрибут 'generate' выпадающего меню 'empty' не может содержать пустую строку", exception.getMessage());
+    }
+
+    @Test
+    void testSubMenuItemsInWidgetToolbarDatasourceExists() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testSubMenuItemsInWidgetDatasource.page.xml"));
+        assertEquals("Кнопка 'mi1' ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
+    }
+
+    @Test
+    void testUniqueIdsAcrossDifferentButtonTypes() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testUniqueIdsAcrossDifferentButtons.page.xml"));
+        assertEquals("Кнопка 'btn' встречается более чем один раз в виджете 'test'", exception.getMessage());
+    }
+
+    @Test
+    void testButtonInGroupInWidgetToolbarValidation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testGroupInWidgetToolbar.widget.xml"));
+        assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
     }
 }

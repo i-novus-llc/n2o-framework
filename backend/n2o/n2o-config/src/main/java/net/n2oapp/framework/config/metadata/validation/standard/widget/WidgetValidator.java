@@ -53,14 +53,22 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
         }
 
         if (source.getToolbars() != null) {
-            List<N2oButton> menuItems = new ArrayList<>();
+            List<N2oAbstractButton> abstractButtons = new ArrayList<>();
+            List<ToolbarItem> allToolbarItems = new ArrayList<>();
+
             Arrays.stream(source.getToolbars())
                     .filter(toolbar -> toolbar.getItems() != null)
                     .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
-                    .forEach(toolbarItem -> addMenuItems(menuItems, toolbarItem));
-            p.safeStreamOf(menuItems).forEach(menuItem ->
-                    p.validate(menuItem, componentScope, allMetaActions));
-            p.checkIdsUnique(menuItems,
+                    .flatMap(ValidationUtils::expandGroups)
+                    .forEach(toolbarItem -> {
+                        allToolbarItems.add(toolbarItem);
+                        addMenuItems(abstractButtons, toolbarItem);
+                    });
+
+            p.safeStreamOf(allToolbarItems).forEach(toolbarItem ->
+                    p.validate(toolbarItem, componentScope, allMetaActions));
+
+            p.checkIdsUnique(abstractButtons,
                     String.format("Кнопка '%s' встречается более чем один раз в виджете '%s'", "%s", source.getId()));
         }
 
@@ -75,13 +83,11 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
         checkEmptyToolbar(source);
     }
 
-    private void addMenuItems(List<N2oButton> menuItems, ToolbarItem toolbarItem) {
-        if (toolbarItem instanceof N2oButton n2oButton) {
-            menuItems.add(n2oButton);
-        } else if (toolbarItem instanceof N2oSubmenu submenu && submenu.getMenuItems() != null) {
-            menuItems.addAll(Arrays.asList(submenu.getMenuItems()));
-        } else if (toolbarItem instanceof N2oGroup group && group.getItems() != null)
-            Arrays.stream(group.getItems()).forEach(groupItem -> addMenuItems(menuItems, groupItem));
+    private void addMenuItems(List<N2oAbstractButton> menuItems, ToolbarItem toolbarItem) {
+        if (toolbarItem instanceof N2oAbstractButton button)
+            menuItems.add(button);
+        if (toolbarItem instanceof N2oSubmenu submenu && submenu.getMenuItems() != null)
+            Arrays.stream(submenu.getMenuItems()).forEach(item -> addMenuItems(menuItems, item));
     }
 
     private void checkEmptyToolbar(T source) {

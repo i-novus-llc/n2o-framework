@@ -23,7 +23,9 @@ public class ToolbarCellValidator implements SourceValidator<N2oToolbarCell>, So
     @Override
     public void validate(N2oToolbarCell source, SourceProcessor p) {
         if (source.getItems() != null)
-            Arrays.stream(source.getItems()).forEach(p::validate);
+            Arrays.stream(source.getItems())
+                    .flatMap(ValidationUtils::expandGroups)
+                    .forEach(p::validate);
 
         checkEmptyToolbar(source, p);
     }

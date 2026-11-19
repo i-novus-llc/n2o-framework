@@ -41,4 +41,17 @@ class ToolbarCellValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в \"<toolbar>\"-ячейке виджета 'table'", exception.getMessage());
     }
+
+    @Test
+    void testGroupInToolbarCellValidation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/cells/toolbar/testToolbarCellGroupMissingData.page.xml"));
+        assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
+    }
+
+    @Test
+    void testGroupInToolbarCellValid() {
+        validate("net/n2oapp/framework/config/metadata/validation/cells/toolbar/testToolbarCellGroupValid.page.xml");
+    }
 }
