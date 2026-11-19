@@ -11,6 +11,9 @@
     <role id="admin">
         <page-access page-id="testHeaderAccessTransformer"/>
     </role>
+    <role id="test">
+        <page-access page-id="testHeaderAccessTransformer"/>
+    </role>
     <permission id="permission">
     </permission>
     <anonymous>

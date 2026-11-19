@@ -31,8 +31,7 @@ public class PageAccessTransformer extends BaseAccessTransformer<Page, CompileCo
      */
     @Override
     public Page transform(Page compiled, CompileContext context, CompileProcessor p) {
-        SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
-                p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
+        SimpleCompiledAccessSchema accessSchema = getAccessSchema(p);
         collectPageAccess(compiled, context.getSourceId((BindProcessor) p), accessSchema, p);
         return compiled;
     }
