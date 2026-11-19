@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.event.N2oReadyEvent;
 import net.n2oapp.framework.api.event.N2oStartedEvent;
 import net.n2oapp.framework.api.event.N2oStoppedEvent;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.watchdir.WatchDir;
 import org.slf4j.Logger;
@@ -98,7 +99,8 @@ public class ConfigStarter {
         watchDir.setListener(new XMLChangeListener(configPaths,
                 environment.getMetadataRegister(),
                 environment.getSourceTypeRegister(),
-                eventBus));
+                eventBus,
+                XmlInfoScanner.DEFAULT_PATTERN));
         for (String path : configPaths) {
             watchDir.addPath(path);
             monitoringIgnores.forEach((skip -> watchDir.skipOn(PathUtil.concatAbsoluteAndLocalPath(path, skip))));
