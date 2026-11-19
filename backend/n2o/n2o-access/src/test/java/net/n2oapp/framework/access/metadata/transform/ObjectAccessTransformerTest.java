@@ -154,4 +154,33 @@ class ObjectAccessTransformerTest extends SourceCompileTestBase {
         assertThat(secret.getPermissions(), containsInAnyOrder("view-sensitive"));
         assertThat(outSec.containsKey("id"), is(false));
     }
+
+    @Test
+    void testMultipleSchemasMerge() {
+        // Указываем две схемы через запятую
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.access.schema.id", "testObject,testObjectV2");
+
+        ReadCompileTerminalPipeline pipeline = compile(
+                "net/n2oapp/framework/access/metadata/schema/testObject.access.xml",
+                "net/n2oapp/framework/access/metadata/schema/testObjectV2.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml");
+
+        CompiledObject object = (CompiledObject) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new ObjectContext("testObjectAccessTransformer"));
+
+        CompiledObject.Operation create = object.getOperations().get("create");
+        SecurityObject secObj = ((Security) create.getProperties().get(SECURITY_PROP_NAME)).getFirst().get("object");
+
+        // Проверяем, что правила testObject (permissions) слились с правилами testObjectV2 (anonymous)
+        assertThat(secObj.getPermissions(), containsInAnyOrder("test", "test2", "test3"));
+        assertThat(secObj.getAnonymous(), is(true));
+
+        CompiledObject.Operation update = object.getOperations().get("update");
+        SecurityObject updateSecObj = ((Security) update.getProperties().get(SECURITY_PROP_NAME)).getFirst().get("object");
+
+        // Проверяем, что правила testObject (usernames) слились с правилами testObjectV2 (anonymous)
+        assertThat(updateSecObj.getUsernames(), contains("user"));
+        assertThat(updateSecObj.getAnonymous(), is(true));
+    }
 }

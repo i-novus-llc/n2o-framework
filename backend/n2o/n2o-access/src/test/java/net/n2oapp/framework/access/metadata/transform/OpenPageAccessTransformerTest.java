@@ -23,8 +23,7 @@ import java.util.Map;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OpenPageAccessTransformerTest extends SourceCompileTestBase {
@@ -85,5 +84,26 @@ class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions().size(), is(1));
         assertTrue(securityObject.getPermissions().contains("permission2"));
         assertTrue(securityObject.getAnonymous());
+    }
+
+    @Test
+    void testMultipleSchemasMergeForOpenPage() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.access.schema.id", "testOpenPage,testOpenPageV2");
+
+        ReadCompileTerminalPipeline pipeline = compile(
+                "net/n2oapp/framework/access/metadata/schema/testOpenPage.access.xml",
+                "net/n2oapp/framework/access/metadata/schema/testOpenPageV2.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
+
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testOpenPageAccessTransformer"));
+
+        SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
+                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0).get("page");
+
+        assertThat(securityObject.getRoles(), notNullValue());
+        assertThat(securityObject.getRoles().size(), is(2));
+        assertThat(securityObject.getRoles(), hasItems("admin", "test"));
     }
 }

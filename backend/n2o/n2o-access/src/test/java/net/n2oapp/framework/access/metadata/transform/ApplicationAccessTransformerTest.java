@@ -22,8 +22,7 @@ import java.util.Map;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование трансформера прав доступа
@@ -158,7 +157,7 @@ class ApplicationAccessTransformerTest extends SourceCompileTestBase {
     private void assertAccess(Map<String, SecurityObject> secMap) {
         assertThat(secMap.get("page").getUsernames().size(), is(1));
         assertThat(secMap.get("page").getUsernames().contains("user"), is(true));
-        assertThat(secMap.get("page").getRoles().size(), is(2));
+        assertThat(secMap.get("page").getRoles().size(), is(3));
         assertThat(secMap.get("page").getRoles().contains("role"), is(true));
         assertThat(secMap.get("page").getRoles().contains("admin"), is(true));
         assertThat(secMap.get("page").getPermissions(), nullValue());
@@ -167,5 +166,30 @@ class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         assertThat(secMap.get("object").getUsernames().size(), is(1));
         assertThat(secMap.get("object").getUsernames().contains("user"), is(true));
         assertThat(secMap.get("object").getAnonymous(), is(true));
+    }
+
+    @Test
+    void testMultipleSchemasMergeForApplication() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.access.schema.id", "testHeader,testHeaderV2");
+
+        ReadCompileTerminalPipeline pipeline = compile(
+                "net/n2oapp/framework/access/metadata/schema/testHeader.access.xml",
+                "net/n2oapp/framework/access/metadata/schema/testHeaderV2.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
+
+        Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new ApplicationContext("testApplicationAccessTransformer"));
+
+        SecurityObject pageSec = ((Security) application.getHeader().getMenu().getItems().getFirst().getProperties().get(SECURITY_PROP_NAME)).getFirst().get("page");
+
+        assertThat(pageSec.getRoles(), notNullValue());
+
+        assertThat(pageSec.getRoles().size(), is(3));
+        assertThat(pageSec.getRoles(), hasItems("role", "admin", "test"));
+
+        assertThat(pageSec.getUsernames(), notNullValue());
+        assertThat(pageSec.getUsernames().size(), is(1));
+        assertThat(pageSec.getUsernames(), hasItem("user"));
     }
 }

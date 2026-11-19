@@ -104,6 +104,26 @@ class PageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(regions.get(3).getProperties(), nullValue());
     }
 
+    @Test
+    void testMultipleSchemasMergeForPage() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.access.schema.id", "testPageV2,testPageV3");
+
+        ReadCompileTerminalPipeline pipeline = compile(
+                "net/n2oapp/framework/access/metadata/schema/testPageV2.access.xml",
+                "net/n2oapp/framework/access/metadata/schema/testPageV3.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testPageV2AccessTransformer.page.xml");
+
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testPageV2AccessTransformer"));
+
+        SecurityObject pageSecurityObject = ((Security) page.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page");
+
+        // Проверяем, что правило из testPageV2 (permission) слилось с правилом из testPageV3 (role)
+        assertThat(pageSecurityObject.getPermissions(), notNullValue());
+        assertThat(pageSecurityObject.getRoles(), contains("admin"));
+    }
+
     private SecurityObject getSecurityProperties(PropertiesAware item) {
         return ((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom");
     }
