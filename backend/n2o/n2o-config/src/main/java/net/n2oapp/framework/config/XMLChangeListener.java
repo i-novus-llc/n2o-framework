@@ -2,11 +2,14 @@ package net.n2oapp.framework.config;
 
 import net.n2oapp.framework.api.event.MetadataChangedEvent;
 import net.n2oapp.framework.api.event.N2oEventBus;
+import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.config.register.FileInfo;
+import net.n2oapp.framework.config.register.InfoConstructor;
 import net.n2oapp.framework.config.register.RegisterUtil;
+import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.watchdir.FileChangeListener;
 import org.slf4j.Logger;
@@ -30,15 +33,18 @@ public class XMLChangeListener implements FileChangeListener {
     private final MetadataRegister configRegister;
     private final SourceTypeRegister sourceTypeRegister;
     private final N2oEventBus eventBus;
+    private final List<InfoConstructor> defaultInfos;
 
     public XMLChangeListener(Collection<String> configPath,
                              MetadataRegister configRegister,
                              SourceTypeRegister sourceTypeRegister,
-                             N2oEventBus eventBus) {
+                             N2oEventBus eventBus,
+                             String pattern) {
         this.watchFolderPaths = configPath;
         this.configRegister = configRegister;
         this.sourceTypeRegister = sourceTypeRegister;
         this.eventBus = eventBus;
+        this.defaultInfos = new XmlInfoScanner(pattern, sourceTypeRegister).scan();
     }
 
     @Override
@@ -72,24 +78,18 @@ public class XMLChangeListener implements FileChangeListener {
 
     private void processDirectoryOrNonXmlFile(Path file) {
         try {
-            Files.walkFileTree(file,
-                    new SimpleFileVisitor<Path>() {
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                            if (isXMl(file)) {
-                                addSourceFromMemory(file);
-                            }
-                            return super.visitFile(file, attrs);
-                        }
-                    }
-            );
+            Files.walkFileTree(file, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    if (isXMl(file)) addSourceFromMemory(file);
+                    return super.visitFile(file, attrs);
+                }
+            });
         } catch (IOException ignored) {
-            if (file.toFile().isDirectory()) {
+            if (file.toFile().isDirectory())
                 log.error("Created not handled: error add directory {}", file);
-            }
         }
     }
-
 
     @Override
     public void fileDeleted(Path file) {
@@ -107,6 +107,7 @@ public class XMLChangeListener implements FileChangeListener {
     private void deleteSourceFromMemory(String path) {
         SourceInfo info = getSourceInfo(path);
         configRegister.remove(info.getId(), info.getBaseSourceClass());
+        restoreDefault(info.getId(), info.getBaseSourceClass());
         eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
         log.debug("Deleted handled: {}", path);
     }
@@ -118,9 +119,28 @@ public class XMLChangeListener implements FileChangeListener {
         List<SourceInfo> sourceInfoList = configRegister.find(s -> s instanceof FileInfo fileInfo && fileInfo.getLocalPath().startsWith(node.getLocalPath()));
         for (SourceInfo info : sourceInfoList) {
             configRegister.remove(info.getId(), info.getBaseSourceClass());
+            restoreDefault(info.getId(), info.getBaseSourceClass());
             eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
         }
         log.debug("Deleted handled: {}", path);
+    }
+
+    /**
+     * Восстанавливает дефолтный classpath-файл, если он есть.
+     * Порядок разрешения дубликатов — как в N2oMetadataRegister.addAll()
+     * (последовательный put → побеждает последний), поэтому итерируем с конца.
+     * Сравнение id — как в MetaKey.equals(): без учёта регистра.
+     */
+    private void restoreDefault(String id, Class<? extends SourceMetadata> baseSourceClass) {
+        for (int i = defaultInfos.size() - 1; i >= 0; i--) {
+            InfoConstructor defaultInfo = defaultInfos.get(i);
+            if (defaultInfo.getId().equalsIgnoreCase(id) && defaultInfo.getBaseSourceClass().equals(baseSourceClass)) {
+                configRegister.add(defaultInfo);
+                log.debug("Restored default from classpath: {}", defaultInfo.getUri());
+                return;
+            }
+        }
+        log.debug("No default in classpath for {}", id);
     }
 
     private SourceInfo getSourceInfo(String path) {
@@ -135,8 +155,7 @@ public class XMLChangeListener implements FileChangeListener {
     }
 
     private static boolean isXMl(Path file) {
-        String fileName = "" + file.getFileName();
-        return fileName.toLowerCase().endsWith(".xml");
+        return ("" + file.getFileName()).toLowerCase().endsWith(".xml");
     }
 
     private String getConfigPath(String file) {
@@ -145,5 +164,4 @@ public class XMLChangeListener implements FileChangeListener {
         }
         return "";
     }
-
 }
