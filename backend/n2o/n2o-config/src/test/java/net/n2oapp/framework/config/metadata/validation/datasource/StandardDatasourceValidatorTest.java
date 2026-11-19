@@ -228,4 +228,36 @@ class StandardDatasourceValidatorTest extends SourceValidationTestBase {
     void testDatasourceIdExistenceInWidget() {
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testDatasourceIdExistenceInWidget.page.xml");
     }
+
+    @Test
+    void testSubmitPathParamWithoutName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitPathParamWithoutName.page.xml"));
+        assertEquals("В теге \"<submit>\" источника данных 'ds1' для элемента \"<path-param>\" не задан обязательный атрибут 'name'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testSubmitHeaderParamWithoutName() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitHeaderParamWithoutName.page.xml"));
+        assertEquals("В теге \"<submit>\" источника данных 'ds1' для элемента \"<header-param>\" не задан обязательный атрибут 'name'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testSubmitFormParamWithoutId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitFormParamWithoutId.page.xml"));
+        assertEquals("В теге \"<submit>\" источника данных 'ds1' для элемента \"<form-param>\" не задан обязательный атрибут 'id'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testSubmitWithAllParamsFilled() {
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithAllParamsFilled.page.xml");
+    }
 }

@@ -51,6 +51,12 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
     public void checkSubmit(String datasourceId, Submit submit, String objectId, N2oQuery query, SourceProcessor p) {
         if (submit == null)
             return;
+
+        String owner = String.format("теге \"<submit>\" источника данных %s", getIdOrEmptyString(datasourceId));
+        ValidationUtils.checkParamAttribute(submit.getPathParams(), owner, "<path-param>");
+        ValidationUtils.checkParamAttribute(submit.getHeaderParams(), owner, "<header-param>");
+        ValidationUtils.checkParamAttribute(submit.getFormParams(), owner, "<form-param>", "id");
+
         if (submit.getRefreshDatasourceIds() != null) {
             for (String refreshDs : submit.getRefreshDatasourceIds()) {
                 ValidationUtils.checkDatasourceExistence(refreshDs, p,

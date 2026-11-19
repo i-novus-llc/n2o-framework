@@ -35,7 +35,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         checkPageId(source);
 
         ValidationUtils.checkForExistsObject(source.getObjectId(),
-                String.format("Действие открытия страницы %s", getIdOrEmptyString(source.getId())), p);
+                "Действие открытия страницы" + getIdOrEmptyString(source.getId()), p);
 
         p.checkForExists(source.getPageId(), N2oPage.class,
                 "Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
@@ -135,19 +135,22 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     }
 
     private void checkDatasourceInParam(N2oAbstractPageAction action, SourceProcessor p) {
-        N2oParam[] params = action.getParams();
-        if (params != null)
-            Arrays.stream(params).forEach(param -> {
-                if (param.getName() == null)
-                    throw new N2oMetadataValidationException(String.format("В параметре действия открытия страницы %s не задан атрибут 'name'",
-                            ValidationUtils.getIdOrEmptyString(action.getPageId())));
+        String owner = String.format("действии открытия страницы %s",
+                ValidationUtils.getIdOrEmptyString(action.getPageId()));
 
-                if (param.getDatasourceId() != null)
-                    ValidationUtils.checkDatasourceExistence(param.getDatasourceId(), p,
-                            String.format("Параметр %s открытия страницы ссылается на несуществующий источник данных %s",
-                                    ValidationUtils.getIdOrEmptyString(param.getName()),
-                                    ValidationUtils.getIdOrEmptyString(param.getDatasourceId())));
-            });
+        ValidationUtils.checkParamAttribute(action.getPathParams(), owner, "<path-param>");
+        ValidationUtils.checkParamAttribute(action.getQueryParams(), owner, "<query-param>");
+
+        N2oParam[] params = action.getParams();
+        if (params == null)
+            return;
+
+        Arrays.stream(params)
+                .filter(param -> param.getDatasourceId() != null)
+                .forEach(param -> ValidationUtils.checkDatasourceExistence(param.getDatasourceId(), p,
+                        String.format("Параметр %s открытия страницы ссылается на несуществующий источник данных %s",
+                                ValidationUtils.getIdOrEmptyString(param.getName()),
+                                ValidationUtils.getIdOrEmptyString(param.getDatasourceId()))));
     }
 
     @Override
