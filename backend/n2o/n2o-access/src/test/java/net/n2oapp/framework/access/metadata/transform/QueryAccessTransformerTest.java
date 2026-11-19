@@ -1,6 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.QueryAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.SecurityObject;
@@ -38,8 +37,7 @@ class QueryAccessTransformerTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new AccessSchemaPack())
-                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
-                .transformers(new QueryAccessTransformer());
+                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"));
     }
 
 

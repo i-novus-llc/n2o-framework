@@ -1,8 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
-import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
-import net.n2oapp.framework.access.integration.metadata.transform.action.MultiActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -40,8 +37,7 @@ class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oObjectsPack(), new AccessSchemaPack(), new N2oDataProvidersPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
-                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
-                .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer(), new MultiActionAccessTransformer());
+                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"));
     }
 
     @Test

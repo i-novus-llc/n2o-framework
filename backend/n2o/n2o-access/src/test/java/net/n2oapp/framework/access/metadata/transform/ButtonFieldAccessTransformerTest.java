@@ -3,7 +3,6 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.access.metadata.pack.AccessTransformersPack;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -37,7 +36,7 @@ class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testQuery.query.xml"),
                 new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"));
-        builder.packs(new AccessSchemaPack(), new N2oAllPagesPack(), new N2oAllDataPack(), new AccessTransformersPack());
+        builder.packs(new AccessSchemaPack(), new N2oAllPagesPack(), new N2oAllDataPack());
     }
 
     @Test

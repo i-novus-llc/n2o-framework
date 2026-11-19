@@ -1,6 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.ApplicationAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -40,11 +39,9 @@ class ApplicationAccessTransformerTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        ApplicationAccessTransformer headerAccessTransformer = new ApplicationAccessTransformer();
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new AccessSchemaPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.page.xml"))
-                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
-                .transformers(headerAccessTransformer);
+                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"));
     }
 
     @Test

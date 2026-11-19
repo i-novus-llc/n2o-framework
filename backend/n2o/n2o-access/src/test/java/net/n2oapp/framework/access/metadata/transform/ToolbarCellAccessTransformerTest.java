@@ -1,7 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.ToolbarCellAccessTransformer;
-import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -35,8 +33,7 @@ class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack(), new AccessSchemaPack())
-                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"))
-                .transformers(new ToolbarCellAccessTransformer(), new InvokeActionAccessTransformer());
+                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"));
     }
 
     @Test

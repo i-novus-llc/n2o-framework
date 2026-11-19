@@ -1,6 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.WidgetAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -33,8 +32,7 @@ class WidgetAccessTransformerTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testQuery.query.xml"),
                 new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
-                .packs(new AccessSchemaPack(), new N2oAllDataPack(), new N2oAllPagesPack())
-                .transformers(new WidgetAccessTransformer());
+                .packs(new AccessSchemaPack(), new N2oAllDataPack(), new N2oAllPagesPack());
     }
 
     @Test

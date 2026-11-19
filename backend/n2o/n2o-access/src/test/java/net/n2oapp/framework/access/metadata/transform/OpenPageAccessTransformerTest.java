@@ -1,7 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
-import net.n2oapp.framework.access.integration.metadata.transform.action.OpenPageAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -43,8 +41,7 @@ class OpenPageAccessTransformerTest extends SourceCompileTestBase {
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testOpenPageTransformerModal.page.xml"))
-                .packs(new N2oAllPagesPack(), new AccessSchemaPack(), new N2oObjectsPack(), new N2oDataProvidersPack())
-                .transformers(new ToolbarAccessTransformer(), new OpenPageAccessTransformer());
+                .packs(new N2oAllPagesPack(), new AccessSchemaPack(), new N2oObjectsPack(), new N2oDataProvidersPack());
     }
 
     @Test

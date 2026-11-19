@@ -1,7 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
-import net.n2oapp.framework.access.integration.metadata.transform.action.ShowModalAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -40,8 +38,7 @@ class ShowModalAccessTransformerTest extends SourceCompileTestBase {
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testQuery.query.xml"))
-                .packs(new N2oAllDataPack(), new N2oAllPagesPack(), new AccessSchemaPack())
-                .transformers(new ToolbarAccessTransformer(), new ShowModalAccessTransformer());
+                .packs(new N2oAllDataPack(), new N2oAllPagesPack(), new AccessSchemaPack());
     }
 
     @Test
