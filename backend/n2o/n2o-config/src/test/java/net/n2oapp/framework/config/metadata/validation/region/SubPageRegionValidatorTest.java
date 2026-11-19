@@ -2,10 +2,7 @@ package net.n2oapp.framework.config.metadata.validation.region;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
-import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.regions.SubPageRegionValidator;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +22,8 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack());
-        builder.validators(new StandardPageValidator(), new SubPageRegionValidator());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsV3IOPack());
+        builder.packs(new N2oAllValidatorsPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/region/subpage/page1.page.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/region/subpage/page2.page.xml"));
     }
@@ -78,6 +75,15 @@ class SubPageRegionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testEmptyToolbar.page.xml")
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре элемента \"<sub-page>\" 'page1'", exception.getMessage());
+    }
+
+    @Test
+    void testToolbarItems() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/subpage/testToolbarItems.page.xml")
+        );
+        assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
     }
 
     @Test

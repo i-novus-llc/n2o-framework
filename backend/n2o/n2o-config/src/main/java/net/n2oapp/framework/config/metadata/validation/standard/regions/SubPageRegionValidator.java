@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oSubPageRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
                 String.format("Один из элементов <sub-page> ссылается на несуществующую страницу %s",
                         getIdOrEmptyString(page.getPageId())));
 
-        checkEmptyToolbar(page);
+        checkAndValidateToolbars(page, p);
     }
 
     private void validateDefaultPageId(N2oSubPageRegion source) {
@@ -67,13 +68,21 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
                 "В атрибуте 'default-page-id' элемента \"<sub-page>\" указана страница, которая не используется ни в одном из внутренних элементов \"<page>\"");
     }
 
-    private static void checkEmptyToolbar(N2oSubPageRegion.Page source) {
+    private void checkAndValidateToolbars(N2oSubPageRegion.Page source, SourceProcessor p) {
         N2oToolbar[] toolbars = source.getToolbars();
-        if (isNotEmpty(toolbars))
-            for (N2oToolbar toolbar : toolbars)
-                if (toolbar.getItems() == null && toolbar.getGenerate() == null)
+        if (isNotEmpty(toolbars)) {
+            for (N2oToolbar toolbar : toolbars) {
+                if (toolbar.getItems() == null && toolbar.getGenerate() == null) {
                     throw new N2oMetadataValidationException(
                             String.format("Не заданы элементы или атрибут 'generate' в тулбаре элемента \"<sub-page>\" %s",
                                     getIdOrEmptyString(source.getPageId())));
+                }
+                if (toolbar.getItems() != null) {
+                    Arrays.stream(toolbar.getItems())
+                            .flatMap(ValidationUtils::expandGroups)
+                            .forEach(p::validate);
+                }
+            }
+        }
     }
 }

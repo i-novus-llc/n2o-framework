@@ -6,6 +6,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.validation.standard.button.BaseButtonValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.ClipboardButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -30,7 +32,7 @@ class PageValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack());
-        builder.validators(new PageValidator(), new BasePageValidator());
+        builder.validators(new PageValidator(), new BasePageValidator(), new BaseButtonValidator(), new ClipboardButtonValidator());
     }
 
     @Test
@@ -93,6 +95,14 @@ class PageValidatorTest extends SourceValidationTestBase {
     @Test
     void testMultiActionWithCloseValid() {
         validate("net/n2oapp/framework/config/metadata/validation/page/testMultiActionWithCloseValid.page.xml");
+    }
+
+    @Test
+    void testButtonInGroupValidation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testGroupInPageToolbar.page.xml"));
+        assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
     }
 
     @Test

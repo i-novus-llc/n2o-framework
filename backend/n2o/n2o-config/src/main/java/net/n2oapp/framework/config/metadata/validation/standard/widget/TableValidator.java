@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -186,7 +187,9 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                             String.format("Не заданы элементы или атрибут 'generate' в тулбаре в \"<overlay>\" таблицы %s",
                                     getIdOrEmptyString(source.getId())));
                 if (toolbar.getItems() != null)
-                    p.safeStreamOf(toolbar.getItems()).forEach(item -> p.validate(item, new ComponentScope(source), actions));
+                    p.safeStreamOf(toolbar.getItems())
+                            .flatMap(ValidationUtils::expandGroups)
+                            .forEach(item -> p.validate(item, new ComponentScope(source), actions));
             }
         }
     }
