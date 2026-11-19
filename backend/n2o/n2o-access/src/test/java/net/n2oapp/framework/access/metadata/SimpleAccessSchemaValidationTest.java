@@ -57,4 +57,67 @@ class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
         );
         assertEquals("Страница 'notExistingPage', заданная в page-access не существует", exception.getMessage());
     }
+
+    @Test
+    void testPermissionWithoutId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/permissionWithoutId.access.xml")
+        );
+        assertEquals("В элементе \"<permission>\" схемы доступа не задан обязательный атрибут 'id'", exception.getMessage());
+    }
+
+    @Test
+    void testRoleWithoutId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/roleWithoutId.access.xml")
+        );
+        assertEquals("В элементе \"<role>\" схемы доступа не задан обязательный атрибут 'id'", exception.getMessage());
+    }
+
+    @Test
+    void testUserWithoutUsername() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/userWithoutUsername.access.xml")
+        );
+        assertEquals("В элементе \"<user>\" схемы доступа не задан обязательный атрибут 'username'", exception.getMessage());
+    }
+
+    @Test
+    void testObjectFiltersWithoutObjectId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/objectFiltersWithoutObjectId.access.xml")
+        );
+        assertEquals("В элементе \"<object-filters>\" схемы доступа не задан обязательный атрибут 'object-id'", exception.getMessage());
+    }
+
+    @Test
+    void testFilterWithoutId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/filterWithoutId.access.xml")
+        );
+        assertEquals("В фильтре элемента \"<object-filters>\" объекта 'atBlank' не задан обязательный атрибут 'id'", exception.getMessage());
+    }
+
+    @Test
+    void testFilterWithoutFieldId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/filterWithoutFieldId.access.xml")
+        );
+        assertEquals("В фильтре 'f1' элемента \"<object-filters>\" объекта 'atBlank' не задан обязательный атрибут 'field-id'", exception.getMessage());
+    }
+
+    @Test
+    void testUrlAccessWithoutPattern() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/required/urlAccessWithoutPattern.access.xml")
+        );
+        assertEquals("В элементе \"<url-access>\" схемы доступа не задан обязательный атрибут 'pattern'", exception.getMessage());
+    }
 }
