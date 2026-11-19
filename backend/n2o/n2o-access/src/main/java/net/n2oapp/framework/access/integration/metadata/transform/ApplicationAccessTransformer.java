@@ -1,12 +1,10 @@
 package net.n2oapp.framework.access.integration.metadata.transform;
 
-import net.n2oapp.framework.access.metadata.schema.AccessContext;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.MenuItem;

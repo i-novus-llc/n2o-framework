@@ -1,11 +1,9 @@
 package net.n2oapp.framework.access.integration.metadata.transform;
 
 import net.n2oapp.framework.access.metadata.Security;
-import net.n2oapp.framework.access.metadata.schema.AccessContext;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
