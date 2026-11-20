@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEv
 import net.n2oapp.framework.config.metadata.validation.standard.event.StompEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaDataProviderValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.invocation.MongoDbDataProviderValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.MenuItemValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
@@ -46,6 +47,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new SubPageRegionValidator(),
                 new FieldValidator(), new InputTextValidator(), new DateTimeValidator(), new LineFieldSetValidator(),
                 new MultiFieldSetValidator(), new JavaDataProviderValidator(), new BaseButtonValidator(), new SubMenuValidator(),
+                new MongoDbDataProviderValidator(),
                 new ButtonValidator(), new ClipboardButtonValidator(),
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new ConditionBranchActionValidator(), new ActionFieldValidator(), new OnFailActionValidator(),

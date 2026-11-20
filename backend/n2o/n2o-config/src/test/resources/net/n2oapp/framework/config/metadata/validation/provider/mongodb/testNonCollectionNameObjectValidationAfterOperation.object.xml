@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="op1">
+            <validations>
+                <constraint id="test1">
+                    <invocation>
+                        <mongodb collection-name="test" operation="find"/>
+                    </invocation>
+                </constraint>
+            </validations>
+        </operation>
+        <operation id="op2">
+            <validations>
+                <constraint id="test2">
+                    <invocation>
+                        <mongodb collection-name="test" operation="find"/>
+                    </invocation>
+                </constraint>
+            </validations>
+        </operation>
+    </operations>
+    <validations>
+        <constraint id="test">
+            <invocation>
+                <mongodb operation="find"/>
+            </invocation>
+        </constraint>
+    </validations>
+</object>
