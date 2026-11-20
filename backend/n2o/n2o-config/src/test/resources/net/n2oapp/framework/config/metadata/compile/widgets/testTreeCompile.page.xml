@@ -15,6 +15,6 @@
               multi-select="false">
             <datasource query-id="utBlank"/>
         </tree>
-        <tree parent-field-id="test"/>
+        <tree/>
     </regions>
 </page>
