@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" id="testQueryNestedFieldFilter">
+    <filters>
+        <isNull field-id="organization"/>
+        <isNotNull field-id="employees"/>
+        <isNotNull field-id="organization.address"/>
+        <isNull field-id="organization.employees"/>
+        <eq field-id="organization.address.code"/>
+        <eq field-id="organization.employees.id"/>
+    </filters>
+    <fields>
+        <reference id="organization">
+            <reference id="address">
+                <field id="code"/>
+            </reference>
+            <list id="employees">
+                <field id="id"/>
+            </list>
+        </reference>
+        <list id="employees">
+            <field id="id"/>
+        </list>
+    </fields>
+</query>

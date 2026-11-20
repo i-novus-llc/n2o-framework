@@ -108,10 +108,33 @@ class QueryValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testCheckForExistsFiltersInSelectionsWithNestedFields() {
+        builder.packs(new N2oDataProvidersPack()).transformers(new TestEngineQueryTransformer());
+        CompileInfo info = new CompileInfo("net/n2oapp/framework/config/metadata/validation/query/testQueryNestedFieldFilters.query.xml");
+        assertDoesNotThrow(() -> builder.sources(info).read().transform().validate().get(info.getId(), info.getBaseSourceClass()));
+    }
+
+    @Test
     void testMissingFilterInSelection() {
         N2oMetadataValidationException e = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/testQueryMissingFilter.query.xml"));
         assertEquals("\"<list>\" ссылается на несуществующий фильтр 'type.id' в выборке 'testQueryMissingFilter'", e.getMessage());
+    }
+
+    @Test
+    void testFilterFieldIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkFilterFieldIdExistence.query.xml"));
+        assertEquals("В фильтре 'type2' выборки 'checkFilterFieldIdExistence' не задан обязательный атрибут 'field-id'", exception.getMessage());
+    }
+
+    @Test
+    void testFilterFieldIdExistsInFields() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkFilterFieldIdExists.query.xml"));
+        assertEquals("Фильтр 'type3' выборки 'checkFilterFieldIdExists' ссылается на несуществующее поле 'type3'", exception.getMessage());
     }
 }

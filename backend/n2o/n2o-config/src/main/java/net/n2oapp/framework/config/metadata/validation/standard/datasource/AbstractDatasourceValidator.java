@@ -138,7 +138,7 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
                             getIdOrEmptyString(preFilter.getFieldId()),
                             getIdOrEmptyString(preFilter.getDatasourceId())));
 
-        AbstractField exField = query.getSimpleFieldByAbsoluteId(preFilter.getFieldId());
+        AbstractField exField = query.getFieldByAbsoluteId(preFilter.getFieldId());
         if (exField == null)
             throw new N2oMetadataValidationException(
                     String.format("В выборке %s нет поля %s!",

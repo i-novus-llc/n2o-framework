@@ -7,5 +7,6 @@
 
     <fields>
         <field id="id" domain="integer"/>
+        <field id="other"/>
     </fields>
 </query>
