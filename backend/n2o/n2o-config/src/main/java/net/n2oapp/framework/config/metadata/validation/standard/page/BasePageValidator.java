@@ -77,6 +77,8 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
             Stream.of(actions).forEach(actionbar -> {
                 checkOnFailAction(actionbar.getN2oActions());
                 checkCloseInMultiAction(actionbar.getN2oActions());
+                if (actionbar.getId() == null)
+                    throw new N2oMetadataValidationException(String.format("Не задан 'id' у \"<action>\" страницы %s", getIdOrEmptyString(page.getId())));
             });
 
         checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
