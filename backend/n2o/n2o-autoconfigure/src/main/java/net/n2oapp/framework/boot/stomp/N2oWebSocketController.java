@@ -123,11 +123,14 @@ public class N2oWebSocketController implements WebSocketController {
     }
 
     private String resolveStringValueLink(String value, Map<String, Object> messageActionMap) {
-        return resolvePlaceholders(value, messageActionMap, Object::toString);
+        String link = StringUtils.unwrapLink(value);
+        if (link != null && messageActionMap.containsKey(link) && messageActionMap.get(link) == null)
+            return null;
+        return resolvePlaceholders(value, messageActionMap, v -> v == null ? "" : v.toString());
     }
 
     private String resolveObjectValueLink(String value, Map<String, Object> messageActionMap) {
-        return resolvePlaceholders(value, messageActionMap, v -> v instanceof String ? "'" + v + "'" : v.toString());
+        return resolvePlaceholders(value, messageActionMap, v -> v instanceof String ? "'" + v + "'" : String.valueOf(v));
     }
 
     private String resolvePlaceholders(String value, Map<String, Object> messageActionMap,
