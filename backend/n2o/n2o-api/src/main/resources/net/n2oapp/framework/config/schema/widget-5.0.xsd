@@ -636,7 +636,7 @@
                     </xs:annotation>
                 </xs:attribute>
 
-                <xs:attribute name="parent-field-id" type="xs:string">
+                <xs:attribute name="parent-field-id" type="xs:string" default="parentId">
                     <xs:annotation>
                         <xs:documentation>Родительский узел дерева</xs:documentation>
                     </xs:annotation>
