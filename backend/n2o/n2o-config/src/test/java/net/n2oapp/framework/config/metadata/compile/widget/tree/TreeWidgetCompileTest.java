@@ -53,5 +53,6 @@ class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getAjax(), is(false));
         assertThat(tree.getMultiselect(), is(false));
         assertThat(tree.getHasCheckboxes(), is(false));
+        assertThat(tree.getParentFieldId(), is("parentId"));
     }
 }
