@@ -113,4 +113,12 @@ class PageValidatorTest extends SourceValidationTestBase {
         assertEquals("В одном из элементов \"<crumb>\" страницы 'testBreadcrumbLabelExistence' не задан обязательный атрибут 'label'",
                 exception.getMessage());
     }
+
+    @Test
+    void testPageActionIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testPageActionIdExistence.page.xml"));
+        assertEquals("Не задан 'id' у \"<action>\" страницы 'testPageActionIdExistence'", exception.getMessage());
+    }
 }
