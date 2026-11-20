@@ -11,5 +11,6 @@
     <fields>
         <field id="id"/>
         <field id="dto"/>
+        <field id="name"/>
     </fields>
 </query>

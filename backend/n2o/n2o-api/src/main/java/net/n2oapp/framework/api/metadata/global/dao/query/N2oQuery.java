@@ -52,13 +52,26 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         return N2oQuery.class;
     }
 
-    public QuerySimpleField getSimpleFieldByAbsoluteId(@NonNull String absoluteId) {
+    public AbstractField getFieldByAbsoluteId(@NonNull String absoluteId) {
         if (isEmpty(fields))
             return null;
         if (isNull(fields[0].getAbsoluteId()))
             initAbsoluteIds();
+        return findFieldByAbsoluteId(fields, absoluteId);
+    }
 
-        return getSimpleFields().stream().filter(f -> absoluteId.equals(f.getAbsoluteId())).findFirst().orElse(null);
+    private AbstractField findFieldByAbsoluteId(AbstractField[] fields, String absoluteId) {
+        if (isNull(fields))
+            return null;
+        for (AbstractField field : fields) {
+            if (absoluteId.equals(field.getAbsoluteId()))
+                return field;
+            if (field instanceof QueryReferenceField referenceField && isNotEmpty(referenceField.getFields())) {
+                AbstractField found = findFieldByAbsoluteId(referenceField.getFields(), absoluteId);
+                if (found != null) return found;
+            }
+        }
+        return null;
     }
 
     public void initAbsoluteIds() {

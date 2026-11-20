@@ -7,11 +7,11 @@ import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.InvocationScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -42,6 +42,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         }
         if (nonNull(n2oQuery.getFilters())) {
             checkForUniqueFilterFields(n2oQuery.getFilters(), n2oQuery.getId());
+            checkFilterFieldIds(n2oQuery);
             checkForExistsFiltersInSelections(n2oQuery);
         }
         checkInvocations(n2oQuery, p);
@@ -157,6 +158,29 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
             } else if (field instanceof QuerySimpleField simpleField && nonNull(simpleField.getN2oSwitch())) {
                 checkSimpleFieldSwitchCase(simpleField.getN2oSwitch().getCases(), field.getId());
             }
+        }
+    }
+
+    /**
+     * Проверка обязательности и существования атрибута 'field-id' в фильтрах выборки.
+     *
+     * @param query Выборка
+     */
+    private void checkFilterFieldIds(N2oQuery query) {
+        for (N2oQuery.Filter filter : query.getFilters()) {
+            if (StringUtils.isBlank(filter.getFieldId()))
+                throw new N2oMetadataValidationException(String.format(
+                        "В фильтре %s выборки %s не задан обязательный атрибут 'field-id'",
+                        ValidationUtils.getIdOrEmptyString(filter.getFilterId()),
+                        ValidationUtils.getIdOrEmptyString(query.getId())));
+
+            if (query.getFieldByAbsoluteId(filter.getFieldId()) == null)
+                throw new N2oMetadataValidationException(String.format(
+                        "Фильтр %s выборки %s ссылается на несуществующее поле %s",
+                        ValidationUtils.getIdOrEmptyString(filter.getFilterId()),
+                        ValidationUtils.getIdOrEmptyString(query.getId()),
+                        ValidationUtils.getIdOrEmptyString(filter.getFieldId())));
+
         }
     }
 
