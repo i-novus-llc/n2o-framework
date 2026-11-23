@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.core.io.Resource;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class PropertiesRewriter {
             }
             if (!found) {
                 writer.write("\n");
-                writer.write(String.format(KEY_VALUE_FORMAT, key.toString(), value.toString()));
+                writer.write(String.format(KEY_VALUE_FORMAT, key, value));
             }
             writer.flush();
         }
@@ -69,7 +70,7 @@ public class PropertiesRewriter {
 
     private static List<String> readResource(Resource resource) throws IOException {
         createFileIfNotExists(resource);
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             ArrayList<String> lines = new ArrayList<>();
             String str;
             while ((str = reader.readLine()) != null) lines.add(str.concat("\n"));
@@ -85,8 +86,7 @@ public class PropertiesRewriter {
 
     private static void createFile(Resource resource) throws IOException {
         File file = new File(resource.getURI());
-        file.getParentFile().mkdirs();
-        file.createNewFile();
+        Files.createDirectories(file.toPath().getParent());
+        Files.createFile(file.toPath());
     }
-
 }
