@@ -58,7 +58,7 @@ public class ScriptProcessor {
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
     private static final Pattern PROPERTY_PLACEHOLDER_PREFIX = Pattern.compile("\\$\\{");
     private static final Pattern CONTEXT_PLACEHOLDER_PREFIX = Pattern.compile("#\\{");
-    private static final Pattern DIGITS_PATTERN = Pattern.compile("([\\d]+)");
+    private static final Pattern DIGITS_PATTERN = Pattern.compile("(\\d+)");
     private static volatile String momentJs;
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
@@ -73,7 +73,7 @@ public class ScriptProcessor {
     private static final Pattern JS_IDENTIFIER_PATTERN = Pattern.compile("[\\p{L}_$][\\p{L}\\p{N}_$]*");
 
     public static String resolveLinks(String text) {
-        if (text == null || !hasLink(text))
+        if (!hasLink(text))
             return text;
         String expr = text;
         if (TERNARY_IN_LINK_PATTERN.matcher(expr).matches()) {
@@ -789,7 +789,7 @@ public class ScriptProcessor {
      * движков скриптов необратимо уменьшится. Используйте {@link #withEngine(EngineFunction)},
      * который гарантирует возврат движка в пул, либо {@link #warmUp()} для прогрева пула.
      */
-    @Deprecated
+    @Deprecated(since = "8.0")
     public static ScriptEngine getScriptEngine() {
         return borrowEngine();
     }
@@ -798,7 +798,7 @@ public class ScriptProcessor {
      * @deprecated используйте {@link #withEngine(EngineFunction)}, который гарантирует возврат
      * движка в пул. См. {@link #getScriptEngine()}.
      */
-    @Deprecated
+    @Deprecated(since = "8.0")
     public static void releaseScriptEngine(ScriptEngine engine) {
         returnEngine(engine);
     }
@@ -856,7 +856,7 @@ public class ScriptProcessor {
     private static synchronized void initializePool() {
         if (POOL_INITIALIZED.get()) return;
         for (int i = 0; i < POOL_SIZE; i++) {
-            ENGINE_POOL.offer(createNewEngine());
+            ENGINE_POOL.add(createNewEngine());
         }
         POOL_INITIALIZED.set(true);
     }

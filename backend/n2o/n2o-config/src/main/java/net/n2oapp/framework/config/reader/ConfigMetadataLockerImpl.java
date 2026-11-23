@@ -7,13 +7,14 @@ import net.n2oapp.properties.StaticProperties;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Сервис блокировки чтения и изменения метаданных (LockedXmlMetadataReader и MetadataPersister)
  * Они блокируются когда выполняются команды из аудита, такие как merge, updateSystem, pull
  */
 public class ConfigMetadataLockerImpl implements ConfigMetadataLocker {
-    private String lockFileName;
+    private final String lockFileName;
 
     public ConfigMetadataLockerImpl() {
         lockFileName = PathUtil.concatAbsoluteAndLocalPath(StaticProperties.getProperty("n2o.config.path"), "lock.tmp");
@@ -37,13 +38,21 @@ public class ConfigMetadataLockerImpl implements ConfigMetadataLocker {
      */
     public void lock() {
         if (isLocked()) {
-            throw new N2oException(String.format("Ошибка блокировки метаданных! Экземпляр пытается установить блокировку, хотя она уже установлена файлом '%s'", lockFileName));
+            throw new N2oException(
+                    String.format("Ошибка блокировки метаданных! Экземпляр пытается установить блокировку, хотя она уже установлена файлом '%s'", lockFileName)
+            );
         }
+
         try {
             File lockFile = new File(lockFileName);
-            lockFile.createNewFile();
+            if (!lockFile.createNewFile()) {
+                throw new IOException("Файл блокировки уже существует");
+            }
         } catch (IOException e) {
-            throw new N2oException(String.format("Ошибка при блокировке метаданных! Не удалось создать файл блокировки '%s'", lockFileName), e);
+            throw new N2oException(
+                    String.format("Ошибка при блокировке метаданных! Не удалось создать файл блокировки '%s'", lockFileName),
+                    e
+            );
         }
     }
 
@@ -53,7 +62,14 @@ public class ConfigMetadataLockerImpl implements ConfigMetadataLocker {
     public void unlock() {
         File lockFile = new File(lockFileName);
         if (lockFile.exists()) {
-            lockFile.delete();
+            try {
+                Files.delete(lockFile.toPath());
+            } catch (IOException e) {
+                throw new N2oException(
+                        String.format("Ошибка при разблокировке метаданных! Не удалось удалить файл блокировки '%s'", lockFileName),
+                        e
+                );
+            }
         }
     }
 }
