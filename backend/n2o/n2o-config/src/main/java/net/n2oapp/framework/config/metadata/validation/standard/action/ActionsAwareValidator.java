@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.validation.standard.PageRoutesValidationScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -61,8 +62,11 @@ public class ActionsAwareValidator extends TypedMetadataValidator<ActionsAware> 
             if (!ifElseBranches.isEmpty())
                 ValidationUtils.validateIfElse(ifElseBranches, p);
 
+            PageRoutesValidationScope routesScope = p.getScope(PageRoutesValidationScope.class);
             Arrays.stream(actions)
-                    .forEach(action -> p.validate(action, metaActions, new ComponentScope(source, p.getScope(ComponentScope.class))));
+                    .filter(action -> !(action instanceof N2oConditionBranch))
+                    .forEach(action -> p.validate(action, metaActions, routesScope,
+                            new ComponentScope(source, p.getScope(ComponentScope.class))));
         }
     }
 

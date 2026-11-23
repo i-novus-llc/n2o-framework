@@ -87,8 +87,6 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         p.safeStreamOf(toolbars).map(N2oToolbar::getItems).filter(Objects::nonNull)
                 .flatMap(Arrays::stream)
-                .flatMap(ValidationUtils::expandGroups)
-                .flatMap(BasePageValidator::expandGroups)
                 .forEach(button -> p.validate(button, pageScope, datasourceIdsScope, dataSourcesScope,
                         actionBarScope, routesScope, new ComponentScope(page)));
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
@@ -99,15 +97,6 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope, routesScope));
 
         checkEmptyToolbar(toolbars);
-    }
-
-    /**
-     * Раскрытие групп кнопок, так как для групп нет отдельного валидатора
-     */
-    private static Stream<ToolbarItem> expandGroups(ToolbarItem item) {
-        if (item instanceof N2oGroup group)
-            return group.getItems() == null ? Stream.empty() : Arrays.stream(group.getItems()).flatMap(BasePageValidator::expandGroups);
-        return Stream.of(item);
     }
 
     private static void checkEmptyToolbar(N2oToolbar[] toolbars) {
