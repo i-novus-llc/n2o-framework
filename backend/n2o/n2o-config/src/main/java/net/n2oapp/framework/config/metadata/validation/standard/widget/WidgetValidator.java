@@ -59,7 +59,6 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
             Arrays.stream(source.getToolbars())
                     .filter(toolbar -> toolbar.getItems() != null)
                     .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
-                    .flatMap(ValidationUtils::expandGroups)
                     .forEach(toolbarItem -> {
                         allToolbarItems.add(toolbarItem);
                         addMenuItems(abstractButtons, toolbarItem);
@@ -88,6 +87,8 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
             menuItems.add(button);
         if (toolbarItem instanceof N2oSubmenu submenu && submenu.getMenuItems() != null)
             Arrays.stream(submenu.getMenuItems()).forEach(item -> addMenuItems(menuItems, item));
+        if (toolbarItem instanceof N2oGroup group && group.getItems() != null)
+            Arrays.stream(group.getItems()).forEach(item -> addMenuItems(menuItems, item));
     }
 
     private void checkEmptyToolbar(T source) {

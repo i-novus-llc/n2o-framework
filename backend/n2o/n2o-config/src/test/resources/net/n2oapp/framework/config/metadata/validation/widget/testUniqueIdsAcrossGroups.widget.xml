@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <toolbar>
+        <group>
+            <button id="btn"/>
+        </group>
+        <group>
+            <sub-menu>
+                <menu-item id="btn"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+</form>

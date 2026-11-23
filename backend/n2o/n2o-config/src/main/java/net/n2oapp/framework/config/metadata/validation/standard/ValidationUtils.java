@@ -17,8 +17,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.CloseTargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -401,20 +399,6 @@ public final class ValidationUtils {
 
     public static void checkParamAttribute(N2oParam[] params, String owner, String tag) {
         checkParamAttribute(params, owner, tag, "name");
-    }
-
-    /**
-     * Раскрывает группу кнопок в поток элементов.
-     * Если элемент является {@link N2oGroup}, возвращает поток его дочерних элементов,
-     * иначе — поток из одного исходного элемента.
-     *
-     * @param item элемент тулбара
-     * @return поток элементов без групп
-     */
-    public static Stream<ToolbarItem> expandGroups(ToolbarItem item) {
-        if (item instanceof N2oGroup group)
-            return group.getItems() == null ? Stream.empty() : Arrays.stream(group.getItems());
-        return Stream.of(item);
     }
 
     private static boolean isValidDateByFormat(String date, DateTimeFormatter dateFormatter) {

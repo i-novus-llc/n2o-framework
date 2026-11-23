@@ -42,9 +42,6 @@ class GroupValidatorTest extends SourceValidationTestBase {
         assertEquals("В группе кнопок не заданы элементы или атрибут 'generate'", exception.getMessage());
     }
 
-    /**
-     * Пустое значение в generate — по аналогии с SubMenuValidator
-     */
     @Test
     void testEmptyGenerate() {
         N2oMetadataValidationException exception = assertThrows(
@@ -53,10 +50,6 @@ class GroupValidatorTest extends SourceValidationTestBase {
         assertEquals("Атрибут 'generate' группы кнопок не может содержать пустую строку", exception.getMessage());
     }
 
-    /**
-     * Регресс на NNO-13296: действия во вложенных кнопках группы/sub-menu/menu-item
-     * должны валидироваться. Здесь InvokeActionValidator должен поймать пустой operation-id.
-     */
     @Test
     void testInvokeInsideNestedButton() {
         N2oMetadataValidationException exception = assertThrows(
@@ -65,9 +58,6 @@ class GroupValidatorTest extends SourceValidationTestBase {
         assertEquals("В действии \"<invoke>\" не указан идентификатор операции 'operation-id'", exception.getMessage());
     }
 
-    /**
-     * Валидная группа с валидным invoke — валидатор не должен ломать норму
-     */
     @Test
     void testValidGroup() {
         validate("net/n2oapp/framework/config/metadata/validation/button/group/validGroup.page.xml");

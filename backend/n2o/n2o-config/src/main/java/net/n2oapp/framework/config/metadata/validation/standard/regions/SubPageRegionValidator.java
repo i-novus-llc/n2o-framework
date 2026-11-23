@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oSubPageRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -78,9 +77,7 @@ public class SubPageRegionValidator extends AbstractRegionValidator<N2oSubPageRe
                                     getIdOrEmptyString(source.getPageId())));
                 }
                 if (toolbar.getItems() != null) {
-                    Arrays.stream(toolbar.getItems())
-                            .flatMap(ValidationUtils::expandGroups)
-                            .forEach(p::validate);
+                    Arrays.stream(toolbar.getItems()).forEach(p::validate);
                 }
             }
         }

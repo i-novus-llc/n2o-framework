@@ -5,6 +5,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.metadata.validation.standard.button.BaseButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.ClipboardButtonValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.GroupValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
@@ -46,6 +47,7 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 new ListWidgetValidator(),
                 new BaseButtonValidator(),
                 new ClipboardButtonValidator(),
+                new GroupValidator(),
                 new SubMenuValidator()
         );
         builder.sources(
@@ -235,5 +237,21 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testGroupInWidgetToolbar.widget.xml"));
         assertEquals("В кнопке копирования 'test' не задан обязательный атрибут 'data'", exception.getMessage());
+    }
+
+    @Test
+    void testUniqueIdsAcrossGroups() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testUniqueIdsAcrossGroups.widget.xml"));
+        assertEquals("Кнопка 'btn' встречается более чем один раз в виджете 'testUniqueIdsAcrossGroups'", exception.getMessage());
+    }
+
+    @Test
+    void testUniqueIdsInsideAndOutsideGroup() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testUniqueIdsInsideAndOutsideGroup.widget.xml"));
+        assertEquals("Кнопка 'btn' встречается более чем один раз в виджете 'testUniqueIdsInsideAndOutsideGroup'", exception.getMessage());
     }
 }
