@@ -5,10 +5,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.validation.standard.action.*;
 import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.application.SidebarValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.button.BaseButtonValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.button.ClipboardButtonValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.*;
 import net.n2oapp.framework.config.metadata.validation.standard.cell.*;
 import net.n2oapp.framework.config.metadata.validation.standard.control.*;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.*;
@@ -51,6 +48,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new SubPageRegionValidator(),
                 new FieldValidator(), new InputTextValidator(), new DateTimeValidator(), new LineFieldSetValidator(),
                 new MultiFieldSetValidator(), new JavaDataProviderValidator(), new BaseButtonValidator(), new SubMenuValidator(),
+                new GroupValidator(),
                 new MongoDbDataProviderValidator(),
                 new ButtonValidator(), new ClipboardButtonValidator(),
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),

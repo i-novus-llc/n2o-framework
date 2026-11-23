@@ -10,17 +10,14 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.isInvalidColor;
 import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * Валидатор исходной модели кнопки
@@ -43,10 +40,6 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
 
         if (source instanceof BadgeAware)
             checkBadgeColor(source);
-
-        if (isNotEmpty(source.getActions())) {
-           Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
-        }
 
         if (source instanceof GenerateAware generateAware && generateAware.getGenerate() != null) {
             String[] generate = generateAware.getGenerate();
