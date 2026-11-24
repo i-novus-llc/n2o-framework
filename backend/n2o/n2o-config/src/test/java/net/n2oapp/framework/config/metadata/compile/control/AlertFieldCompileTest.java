@@ -44,7 +44,7 @@ class AlertFieldCompileTest extends SourceCompileTestBase {
         assertThat(alertField.getStyle().get("background"), is("blue"));
         assertThat(alertField.getClassName(), is("css-on-field"));
         assertThat(alertField.getColor(), is("secondary"));
-        assertThat(alertField.getHref(), is("`'http://example.org/'+id`"));
+        assertThat(alertField.getHref(), is("`'https://example.org/'+id`"));
         assertThat(alertField.getCloseButton(), is(false));
     }
 

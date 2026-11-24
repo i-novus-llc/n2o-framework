@@ -62,7 +62,7 @@ class AlertActionCompileTest extends SourceCompileTestBase {
         assertThat(message.getCloseButton(), is(false));
         assertThat(message.getClassName(), is("css-on-action"));
         assertThat(message.getStyle().get("width"), is("90%"));
-        assertThat(message.getHref(), is("http://example.org"));
+        assertThat(message.getHref(), is("https://example.org"));
         assertThat(message.getSeverity(), is("info"));
         assertThat(message.getTimeout(), is(5000));
         assertThat(message.getTime(), is(LocalDateTime.parse("2022-02-02T12:15:23")));

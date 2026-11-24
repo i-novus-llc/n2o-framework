@@ -6,7 +6,7 @@
                style="background:blue"
                class="css-on-field"
                color="info"
-               href="http://example.org"
+               href="https://example.org"
                close-button="true"
                ref-datasource="ds1" param="test"/>
     </fields>

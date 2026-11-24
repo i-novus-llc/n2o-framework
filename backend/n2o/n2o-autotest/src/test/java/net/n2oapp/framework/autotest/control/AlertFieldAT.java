@@ -47,7 +47,7 @@ class AlertFieldAT extends AutoTestBase {
         alert.shouldHaveText("Read this message!");
         alert.shouldHaveTitle("Warning");
         alert.shouldHaveColor(ColorsEnum.WARNING);
-        alert.shouldHaveUrl("http://example.org/");
+        alert.shouldHaveUrl("https://example.org/");
         alert.closeButton().shouldExists();
         alert.closeButton().click();
         alert.shouldNotExists();

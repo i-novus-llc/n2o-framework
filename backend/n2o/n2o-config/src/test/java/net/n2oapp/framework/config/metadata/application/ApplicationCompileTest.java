@@ -40,7 +40,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
-        builder.properties("n2o.homepage.id=index", "url=http://example.org/?userId=123", "empty=");
+        builder.properties("n2o.homepage.id=index", "url=https://example.org/?userId=123", "empty=");
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(),
                 new N2oQueriesPack(), new N2oActionsPack());
@@ -63,7 +63,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
     void properties() {
         PropertyResolver systemProperties = builder.getEnvironment().getSystemProperties();
         assertThat(systemProperties.getProperty("n2o.homepage.id"), is("index"));
-        assertThat(systemProperties.getProperty("url"), is("http://example.org/?userId=123"));
+        assertThat(systemProperties.getProperty("url"), is("https://example.org/?userId=123"));
         assertThat(systemProperties.getProperty("empty"), is(StringUtils.EMPTY));
     }
 

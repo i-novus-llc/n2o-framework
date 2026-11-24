@@ -57,7 +57,7 @@
                     <alert text="Привет, мир!" close-button="false"/>
                 </button>
                 <button label="С ссылкой">
-                    <alert text="Для перехода по ссылке нажмите на сообщение" href="http://example.org"/>
+                    <alert text="Для перехода по ссылке нажмите на сообщение" href="https://example.org"/>
                 </button>
                 <button label="С таймаутом">
                     <alert text="Это сообщение закроется через 10 секунд" timeout="10000"/>

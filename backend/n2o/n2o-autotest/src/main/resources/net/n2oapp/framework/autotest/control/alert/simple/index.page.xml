@@ -2,7 +2,7 @@
     <form>
         <fields>
             <alert id="a1" title="Warning" color="warning" text="Read this message!"
-                   close-button="true" href="http://example.org"/>
+                   close-button="true" href="https://example.org"/>
         </fields>
     </form>
 </simple-page>

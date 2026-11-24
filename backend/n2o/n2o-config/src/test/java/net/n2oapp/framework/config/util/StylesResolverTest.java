@@ -54,17 +54,17 @@ class StylesResolverTest {
     @Test
     void edgeCasesTest() {
         // двоеточие внутри url(): без кавычек, в одинарных и в двойных
-        Map<String, String> unquotedUrl = StylesResolver.resolveStyles("background: #fff url(http://example.org/a.png?w=99) repeat-x;");
+        Map<String, String> unquotedUrl = StylesResolver.resolveStyles("background: #fff url(https://example.org/a.png?w=99) repeat-x;");
         assertThat(unquotedUrl.size(), is(1));
-        assertThat(unquotedUrl.get("background"), is("#fff url(http://example.org/a.png?w=99) repeat-x"));
+        assertThat(unquotedUrl.get("background"), is("#fff url(https://example.org/a.png?w=99) repeat-x"));
 
-        Map<String, String> singleQuotedUrl = StylesResolver.resolveStyles("background: #fff url('http://example.org/a.png?w=99') repeat-x;");
+        Map<String, String> singleQuotedUrl = StylesResolver.resolveStyles("background: #fff url('https://example.org/a.png?w=99') repeat-x;");
         assertThat(singleQuotedUrl.size(), is(1));
-        assertThat(singleQuotedUrl.get("background"), is("#fff url('http://example.org/a.png?w=99') repeat-x"));
+        assertThat(singleQuotedUrl.get("background"), is("#fff url('https://example.org/a.png?w=99') repeat-x"));
 
-        Map<String, String> doubleQuotedUrl = StylesResolver.resolveStyles("background: #fff url(\"http://example.org/a.png\") repeat-x;");
+        Map<String, String> doubleQuotedUrl = StylesResolver.resolveStyles("background: #fff url(\"https://example.org/a.png\") repeat-x;");
         assertThat(doubleQuotedUrl.size(), is(1));
-        assertThat(doubleQuotedUrl.get("background"), is("#fff url(\"http://example.org/a.png\") repeat-x"));
+        assertThat(doubleQuotedUrl.get("background"), is("#fff url(\"https://example.org/a.png\") repeat-x"));
 
         // точка с запятой внутри скобок и внутри кавычек не разделяет объявления
         Map<String, String> dataUrl = StylesResolver.resolveStyles("background-image: url(data:image/svg+xml;base64,PHN2Zz4=); padding: 3px");

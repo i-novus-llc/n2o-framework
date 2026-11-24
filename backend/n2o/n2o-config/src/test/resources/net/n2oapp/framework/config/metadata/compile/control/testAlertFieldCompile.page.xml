@@ -7,7 +7,7 @@
                    text="Text {message}"
                    style="background:blue"
                    class="css-on-field"
-                   href="http://example.org/{id}"/>
+                   href="https://example.org/{id}"/>
         </fields>
     </form>
 </simple-page>
