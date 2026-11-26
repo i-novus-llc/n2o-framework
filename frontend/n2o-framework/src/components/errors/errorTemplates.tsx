@@ -14,29 +14,45 @@ const NetworkErrorPage = () => <ErrorPage status={null} error={translation.netwo
 type Error = { error?: Error & { status?: number, text?: string, message?: string } }
 
 const InternalErrorPage = ({ error }: Error) => {
-    const getErrorText = (err: Error['error']): string => {
-        if (!err) { return 'Неизвестная ошибка' }
-        if (typeof err === 'string') { return err }
+    const parseError = (err: Error['error']): { text?: string, status?: number | string } => {
+        if (!err) { return { text: 'Неизвестная ошибка' } }
 
-        const text = err.message ?? err.text
+        if (typeof err === 'object') {
+            const text = err.message ?? err.text
 
-        if (text) { return text }
+            if (text) { return { text, status: err.status } }
+
+            return { status: err.status }
+        }
+
+        if (typeof err === 'string') {
+            try {
+                const parsed = JSON.parse(err)
+
+                if (typeof parsed === 'object' && parsed !== null) {
+                    return parseError(parsed)
+                }
+            } catch {
+                return { text: err }
+            }
+
+            return { text: err }
+        }
 
         try {
-            return JSON.stringify(err)
+            return { text: JSON.stringify(err) }
         } catch {
-            return String(err)
+            return { text: String(err) }
         }
     }
 
-    const errorText = getErrorText(error)
-    const errorStatus = error?.status
+    const { text: errorText, status: parsedStatus } = parseError(error)
 
+    const errorStatus = error?.status ?? parsedStatus
     const displayStatus = errorStatus ?? 'Внутренняя ошибка приложения'
 
     return <ErrorPage status={displayStatus} error={errorText} />
 }
-
 const defaultComponents: Record<number | string, ComponentType<Error>> = {
     403: ForbiddenPage,
     404: NotFoundPage,
