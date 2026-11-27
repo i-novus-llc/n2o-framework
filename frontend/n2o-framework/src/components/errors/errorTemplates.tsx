@@ -1,6 +1,7 @@
 import React, { ComponentType } from 'react'
 
 import translation from '../../locales/ru/translation'
+import { type ErrorContainerScope } from '../../core/error/types'
 
 import ErrorPage from './ErrorPage'
 
@@ -53,6 +54,15 @@ const InternalErrorPage = ({ error }: Error) => {
 
     return <ErrorPage status={displayStatus} error={errorText} />
 }
+
+const DefaultWidgetErrorPage = ({ error }: Error) => {
+    return (
+        <div className="n2o-widget-list--empty-view text-muted">
+            Нет данных для отображения
+        </div>
+    )
+}
+
 const defaultComponents: Record<number | string, ComponentType<Error>> = {
     403: ForbiddenPage,
     404: NotFoundPage,
@@ -61,15 +71,30 @@ const defaultComponents: Record<number | string, ComponentType<Error>> = {
     503: ServiceUnavailablePage,
     networkError: NetworkErrorPage,
     internalError: InternalErrorPage,
+    defaultWidgetError: DefaultWidgetErrorPage,
+    widget_500: DefaultWidgetErrorPage,
 }
 
-/* example config = {404: CustomComponent} */
+/* example config = { 404: CustomComponent, widget_500: CustomWidgetComponent } */
 // eslint-disable-next-line @typescript-eslint/default-param-last
 export const errorTemplates = (config: Record<number | string, ComponentType> = {}, isOnline: boolean) => {
     const components: Record<number | string, ComponentType> = { ...defaultComponents, ...config }
 
-    return (error: { status: number }) => {
-        if (components[error?.status]) { return components[error.status] }
+    return (error: { status?: number }, scope: ErrorContainerScope) => {
+        const status = error?.status
+
+        if (scope === 'widget') {
+            const widgetKey = `widget_${status}`
+
+            if (components[widgetKey]) { return components[widgetKey] }
+
+            return components.defaultWidgetError
+        }
+
+        if (status !== undefined && components[status]) {
+            return components[status]
+        }
+
         if (!isOnline) { return components.networkError }
 
         return components.internalError
