@@ -137,4 +137,22 @@ class QueryValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkFilterFieldIdExists.query.xml"));
         assertEquals("Фильтр 'type3' выборки 'checkFilterFieldIdExists' ссылается на несуществующее поле 'type3'", exception.getMessage());
     }
+
+    @Test
+    void testListFilterWithoutFilters() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/testQueryListFilterWithoutFilters.query.xml"));
+        assertEquals("\"<list>\" ссылается на несуществующий фильтр 'type' в выборке 'testQueryListFilterWithoutFilters'",
+                exception.getMessage());
+    }
+
+    @Test
+    void testListFilterWithoutFiltersBlock() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/testQueryListFilterNoFiltersBlock.query.xml"));
+        assertEquals("\"<list>\" ссылается на несуществующий фильтр 'type' в выборке 'testQueryListFilterNoFiltersBlock'",
+                exception.getMessage());
+    }
 }

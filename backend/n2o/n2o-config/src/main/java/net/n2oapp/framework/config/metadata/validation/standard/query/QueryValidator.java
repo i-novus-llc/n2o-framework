@@ -14,10 +14,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -43,8 +40,8 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         if (nonNull(n2oQuery.getFilters())) {
             checkForUniqueFilterFields(n2oQuery.getFilters(), n2oQuery.getId());
             checkFilterFieldIds(n2oQuery);
-            checkForExistsFiltersInSelections(n2oQuery);
         }
+        checkForExistsFiltersInSelections(n2oQuery);
         checkInvocations(n2oQuery, p);
         checkSwitchCase(n2oQuery.getFields());
     }
@@ -95,7 +92,10 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param query Выборка
      */
     private void checkForExistsFiltersInSelections(N2oQuery query) {
-        Set<String> filterFields = Arrays.stream(query.getFilters())
+        N2oQuery.Filter[] filters = query.getFilters();
+        Set<String> filterFields = filters == null
+                ? Collections.emptySet()
+                : Arrays.stream(filters)
                 .map(filter -> castDefault(filter.getFilterId(), filter.getFieldId()))
                 .collect(Collectors.toSet());
         checkFiltersExistInSelectionType(query.getLists(), filterFields, "list", query.getId());
