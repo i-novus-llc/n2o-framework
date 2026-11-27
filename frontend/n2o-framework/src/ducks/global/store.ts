@@ -39,12 +39,7 @@ export const globalSlice = createSlice({
 
         REQUEST_CONFIG_FAIL: {
             prepare(errorMessage) {
-                return {
-                    payload: errorMessage,
-                    meta: {
-                        alert: errorMessage,
-                    },
-                }
+                return { payload: errorMessage }
             },
 
             reducer(state: Global, action: { payload: ErrorContainerError }) {
