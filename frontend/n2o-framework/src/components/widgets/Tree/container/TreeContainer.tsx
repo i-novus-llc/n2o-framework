@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from 'react'
+import React, { Component, ComponentType, ReactElement } from 'react'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import some from 'lodash/some'
@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import flowRight from 'lodash/flowRight'
 
 import Tree from '../component/Tree'
-import { ModelPrefix } from '../../../../core/datasource/const'
+import { ModelPrefix } from '../../../../core/models/types'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { type WithWidgetHandlersProps } from '../types'
 import { State } from '../../../../ducks/State'
@@ -38,7 +38,7 @@ export const defaultProps = {
 }
 
 const withWidgetHandlers = <P extends object>(WrappedComponent: ComponentType<P & WithWidgetHandlersProps>) => {
-    class Wrapper extends Component<P & WithWidgetHandlersProps> {
+    class Wrapper extends Component<P & WithWidgetHandlersProps & { errorComponent?: ReactElement | null }> {
         onRowClickAction = () => {
             const { rowClick, dispatch } = this.props
 
@@ -71,6 +71,10 @@ const withWidgetHandlers = <P extends object>(WrappedComponent: ComponentType<P 
         }
 
         render() {
+            const { errorComponent } = this.props
+
+            if (errorComponent) { return errorComponent }
+
             return (
                 <WrappedComponent
                     {...this.props}

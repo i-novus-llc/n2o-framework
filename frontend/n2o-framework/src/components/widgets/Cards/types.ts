@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { CSSProperties } from 'react'
+import { CSSProperties, ReactElement } from 'react'
 
 import { type Props as StandardWidgetProps } from '../StandardWidget'
 import { type Props as N2OPaginationProps } from '../Table/N2OPagination'
@@ -39,6 +39,7 @@ export interface CardsProps extends Pick<CardProps, CommonCardsProps> {
     align: 'top' | 'bottom'
     height: string
     datasourceModelLength?: number
+    errorComponent?: ReactElement | null
 }
 
 export type CardsContainerProps = Omit<CardsProps, 'onResolve'> & { setResolve: WidgetProps['setResolve'] }

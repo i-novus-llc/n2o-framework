@@ -31,6 +31,7 @@ export function ErrorContainer({
     error,
     onReset = NOOP_FUNCTION,
     children,
+    scope = 'page',
 }: ErrorContainerProps) {
     const handlers = useContext(ErrorHandlersContext)
 
@@ -38,7 +39,7 @@ export function ErrorContainer({
         if (!error) { return null }
 
         for (const handler of handlers) {
-            const result = handler(error)
+            const result = handler(error, scope)
 
             if (result && isValidElement(result)) {
                 return result
@@ -52,7 +53,7 @@ export function ErrorContainer({
         }
 
         return <>{error.toString()}</>
-    }, [error, handlers, onReset])
+    }, [error, handlers, onReset, scope])
 
     // eslint-disable-next-line react/jsx-no-useless-fragment
     if (!errorComponent) { return <>{children}</> }

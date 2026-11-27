@@ -161,6 +161,10 @@ class ListContainer extends React.Component<ListContainerProps, State> {
     }
 
     render() {
+        const { errorComponent } = this.props
+
+        if (errorComponent) { return errorComponent }
+
         return <List {...this.getWidgetProps()} />
     }
 

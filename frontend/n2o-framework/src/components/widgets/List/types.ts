@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react'
+import { CSSProperties, ReactElement, ReactNode } from 'react'
 
 import { Props as StandardWidgetProps } from '../StandardWidget'
 import { Widget } from '../../../ducks/widgets/Widgets'
@@ -57,6 +57,7 @@ export interface ListContainerProps extends ListProps {
     page: number
     setPage(page: number): void
     list: Record<string, { id: string, columnId: string }>
+    errorComponent?: ReactElement | null
 }
 
 type Enhancer = StandardWidgetProps & ListContainerProps & Widget

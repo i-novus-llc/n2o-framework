@@ -7,7 +7,8 @@ import React, {
     memo,
     isValidElement,
     cloneElement,
-    useContext, ComponentType,
+    useContext,
+    ComponentType,
 } from 'react'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
@@ -16,8 +17,8 @@ import { useSelector } from 'react-redux'
 import { Toolbar, type ToolbarProps } from '../buttons/Toolbar'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
-import { type ErrorContainerError } from '../../core/error/types'
-import { type Model } from '../../ducks/models/selectors'
+import { type ErrorContainerError, type ErrorContainerScope } from '../../core/error/types'
+import { type Model } from '../../core/models/types'
 import { type Widget } from '../../ducks/widgets/Widgets'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 import { FactoryContext } from '../../core/factory/context'
@@ -45,6 +46,7 @@ export interface Props extends Widget {
     showCount?: boolean
     stickyFooter?: boolean
     scrollbar?: ReactNode
+    errorScope?: ErrorContainerScope
 }
 
 /**
@@ -59,6 +61,7 @@ const StandardWidget = memo(({
     style,
     children,
     loading,
+    errorScope = 'widget',
     filter = EMPTY_OBJECT as WidgetFilter,
     toolbar = EMPTY_OBJECT,
     pagination = EMPTY_OBJECT,
@@ -119,8 +122,8 @@ const StandardWidget = memo(({
     const classes = classNames([className, 'n2o-standard-widget-layout', { 'n2o-disabled': disabled }])
 
     const errorComponent = useMemo(() => (
-        isEmpty(error) ? null : <ErrorContainer error={error} />
-    ), [error])
+        isEmpty(error) ? null : <ErrorContainer error={error} scope={errorScope} />
+    ), [error, errorScope])
 
     const childrenWithError = Children.map(children, (child) => {
         if (isValidElement<Record<string, unknown>>(child)) {
