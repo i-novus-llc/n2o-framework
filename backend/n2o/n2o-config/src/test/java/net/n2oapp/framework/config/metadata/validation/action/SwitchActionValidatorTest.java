@@ -110,4 +110,20 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testSwitchDefaultActionBadgeColor.page.xml"));
         assertEquals("В ячейке \"<badge>\" виджета  указано недопустимое значение атрибута 'color=\"wrong\"'", exception.getMessage());
     }
+
+    @Test
+    void testDuplicateCaseValue() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testDuplicateCaseValue.page.xml"));
+        assertEquals("В действии \"<switch>\" значение '1' у \"<case>\" встречается более чем один раз", exception.getMessage());
+    }
+
+    @Test
+    void testMultipleDefaultCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testMultipleDefaultCases.page.xml"));
+        assertEquals("В действии \"<switch>\" может быть только один \"<default>\"", exception.getMessage());
+    }
 }
