@@ -17,8 +17,11 @@ const CardsContainerBody = ({
     align,
     height,
     datasource,
+    errorComponent,
 }: CardsContainerProps) => {
     const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)) as Array<{ id: string }>
+
+    if (errorComponent) { return errorComponent }
 
     return (
         <Cards

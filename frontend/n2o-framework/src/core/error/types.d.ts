@@ -15,7 +15,9 @@ export type ErrorComponent = (
     FunctionComponentFactory<ErrorComponentProps>
 )
 
-export type ErrorHandler = (error: Error) => (
+export type ErrorContainerScope = 'page' | 'widget'
+
+export type ErrorHandler = (error: Error, scope: ErrorContainerScope) => (
     ErrorComponent | // Component constructor
     ReactNode | // Component
     void // next handler
@@ -29,6 +31,7 @@ export type ErrorContainerProps = {
     error?: ErrorContainerError
     onReset?<TArg = unknown>(arg: TArg): void
     children?: ReactNode | undefined
+    scope?: ErrorContainerScope
 }
 
 export type ErrorContainerProviderProps = {

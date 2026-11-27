@@ -86,8 +86,10 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
 
         yield put(resolveRequest(id, response))
     } catch (error) {
-        const err = error as { message: string, stack: string, json?: { meta: Meta } }
+        const err = error as { message: string, stack: string, json?: { meta: Meta, list?: null } }
+
         const errorMeta = err?.json?.meta || {}
+        const errorList = err?.json?.list
 
         if (errorMeta.messages) {
             const messages: Record<string, ValidationResult[]> = {}
@@ -109,7 +111,7 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
          * Сброс списка при отсутствии обязательных полей датапровайдера
          * нужно чтобы при чистки master-ds чистился и child-ds.
          */
-        if (error instanceof DataProviderError) {
+        if (error instanceof DataProviderError || errorList === null) {
             yield put(setModel({ prefix: ModelPrefix.source, id }, [], true))
         }
 
