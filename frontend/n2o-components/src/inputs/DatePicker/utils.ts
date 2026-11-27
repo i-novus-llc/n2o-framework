@@ -1,9 +1,14 @@
 import dayjs, { Dayjs } from 'dayjs'
-import flattenDeep from 'lodash/flattenDeep'
 import map from 'lodash/map'
 import isNull from 'lodash/isNull'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 import { DateType, DatePickerValue, DefaultTime, TIME_FORMAT } from './types'
+
+dayjs.extend(customParseFormat)
+
+export const DEFAULT_DATE_FORMAT = 'DD.MM.YYYY'
+export const DEFAULT_OUTPUT_FORMAT = `${DEFAULT_DATE_FORMAT}  HH:mm:ss`
 
 /**
  * Дата (date) была после конца месяца другой даты(displayedMonth) или нет
@@ -49,36 +54,46 @@ export const weeks = (firstDay: Dayjs) => {
 /**
  * добавить часы и минуты к дате
  */
-export const addTime = (date: Dayjs, hours: number, minutes: number, secs: number) => date
+export const addTime = (date: Dayjs, hours: number, minutes: number, secs: number, milliseconds = 0) => date
     .clone()
     .add(hours, 'hour')
     .add(minutes, 'minute')
     .add(secs, 'second')
+    .add(milliseconds, 'millisecond')
 
 export const withLocale = (date: Dayjs, locale: string) => date.clone().locale(locale)
 
 /**
  * преобразовать дату к dayjs
  */
-export const parseDate = (value: DateType) => {
-    if (value instanceof Date || typeof value === 'string') {
-        const date = dayjs(value)
+export const parseDate = (value: DateType | string, format?: string): Dayjs => {
+    if (value instanceof Date || dayjs.isDayjs(value)) {
+        return dayjs(value)
+    }
+
+    if (typeof value === 'string') {
+        let date = dayjs(value)
+
+        if (!date.isValid() && format) {
+            const escapedFormat = format.replace(/T/g, '[T]')
+
+            date = dayjs(value, escapedFormat)
+        }
 
         if (!date.isValid()) {
-            // eslint-disable-next-line no-console
-            console.warn('Invalid date')
+            console.warn('Invalid date', value, format)
         }
 
         return date
     }
 
-    return value
+    return dayjs(value)
 }
 
 export const mapToValue = (
     val: DatePickerValue,
     defaultTime: DefaultTime,
-    dateFormat: string,
+    outputFormat: string, // переименовал для ясности, это формат строки
     locale: string,
     defaultName: string,
 ) => {
@@ -86,17 +101,16 @@ export const mapToValue = (
 
     if (Array.isArray(val)) {
         map(val, ({ value, name }) => {
-            if (!name) {
-                name = ''
-            }
+            if (!name) { name = '' }
             if (!value) {
                 res[name] = null
             } else {
                 res[name] = addTime(
-                    withLocale(parseDate(value), locale).startOf('day'),
+                    withLocale(parseDate(value, outputFormat), locale).startOf('day'),
                     defaultTime[name].hours,
                     defaultTime[name].minutes,
                     defaultTime[name].seconds,
+                    defaultTime[name].milliseconds ?? 0,
                 )
             }
         })
@@ -109,46 +123,62 @@ export const mapToValue = (
     }
 
     res[defaultName] = addTime(
-        withLocale(parseDate(val), locale).startOf('day'),
+        withLocale(parseDate(val, outputFormat), locale).startOf('day'),
         defaultTime[defaultName].hours,
         defaultTime[defaultName].minutes,
         defaultTime[defaultName].seconds,
+        defaultTime[defaultName].milliseconds ?? 0,
     )
 
     return res
 }
-
 export const mapToDefaultTime = (
     val: DatePickerValue,
     defaultTime: string,
     defaultName: string,
     timeFormat = 'HH:mm',
+    outputFormat?: string,
 ) => {
     if (Array.isArray(val)) {
         const result: DefaultTime = {}
 
         map(val, ({ name, defaultTime, value }) => {
-            if (isNull(name)) {
-                name = ''
+            if (isNull(name)) { name = '' }
+
+            const parsedValue = value ? parseDate(value, outputFormat) : null
+            const parsedDefault = defaultTime ? dayjs(defaultTime, timeFormat) : null
+
+            let hours = 0
+            let minutes = 0
+            let seconds = 0
+            let milliseconds = 0
+
+            if (parsedDefault) {
+                hours = parsedDefault.hour()
+                minutes = parsedDefault.minute()
+                seconds = parsedDefault.second()
+                milliseconds = parsedDefault.millisecond()
+            } else if (parsedValue) {
+                hours = parsedValue.hour()
+                minutes = parsedValue.minute()
+                seconds = parsedValue.second()
+                milliseconds = parsedValue.millisecond()
             }
+
             result[name] = {
-                hours: defaultTime
-                    ? dayjs(defaultTime || '00:00', timeFormat).hour()
-                    : (value && dayjs(value).hour()) || 0,
-                minutes: defaultTime
-                    ? dayjs(defaultTime || '00:00', timeFormat).minute()
-                    : (value && dayjs(value).minute()) || 0,
-                seconds: defaultTime
-                    ? dayjs(defaultTime || '00:00', timeFormat).second()
-                    : (value && dayjs(value).second()) || 0,
+                hours,
+                minutes,
+                seconds,
+                milliseconds,
                 hasDefaultTime: false,
             }
 
             if (
                 result[name].hours ||
-        result[name].minutes ||
-        result[name].seconds ||
-        timeFormat
+                result[name].minutes ||
+                result[name].seconds ||
+                result[name].milliseconds ||
+                timeFormat
             ) {
                 result[name].hasDefaultTime = true
             }
@@ -158,122 +188,50 @@ export const mapToDefaultTime = (
     }
 
     if (val) {
+        const parsed = parseDate(val, outputFormat)
+
         return {
             [defaultName]: {
-                hours: dayjs(val).hour(),
-                minutes: dayjs(val).minute(),
-                seconds: dayjs(val).second(),
+                hours: parsed.hour(),
+                minutes: parsed.minute(),
+                seconds: parsed.second(),
+                milliseconds: parsed.millisecond(),
                 hasDefaultTime: true,
             },
         }
     }
 
+    const parsedDefaultTime = dayjs(defaultTime || '00:00', timeFormat)
+
     const result = {
         [defaultName]: {
-            hours: dayjs(defaultTime, timeFormat).hour(),
-            minutes: dayjs(defaultTime, timeFormat).minute(),
-            seconds: dayjs(defaultTime, timeFormat).second(),
+            hours: parsedDefaultTime.hour(),
+            minutes: parsedDefaultTime.minute(),
+            seconds: parsedDefaultTime.second(),
+            milliseconds: parsedDefaultTime.millisecond(),
             hasDefaultTime: false,
         },
     }
 
     if (
         result[defaultName].hours ||
-    result[defaultName].minutes ||
-    result[defaultName].seconds
+        result[defaultName].minutes ||
+        result[defaultName].seconds ||
+        result[defaultName].milliseconds
     ) {
         result[defaultName].hasDefaultTime = true
     }
 
     return result
 }
-
 export const buildDateFormat = (dateFormat?: string, timeFormat?: string, divider?: string) => `${dateFormat || ''}${dateFormat && timeFormat ? divider : ''}${timeFormat || ''}`
-
-export const replaceDictionary = (tmp: string | RegExp) => {
-    switch (tmp) {
-        case 'DD':
-            return [/[0-3]/, /\d/]
-        case 'MM':
-            return [/[01]/, /\d/]
-        case 'YY':
-            return [/\d/, /\d/]
-        case 'YYYY':
-            return [/[0-2]/, /\d/, /\d/, /\d/]
-        case 'H':
-        case 'HH':
-            return [/[0-2]/, /\d/]
-        case 'h':
-        case 'hh':
-            return [/[01]/, /\d/]
-        case 'k':
-        case 'kk':
-            return [/[12]/, /\d/]
-        case 's':
-        case 'm':
-        case 'ss':
-        case 'mm':
-            return [/[0-5]/, /\d/]
-        default:
-            return [/\d/]
-    }
-}
-
-export const formatToMask = (format: string) => {
-    const splitedFormat = format.split(/\b/gi)
-
-    return flattenDeep(
-        map(splitedFormat, (item: string): (RegExp | string) | Array<RegExp | string> => {
-            if (item.search(/([a-z])\1+/gi) !== -1) {
-                return replaceDictionary(item)
-            }
-
-            return item
-        }),
-    )
-}
-
-/**
- * Функция проверки находится ли дата в промежутке max и min
- */
-export const hasInsideMixMax = (date: string, { max, min }: { max?: string, min?: string }, dateFormat: string): boolean => {
-    if (!min && !max) { return true }
-
-    let isAfterMin = true
-    let isBeforeMax = true
-
-    const formattedDate = dayjs(date, dateFormat)
-
-    if (!formattedDate.isValid()) { return false }
-
-    if (min) {
-        const minDate = dayjs(min)
-
-        isAfterMin = formattedDate.isAfter(minDate) || formattedDate.isSame(minDate)
-    }
-
-    if (max) {
-        const maxDate = dayjs(max)
-
-        isBeforeMax = formattedDate.isBefore(maxDate) || formattedDate.isSame(maxDate)
-    }
-
-    return isAfterMin && isBeforeMax
-}
-
-export const getDeletedSymbol = (value: string, index: number) => value.substring(index - 1, index)
-
-export const replaceAt = (string: string, index: number, replacement: string) => (
-    string.substring(0, index - 1) +
-        replacement +
-        string.substring(index, string.length)
-)
 
 export const objFromTime = (date: Dayjs) => {
     return {
         minutes: date.minute(),
         seconds: date.second(),
         hours: date.hour(),
+        milliseconds: date.millisecond(),
     }
 }
 
@@ -292,4 +250,24 @@ export function createDefaultTime(timeFormat?: TIME_FORMAT): string {
 
             return ''
     }
+}
+
+/** Формирует итоговый формат (outputFormat) т.к. outputFormat с бэка приходит без milliseconds, но они есть в timeFormat **/
+export const resolveOutputFormat = (
+    outputFormat: string | undefined,
+    dateFormat: string,
+    timeFormat?: string,
+) => {
+    let format = outputFormat || (timeFormat ? `${dateFormat}  ${timeFormat}` : DEFAULT_OUTPUT_FORMAT)
+
+    // Если в timeFormat есть миллисекунды (S), но в outputFormat их нет добавляем
+    if (timeFormat && format) {
+        const msMatch = timeFormat.match(/S+/)
+
+        if (msMatch && !format.includes('S')) {
+            format = `${format}.${msMatch[0]}`
+        }
+    }
+
+    return format
 }

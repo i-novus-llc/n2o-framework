@@ -6,7 +6,14 @@ import isNull from 'lodash/isNull'
 import dayjs, { Dayjs } from 'dayjs'
 import { Manager, Popper, Reference, RefHandler, Modifier, PopperChildrenProps } from 'react-popper'
 
-import { buildDateFormat, createDefaultTime, mapToDefaultTime, mapToValue } from './utils'
+import {
+    buildDateFormat,
+    createDefaultTime,
+    mapToDefaultTime,
+    mapToValue,
+    resolveOutputFormat,
+    DEFAULT_DATE_FORMAT,
+} from './utils'
 import { DateInputGroup } from './DateInputGroup'
 import { PopUp } from './PopUp'
 import {
@@ -26,9 +33,6 @@ type DateTimeControlState = {
     isPopUpVisible: boolean,
     isTimeSet: Record<string, boolean | undefined>
 }
-
-const DEFAULT_DATE_FORMAT = 'DD.MM.YYYY'
-const DEFAULT_OUTPUT_FORMAT = `${DEFAULT_DATE_FORMAT}  HH:mm:ss`
 
 const POPPER_MODIFIERS: Array<Partial<Modifier<unknown, {}>>> = [
     {
@@ -72,6 +76,18 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
 
     private control: null | ElementType = null
 
+    /**
+     * get для получения актуального outputFormat.
+     * Добавляет миллисекунды, если они заданы в timeFormat.
+     */
+    private get resolvedOutputFormat(): string {
+        return resolveOutputFormat(
+            this.props.outputFormat,
+            this.props.dateFormat ?? DEFAULT_DATE_FORMAT,
+            this.props.timeFormat,
+        )
+    }
+
     constructor(props: DateTimeControlProps) {
         super(props)
         const {
@@ -80,17 +96,19 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             configLocale = 'ru',
             timeFormat,
             dateDivider = ' ',
-            outputFormat = DEFAULT_OUTPUT_FORMAT,
             defaultTime = createDefaultTime(timeFormat),
         } = props
 
         this.format = buildDateFormat(dateFormat, timeFormat, dateDivider)
+
+        const outputFormat = this.resolvedOutputFormat
 
         this.defaultTime = mapToDefaultTime(
             value,
             defaultTime,
             DateTimeControlName.DEFAULT_NAME,
             timeFormat,
+            outputFormat,
         )
 
         this.state = {
@@ -121,9 +139,14 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             configLocale = 'ru',
             timeFormat,
             dateDivider = ' ',
-            outputFormat = DEFAULT_OUTPUT_FORMAT,
             defaultTime = createDefaultTime(timeFormat),
         } = props
+
+        const outputFormat = resolveOutputFormat(
+            props.outputFormat,
+            props.dateFormat ?? DEFAULT_DATE_FORMAT,
+            props.timeFormat,
+        )
 
         this.format = buildDateFormat(dateFormat, timeFormat, dateDivider)
 
@@ -132,6 +155,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             defaultTime,
             DateTimeControlName.DEFAULT_NAME,
             timeFormat,
+            outputFormat,
         )
 
         this.setState({
@@ -157,7 +181,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
      * Приведение к строке
      */
     dateToString(date: DateType | null) {
-        const { outputFormat = DEFAULT_OUTPUT_FORMAT, utc } = this.props
+        const { utc } = this.props
 
         if (isNull(date) || typeof date === 'string') {
             return date
@@ -168,8 +192,8 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
         }
 
         return utc
-            ? dayjs(date).format(outputFormat)
-            : date.format(outputFormat)
+            ? dayjs(date).format(this.resolvedOutputFormat)
+            : date.format(this.resolvedOutputFormat)
     }
 
     getValue = (inputName: string | null): [string | null, string | null] | string | null => {
@@ -429,7 +453,6 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             autoFocus,
             openOnFocus = false,
             popupPlacement = 'bottom-start',
-            outputFormat = DEFAULT_OUTPUT_FORMAT,
             strategy = 'absolute',
             max,
             min,
@@ -468,7 +491,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                                     onKeyDown={onKeyDown}
                                     autoFocus={autoFocus}
                                     openOnFocus={openOnFocus}
-                                    outputFormat={outputFormat}
+                                    outputFormat={this.resolvedOutputFormat}
                                     max={max}
                                     min={min}
                                     autocomplete={autocomplete}
