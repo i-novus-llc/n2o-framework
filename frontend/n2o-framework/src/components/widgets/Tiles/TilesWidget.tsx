@@ -33,11 +33,13 @@ function Widget(props: TilesWidgetProps) {
         loading,
         setResolve,
         count,
+        datasourceModelLength,
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => filter && resolveProps<StandardWidgetFilter>(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
     const place = get(paging, 'place', 'bottomLeft')
     const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
+
     const pagination = {
         [place]: (
             <N2OPagination
@@ -48,6 +50,7 @@ function Widget(props: TilesWidgetProps) {
                 datasourceId={datasource}
                 setPage={setPage}
                 count={count}
+                visible={datasourceModelLength > 0}
             />
         ),
     }

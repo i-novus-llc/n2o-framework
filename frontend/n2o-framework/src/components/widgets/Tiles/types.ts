@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, ReactElement } from 'react'
 import { Dispatch } from 'redux'
 
 import { type ClickAction } from '../hooks/useOnActionMethod'
@@ -37,6 +37,7 @@ export interface TilesType {
     tileHeight: string
     onRowClickAction: ClickAction
     rowClick: ClickAction
+    errorComponent?: ReactElement | null
 }
 
 export type StandardWidgetFilter = StandardWidgetProps['filter']
@@ -52,4 +53,5 @@ export interface TilesWidgetProps extends Enhancer {
     setPage(page: number): void
     page: number
     setResolve(): void
+    datasourceModelLength: number
 }

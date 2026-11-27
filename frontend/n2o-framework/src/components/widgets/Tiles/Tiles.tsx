@@ -35,9 +35,12 @@ function TilesBody({
     onResolve,
     dispatch,
     datasource,
+    errorComponent,
     tileWidth = '260px',
     tileHeight = '350px',
 }: TilesType) {
+    if (errorComponent) { return errorComponent }
+
     const col = calcCols(colsSm, colsMd, colsLg, width)
 
     const renderTilesItem = (model: TilesModel, index: number) => (
