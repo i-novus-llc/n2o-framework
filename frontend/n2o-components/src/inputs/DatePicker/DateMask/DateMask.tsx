@@ -99,3 +99,5 @@ export const DateMask = flowRight(
     WithEvents<DateMaskProps>,
     WithDecorators<DateMaskProps>,
 )(Component)
+
+DateMask.displayName = 'DateMask'
