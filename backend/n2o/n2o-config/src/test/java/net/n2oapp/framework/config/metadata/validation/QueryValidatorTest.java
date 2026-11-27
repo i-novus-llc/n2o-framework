@@ -155,4 +155,13 @@ class QueryValidatorTest extends SourceValidationTestBase {
         assertEquals("\"<list>\" ссылается на несуществующий фильтр 'type' в выборке 'testQueryListFilterNoFiltersBlock'",
                 exception.getMessage());
     }
+
+    @Test
+    void testCheckForUniqueNestedFields() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueNestedFields.query.xml"));
+        assertEquals("Поле 'name' встречается более чем один раз в выборке 'checkForUniqueNestedFields'",
+                exception.getMessage());
+    }
 }
