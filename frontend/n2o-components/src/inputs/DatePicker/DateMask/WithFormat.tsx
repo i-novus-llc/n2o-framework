@@ -1,9 +1,9 @@
 import React, { ComponentType, FC } from 'react'
+import dayjs from 'dayjs'
 
 import { buildDateFormat } from '../utils'
 
 import { type WithFormatProps, type DateMaskProps } from './types'
-import dayjs from "dayjs";
 
 export function getDateModeInfo(format: string): { separator: string; mode: string } {
     const separatorMatch = format.match(/[^A-Za-z]/)
@@ -38,7 +38,7 @@ export const WithFormat = <P extends DateMaskProps>(Component: ComponentType<P>)
         ...rest
     }) => {
         const { separator: dateSeparator, mode: dateMode } = getDateModeInfo(dateFormat)
-        const timeMode = timeFormat ? timeFormat.toUpperCase() : null
+        const timeMode = timeFormat ? timeFormat.replace(/SSS/g, 'MSS').toUpperCase() : null
         const fullFormat = buildDateFormat(dateFormat, timeFormat, ' ')
 
         return (

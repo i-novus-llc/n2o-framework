@@ -169,12 +169,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     renderWeeks() {
         const { displayesMonth, tempTimeObj } = this.state
-        const { hours, minutes, seconds } = tempTimeObj || {}
+        const { hours, minutes, seconds, milliseconds } = tempTimeObj || {}
         const firstDay = addTime(
             displayesMonth.clone().startOf('week'),
             hours,
             minutes,
             seconds,
+            milliseconds,
         )
 
         return weeks(firstDay).map((week, i) => this.renderWeek(week, i))
@@ -402,14 +403,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     setTime = () => {
         const { value, inputName, markTimeAsSet, select } = this.props
         const { tempTimeObj } = this.state
-        const { hours, minutes, seconds } = tempTimeObj || {}
+        const { hours, minutes, seconds, milliseconds } = tempTimeObj || {}
         const copyValue = value || dayjs()
 
         this.changeCalendarType(CalendarType.BY_DAYS)
         markTimeAsSet(inputName)
 
         select(
-            addTime(copyValue.clone().startOf('day'), hours, minutes, seconds),
+            addTime(copyValue.clone().startOf('day'), hours, minutes, seconds, milliseconds),
             inputName,
             false,
         )
